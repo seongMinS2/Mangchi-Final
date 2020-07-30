@@ -2,6 +2,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,java,eclipse,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,java,eclipse,intellij
 
+
+# Server Path
+Servers/
+
+
 ### Eclipse ###
 .metadata
 bin/
