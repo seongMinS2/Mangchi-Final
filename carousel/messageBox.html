@@ -29,6 +29,43 @@
         }
       }
     </style>
+    <style>
+
+.grid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+      @media (min-width: 1200px) {
+ .grid {
+  max-width: 1140px;
+}
+
+.practice {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media (min-width: 768px) {
+  .gird {
+    max-width: 720px;
+  }
+
+  .practice {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+}
+
+
+
+
+    </style>
     <!-- Custom styles for this template -->
     <link href="../assets/dist/css/carousel.css" rel="stylesheet">
   </head>
@@ -65,7 +102,7 @@
     <br>
     <br>
 
-    <div class="container col-md-9">
+    <div class="grid practice">
         받은 쪽지함
      <hr>   
     <table class="table table-hover">
