@@ -66,7 +66,7 @@
         <a href="#team" class="w3-bar-item w3-button">요청게시판</a>
         <a href="<c:url value="/donate/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
         <a href="#contact" class="w3-bar-item w3-button">동네생활</a>
-        <a href="#pricing" class="w3-bar-item w3-button">Q&A</a>
+        <a href="<c:url value="/qna/qnaBoard"/>" class="w3-bar-item w3-button">Q&A</a>
         <a href="#contact" class="w3-bar-item w3-button">채팅</a>
       </div>
     </div>
@@ -81,7 +81,7 @@
     <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">요청게시판</a>
     <a href="<c:url value="/donate/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">나눔게시판</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">동네생활</a>
-    <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">Q&A</a>
+    <a href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">Q&A</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">채팅</a>
     <input type="text"><input type="submit" value="검색">
   </nav>
