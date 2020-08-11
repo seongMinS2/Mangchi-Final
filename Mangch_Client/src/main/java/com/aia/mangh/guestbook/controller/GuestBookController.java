@@ -10,5 +10,6 @@ public class GuestBookController {
 	public String donateBoard() {
 		return "/guest_book/gbBoard";
 	}
+	//테스트
 
 }

@@ -1,10 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-Built-By: EunaGo
-Build-Jdk: 1.8.0_251
-=======
 Built-By: BIT02-02
 Build-Jdk: 1.8.0_241
->>>>>>> 19492190fada535111c82d2a2ffa9a39c900e61b
 Created-By: Maven Integration for Eclipse
 
