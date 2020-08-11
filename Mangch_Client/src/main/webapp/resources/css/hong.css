@@ -26,11 +26,13 @@
 
 #contentsBox {
 	border:1px solid #DDD;
+	overflow: hidden;
 }
 
 #listBox {
 	width: 80%;
 	overflow: hidden;
+	float: left;
 
 }
 
@@ -50,5 +52,10 @@ div.card:hover {
 #categoryBox {
 	border:1px solid green;
 	width: 20%;
+	height: 100px;
+	float: right;
+}
+
+#pageBox {
 	height: 100px;
 }
