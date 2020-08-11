@@ -9,7 +9,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
-	<h1>회원가입</h1>
+	<h1>마이페이지</h1>
 
 
 

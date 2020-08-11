@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class MemberRegController {
+public class MemberMypageController {
 
-	@RequestMapping("/member/regForm")
+	@RequestMapping("/member/mypageForm")
 	public String getRegForm() {
-		return "member/regForm";
+		return "member/mypageForm";
 	}
 }
