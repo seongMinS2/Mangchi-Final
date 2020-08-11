@@ -42,10 +42,10 @@ $(document).ready(function () {
 function viewList() {
 	
 	$.ajax({
-		url:'http://aia.cgcmfq7auqmh.ap-northeast-2.rds.amazonaws.com:8080/guest/guest_book' ,
+		url:'localhost:8080/guest/guest_book' ,
 		type:'get',
 		success : function (data) {
-			
+			alert(JSON.stringify(data));
 			$('#guestbookList').html(JSON.stringify(data));
 		}
 		
