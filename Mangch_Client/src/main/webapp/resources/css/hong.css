@@ -2,16 +2,26 @@
 
 
 #wrap {
-	
 	width:80%;
 	margin: auto;	
 	text-align: center;
-	
 }
+
+
 
 #topBox {
 	border:1px solid #DDD;
 	margin: 10px;
+	overflow: hidden;
+	
+}
+
+#writeForm {
+	float: left;
+}
+
+#searchBox{
+	float: right;
 }
 
 #contentsBox {
