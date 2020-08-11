@@ -14,8 +14,6 @@
 
 
 
-안녕하세요
-
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 
 
