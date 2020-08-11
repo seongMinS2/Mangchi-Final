@@ -1,1 +1,36 @@
 @charset "UTF-8";
+.chatArea {
+	height: 750px;
+}
+
+.receiver {
+	height: 10%;
+}
+
+.msgArea {
+	height: 80%;
+	overflow-y: scroll;
+}
+
+.inputArea {
+	height: 10%;
+}
+
+.msgArea::-webkit-scrollbar {
+	width: 8px;
+}
+
+.msgArea::-webkit-scrollbar-thumb {
+	background-color: #BDBDBD;
+	border-radius: 5px;
+	background-clip: padding-box;
+	border: 1px solid transparent;
+}
+
+.msgArea::-webkit-scrollbar-track {
+	background-color: #EEE;
+	border-radius: 5px;
+}
+
+.msg{
+}
