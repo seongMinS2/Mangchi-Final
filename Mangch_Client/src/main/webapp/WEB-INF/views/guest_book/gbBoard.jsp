@@ -34,13 +34,6 @@
 
 $(document).ready(function () {
 	
-	
-	
-});
-
-
-function viewList() {
-	
 	$.ajax({
 		url:'localhost:8080/guest/guest_book' ,
 		type:'get',
@@ -52,7 +45,7 @@ function viewList() {
 		
 	});
 	
-}
+});
 
 
 </script>

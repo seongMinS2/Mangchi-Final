@@ -60,9 +60,9 @@
     </div>
     <div class="w3-bar w3-white w3-card" id="myNavbar">
       <div class="w3-right w3-hide-small">
-      <a href="#about" class="w3-bar-item w3-button">회원가입</a>
-        <a href="#about" class="w3-bar-item w3-button">로그인</a>
-        <a href="#team" class="w3-bar-item w3-button">마이페이지</a>
+      <a href="<c:url value="/member/regForm"/>" class="w3-bar-item w3-button">회원가입</a>
+        <a href="<c:url value="/member/loginForm"/>" class="w3-bar-item w3-button">로그인</a>
+        <a href="<c:url value="/member/mypageForm"/>" class="w3-bar-item w3-button">마이페이지</a>
         <a href="#team" class="w3-bar-item w3-button">요청게시판</a>
         <a href="<c:url value="/donate/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
         <a href="#contact" class="w3-bar-item w3-button">동네생활</a>
@@ -76,9 +76,9 @@
   <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large"
     style="display:none" id="mySidebar">
     <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
-    <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">회원가입</a>
-    <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">로그인</a>
-    <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a>
+    <a href="<c:url value="/member/regForm"/>" onclick="w3_close()" class="w3-bar-item w3-button">회원가입</a>
+    <a href="<c:url value="/member/loginForm"/>" onclick="w3_close()" class="w3-bar-item w3-button">로그인</a>
+    <a href="<c:url value="/member/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a>
     <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">요청게시판</a>
     <a href="<c:url value="/donate/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">나눔게시판</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">동네생활</a>
