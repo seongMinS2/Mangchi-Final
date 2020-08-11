@@ -1,1 +1,44 @@
 @charset "UTF-8";
+
+
+#wrap {
+	
+	width:80%;
+	margin: auto;	
+	text-align: center;
+	
+}
+
+#topBox {
+	border:1px solid #DDD;
+	margin: 10px;
+}
+
+#contentsBox {
+	border:1px solid #DDD;
+}
+
+#listBox {
+	width: 80%;
+	overflow: hidden;
+
+}
+
+div.card {
+	border:1px solid #DDD;
+	border-radius:10%;
+	float: left;
+	margin: 10px;
+	
+	
+}
+
+div.card:hover {
+	
+}
+
+#categoryBox {
+	border:1px solid green;
+	width: 20%;
+	height: 100px;
+}
