@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <title>W3.CSS Template</title>
@@ -63,7 +64,7 @@
         
         <a href="#team" class="w3-bar-item w3-button">마이페이지</a>
         <a href="#team" class="w3-bar-item w3-button">요청게시판</a>
-        <a href="#work" class="w3-bar-item w3-button">나눔게시판</a>
+        <a href="<c:url value="/donate/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
         <a href="#contact" class="w3-bar-item w3-button">동네생활</a>
         <a href="#pricing" class="w3-bar-item w3-button">Q&A</a>
         <a href="#contact" class="w3-bar-item w3-button">채팅</a>
