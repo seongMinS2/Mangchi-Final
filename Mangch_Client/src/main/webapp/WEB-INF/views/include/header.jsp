@@ -79,7 +79,7 @@
     <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">로그인</a>
     <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a>
     <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">요청게시판</a>
-    <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">나눔게시판</a>
+    <a href="<c:url value="/donate/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">나눔게시판</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">동네생활</a>
     <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">Q&A</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">채팅</a>
