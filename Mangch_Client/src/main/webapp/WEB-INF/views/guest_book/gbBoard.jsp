@@ -6,6 +6,32 @@
 <head>
 <meta charset="UTF-8">
 <title>동네생활</title>
+<style type="text/css">
+.have_photo{
+            
+            border: 1px solid #DDD;
+            margin: auto;
+            margin-bottom: 15px;
+            height: auto;
+            overflow:hidden;
+            width: 514px;  
+            font-size: 13px;
+            word-break: break-all;
+        }
+        
+        .none_photo{
+            
+            border: 1px solid #DDD;
+            margin: auto;
+            margin-bottom: 15px;
+           height: auto;
+            overflow:hidden;
+            width: 514px;  
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+</style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/kbg.css"/>">
 </head>
@@ -50,7 +76,8 @@ $(document).ready(function () {
 			    html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="hd_nick">'+data[i].guest_writer+'</div>';
 			    html+='</header>';
-			    html+='<div class="photo_body">'+data[i].guest_photo+'</div>';
+			    //html+='<div class="photo_body">'+data[i].guest_photo+'</div>';
+			    html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
 			    html+='<button class="footers"><img src=love.png></button>';
@@ -90,7 +117,7 @@ $(document).ready(function () {
 				   
 				    
 				    html+='<div class="null_content">'
-				    html+='<div class="realtext">'+data[i].guest_text+'</div>'
+				    html+='<div class="nonerealtext">'+data[i].guest_text+'</div>'
 				    html+='</div>'
 				    
 				    html+='<div class="text_body">';
@@ -102,7 +129,7 @@ $(document).ready(function () {
 				    
 				 
 				    html+='<div class="comment">';
-				    html+='<div class="cmtnum">댓글 모두보기</div>';
+				    html+='<div class="nonecmtnum">댓글 모두보기</div>';
 				    html+='<section>';
 				    html+='<div class="flex">';
 				    html+='<div class="cmtnick">짱가</div>';
