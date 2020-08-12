@@ -16,9 +16,11 @@
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 	<div class="qnaArea">
 		QnA공간입니다.
-
+		
 		<hr>
 		<h1>글 목록</h1>
+		<hr>
+		<button onclick="location.href='writeBoard'">글쓰기</button>
 		<hr>
 		<div id="QnABoardList"></div>
 	</div>

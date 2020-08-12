@@ -1,14 +1,14 @@
 	#memberList {
 		
 	}
-	div.card {
+/* 	div.card {
         height: 100%;
 		width : 33%;
 		float: left;
 		
 		border : 1px solid #DDD;
 		
-	}
+	} */
 	
 	.w3-table>ul>li {
 		
@@ -16,4 +16,9 @@
 	}
 	.qnaArea{
 		height: 700px;
+	}
+	
+	.contentBox{
+		height: 700px;
+		padding-left: 40%
 	}
