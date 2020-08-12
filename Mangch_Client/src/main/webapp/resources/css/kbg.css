@@ -101,14 +101,11 @@
         
         .cmtnum{
             color: darkgrey;
-            margin-left: 13px;   
+            margin-left: 13px; 
+ 			margin-top: 10px; 
         }
         
-        .nonecmtnum{
-          color: darkgrey;
-            margin-left: 13px;
-            margin-top: 10px;
-            }
+     
         
         
         .cmtnick{
