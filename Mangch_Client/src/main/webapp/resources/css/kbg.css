@@ -102,7 +102,9 @@
         .cmtnum{
             color: darkgrey;
             margin-left: 13px; 
- 			margin-top: 10px; 
+ 			margin-top: 10px;
+ 			 border: 0;
+            outline: 0;
         }
         
      
@@ -143,5 +145,186 @@
          .null_content{
             margin: 5px;
             margin-top: 20px;
+        }
+        
+        
+        /* 게시글 들어갔을때 */
+        .in_wrap{
+            height: auto;
+            width: 800px;
+            border: 3px solid #DDD;
+            position: relative;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+        
+        .flex{
+            display: flex;
+        }
+        .in_photo>img{
+          height: 500px;
+            width: 400px;
+        }
+       
+        .in_body{
+           margin-left: 13px;
+            margin-top: 10px;
+           
+            
+        }
+        
+        .in_hd_img{
+            display: block;
+            width: 32px;
+            height: 32px;
+            float: left;
+        }
+        
+        .in_hd_img>img{
+            border: 2px solid #DDD;
+            border-radius: 50px;
+            width: 32px;
+            height: 32px;
+        }
+        .in_hd_nick{
+        
+            display: flex;
+            flex-shrink: 1;
+            margin-left: 48px;
+            overflow: hidden;
+            align-items: flex-start;
+            position: relative;
+                text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+            
+        }
+        
+          .null_content{
+            margin: 5px;
+            margin-top: 20px;
+              margin-bottom: 20%;
+        }
+        .in_nonerealtext{
+            margin-left: 43px;
+            margin-top: 10px;
+            height: auto;
+             overflow: scroll;
+        }
+        
+        .in_nonerealtext::-webkit-scrollbar{
+            display: none;
+        }
+        
+        .in_bottom{
+        position: absolute;
+        bottom: 0px;
+        height: 140px;
+        margin-left: 10px;    
+        }
+         .likes{
+            font-weight: bold;
+            margin-left: 13px;
+        }
+        
+         section>button{
+            width:35px;
+            height: 20px;
+            border: 0;
+            outline: 0;
+        }
+        section>button>img{
+            widows: 25px;
+            height: 25px;
+        }
+        .footers{
+            margin: 13px;
+        }
+        
+        .in_cmtbunki{
+            margin-top: 14px;
+        }
+        
+          .in_cmtwr{
+            width: 307px;
+           
+            border: 0;
+            outline: 0;
+            float: left;
+        }
+        .in_cmtwr_null{
+            width: 707px;
+           
+            border: 0;
+            outline: 0;
+            float: left;
+        }
+        
+           .cmtsb{
+           
+            margin-right: 4px;
+            border: 0;
+            outline: 0;
+            color: skyblue
+        }
+        .in_date{
+            display: flex;
+            flex-shrink: 1;
+            font-size: 11px;
+            color: darkgray;
+           
+            
+        }
+         .in_date_null{
+            display: flex;
+            flex-shrink: 1;
+            font-size: 11px;
+            color: darkgray;
+           margin-left: 220px;
+            
+        }
+        
+        .in_hits{
+            font-size: 11px;
+            color: darkgray;
+            margin-left: 14px;
+            margin-right: 50%;
+            
+        }
+        
+        .dh{
+            margin-top: 7px;
+        }
+        
+        
+         .cmtnick{
+            font-weight: bold;
+            margin-left: 13px;
+            margin-top: 10px;
+        }
+        
+        
+         .in_cmtnick{
+            font-weight: bold;
+            margin-left: 13px;
+            margin-top: 7px;
+             margin-right: 5px;
+             
+        }
+        
+        
+        .in_cmttext{
+            margin-top: 7px;
+            margin-bottom: 10px;
+            width: 70%;
+        }
+        
+        .in_cmt_nick{
+            margin-left: 13px;
+            font-weight: bold;
+        }
+        
+        .in_bodycmt{
+            margin-top: 40px;
         }
         
