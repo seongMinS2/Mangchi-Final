@@ -30,6 +30,12 @@
 	overflow: hidden;
 }
 
+
+.menu_card:hover {
+	background-color: #DDD;	
+}
+
+
 #listBox {
 	width: 80%;
 	overflow: hidden;

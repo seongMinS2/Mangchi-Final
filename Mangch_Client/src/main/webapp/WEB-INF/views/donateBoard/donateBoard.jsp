@@ -22,7 +22,7 @@
 
 	<div id="topBox">
 
-		<button class="w3-button w3-black w3-round-xlarge" id="writeForm">글쓰기</button>
+		<button class="w3-button w3-black w3-round-xlarge" id="writeForm" onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
 		<div id="searchBox">
 			<form>
 				<input type="text" placeholder="검색할 단어를 입력하세요"> <input

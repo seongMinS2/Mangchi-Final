@@ -51,4 +51,5 @@ function viewBoard(idx){
 
 $(document).ready(function(){
 	boardList();
+	
 });
