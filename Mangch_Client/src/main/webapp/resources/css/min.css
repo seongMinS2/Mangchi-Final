@@ -1,7 +1,8 @@
 	#memberList {
-		overflow: hidden;
+		
 	}
 	div.card {
+        height: 100%;
 		width : 33%;
 		float: left;
 		
@@ -9,8 +10,10 @@
 		
 	}
 	
-	div.card>ul>li {
-		list-style: none;
+	.w3-table>ul>li {
 		
 		font-size: 12px;
+	}
+	.qnaArea{
+		height: 700px;
 	}

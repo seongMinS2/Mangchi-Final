@@ -9,7 +9,12 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- JQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- summernote -->
+<script src="<c:url value='/resources/js/summernote/summernote-lite.js'/>"></script>
+<script src="<c:url value='/resources/js/summernote/lang/summernote-ko-KR.js'/>"></script>
+<link rel="stylesheet" href="<c:url value='/resources/css/summernote/summernote-lite.css'/>">
 <style>
   body,
   h1,
