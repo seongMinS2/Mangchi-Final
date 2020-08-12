@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 
-    article{
+    .have_photo{
             
             border: 1px solid #DDD;
             margin: auto;
@@ -9,6 +9,18 @@
             height: 613px;
             width: 514px;  
             font-size: 13px;
+            word-break: break-all;
+        }
+        
+        .none_photo{
+            
+            border: 1px solid #DDD;
+            margin: auto;
+            margin-bottom: 15px;
+            height: 353px;
+            width: 514px;  
+            font-size: 13px;
+            word-break: break-all;
         }
         
         header{
@@ -114,5 +126,10 @@
         }
         .cmtbunki{
             margin-top: 18px;
+        }
+        
+         .null_content{
+            margin: 5px;
+            margin-top: 20px;
         }
         
