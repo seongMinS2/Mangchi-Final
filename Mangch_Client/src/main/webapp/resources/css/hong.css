@@ -30,6 +30,12 @@
 	overflow: hidden;
 }
 
+
+.menu_card:hover {
+	background-color: #DDD;	
+}
+
+
 #listBox {
 	width: 80%;
 	overflow: hidden;
@@ -46,4 +52,12 @@
 
 #pageBox {
 	height: 100px;
+}
+
+
+#donateFormWrap {
+	width:80%;
+	height:700px;
+	margin: auto;	
+	overflow: auto;
 }

@@ -10,5 +10,10 @@ public class DonateController {
 	public String donateBoard() {
 		return "/donateBoard/donateBoard";
 	}
+	
+	@RequestMapping("/donate/donateForm")
+	public String donateForm() {
+		return "/donateBoard/donateForm";
+	}
 
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aia.mangh.mm.dao.MemberDao">
+
+	<!-- select 결과를 객체에 바인딩 -->
+ 	<resultMap id="resultMember"
+		type="com.aia.mangh.mm.model.Member">
+		<id property="mIdx" column="member_idx" />
+		<result property="mId" column="member_id" />
+		<result property="mPw" column="member_pw" />
+		<result property="mNick" column="member_nick" /> 
+		<result property="mScore" column="member_score" />
+		<result property="mRegdate" column="member_regdate" />
+		<result property="mLttd" column="member_latitude" />
+		<result property="mLgtd" column="member_longitude" />
+		<result property="mAddr" column="member_addr" />
+		<result property="mImg" column="member_img" />
+		<result property="mChk" column="member_check" />
+		<result property="mRadius" column="member_radius" />
+	</resultMap>
+	
+	<!-- 로그인 -->
+	<select id="selectByIdPw" resultMap="resultMember">
+		select * from Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
+	</select>
+
+	<!-- ID, PW 체크 -->
+		<select id="checkIdPw" resultType="int">
+		select count(*) from Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
+	</select>
+</mapper>
