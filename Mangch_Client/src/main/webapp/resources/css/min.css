@@ -1,1 +1,16 @@
-@charset "UTF-8";
+	#memberList {
+		overflow: hidden;
+	}
+	div.card {
+		width : 33%;
+		float: left;
+		
+		border : 1px solid #DDD;
+		
+	}
+	
+	div.card>ul>li {
+		list-style: none;
+		
+		font-size: 12px;
+	}
