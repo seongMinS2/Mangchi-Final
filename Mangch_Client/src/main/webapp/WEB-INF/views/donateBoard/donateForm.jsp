@@ -38,9 +38,12 @@
 
 <div id="donateFormWrap">
 	<div style="width: 60%; margin: auto;">
-		<form method="post" action="/donate/donateBoard">
+		<form method="post">
+			<input type="hidden" name="doLoc" value="${loginInfo.mAddr}">
+			<input type="hidden" value="${loginInfo.mLttd}">
+			<input type="hidden" value="${loginInfo.mLgtd}">
 			<input type="text" name="writer" style="width: 20%;"
-				placeholder="작성자" /><br> <input type="text" name="title"
+				value="${loginInfo.mNick}" readonly /><br> <input type="text" name="title"
 				style="width: 40%;" placeholder="제목" /> <br> <br>
 			<textarea id="summernote" name="content"></textarea>
 			<input id="subBtn" type="button" value="글 작성" style="float: right;"
