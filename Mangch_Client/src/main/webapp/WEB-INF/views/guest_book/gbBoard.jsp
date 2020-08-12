@@ -33,29 +33,6 @@
 <hr>
 <div id="guestbookList"></div>
 
-<script>
-
-$(document).ready(function () {
-	
-	gbList();
-
-}); // 레디끝
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-
 
 
 

@@ -101,3 +101,12 @@ function gbList() {
 	}); // ajax끝 
 	
 }
+
+
+
+
+$(document).ready(function () {
+	
+	gbList();
+
+});
