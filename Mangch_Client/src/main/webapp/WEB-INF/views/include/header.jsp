@@ -9,6 +9,12 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- JQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- summernote -->
+<script src="<c:url value='/resources/js/summernote/summernote-lite.js'/>"></script>
+<script src="<c:url value='/resources/js/summernote/lang/summernote-ko-KR.js'/>"></script>
+<link rel="stylesheet" href="<c:url value='/resources/css/summernote/summernote-lite.css'/>">
 <style>
   body,
   h1,
@@ -63,11 +69,11 @@
       <a href="<c:url value="/member/regForm"/>" class="w3-bar-item w3-button">회원가입</a>
         <a href="<c:url value="/member/loginForm"/>" class="w3-bar-item w3-button">로그인</a>
         <a href="<c:url value="/member/mypageForm"/>" class="w3-bar-item w3-button">마이페이지</a>
-        <a href="#team" class="w3-bar-item w3-button">요청게시판</a>
+        <a href="<c:url value="/request/requestList"/> " class="w3-bar-item w3-button">요청게시판</a>
         <a href="<c:url value="/donate/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
         <a href="#contact" class="w3-bar-item w3-button">동네생활</a>
         <a href="<c:url value="/qna/qnaBoard"/>" class="w3-bar-item w3-button">Q&A</a>
-        <a href="#contact" class="w3-bar-item w3-button">채팅</a>
+        <a href="<c:url value="/chat"/>" class="w3-bar-item w3-button">채팅</a>
       </div>
     </div>
   </div>
@@ -79,11 +85,11 @@
     <a href="<c:url value="/member/regForm"/>" onclick="w3_close()" class="w3-bar-item w3-button">회원가입</a>
     <a href="<c:url value="/member/loginForm"/>" onclick="w3_close()" class="w3-bar-item w3-button">로그인</a>
     <a href="<c:url value="/member/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a>
-    <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">요청게시판</a>
+    <a href="<c:url value="/request/requestList"/> " onclick="w3_close()" class="w3-bar-item w3-button">요청게시판</a>
     <a href="<c:url value="/donate/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">나눔게시판</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">동네생활</a>
     <a href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">Q&A</a>
-    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">채팅</a>
+    <a href="<c:url value="/chat"/>" onclick="w3_close()" class="w3-bar-item w3-button">채팅</a>
     <input type="text"><input type="submit" value="검색">
   </nav>
   <div style="margin-top: 10%;" id="ddd"></div>

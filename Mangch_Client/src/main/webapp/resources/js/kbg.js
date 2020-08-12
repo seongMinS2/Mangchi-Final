@@ -1,71 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>동네생활</title>
-<link rel="stylesheet" href="<c:url value="/resources/css/kbg.css"/>">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<%-- <script type="text/javascript" src='<c:url value="/resources/js/kbg.js"/>'></script> --%>
-
-
-</head>
-
-
-<jsp:include page="/WEB-INF/views/include/header.jsp"/>
-
-
- 
-<h1>방명록작성</h1>
-<form id="gbForm">
-		Idx : <input type="text" id="guest_idx"  readonly="readonly"><br>
-		write :<input type="text" id="guest_write" readonly="readonly"><br>
-		내용 :<input type="text" id="guest_text"><br>
-		photo :<input type="text" id="guest_photo"><br>
-		주소 :<input type="text" id="guest_addr"><br>
-		<input type="submit" value="글쓰기" ><br>
-</form>
-
-
-
-
-
-
-<div id="guestbookList"></div>
-
-
-
-
-<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
-<script type="text/javascript">
-
-
-
-function idxView(guest_idx) {
-	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
-		type:'GET',
-		success : function (data) {
-			$('#guest_idx').val(data.idx);
-			$('#guest_write').val(data.idx);
-			$('#guest_text').val(data.idx);
-			$('#guest_photo').val(data.idx);
-			
-		}
-	
-});
-}
-
-
-
-
-
-
-
-
-
 
 function gbList() {
 	$.ajax({
@@ -88,7 +20,7 @@ function gbList() {
 			    html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
-			    html+='<button class="footers" onclick="idxView('+data[i].idx+')"><img src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
+			    html+='<button class="footers"><img src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
 			    html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
 			    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
 			    html+='</section>'; 
@@ -178,8 +110,3 @@ $(document).ready(function () {
 	gbList();
 
 });
-</script>
-
-
-</body>
-</html>

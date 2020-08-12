@@ -1,1 +1,55 @@
 @charset "UTF-8";
+
+
+#donateWrap {
+	width:80%;
+	margin: auto;	
+	text-align: center;
+}
+
+
+
+#topBox {
+	border:1px solid #DDD;
+	margin: 10px;
+	overflow: hidden;
+	
+}
+
+#writeForm {
+	float: left;
+}
+
+#searchBox{
+	float: right;
+}
+
+#contentsBox {
+	margin: auto;
+	border:1px solid #DDD;
+	overflow: hidden;
+}
+
+
+.menu_card:hover {
+	background-color: #DDD;	
+}
+
+
+#listBox {
+	width: 80%;
+	overflow: hidden;
+	float: left;
+}
+
+
+#categoryBox {
+	border:1px solid green;
+	width: 20%;
+	height: 100px;
+	float: right;
+}
+
+#pageBox {
+	height: 100px;
+}
