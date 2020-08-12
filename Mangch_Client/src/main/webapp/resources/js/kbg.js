@@ -20,8 +20,8 @@ function gbList() {
 			    html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
-			    html+='<button class="footers"><img src="<c:url value="/resources/img/love.png"/>"></button>';
-			    html+='<button><img src="<c:url value="/resources/img/msg.png"/>"></button>';
+			    html+='<button class="footers"><img src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
+			    html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
 			    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
 			    html+='</section>'; 
 			    html+='<div class="content">';
@@ -62,8 +62,8 @@ function gbList() {
 				    
 				    html+='<div class="text_body">';
 				    html+='<section>';
-				    html+='<button class="footers"><img src="<c:url value="/resources/img/love.png"/>"></button>';
-				    html+='<button><img src="<c:url value="/resources/img/msg.png"/>"></button>';
+				    html+='<button class="footers"><img src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
+			    	html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
 				    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
 				    html+='</section>'; 
 				    
