@@ -53,3 +53,11 @@
 #pageBox {
 	height: 100px;
 }
+
+
+#donateFormWrap {
+	width:80%;
+	height:700px;
+	margin: auto;	
+	overflow: auto;
+}

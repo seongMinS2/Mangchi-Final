@@ -1,3 +1,44 @@
+
+function goWrite(frm) {
+	var title = frm.title.value;
+	var writer = frm.writer.value;
+	var content = frm.content.value;
+	
+	if (title.trim() == ''){
+		alert("제목을 입력해주세요");
+		return false;
+	}
+	if (writer.trim() == ''){
+		alert("작성자를 입력해주세요");
+		return false;
+	}
+	if (content.trim() == ''){
+		alert("내용을 입력해주세요");
+		return false;
+	}
+	frm.submit();
+}
+
+function uploadSummernoteImageFile(file, editor) {
+		data = new FormData();
+		data.append("doImg", file);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "http://localhost:8080/donate/donateBoard",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+            	//항상 업로드된 파일의 url이 있어야 한다.
+				$(editor).summernote('insertImage', data.url);
+			}
+		});
+	}
+
+
+
+
+
 function boardList(){
 
 	$.ajax({
@@ -51,5 +92,4 @@ function viewBoard(idx){
 
 $(document).ready(function(){
 	boardList();
-	
 });
