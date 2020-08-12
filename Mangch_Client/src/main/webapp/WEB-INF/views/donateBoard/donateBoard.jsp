@@ -11,41 +11,38 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
-<script type="text/javascript" src='<c:url value="/resources/js/hong.js"/>'></script>
+<script type="text/javascript"
+	src='<c:url value="/resources/js/hong.js"/>'></script>
 
 </head>
 
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
-<div id="wrap">
+<div id="donateWrap">
 	<h3>나눔 게시판</h3>
 
 	<div id="topBox">
 
 		<button class="w3-button w3-black w3-round-xlarge" id="writeForm">글쓰기</button>
 		<div id="searchBox">
-		<form>
-		<input type="text" placeholder="검색할 단어를 입력하세요">
-		<input type="submit" value="검색">
-		</form>
+			<form>
+				<input type="text" placeholder="검색할 단어를 입력하세요"> <input
+					type="submit" value="검색">
+			</form>
 		</div>
 
 
 	</div>
 	<div id="contentsBox">
-		<div id="listBox">
-			<div class="card" style="width: 300px; height: 350px;">
-				<img src="<c:url value="/resources/jin02.jpg"/>" alt="Alps" style="width: 100%">
-					<p>The Italian / Austrian Alps</p>
-			</div>
-		</div>
+		<div id="listBox"></div>
 		<div id="categoryBox"></div>
+	</div>
+	<div id="pageBox"></div>
 
-	</div>
-	<div id="pageBox">
-	
-	</div>
+
 </div>
 
+<div id="id01" class="w3-modal">
+</div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
 

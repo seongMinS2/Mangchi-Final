@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 
-#wrap {
+#donateWrap {
 	width:80%;
 	margin: auto;	
 	text-align: center;
@@ -25,6 +25,7 @@
 }
 
 #contentsBox {
+	margin: auto;
 	border:1px solid #DDD;
 	overflow: hidden;
 }
@@ -33,21 +34,8 @@
 	width: 80%;
 	overflow: hidden;
 	float: left;
-
 }
 
-div.card {
-	border:1px solid #DDD;
-	border-radius:10%;
-	float: left;
-	margin: 10px;
-	
-	
-}
-
-div.card:hover {
-	
-}
 
 #categoryBox {
 	border:1px solid green;
