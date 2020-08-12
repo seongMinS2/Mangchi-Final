@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+
+    article{
+            
+            border: 1px solid #DDD;
+            margin: auto;
+            margin-bottom: 15px;
+            height: 613px;
+            width: 514px;  
+            font-size: 13px;
+        }
+        
+        header{
+            margin: 10px;
+            
+        }
+        .hd_img{
+            display: block;
+            width: 32px;
+            height: 32px;
+            float: left;
+        }
+        
+        .hd_img>img{
+            border: 2px solid #DDD;
+            border-radius: 50px;
+            width: 32px;
+            height: 32px;
+        }
+        .hd_nick{
+        
+            display: flex;
+            flex-shrink: 1;
+            margin-left: 48px;
+            overflow: hidden;
+            align-items: flex-start;
+            position: relative;
+                text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+            
+        }
+        
+        
+        .photo_body{
+            align-items: stretch;
+            box-sizing: border-box;
+            list-style: none;
+            margin-top: 20px;
+            
+        }
+        
+        
+        .photo_body>img{
+            width: 514px;
+            height: 313px;
+        }
+        
+        section>button{
+            width:35px;
+            height: 20px;
+            border: 0;
+            outline: 0;
+        }
+        section>button>img{
+            widows: 25px;
+            height: 25px;
+        }
+        
+        .footers{
+            margin: 13px;
+        }
+        .likes{
+            font-weight: bold;
+            margin-left: 13px;
+        }
+    
+        .realtext{
+            margin: 13px;
+        }
+        
+        .cmtnum{
+            color: darkgrey;
+            margin-left: 13px;   
+        }
+        
+        .cmtnick{
+            font-weight: bold;
+            margin-left: 13px;
+            margin-top: 10px;
+        }
+        .cmttext{
+            margin-top: 10px;
+        }
+        .flex{
+            display: flex;
+        }
+        
+        .cmtwr{
+            width: 457px;
+            margin-left: 10px;
+            border: 0;
+            outline: 0;
+            float: left;
+        }
+        .cmtsb{
+           
+            margin-right: 4px;
+            border: 0;
+            outline: 0;
+            color: skyblue
+            
+        }
+        .cmtbunki{
+            margin-top: 18px;
+        }
+        
