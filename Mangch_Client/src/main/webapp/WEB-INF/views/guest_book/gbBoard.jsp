@@ -67,7 +67,6 @@
 
 
 
-
 <div id="guestbookList"></div>
 
 
@@ -113,9 +112,9 @@ function goPopup(guest_idx) {
 			html+='</section>'
 			html+='</div>'
 			html+='<section class="in_bottom">'
-			html+='<button class="footers"><img src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
+			html+='<button class="footers"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
 		    html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
-			html+='<div class="likes">'+data.guest_like+'</div>'
+			html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 			html+='<div class="flex dh">'
 			html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
 			if(data.guest_photo ==null){
@@ -136,6 +135,7 @@ function goPopup(guest_idx) {
 			html+='</div>'
 			html+='</div>'
 			html+='</article>'
+			
 			
 			$('#innerView').html(html);
 		}// 석세스끝
@@ -173,8 +173,8 @@ function gbList() {
 			    html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
-			    html+='<button class="footers"><img src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
-			    html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
+			    html+='<button class="footers"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
+			    html+='<button class="btmsg" onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
 			    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
 			    html+='</section>'; 
 			    html+='<div class="content">';
@@ -215,8 +215,8 @@ function gbList() {
 				    
 				    html+='<div class="text_body">';
 				    html+='<section>';
-				    html+='<button class="footers"><img src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
-			    	html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
+				    html+='<button class="footers"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
+			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
 				    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
 				    html+='</section>'; 
 				    
@@ -224,13 +224,10 @@ function gbList() {
 				    html+='<div class="comment">';
 				    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
 				    html+='<section>';
-				    html+='<div class="flex">';
-				   	for(data)
-				    html+='<div class="cmtnick">'+data[i].member_nick+'</div>';
-				    html+='<div class="cmttext">'+data[i].comment_text+'</div>';
-				    html+='</div>';
-				  
-				    
+				   		html+='<div class="flex">';
+					    html+='<div class="cmtnick">짱가</div>';
+					    html+='<div class="cmttext">안녕하세요</div>';
+					    html+='</div>';
 				    html+='</section>';
 				    html+='</div>';
 				    html+='<div class="cmtbunki">';
@@ -241,7 +238,7 @@ function gbList() {
 				    html+='</article>';
 				}
 			
-			
+				
 			
 			} // for문 끝 
 			
@@ -254,12 +251,24 @@ function gbList() {
 	
 }
 
+ $('body').on('click','#heart',function(){
+	$(this).attr("src","//upload.wikimedia.org/wikipedia/commons/thumb/4/42/Love_Heart_SVG.svg/645px-Love_Heart_SVG.svg.png");
+	$(this).attr("id","okheart");
+	});
+
+ $('body').on('click','#okheart',function(){
+		$(this).attr("src","https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png");
+		$(this).attr("id","heart");
+		});	
+
+
 
 
 
 $(document).ready(function () {
 	
 	gbList();
+	
 
 });
 </script>
