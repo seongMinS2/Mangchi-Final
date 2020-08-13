@@ -11,9 +11,9 @@ function commReg(donateIdx) {
 
 }
 
-function commList() {
+function commList(donateIdx) {
 	$.ajax({
-		url : 'http://localhost:8080/donate/comments',
+		url : 'http://localhost:8080/donate/comments/'+donateIdx,
 		type: 'get',
 		success : function(data) {
 			for(var i=0; i<data.length; i++) {
@@ -97,9 +97,10 @@ function boardList(){
 			var html= '';
 			for(var i=0;i<data.length; i++) {
 				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data[i].donateIdx+')">';
+				html+='		<input type="hidden class="donIdx" value="'+data[i].donateIdx+'">'
 				html+='		<p class="board_loc" style="text-align:left;">'+data[i].doLoc+'</p>';
 				html+='		<p class="board_writer">'+data[i].writer+'</p>';
-				html+='		<img src="'+data[i].doImg+'" style="width: 100%">';
+				html+='		<img src="'+data[i].doImg+'" style="width: 100%;">';
 				html+='		<h4 class="board_title">'+data[i].title+'</h4>';
 				html+='		<p class="board_date">'+data[i].doDate+'</p>';
 				html+='		<p class="board_viewcnt">'+data[i].doViewCnt+'</p>';
@@ -132,7 +133,7 @@ function viewBoard(idx){
 			};
 			
 			view+='        <p>작성자 ' + data.writer+'</p>';
-			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
+			view+='        <p>조회수 <span id="viewCnt>' + data.doViewCnt+'</span></p>';
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
@@ -152,7 +153,7 @@ function viewBoard(idx){
 			view+='			</div>'		
 			view+='      </footer>';
 			view+='    </div>';
-			commList();		
+			commList(data.donateIdx);		
 			$('#id01').html(view);
 
 		}
@@ -164,4 +165,18 @@ function viewBoard(idx){
 
 $(document).ready(function(){
 	boardList();
+	
+	$('button.menu_card').click(function(){
+		var donateIdx=$(this).find('input[type=hidden]').val();
+		console.log(donateIdx);
+		$.ajax({
+			url : 'http://localhost:8080/donate/viewCnt'+donateIdx,
+			success : function(data){
+				$('#viewCnt').text(data);
+			}
+		
+		});
+	
+	});
+	
 });
