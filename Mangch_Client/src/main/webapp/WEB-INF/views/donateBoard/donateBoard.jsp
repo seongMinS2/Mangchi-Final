@@ -20,7 +20,9 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
 <div id="donateWrap">
 	<h3>나눔 게시판</h3>
-	<input type="hidden" id="loginUser" value="${loginInfo.mNick}">
+	<c:if test="${loginInfo!=null} }">
+		<input type="hidden" id="loginUser" value="${loginInfo.mNick}">
+	</c:if>
 	<div id="topBox">
 
 		<button class="w3-button w3-black w3-round-xlarge" id="writeForm" onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
