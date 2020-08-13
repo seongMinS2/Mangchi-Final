@@ -11,7 +11,7 @@
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <%-- <script type="text/javascript" src='<c:url value="/resources/js/kbg.js"/>'></script> --%>
 
-	
+
 
 </head>
 
@@ -19,16 +19,23 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 
 
+
+<h1>방명록작성</h1>
+ ${loginInfo}
+
  
-<!-- <h1>방명록작성</h1>
-<form id="gbForm">
-		Idx : <input type="text" id="guest_idx" ><br>
-		write :<input type="text" id="guest_write"><br>
-		내용 :<input type="text" id="guest_text"><br>
-		photo :<input type="text" id="guest_photo"><br>
-		주소 :<input type="text" id="guest_addr"><br>
-		<input type="submit" value="글쓰기" ><br>
-</form> -->
+<form id="postForm" onsubmit="return false;">
+		writer :<input type="text" name="guest_writer" id="guest_writer" value=" ${loginInfo.mNick}"><br>
+		text :<input type="text" name="guest_text" id="guest_text"><br>
+		photo :<input type="file" name="guest_photo" id="guest_photo" ><br>
+		addr :<input type="text" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"><br>
+		x :<input type="text" name="x" id="x" value="${loginInfo.mLttd}"><br>
+		y :<input type="text" name="y" id="y" value="${loginInfo.mLgtd}"><br>
+		r :<input type="text" name="r" id="r" value="${loginInfo.mRadius}"><br>
+		<input type="submit" value="글쓰기" onclick="guestPost();"><br>
+	
+</form>
+
 
 
 <div style="margin-top:5%; text-align: center; margin: 0 auto;">
@@ -49,10 +56,31 @@
 
 
 
+
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
+
 <script type="text/javascript">
 
 
+function guestPost() {
+	
+	var PostForm=$('#postForm')[0];
+	var formData= new FormData(PostForm);
+	
+	$.ajax({
+		url : 'http://localhost:8080/guest/guest_book',
+		type : 'post',
+		processData : false, // File 전송시 필수 
+		contentType : false, // multipart/form-data 쓰는 코드
+		data : formData,
+		success : function (data) {
+			alert(data);
+		}
+		
+	});
+	
+	
+}
 
 
 
@@ -61,7 +89,7 @@
 
 
 
-
+///////////////////// 팝업 함수
 function goPopup(guest_idx) {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
@@ -96,7 +124,10 @@ function goPopup(guest_idx) {
 			html+='</section>'
 			html+='</div>'
 			html+='<section class="in_bottom">'
-			html+='<button class="footers" id="likebtn" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+			
+				html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+		    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+			
 		    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 			html+='<div class="flex dh">'
@@ -122,6 +153,8 @@ function goPopup(guest_idx) {
 			
 			
 			$('#innerView').html(html);
+			
+			
 		}// 석세스끝
 		
 	});
@@ -136,20 +169,8 @@ function goPopup(guest_idx) {
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-
+///////////////////// 전체리스트
 function gbList() {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book' ,
@@ -172,7 +193,10 @@ function gbList() {
 			    html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
-			    html+='<button class="footers" id="likebtn" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+			    
+			    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+			    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+			    
 			    html+='<button class="btmsg" onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
 			    html+='</section>'; 
@@ -217,7 +241,8 @@ function gbList() {
 				    
 				    //아래라이크사진
 				   
-				    html+='<button class="footers likebtn" id="" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+				    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+				    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
 				    
 			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			    	
@@ -227,12 +252,12 @@ function gbList() {
 				    
 				    html+='<div class="comment">';
 				    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
-				    html+='<section>';
+				   	 html+='<section>';
 				   		html+='<div class="flex">';
 					    html+='<div class="cmtnick">짱가</div>';
 					    html+='<div class="cmttext">안녕하세요</div>';
 					    html+='</div>';
-				    html+='</section>';
+				    html+='</section>'; 
 				    html+='</div>';
 				    html+='<div class="cmtbunki">';
 				    html+='<input type="text" class="cmtwr" id="cmtwr" placeholder="    댓글 달기">';
@@ -247,20 +272,42 @@ function gbList() {
 			} // for문 끝 
 			
 			$('#guestbookList').html(html);
+		
+			
+
+			
 			
 			$('.likebtn').click(function () {
 				
 					var a=$(this).next();
 					var b = a.next();
-					var c = b.children('.dlikes').text();
-					
-					console.log(c);
-					c=Number(c)+1;
-					b.children('.dlikes').text(c);
+					var c = b.next();
+					var d =c.children('.dlikes').text();
+					console.log(d);
+					d=Number(d)+1;
+					c.children('.dlikes').text(d);
+					$(this).hide();
+					a.show();
 				
+					
+					
 			});
 			
 			
+			$('.likedownbtn').click(function () {
+				
+				var a=$(this).next();
+				var b = a.next();
+				var c = b.children('.dlikes').text();
+				
+				console.log(c);
+				c=Number(c)-1;
+				b.children('.dlikes').text(c);
+				$(this).hide();
+				$(this).prev().show();
+				
+			
+		});
 		
 		
 			
@@ -271,36 +318,14 @@ function gbList() {
 	}); // ajax끝 
 	
 }
-/* 
-  $('body').on('click','#heart',function(){
-	$(this).attr("src","//upload.wikimedia.org/wikipedia/commons/thumb/4/42/Love_Heart_SVG.svg/645px-Love_Heart_SVG.svg.png");
-	$(this).attr("id","okheart");
-	var a=$('#dlikes').text();
-	a=Number(a)+1;
-	$('#dlikes').text(a);
- }); */
- 
-  $('body').on('click','#okheart',function(){
-		$(this).attr("src","https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png");
-		$(this).attr("id","heart");
-		var a=$('#dlikes').text();
-		a=Number(a)-1;
-		$('#dlikes').text(a);
-		}); 
-/* 
-		 $('body').on('click','#dlikes',function(){
-			var a=$(this).text();
-			a=Number(a)+1;
-			$(this).text(a);
-			});   */
-		 
+
 			
 			
 			
-		
+///////////////////// 좋아요 증감 함수
   function likeup(guest_idx) {
 		$.ajax({
-			url:'http://localhost:8080/guest/guest_book/'+guest_idx,
+			url:'http://localhost:8080/guest/guest_book/plus/'+guest_idx,
 			type:'PUT',
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
@@ -311,18 +336,18 @@ function gbList() {
 			
 			
 			
-			
+///////////////////// 좋아요 감소 함수
 	function likedown(guest_idx) {
 		$.ajax({
-			url:'http://localhost:8080/guest/guest_book/'+guest_idx,
+			url:'http://localhost:8080/guest/guest_book/mi/'+guest_idx,
 			type:'PUT',
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
 				
 			}
 		});
-	}
-	}
+	} 
+	
 			
 			
 
