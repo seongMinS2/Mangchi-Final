@@ -52,6 +52,7 @@
 									전송 <i class="fa fa-plane"></i>
 								</button>
 								<input type="hidden" id="currChatRoom" value=""> 
+								<input type="text" id="currChatUser" value=""> 
 							</div>
 						</div>
 					</div>
@@ -66,16 +67,41 @@
 
 <!-- moment() : 날짜 포멧팅 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-<!-- 채팅방 리스트, n번idx채팅방의 메세지 리스트 -->
+
+<!-- 채팅방 리스트, n번idx채팅방의 메세지 리스트-->
+<!-- interval로 안읽은 메세지 있을때 갱신-->
 <script>
 	$(document).ready(function() {
 		var loginUser = '${loginInfo.nick}';
 		chatList(loginUser);
+		/* if(currRoom == undefined){
+			$('#sendBtn').attr('disabled',true);
+		} */
+		$('#sendBtn').attr('disabled',true);
+	});
+	//전송버튼 클릭이벤트
+	$('#sendBtn').click(function(){
+		console.log($('#message').val());
 	});
 	
+	$('#message').keyup(function(){
+		if($('#message').val().length == 0){
+			$('#sendBtn').attr('disabled',true);
+		}else{
+			$('#sendBtn').attr('disabled',false);
+		}
+	})
+	
+	//메세지 전송 
+	function sendMsg(){
+		var loginUser = '${loginInfo.nick}';
+		$.ajax({
+			url : 'http://localhost:8080/mc-chat/chat'
+		});
+	}
+	//채팅방 리스트 뽑긔
 	function chatList(loginUser) {
 		const cl = $('.chatRooms');
-		
 		$.ajax({
 			url : 'http://localhost:8080/mc-chat/chatRoom',
 			type : 'get',
@@ -102,12 +128,18 @@
 			}
 		});
 	}
-	var currVal;
+	
+	var currRoom;
+	var listTimer;
+	var currUser;
+	//채팅방 클릭이벤트
 	function getMsgIdx(idx){
+		clearInterval(listTimer);
 		$('#currChatRoom').val(idx);
-		currVal=$('#currChatRoom').val();
+		currRoom=$('#currChatRoom').val();
+		//메세지 리스트함수
 		getMsgList();
-		listTimer();
+		listTimer = setInterval(chkNewMsg, 2000);
 	}
 	
 	//메세지 리스트 가져오기
@@ -116,7 +148,7 @@
 		const rc=$('.receiver');
 		var loginInfo='${loginInfo.nick}';
 		$.ajax({
-			url:'http://localhost:8080/mc-chat/chat/'+currVal,
+			url:'http://localhost:8080/mc-chat/chat/'+currRoom,
 			type:'get',
 			data: {
 				uNick:loginInfo
@@ -124,8 +156,13 @@
 			success : function(msgList){
 				var html2='';
 				if(msgList[0].sender==loginInfo){
+					$('#currChatUser').val(''+msgList[0].receiver);
+					console.log()
+					currUser = $('#currChatUser').val();
 					html2+='<h3>'+msgList[0].receiver+'님과의 대화</h3>';
 				}else{
+					$('#currChatRoom').val(''+msgList[0].sender);
+					currUser = $('#currChatRoom').val();
 					html2+='<h3>'+msgList[0].sender+'님과의 대화</h3>';
 				}
 				rc.html(html2);
@@ -151,26 +188,26 @@
 		});
 	}
 	
-	function listTimer(){
-		setInterval(function(){
-			var loginInfo='${loginInfo.nick}';
-			$.ajax({
-				url:'http://localhost:8080/mc-chat/chat/',
-				type:'get',
-				data:{
-					uNick:loginInfo,
-					idx:currVal
-				},
-				success:function(data){
-					if(data>0){
-						getMsgList();
-					}
+	//새로운메세지가 있으면 메세지리스트 갱신
+	function chkNewMsg(){
+		console.log(currRoom);
+		var loginInfo='${loginInfo.nick}';
+		$.ajax({
+			url:'http://localhost:8080/mc-chat/chat/',
+			type:'get',
+			data:{
+				uNick:loginInfo,
+				idx:currRoom
+			},
+			success:function(data){
+				if(data>0){
+					getMsgList();
+					
 				}
-				
-			});
-		}, 3000);
+			}
+			
+		});
 	}
-	
 </script>
 <script>
 	

@@ -1,7 +1,9 @@
 package com.aia.mangh.request.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RequestController {
@@ -16,6 +18,13 @@ public class RequestController {
 	@RequestMapping("/request/requestWrite")
 	public String requestRegForm() {
 		return "request/requestForm";
+	}
+	
+	//게시물 상세 정보 출력
+	@RequestMapping("/request/requestDetail")
+	public String requestDetail(@RequestParam ("idx") int idx, Model model) {
+		model.addAttribute("idx", idx);
+		return "request/requestDetail";
 	}
 
 }

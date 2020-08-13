@@ -1,3 +1,49 @@
+function commReg(donateIdx) {
+
+
+
+}
+
+function commList() {
+	$.ajax({
+		url : 'http://localhost:8080/donate/comments',
+		type: 'get',
+		success : function(data) {
+			for(var i=0; i<data.length; i++) {
+				var list='';
+				
+			
+			
+			}
+		$('#commList').html(list);
+		} 
+		
+	});
+}
+
+
+
+function editBoard(idx) {
+
+
+}
+
+function deleteBoard(idx) {
+	if(confirm('정말로 삭제하시겠습니까?')) {
+		$.ajax({
+			url : "http://localhost:8080/donate/donateBoard"+idx,
+			type : "delete",
+			success : function(data){
+				alert('나눔글을 삭제하였습니다.');
+				history.go(-1);
+			}
+		
+		});
+	}
+
+
+}
+
 
 
 function goWrite() {
@@ -58,6 +104,7 @@ function boardList(){
 function viewBoard(idx){
 	
 	$('#id01').css('display','block');
+	var loginUser=$('#loginUser').val();
 	$.ajax({
 		url : 'http://localhost:8080/donate/donateBoard/'+idx,
 		type : 'get',
@@ -68,15 +115,29 @@ function viewBoard(idx){
 			view+='        <span onclick="$(\'#id01\').css(\'display\',\'none\')"';
 			view+='        class="w3-button w3-display-topright">&times;</span>';
 			view+='        <h2>'+data.title+'</h2>';		
-			view+='        <p>'+data.writer+'</p>';
-			view+='        <p>'+data.doViewCnt+'</p>';
+			
+			if(loginUser==data.writer) {
+				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donataIdx+')">삭제</button>';
+				view+='<button id="editDonate" style="float:right;" onclick="editBoard('+data.donateIdx+')">수정</button>';
+			};
+			
+			view+='        <p>작성자 ' + data.writer+'</p>';
+			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
 			view+='        <p><img src="'+data.doImg+'" style="width:200px;"></p>';
 			view+='        <p>'+data.content+'</p>';
 			view+='      </div>';
 			view+='      <footer class="w3-container">';
-			view+='        <p>댓글공간</p>';
+			view+='        <p>comments</p>';
+			view+='        <form id="commentForm" onsubmit="return false">';
+			view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">'
+			view+='				<input type="text" value="'+loginUser+'" id="commWriter" name="commWriter" readonly> <br>'
+			view+='				<input type="textarea" id="commForm" name="commContent" style="width: 80%; height: 100px; margin:10px;">'
+			view+='				<input type="submit" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">'
+			view+='        </form>';	
+			view+='			<div id="commList">'
+			view+='			</div>'		
 			view+='      </footer>';
 			view+='    </div>';
 			$('#id01').html(view);
