@@ -31,7 +31,6 @@
 
 		<div>
 			<h1 class="w3-left">게시물 리스트</h1>
-			<a href="<c:url value="/request/requestWrite"/>" class="w3-right"><button>등록</button></a>
 		</div>
 
 		<div class="w3-border">
@@ -40,13 +39,13 @@
 				<table class="w3-table w3-border">
 					<tr>
 						<td><label>요청 글 제목 </label></td>
-						<td><input type="text" name="reqTitle" id="reqTitle"></td>
+						<td><input type="text" name="reqTitle" id="reqTitle" required></td>
 					</tr>
 
 					<tr>
 						<td><label> 요청 희망 지역 </label></td>
 						<td><input type="text" name="reqAddr" id="sample5_address"
-							value="서울 종로구 경교장길 8">
+							value="서울 종로구 경교장길 8" required>
 							<div id="map"
 								style="width: 300px; height: 300px; margin-top: 10px; display: none;"></div>
 							<input type="button" value="주소 변경" id="changeAddr"></td>
@@ -55,7 +54,7 @@
 					<tr>
 						<td><label>상세내용</label></td>
 						<td><textarea cols="50" rows="10" name="reqContets"
-								id="reqContents"></textarea></td>
+								id="reqContents" required></textarea></td>
 					</tr>
 					<tr>
 						<td><label>이미지 </label></td>

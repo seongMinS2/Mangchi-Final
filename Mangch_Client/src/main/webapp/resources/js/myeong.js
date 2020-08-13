@@ -20,8 +20,7 @@
 							// 정상적으로 검색이 완료됐으면 
 							if (status === kakao.maps.services.Status.OK) {
 
-								var coords = new kakao.maps.LatLng(result[0].y,
-										result[0].x);
+								var coords = new kakao.maps.LatLng(result[0].y,result[0].x);
 
 								// 결과값으로 받은 위치를 마커로 표시합니다
 								var marker = new kakao.maps.Marker({
@@ -64,12 +63,7 @@
 													result[0].y,
 													result[0].x);
 
-											document
-													.getElementById("reqLatitude").value = result[0].y;
-											document
-													.getElementById("reqLongitude").value = result[0].x;
 
-											var latitude = result[0].y;
 
 											// 결과값으로 받은 위치를 마커로 표시합니다
 											var marker = new kakao.maps.Marker(
@@ -89,9 +83,7 @@
 											map.setCenter(coords);
 
 											console.log("등록2 : "+ coords);
-											reqLocation(
-													result[0].y,
-													result[0].x);
+											reqLocation(result[0].y,result[0].x);
 											}
 
 									});
@@ -104,10 +96,13 @@
 		function reqLocation(latitude, longitude) {
 			lat = latitude;
 			lon = longitude;
+			
+			console.log(lat);
+			console.log(lon);
 		}
+		
 
 		function regSubmit() {
-
 			var regRequest = new FormData();
 			regRequest.append('reqTitle', $('#reqTitle').val());
 			regRequest.append('reqAddr', $('#sample5_address').val());
@@ -115,11 +110,9 @@
 			if ($('#reqImg')[0].files[0] != null) {
 				regRequest.append('reqImg', $('#reqImg')[0].files[0]);
 			}
-			/* regRequest.append('reqLatitude',$('#reqLatitude').val());
-			regRequest.append('reqLongitude',$('#reqLongitude').val()); */
 			regRequest.append('reqLatitude', lat);
 			regRequest.append('reqLongitude', lon);
-
+			
 			$.ajax({
 				url : 'http://localhost:8080/rl/request',
 				type : 'POST',
@@ -127,9 +120,20 @@
 				contentType : false,
 				data : regRequest,
 				success : function(data) {
-					alert(data);
+					
+					if(data != 0){
+					alert('등록되었습니다.');
+					location.href="/mangh/request/requestList";
+					}
 				}
 
 			});
-
+			
 		}
+		
+		
+		
+		
+		
+		
+		
