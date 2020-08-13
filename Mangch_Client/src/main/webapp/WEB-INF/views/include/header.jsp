@@ -9,7 +9,9 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- 성민 자바스크립트 -->
+<script src="<c:url value='/resources/js/min.js'/>"></script>
 <style>
   body,
   h1,
