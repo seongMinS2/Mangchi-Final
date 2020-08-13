@@ -35,7 +35,6 @@
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
-
 <script>
 	$(document).ready(function() {
 
@@ -53,10 +52,11 @@
 				html += '	<th>상태</th>';
 				html += '	<th>등록날짜</th>';
 				html += '	</tr>';
-
+	
+				
 				for (var i = 0; i < data.length; i++) {
 					html += '<tr>';
-					html += ' <td>' + data[i].reqTitle + '</td>';
+					html += ' <td> <a href="<c:url value="/request/requestDetail?idx='+data[i].reqIdx+'" />" >' + data[i].reqTitle + '</a></td>';
 					html += ' <td>' + data[i].reqAddr + '</td>';
 					html += ' <td>' + data[i].distance + ' m</td>';
 					html += ' <td>' + data[i].reqStatus + '</td>';
@@ -68,13 +68,10 @@
 			}
 
 		});
-
+		
 	});
 
 	
-	function writing(){
-		location.href = '/requestWriting';
-	}
 	
 	
 </script>
