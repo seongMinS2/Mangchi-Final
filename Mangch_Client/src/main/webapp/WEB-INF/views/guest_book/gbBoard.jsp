@@ -57,15 +57,6 @@
 
 
 
-function hitsup(guest_idx) {
-	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/'+guest_idx,
-		type:'PUT',
-		success : function (data) {
-			alert(data);
-		}
-	});
-}
 
 
 
@@ -77,6 +68,7 @@ function goPopup(guest_idx) {
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		success : function (data) {
+			hitsup(guest_idx);
 			var html='';
 			html+='<article class="in_wrap">'
 			html+='<div class="flex">'
@@ -143,6 +135,20 @@ function goPopup(guest_idx) {
 
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 function gbList() {
@@ -237,6 +243,17 @@ function gbList() {
 			
 			$('#guestbookList').html(html);
 			
+
+			
+				$.ajax({
+					url:'http://localhost:8080/guest/guest_book/'+guest_idx,
+					type:'PUT',
+					success : function (data) {
+						alert(data);
+					}
+				});
+			
+			
 		} // success끝 
 		
 		
@@ -247,21 +264,31 @@ function gbList() {
  $('body').on('click','#heart',function(){
 	$(this).attr("src","//upload.wikimedia.org/wikipedia/commons/thumb/4/42/Love_Heart_SVG.svg/645px-Love_Heart_SVG.svg.png");
 	$(this).attr("id","okheart");
+	hitsup();
 	});
 
  $('body').on('click','#okheart',function(){
 		$(this).attr("src","https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png");
 		$(this).attr("id","heart");
+		hitsup();
 		});	
 
 
-
+ function hitsup(guest_idx) {
+		$.ajax({
+			url:'http://localhost:8080/guest/guest_book/'+guest_idx,
+			type:'PUT',
+			success : function (data) {
+				alert(data);
+			}
+		});
+	}
 
 
 $(document).ready(function () {
 	
 	gbList();
-	hitsup(guest_idx);
+	
 
 });
 </script>
