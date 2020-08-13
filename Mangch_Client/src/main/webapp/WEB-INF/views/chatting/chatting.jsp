@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/kjj.css"/>">
 <style>
 </style>
-<script src="http://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
@@ -51,7 +50,7 @@
 									id="sendBtn">
 									전송 <i class="fa fa-plane"></i>
 								</button>
-								<input type="hidden" id="currChatRoom" value=""> 
+								<input type="text" id="currChatRoom" value=""> 
 								<input type="text" id="currChatUser" value=""> 
 							</div>
 						</div>
@@ -111,17 +110,23 @@
 			success : function(list) {
 				var html = '';
 				for (var i = 0; i < list.length; i++) {
-					html += '<div class="w3-blue w3-margin chatRoom" onclick="getMsgIdx('+ list[i].idx + ')">';
-					html += '	<ul>';
-					html += '		<li>게시글 : ' + list[i].reqTitle + '</li>';
 					if(loginUser==list[i].mbNick1){
+						html += '<div class="w3-blue w3-margin chatRoom" onclick="getMsgIdx('+ list[i].idx +')">';
+						html += '	<ul>';
+						html += '		<li>게시글 : ' + list[i].reqTitle + '</li>';
 						html += '		<li> 상대방 : ' + list[i].mbNick2 + '</li>';
+						html += '		<li>시간</li>';
+						html += '	</ul>';
+						html += '</div>';
 					}else{
+						html += '<div class="w3-blue w3-margin chatRoom" onclick="getMsgIdx('+ list[i].idx +')">';
+						html += '	<ul>';
+						html += '		<li>게시글 : ' + list[i].reqTitle + '</li>';
 						html += '		<li> 상대방 : ' + list[i].mbNick1 + '</li>';
+						html += '		<li>시간</li>';
+						html += '	</ul>';
+						html += '</div>';
 					}
-					html += '		<li>시간</li>';
-					html += '	</ul>';
-					html += '</div>';
 				}
 				cl.html(html);
 				
@@ -132,14 +137,20 @@
 	var currRoom;
 	var listTimer;
 	var currUser;
+	
 	//채팅방 클릭이벤트
 	function getMsgIdx(idx){
-		clearInterval(listTimer);
-		$('#currChatRoom').val(idx);
-		currRoom=$('#currChatRoom').val();
-		//메세지 리스트함수
-		getMsgList();
-		listTimer = setInterval(chkNewMsg, 2000);
+		if(idx != $('#currChatRoom').val()){
+			//console.log('디비다녀올게영');
+			clearInterval(listTimer);
+			$('#currChatRoom').val(idx);
+			currRoom=$('#currChatRoom').val();
+			//$('#currChatUser').val(nick);
+			//currUser=$('#currChatUser').val();
+			//메세지 리스트함수
+			getMsgList();
+			//listTimer = setInterval(chkNewMsg, 4000);
+		}
 	}
 	
 	//메세지 리스트 가져오기
@@ -157,12 +168,11 @@
 				var html2='';
 				if(msgList[0].sender==loginInfo){
 					$('#currChatUser').val(''+msgList[0].receiver);
-					console.log()
 					currUser = $('#currChatUser').val();
 					html2+='<h3>'+msgList[0].receiver+'님과의 대화</h3>';
 				}else{
-					$('#currChatRoom').val(''+msgList[0].sender);
-					currUser = $('#currChatRoom').val();
+					$('#currChatUser').val(''+msgList[0].sender);
+					currUser = $('#currChatUser').val();
 					html2+='<h3>'+msgList[0].sender+'님과의 대화</h3>';
 				}
 				rc.html(html2);
