@@ -1,36 +1,29 @@
 
-function goWrite(frm) {
-	var title = frm.title.value;
-	var writer = frm.writer.value;
-	var content = frm.content.value;
-	
-	if (title.trim() == ''){
-		alert("제목을 입력해주세요");
-		return false;
-	}
-	if (writer.trim() == ''){
-		alert("작성자를 입력해주세요");
-		return false;
-	}
-	if (content.trim() == ''){
-		alert("내용을 입력해주세요");
-		return false;
-	}
-	frm.submit();
-}
 
-function uploadSummernoteImageFile(file, editor) {
-		data = new FormData();
-		data.append("file", file);
+function goWrite() {
+		var regBoard=new FormData();
+		regBoard.append('writer', $('#writer').val());
+		regBoard.append('title', $('#title').val());
+		regBoard.append('content', $('#summernote').val());
+		regBoard.append('doLoc', $('#doLoc').val());
+		
+		if($('#doImg')[0].files[0]!=null) {
+			regBoard.append('doImg', $('#doImg')[0].files[0]);
+		}
+		
+
 		$.ajax({
-			data : data,
+			url : "http://localhost:8080/donate/donateBoard",
+			data : regBoard,
 			type : "POST",
-			url : "/uploadSummernoteImageFile",
 			contentType : false,
 			processData : false,
 			success : function(data) {
-            	
-				$(editor).summernote('insertImage', data.url);
+            	alert('나눔글을 작성하였습니다. 좋은 사람...')
+            	location.href="/";
+			},
+			error : function(){
+				console.log(regBoard);				
 			}
 		});
 	}
