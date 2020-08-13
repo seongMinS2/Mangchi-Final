@@ -20,7 +20,7 @@ function goWrite() {
 			processData : false,
 			success : function(data) {
             	alert('나눔글을 작성하였습니다. 좋은 사람...')
-            	location.href="/";
+            	history.go(-1);
 			},
 			error : function(){
 				console.log(regBoard);				
