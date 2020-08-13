@@ -27,7 +27,7 @@
 <form id="postForm" onsubmit="return false;">
 		writer :<input type="text" name="guest_writer" id="guest_writer" value=" ${loginInfo.mNick}"><br>
 		text :<input type="text" name="guest_text" id="guest_text"><br>
-		photo :<input type="file" name="guest_photo" id="guest_photo" ><br>
+		<!-- photo :<input type="file" name="guest_photo" id="guest_photo" ><br> -->
 		addr :<input type="text" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"><br>
 		x :<input type="text" name="x" id="x" value="${loginInfo.mLttd}"><br>
 		y :<input type="text" name="y" id="y" value="${loginInfo.mLgtd}"><br>
@@ -56,23 +56,51 @@
 
 
 
+ 
+<form id="postForm" onsubmit="return false;">
+		writer :<input type="text" name="guest_writer" id="guest_writer" value="${loginInfo.mNick}"><br>
+		text :<input type="text" name="guest_text" id="guest_text"><br>
+		<!-- photo :<input type="file" name="guest_photo" id="guest_photo" ><br> -->
+		addr :<input type="text" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"><br>
+		x :<input type="text" name="x" id="x" value="${loginInfo.mLttd}"><br>
+		y :<input type="text" name="y" id="y" value="${loginInfo.mLgtd}"><br>
+		r :<input type="text" name="r" id="r" value="${loginInfo.mRadius}"><br>
+		
+		<input type="hidden" name="mImg" id="mImg" value="${loginInfo.mImg}"><br>
+		
+		<input type="submit" value="글쓰기" onclick="guestPost();"><br>
+		
+</form>
 
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 
 <script type="text/javascript">
 
+var mImg=$('#mImg').val();
+
+
+var zz =$('#guest_writer').val();
+var bb=zz.trim();
+
+var x=$('#x').val();
+var y=$('#y').val();
+
 
 function guestPost() {
 	
-	var PostForm=$('#postForm')[0];
-	var formData= new FormData(PostForm);
+	var zz =$('#guest_writer').val();
+	var bb=zz.trim();
+	var postFormData = new FormData();
+	postFormData.append('guest_writer',bb);
+	postFormData.append('guest_text',$('#guest_text').val());
+	postFormData.append('guest_addr',$('#guest_addr').val());
 	
 	$.ajax({
 		url : 'http://localhost:8080/guest/guest_book',
 		type : 'post',
 		processData : false, // File 전송시 필수 
 		contentType : false, // multipart/form-data 쓰는 코드
-		data : formData,
+		data : postFormData,
 		success : function (data) {
 			alert(data);
 		}
@@ -166,7 +194,10 @@ function goPopup(guest_idx) {
 
 
 
-
+	
+	
+	
+	
 	
 	
 
@@ -179,6 +210,7 @@ function gbList() {
 		success : function (data) {
 			
 			var html='';
+			
 			for(var i=0; i<data.length; i++){
 				if(data[i].guest_photo !=null){
 				html+='<article class="have_photo">';
@@ -227,7 +259,8 @@ function gbList() {
 					html+='<article class="none_photo">';
 				    html+='<header>';
 				    html+='<input type="hidden" name="guest_idx">';
-				    html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
+				    /* html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>'; */
+				    html+='<div class="hd_img">'+data[i].member_img+'</div>'; 
 				    html+='<div class="hd_nick">'+data[i].guest_writer+'</div>';
 				    html+='</header>';
 				   
@@ -263,7 +296,9 @@ function gbList() {
 				    html+='<input type="text" class="cmtwr" id="cmtwr" placeholder="    댓글 달기">';
 				    html+='<input type="submit" class="cmtsb" value="등록">';
 				    html+='</div>';
-				    html+='</div>'; 
+				    html+='</div>';
+				    html+='<input type="hidden" value="'+data[i].x+'"><br>'
+				    html+='<input type="hidden" value="'+data[i].y+'"><br>'
 				    html+='</article>';
 				}
 			
@@ -271,10 +306,49 @@ function gbList() {
 			
 			} // for문 끝 
 			
-			$('#guestbookList').html(html);
+			
+			
+			
+			
+			var arrX = new Array();
+			var arrY = new Array();
 		
+			var realArr = new Array();
+			
+			for(var i=0; i<data.length; i++){
+				arrX[i]=data[i].x;
+				arrY[i]=data[i].y;
+				
+				/*  console.log(
+						 getDistanceFromLatLonInKm(
+						 arrX[i],arrY[i],x,y).toFixed(1)); */
+				 
+				realArr[i]= getDistanceFromLatLonInKm(
+						 arrX[i],arrY[i],x,y).toFixed(1);
+						 
+				console.log(realArr[i]);
+				if(realArr[i]>10.0){
+					$('#guestbookList').html(html);	
+				}
+				
+			}
 			
 
+			
+			/* console.log(arrX);
+			console.log(arrY);
+			console.log(x) */
+			
+			/*  console.log(
+					 getDistanceFromLatLonInKm(
+					 arrX[0],arrY[0],x,y).toFixed(1));
+			 console.log(
+					 getDistanceFromLatLonInKm(
+					 arrX[1],arrY[1],x,y).toFixed(1));
+			 console.log(
+					 getDistanceFromLatLonInKm(
+					 arrX[2],arrY[2],x,y).toFixed(1)); */
+			
 			
 			
 			$('.likebtn').click(function () {
@@ -305,6 +379,8 @@ function gbList() {
 				b.children('.dlikes').text(c);
 				$(this).hide();
 				$(this).prev().show();
+			
+				
 				
 			
 		});
@@ -319,8 +395,30 @@ function gbList() {
 	
 }
 
-			
-			
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+	  var R = 6371; // Radius of the earth in km
+	  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+	  var dLon = deg2rad(lon2-lon1); 
+	  var a = 
+	    Math.sin(dLat/2) * Math.sin(dLat/2) +
+	    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+	    Math.sin(dLon/2) * Math.sin(dLon/2)
+	    ; 
+	  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	  var d = R * c; // Distance in km
+	  return d;
+	}
+
+	function deg2rad(deg) {
+	  return deg * (Math.PI/180)
+	}
+
+
+	function deg2rad(deg) {
+	  return deg * (Math.PI/180)
+	}
+		
+	
 			
 ///////////////////// 좋아요 증감 함수
   function likeup(guest_idx) {
@@ -355,7 +453,6 @@ function gbList() {
 $(document).ready(function () {
 	
 	gbList();
-	likeup();
 
 });
 </script>
