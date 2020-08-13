@@ -17,6 +17,9 @@
 <script src="<c:url value='/resources/js/qnaSummernote.js'/>"></script>
 <!-- 성민 자바스크립트 -->
 <script src="<c:url value='/resources/js/min.js'/>"></script>
+<!-- 보겸 자바스크립트 -->
+<script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
+<script type="text/javascript" src='<c:url value="/resources/js/jquery.bpopup.min.js"/>'></script>
 <style>
   body,
   h1,
