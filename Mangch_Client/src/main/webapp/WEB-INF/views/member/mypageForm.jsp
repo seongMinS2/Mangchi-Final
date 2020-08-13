@@ -8,15 +8,20 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <style>
-div.card{
+div.card {
 	width: 33%;
 	float: left;
-	border: 1px solid #DDD;		
+	border: 1px solid #DDD;
 }
 
-div.card>ul>li{
+div.card>ul>li {
 	list-style: none;
 	font-size: 12px;
+}
+div.container {
+	min-height:100%;
+   position:relative;
+   padding-bottom:100px;
 }
 </style>
 </head>
@@ -26,14 +31,16 @@ div.card>ul>li{
 	<br>
 	<h1>마이페이지</h1>
 
-	<h1>session : ${loginInfo}					${loginInfo.mIdx}</h1>
-	<input type="hidden" id="mIdx" name="mIdx" value="${loginInfo.mIdx}" placeholder="${loginInfo.mIdx}"> 
-	<br>
-	
-	<div id="memberList"></div>
+	<div class="container">
+		<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
+		<input type="hidden" id="mIdx" name="mIdx" value="${loginInfo.mIdx}"
+			placeholder="${loginInfo.mIdx}"> <br>
+
+		<div id="memberList"></div>
+	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-	
+
 	<script>
 		
 	$(document).ready(function(){
@@ -43,13 +50,10 @@ div.card>ul>li{
 	
 	function memberList(){
 		$.ajax({
-			crossOrigin : true,
-			url: 'http://localhost:8090/mc/member',
+			url: 'http://localhost:8090/mc/member/'+${loginInfo.mIdx},
 			type: 'get',
-			data : {mIdx: $('#mIdx').val()},
 			success: function(data){
-				alert('hi');
-				console.log(${loginInfo.mIdx});
+				alert(data);
 				var html = '';
 				
 				for(var i =0; i<data.length; i++){
@@ -64,7 +68,7 @@ div.card>ul>li{
 					html += '		<li>mAddr : '+data[i].mAddr+'</li>';
 					html += '		<li>mLttd : '+data[i].mLttd+'</li>';
 					html += '		<li>mLgtd : '+data[i].mLgtd+'</li>';
-					html += '		<li>mImg : <img src="http://localhost:8090/mc/img/'+data[i].mImg+'" width=50 height=50></li>';
+					html += '		<li>mImg : <img src="http://localhost:8090/mc'+data[i].mImg+'" width=50 height=50></li>';
 					html += '		<li>mChk : '+data[i].mChk+'</li>';
 					html += '		<li>mRadius : '+data[i].mRadius+'</li>';
 					html += '		<li><input type="button" value="수정" onclick="editForm('+data[i].mIdx+')"> ';
@@ -79,6 +83,6 @@ div.card>ul>li{
 		
 		
 	</script>
-	
+
 </body>
 </html>
