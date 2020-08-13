@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:if test="${empty loginInfo}">
-	<script>
-		alert('나눔 글쓰기는 로그인 한 사용자만 가능합니다.');
-		location.href="<c:url value='/member/loginForm'/>";
-	</script>
-</c:if>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,11 +15,25 @@
 <script type="text/javascript"
 	src='<c:url value="/resources/js/hong.js"/>'></script>
 
+<!-- summernote -->
+<script
+	src="<c:url value='/resources/js/summernote/summernote-lite.js'/>"></script>
+<script
+	src="<c:url value='/resources/js/summernote/lang/summernote-ko-KR.js'/>"></script>
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/summernote/summernote-lite.css'/>">
+</head>
+
 </head>
 
 
 <body>
-
+<c:if test="${empty loginInfo}">
+	<script>
+		alert('나눔 글쓰기는 로그인 한 사용자만 가능합니다.');
+		location.href="<c:url value='/member/loginForm'/>";
+	</script>
+</c:if>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
 <script>
 	$(document).ready(function() {
