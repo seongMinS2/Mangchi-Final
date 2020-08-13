@@ -9,7 +9,8 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-
+	<br>
+	<br>
 	<h1>로그인</h1>
 	<hr>
 	<form onsubmit="return false;">
