@@ -13,16 +13,20 @@
 <style>
 #info {
 	/* border: 3px solid #DDD; */
+	
 }
-
-
 
 li {
 	float: left;
 	list-style: none;
 }
-#reqest, #writer{
-	
+
+td {
+	padding: 5px;
+}
+
+#detailReq {
+	padding: 5%;
 }
 </style>
 
@@ -40,18 +44,32 @@ li {
 			<!-- 1 -->
 			<div class="w3-cell-row" id="info">
 
-				
-						<!-- 요청 게시글 상세 정보 -->
-						<div  class="w3-cell">
-							<h1 id="info_h1"></h1>
-							<div  id="reqInfo"></div>
-						</div>
-			
-						<!-- 요청자 정보 -->
-						<div  class="w3-cell">
-							<h1 id="writer_h1"></h1>
-							<div id="wirterInfo"></div>
-						</div>
+
+				<!-- 요청 게시글 상세 정보 -->
+				<div class="w3-cell" id="reqInfo">
+					<h1 id="info_h1"></h1>
+					<div id="reqInfo"></div>
+				</div>
+
+				<!-- 요청자 정보 -->
+				<div class="w3-cell" id="mInfo">
+					<h1 id="writer_h1"></h1>
+					<div id="wirterInfo">
+
+						<table>
+							<tr>
+								<td>회원 닉네임</td>
+								<td>${loginInfo.mNick}</td>
+							</tr>
+							<tr>
+								<td>회원 평점</td>
+								<td>${loginInfo.mScore}</td>
+							</tr>
+						</table>
+
+
+					</div>
+				</div>
 			</div>
 
 			<!-- 지도 -->
@@ -73,13 +91,38 @@ li {
 	</div>
 
 
+
+
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
-<script>
+	<script>
+
+function chat(reqIdx,uNick){
+
+	location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
+
+	//로그인 안했을 때 
+	if('${loginInfo}'!=null){
+		location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
+	}else{
+		alert('로그인 후 이용해주세요.');
+	 location.href="/mangh/member/loginForm"; 
+		
+	}
+}
+
+function reqEdit(reqIdx){
+	
+	location.href="/mangh/request/edit?reqIdx="+reqIdx;
+	
+}
+function reqDelte(){
+	alert('1');
+	
+}
 
 $(document).ready(function(){
-	
-	
+
 	$.ajax({
 		
 		url : 'http://localhost:8080/rl/request/'+${idx},
@@ -114,24 +157,32 @@ $(document).ready(function(){
 			html+=	'	<td>'+data.reqCount+'</td>';
 			html += '</tr>';
 			
+			var status = '';
+			var color = '';
+			if(data.reqStatus == 0){
+				status = '대기중';
+				color = 'red';
+			}else if(data.reqStatus == 1){
+				satus = '요청 완료';
+				color = 'gray';
+			}
 			html += '<tr>';
 			html +='	<td>매칭 상태</td>';
-			html +='	<td>';
-			html +='		'+data.reqStatus+'';
-			html +='	<button>매칭하기</button>';
+			html +='	<td style="color: '+color+'">';
+			html +='		'+status+'';
+			html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')">매칭하기</button>';
 			html += '	</td>';
+			
+			//수정, 삭제
+			
+			html += '<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
+			html += '<td><button  onclick="reqDelte()">삭제</button></td>';
+			
 			html += '</tr>';
 			
 			html +=	'</table>';	
 			
 			$('#reqInfo').append(html);
-			
-			
-			//회원 정보 출력
-			var member = '';
-			
-			$('#wirterInfo').append(member);	
-			
 			
 			//요청 게시글 내용 
 			var content = ''+data.reqContents;
@@ -139,11 +190,10 @@ $(document).ready(function(){
 			
 			
 		}
+	
 		
 	}); 
-	
-	
-	
+	 
 });
 	
 </script>
