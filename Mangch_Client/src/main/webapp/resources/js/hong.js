@@ -1,3 +1,10 @@
+function reply(parentIdx){
+
+
+}
+
+
+
 function commReg(donateIdx) {
 
 
@@ -11,9 +18,12 @@ function commList() {
 		success : function(data) {
 			for(var i=0; i<data.length; i++) {
 				var list='';
-				
-			
-			
+				list+='<div class="comm">';
+				list+='	<h5>작성자 : '+data[i].commWriter+'</h5>';
+				list+='	<p>'+data[i].commText+'</p>'
+				list+='	<p style="font-size:0.8em;">'+data[i].commRegdate+'</p>'
+				list=+'	<button type="button" onclick="reply('+data[i].commIdx+')">답글쓰기</button>'
+				list+='</div>';
 			}
 		$('#commList').html(list);
 		} 
@@ -123,16 +133,18 @@ function viewBoard(idx){
 			
 			view+='        <p>작성자 ' + data.writer+'</p>';
 			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
+			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
 			view+='        <p><img src="'+data.doImg+'" style="width:200px;"></p>';
 			view+='        <p>'+data.content+'</p>';
+			view+='			<hr>';
 			view+='      </div>';
 			view+='      <footer class="w3-container">';
 			view+='        <p>comments</p>';
 			view+='        <form id="commentForm" onsubmit="return false">';
 			view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">'
-			view+='				<input type="text" value="'+loginUser+'" id="commWriter" name="commWriter" readonly> <br>'
+			view+='				<input type="hidden" value="'+loginUser+'" id="commWriter" name="commWriter" readonly> <br>'
 			view+='				<input type="textarea" id="commForm" name="commContent" style="width: 80%; height: 100px; margin:10px;">'
 			view+='				<input type="submit" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">'
 			view+='        </form>';	
@@ -140,7 +152,9 @@ function viewBoard(idx){
 			view+='			</div>'		
 			view+='      </footer>';
 			view+='    </div>';
+			commList();		
 			$('#id01').html(view);
+
 		}
 	
 	});

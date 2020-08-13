@@ -7,8 +7,7 @@
 <meta charset="UTF-8">
 <title>동네생활</title>
 <link rel="stylesheet" href="<c:url value="/resources/css/kbg.css"/>">
-<script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
-<script type="text/javascript" src='<c:url value="/resources/js/jquery.bpopup.min.js"/>'></script>
+
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <%-- <script type="text/javascript" src='<c:url value="/resources/js/kbg.js"/>'></script> --%>
 
@@ -97,8 +96,8 @@ function goPopup(guest_idx) {
 			html+='</section>'
 			html+='</div>'
 			html+='<section class="in_bottom">'
-			html+='<button class="footers" onclick="likeup('+data.guest_idx+')"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
-		    html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
+			html+='<button class="footers" id="likebtn" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+		    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 			html+='<div class="flex dh">'
 			html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
@@ -173,8 +172,8 @@ function gbList() {
 			    html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
-			    html+='<button class="footers" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
-			    html+='<button class="btmsg" onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
+			    html+='<button class="footers" id="likebtn" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+			    html+='<button class="btmsg" onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
 			    html+='</section>'; 
 			    html+='<div class="content">';
@@ -217,14 +216,15 @@ function gbList() {
 				    html+='<section>';
 				    
 				    //아래라이크사진
-				    html+='<button class="footers" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
+				   
+				    html+='<button class="footers likebtn" id="" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 				    
-			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
+			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			    	
-				    html+='<div class="likes" id=likes>좋아요<span id=dlikes>'+data[i].guest_like+'</span>개</div>';
-			    	
+				    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
+				    html+='</div>'
 				    html+='</section>'; 
-				 
+				    
 				    html+='<div class="comment">';
 				    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
 				    html+='<section>';
@@ -248,10 +248,16 @@ function gbList() {
 			
 			$('#guestbookList').html(html);
 			
-			$('#heart').click(function () {
-				var a=$('#dlikes').text();
-				a=Number(a)+1;
-				$('#dlikes').text(a);	
+			$('.likebtn').click(function () {
+				
+					var a=$(this).next();
+					var b = a.next();
+					var c = b.children('.dlikes').text();
+					
+					console.log(c);
+					c=Number(c)+1;
+					b.children('.dlikes').text(c);
+				
 			});
 			
 			
@@ -298,10 +304,27 @@ function gbList() {
 			type:'PUT',
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
-				alert(data);
+				
 			}
 		});
 	}
+			
+			
+			
+			
+	function likedown(guest_idx) {
+		$.ajax({
+			url:'http://localhost:8080/guest/guest_book/'+guest_idx,
+			type:'PUT',
+			contentType: 'application/json; charset=utf-8',
+			success : function (data) {
+				
+			}
+		});
+	}
+	}
+			
+			
 
 
 $(document).ready(function () {

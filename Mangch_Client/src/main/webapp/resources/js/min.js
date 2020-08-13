@@ -21,7 +21,7 @@ function memberList() {
 					html += '			<td class="w3-center w3-padding-16">'+data[i].idx+'</td>';
 					html += '			<td class="w3-padding-16"><a href="contents/'+data[i].idx+'">'+data[i].title+'</a></td>';
 					html += '			<td class="w3-center w3-padding-16">'+data[i].memNick+'</td>';
-					html += '			<td class="w3-center w3-padding-16">'+data[i].regdate+'</td>';
+					html += '			<td class="w3-center w3-padding-16">'+moment(data[i].regdate).format('YY년MM월DD일')+'</td>';
 					html += '			<td class="w3-center w3-padding-16">'+data[i].count+'</td>';
 					html += '		</tr>';
 				}
