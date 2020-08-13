@@ -9,12 +9,20 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/min.css'/>">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/gh/xpressengine/xeicon@2.3.1/xeicon.min.css">
+<style>
+.btn {cursor:pointer;}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-
+<script type="text/javascript">
+$(function(){
+	var idx = ${idx};
+	contentsList(idx);
+});
+</script>
 	<div class="contentBox">
-		<div class="header">
+		<!-- <div class="header">
 			<h1>제목 들어갈 자리</h1>
 		</div>
 
@@ -26,7 +34,7 @@
 				<h3 class="comment_title">
 					<b>댓글</b>
 				</h3>
-				<!-- 루프 돌릴 태그 -->
+				생성할 태그
 				<div class="comment_area">
 					<div class="comment_Box">
 						<div class="comment_nickBox">유저 닉네임 들어갈 자리</div>
@@ -47,17 +55,17 @@
 							<p>댓글 쓸 내용 들어갈 자리</p>
 						</div>
 						<div class="comment_submit">
-							<button onclick="location.href='#'">등록</button>
+							<button onclick="location.href=''">등록</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="articleBottomBtns">
-			<button onclick="location.href='#'">글쓰기</button>
-			<button onclick="location.href='#'">답글</button>
-			<button onclick="location.href='#'">TOP</button>
-		</div>
+			<button onclick="location.href=''">글쓰기</button>
+			<button onclick="location.href=''">답글</button>
+			<button onclick="location.href=''">TOP</button>
+		</div> -->
 	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
