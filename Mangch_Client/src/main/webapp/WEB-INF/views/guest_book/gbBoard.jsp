@@ -13,28 +13,6 @@
 <%-- <script type="text/javascript" src='<c:url value="/resources/js/kbg.js"/>'></script> --%>
 
 	
-	
-	<style type="text/css">
-	.Pstyle {
-   opacity : 0;
-   display : none;
-   position : relative;
-   width : auto;
-   border : 5px solid #fff;
-   padding : 20px;
-   background-color : #fff;
-}
-.b-close {
-   position : absolute;
-   right : 5px;
-   top : 5px;
-   padding : 0px; /* padding : 5px; */
-   display : inline-block;
-   cursor : pointer;
-}
-
-
-	</style>
 
 </head>
 
@@ -79,6 +57,21 @@
 
 
 
+function hitsup(guest_idx) {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/'+guest_idx,
+		type:'PUT',
+		success : function (data) {
+			alert(data);
+		}
+	});
+}
+
+
+
+
+
+
 function goPopup(guest_idx) {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
@@ -114,7 +107,7 @@ function goPopup(guest_idx) {
 			html+='<section class="in_bottom">'
 			html+='<button class="footers"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
 		    html+='<button><img src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
-			html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
+			html+='<div class="likes" onclick="hitsup('+data[i].guest_idx+')">좋아요 '+data.guest_like+'개</div>'
 			html+='<div class="flex dh">'
 			html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
 			if(data.guest_photo ==null){
@@ -175,7 +168,7 @@ function gbList() {
 			    html+='<section>';
 			    html+='<button class="footers"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
 			    html+='<button class="btmsg" onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
-			    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
+			    html+='<div class="likes" onclick="hitsup('+data[i].guest_idx+')">좋아요 '+data[i].guest_like+' 개</div>';
 			    html+='</section>'; 
 			    html+='<div class="content">';
 			    html+='<div class="realtext">'+data[i].guest_text+'<br>';
@@ -217,7 +210,7 @@ function gbList() {
 				    html+='<section>';
 				    html+='<button class="footers"><img id="heart" src="https://p.kindpng.com/picc/s/169-1694281_heart-symbol-computer-icons-heart-icon-instagram-png.png"></button>';
 			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="https://www.pngitem.com/pimgs/m/21-212930_transparent-square-speech-bubble-png-transparent-instagram-comment.png"></button>';
-				    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
+				    html+='<div class="likes" onclick="hitsup('+data[i].guest_idx+')">좋아요 '+data[i].guest_like+' 개</div>';
 				    html+='</section>'; 
 				    
 				 
@@ -268,7 +261,7 @@ function gbList() {
 $(document).ready(function () {
 	
 	gbList();
-	
+	hitsup(guest_idx);
 
 });
 </script>
