@@ -1,4 +1,5 @@
-$(document).ready(function() {
+
+function summer(){
 	//여기 아래 부분
 	$('#summernote').summernote({
 		  height: 300,                 // 에디터 높이
@@ -9,4 +10,4 @@ $(document).ready(function() {
 		  placeholder: '최대 2048자까지 쓸 수 있습니다'	//placeholder 설정
           
 	});
-});
+};
