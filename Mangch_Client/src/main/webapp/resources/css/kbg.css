@@ -1,5 +1,24 @@
 @charset "UTF-8";
 
+	.Pstyle {
+   opacity : 0;
+   display : none;
+   position : relative;
+   width : auto;
+   border : 5px solid #fff;
+   padding : 20px;
+   background-color : #fff;
+}
+.b-close {
+   position : absolute;
+   right : 5px;
+   top : 5px;
+   padding : 0px; /* padding : 5px; */
+   display : inline-block;
+   cursor : pointer;
+}
+
+
 
     .have_photo{
             
