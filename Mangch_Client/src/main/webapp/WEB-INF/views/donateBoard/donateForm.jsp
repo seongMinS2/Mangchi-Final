@@ -24,8 +24,8 @@
 			<input type="hidden" value="${loginInfo.mLttd}">
 			<input type="hidden" value="${loginInfo.mLgtd}">
 			<input type="text" id="writer" name="writer" style="width: 20%;" value="${loginInfo.mNick}" readonly /><br> 
-				<input type="text" id="title" name="title" style="width: 40%;" placeholder="제목" /> <br> <br>
-			<textarea id="summernote" name="content"></textarea>
+			<input type="text" id="title" name="title" style="width: 40%;" placeholder="제목" required/> <br> <br>
+			<textarea id="summernote" name="content" required></textarea>
 			<input type="file" name="doImg" id="doImg" style="display:block;">
 			<input type="reset" style="float: right;" />
 			<input type="submit" value="글 작성" style="float: right;"

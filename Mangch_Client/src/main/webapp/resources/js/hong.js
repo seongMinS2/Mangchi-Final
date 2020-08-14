@@ -2,8 +2,26 @@
 
 
 
-function reply(parentIdx) {
+function reply() {
 
+	$.ajax({
+		url : 'http://localhost:8080/donate/comments/reply',
+		type : 'post',
+		data : {
+			donateIdx : $(this).prev('.commReplyDonIdx').val(),
+			commParent : $(this).prev('.commReplyParIdx').val(),
+			commDepth : $(this).prev('.commReplyDepth').val(),
+			commWriter : $(this).prev('.commReplyWriter').val(),
+			commText : $(this).prev('.commReplyText').val(),
+		},
+		success : function(data){
+			alert('대댓글을 작성였습니다.');
+			commList($('#commDonIdx').val());
+			document.getElementByClass('replayForm').reset();	
+			$('div.replyForm').css('display', 'none');	
+		}
+	
+	});
 
 }
 
@@ -20,6 +38,7 @@ function commReg() {
 			commText : $('#commText').val(),
 		},
 		success : function(data){
+			alert('댓글을 작성였습니다.');
 			commList($('#commDonIdx').val());
 			document.getElementById('commentForm').reset();		
 		}
@@ -38,22 +57,33 @@ function commList(donateIdx) {
 		success : function(data) {
 			var list='';
 			for(var i=0; i<data.length; i++)  {
-				list+='<div class="comm">';
+			if(data[i].commDepth==0) {
+				list+='<div class="commOrigin">';
 				list+='	<p>작성자 : '+data[i].commWriter+'</p>';
 				list+='	<p>'+data[i].commText+'</p>'
 				list+='	<p style="font-size:0.8em; display:inline;">'+data[i].commRegdate+'</p>'
 				if(loginUser!=null) {
 					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
 				}
+			} else if (data[i].commDepth>0) {
+				list+='<h5>RE : </h5>';
+				list+='<div class="commRe">';
+				list+='	<p>작성자 : '+data[i].commWriter+'</p>';
+				list+='	<p>'+data[i].commText+'</p>'
+				list+='	<p style="font-size:0.8em; display:inline;">'+data[i].commRegdate+'</p>'
+				if(loginUser!=null) {
+					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
+				}									
+			}
 				list+='	<div class="replyForm" style="display:none;">'
-				list+='	<form>'
+				list+='	<form class="replayForm">'
 				list+='		<input type="hidden" name="donateIdx" value="'+data[i].donateIdx+'" class="commReplyDonIdx">'
 				list+='		<input type="hidden" name="commParent" value="'+data[i].commIdx+'" class="commReplyParIdx">'
+				list+='		<input type="hidden" name="commDepth" value="'+data[i].commDepth+'" class="commReplyDepth">'
 				list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter">'
-				list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText">'
-				list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply('+data[i].commIdx+')">'
+				list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText" placeholder="댓글을 입력해주세요." required>'
+				list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply()">'
 				list+='	</form>'
-				list+='	<div class="replyList"></div>'
 				list+='	</div>'
 				list+='</div>';
 				list+='<hr>'
@@ -162,7 +192,7 @@ function viewBoard(idx){
 				view+='        <form id="commentForm" onsubmit="return false">';
 				view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">'
 				view+='				<input type="hidden" value="'+loginUser+'" id="commWriter" name="commWriter" readonly>'
-				view+='				<input type="textarea" id="commText" name="commText" placeholder="댓글을 입력해주세요" style="width: 80%; height: 70px; margin:10px;">'
+				view+='				<input type="textarea" id="commText" name="commText" placeholder="댓글을 입력해주세요" style="width: 80%; height: 70px; margin:10px;" required>'
 				view+='				<input type="submit" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">'
 				view+='        </form>';	
 			} else {
