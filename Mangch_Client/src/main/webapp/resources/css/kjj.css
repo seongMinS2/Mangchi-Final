@@ -8,7 +8,7 @@
 .chatArea {
 	height: 700px;
 }
-.chatRooms{
+.chatRoomList{
 	height: 88%;
 	background-color: #EEE;
 }
@@ -20,7 +20,7 @@
 	height: 80%;
 	overflow-y: scroll;
 }
-.chatRooms{
+.chatRoomList{
 	overflow-y:scroll;
 	
 }
@@ -45,17 +45,17 @@
 	border-radius: 5px;
 }
 
-.chatRooms::-webkit-scrollbar {
+.chatRoomList::-webkit-scrollbar {
 	width: 8px;
 }
 
-.chatRooms::-webkit-scrollbar-thumb {
+.chatRoomList::-webkit-scrollbar-thumb {
 	background-color: #BDBDBD;
 	border-radius: 5px;
 	background-clip: padding-box;
 	border: 1px solid transparent;
 }
-.chatRooms::-webkit-scrollbar-track {
+.chatRoomList::-webkit-scrollbar-track {
 	background-color: #EEE;
 	border-radius: 5px;
 }
