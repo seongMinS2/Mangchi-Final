@@ -59,7 +59,7 @@ td {
 						<table>
 							<tr>
 								<td>회원 닉네임</td>
-								<td>${loginInfo.mNick}</td>
+								<td id="mNick"></td>
 							</tr>
 							<tr>
 								<td>회원 평점</td>
@@ -99,11 +99,17 @@ td {
 
 function chat(reqIdx,uNick){
 
-	location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
-
 	//로그인 안했을 때 
-	if('${loginInfo}'!=null){
-		location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
+	if('${loginInfo}' != ''){
+		
+		//채팅하기로 링크 이동 ------------------------		
+		//location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
+	
+		 var timer = setInterval(function(){
+        console.log("Hello!!");
+   		 }, 1000);
+		
+	
 	}else{
 		alert('로그인 후 이용해주세요.');
 	 location.href="/mangh/member/loginForm"; 
@@ -116,8 +122,39 @@ function reqEdit(reqIdx){
 	location.href="/mangh/request/edit?reqIdx="+reqIdx;
 	
 }
-function reqDelte(){
-	alert('1');
+function reqDelete(reqIdx){
+	
+	//로그인 안했을 때 
+	if('${loginInfo}' != ''){
+		
+		if(confirm("정말로 삭제하시겠습니까?") == true){
+			
+			 $.ajax({
+				url : 'http://localhost:8080/rl/request/'+reqIdx,
+				type : 'DELETE',
+				success : function(data) {
+					var message = '';
+					if(data > 0 ){
+						message = "게시글이 정상적으로 삭제되었습니다.";
+					}else {
+						message = "게시물을 삭제 할 수 없습니다.";
+					}
+					alert(message);
+					location.href="/mangh/request/requestList";
+				}
+			 
+				
+			});
+			
+		}	
+	}else{
+		alert('로그인 후 이용해주세요.');
+	 location.href="/mangh/member/loginForm"; 
+		
+	}
+	
+	
+
 	
 }
 
@@ -134,6 +171,7 @@ $(document).ready(function(){
 			$('#info_h1').text('요청 내용 ');
 			$('#writer_h1').text('요청자 정보');
 			$('#content_h1').text('상세내용');
+			$('#mNick').text(data.reqWriter);
 			
 		//요청 게시글 상세 정보
 		var html =	'<table>';
@@ -172,17 +210,20 @@ $(document).ready(function(){
 			html +='		'+status+'';
 			html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')">매칭하기</button>';
 			html += '	</td>';
-			
 			//수정, 삭제
-			
 			html += '<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
-			html += '<td><button  onclick="reqDelte()">삭제</button></td>';
+			html += '<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
+			html += '</tr>';
 			
+			html += '<tr style="display: none;">';
+			html +='<td>이미지 경로</td>';
+			html +=	'	<td id="imgPath">'+data.reqImg+'</td>';
 			html += '</tr>';
 			
 			html +=	'</table>';	
 			
 			$('#reqInfo').append(html);
+			
 			
 			//요청 게시글 내용 
 			var content = ''+data.reqContents;

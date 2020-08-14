@@ -78,7 +78,7 @@
 					$('#reqAddr').val( data.reqAddr);
 					$('#reqContents').val( data.reqContents);
 					
-					var img_html='<input type="text" id="oldImg" name="oldImg" value="'+data.reqImg+'"><br>';
+					var img_html='<input type="text" id="oldImg" name="oldImg" value="'+data.reqImg+'" style="display: none;"><br>';
 					$('#img').append(img_html);
 					
 					var html = '<td>';
@@ -98,12 +98,6 @@
 				if ($('#reqImg')[0].files[0] != null) {
 					editRequest.append('reqImg', $('#reqImg')[0].files[0]);
 				}
-				
-				var lat = '${loginInfo.mLttd}';
-				var lon = '${loginInfo.mLgtd}';
-
-				editRequest.append('reqLatitude', lat);
-				editRequest.append('reqLongitude', lon);
 				
 				editRequest.append('oldImg',$('#oldImg').val());
 				
