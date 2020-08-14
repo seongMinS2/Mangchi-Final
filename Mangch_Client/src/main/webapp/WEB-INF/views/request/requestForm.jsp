@@ -18,7 +18,7 @@
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
 	<div class="w3-container">
-	
+
 		<c:choose>
 			<c:when test="${! empty loginInfo }">
 				<div>
@@ -31,14 +31,14 @@
 						<table class="w3-table w3-border">
 							<tr>
 								<td><label>요청 글 제목 </label></td>
-								<td><input type="text" name="reqTitle" id="reqTitle" required></td>
+								<td><input type="text" name="reqTitle" id="reqTitle"
+									required></td>
 							</tr>
 
 							<tr>
 								<td><label> 요청 희망 지역 </label></td>
-								<td>
-								<input type="text" name="reqAddr" id="reqAddr" value="${loginInfo.mAddr}" readonly>
-								</td>
+								<td><input type="text" name="reqAddr" id="reqAddr"
+									value="${loginInfo.mAddr}" readonly></td>
 							</tr>
 							<tr>
 								<td><label>상세내용</label></td>
@@ -51,7 +51,8 @@
 							</tr>
 							<tr id="edit">
 								<td></td>
-								<td id="submit"><input type="submit" value="게시물 등록" onclick="regSubmit();" id="submit"></td>
+								<td id="submit"><input type="submit" value="게시물 등록"
+									onclick="regSubmit()" id="submit"></td>
 							</tr>
 						</table>
 
@@ -65,9 +66,9 @@
 				</script>
 			</c:when>
 		</c:choose>
-			
+
 		<c:if test="${reqIdx gt 0}">
-			
+
 			<script>
 			$.ajax({
 				url : 'http://localhost:8080/rl/request/'+${reqIdx},
@@ -121,11 +122,11 @@
 			
 			
 			</script>
-			
-			
-			
-		</c:if>			
-			
+
+
+
+		</c:if>
+
 
 	</div>
 
@@ -136,6 +137,7 @@
 	
 		function regSubmit() {
 			var regRequest = new FormData();
+			regRequest.append('reqWriter','${loginInfo.mNick}');
 			regRequest.append('reqTitle', $('#reqTitle').val());
 			regRequest.append('reqAddr', $('#reqAddr').val());
 			regRequest.append('reqContents', $('#reqContents').val());
@@ -168,6 +170,6 @@
 		}
 	</script>
 
-	
+
 </body>
 </html>
