@@ -93,7 +93,7 @@
     <a href="<c:url value="/member/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a>
     <a href="<c:url value="/request/requestList"/>" onclick="w3_close()" class="w3-bar-item w3-button">요청게시판</a>
     <a href="<c:url value="/donate/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">나눔게시판</a>
-    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">동네생활</a>
+    <a href="<c:url value="/guest_book/gbBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">동네생활</a>
     <a href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button">Q&A</a>
     <a href="<c:url value="/chat"/>" onclick="w3_close()" class="w3-bar-item w3-button">채팅</a>
     <input type="text"><input type="submit" value="검색">
