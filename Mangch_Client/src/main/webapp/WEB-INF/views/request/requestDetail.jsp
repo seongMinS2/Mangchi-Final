@@ -10,6 +10,14 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
 
+<!-- <script>
+var paramStatus;
+if(${status} == 0){
+	paramStatus = ${status};		
+}
+
+</script>	 -->
+
 <style>
 #info {
 	/* border: 3px solid #DDD; */
@@ -97,31 +105,59 @@ td {
 
 	<script>
 
+//채팅하기 	
 function chat(reqIdx,uNick){
 
 	//로그인 안했을 때 
 	if('${loginInfo}' != ''){
-		
 		//채팅하기로 링크 이동 ------------------------		
-		//location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
-	
-		 var timer = setInterval(function(){
-        console.log("Hello!!");
-   		 }, 1000);
-		
-	
+		location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
 	}else{
 		alert('로그인 후 이용해주세요.');
 	 location.href="/mangh/member/loginForm"; 
-		
 	}
 }
 
+//매칭 취소 버튼
+function cancel(reqStatus){
+	
+	//로그인한 사용자가 취소 버튼을 누르면 DB 업데이트
+		if(confirm('매칭을 취소하겠습니까?') == true){
+
+			 $.ajax({
+				 url : 'http://localhost:8080/rl/request/'+ ${idx},
+				 type : 'PUT',
+				 success : function(data){
+					 alert('매칭이 취소되었습니다.');
+					 history.go(0);
+				 }
+				 
+			 });	
+		}	 
+}
+
+
+//매칭 취소 버튼 삭제
+setTimeout(function() { 
+		$('#cancel').remove();
+	}, 5000);
+
+
+//매칭 취소 버튼 생성 시 리뷰 작성 가능하게 하기 
+function review(){
+	alert('1');
+}
+
+
+
+//글 수정
 function reqEdit(reqIdx){
 	
 	location.href="/mangh/request/edit?reqIdx="+reqIdx;
 	
 }
+
+//글 삭제
 function reqDelete(reqIdx){
 	
 	//로그인 안했을 때 
@@ -153,10 +189,8 @@ function reqDelete(reqIdx){
 		
 	}
 	
-	
-
-	
 }
+
 
 $(document).ready(function(){
 
@@ -201,19 +235,44 @@ $(document).ready(function(){
 				status = '대기중';
 				color = 'red';
 			}else if(data.reqStatus == 1){
-				satus = '요청 완료';
+				status = '요청 완료';
 				color = 'gray';
 			}
-			html += '<tr>';
-			html +='	<td>매칭 상태</td>';
-			html +='	<td style="color: '+color+'">';
-			html +='		'+status+'';
-			html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')">매칭하기</button>';
-			html += '	</td>';
-			//수정, 삭제
-			html += '<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
-			html += '<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
-			html += '</tr>';
+			
+				html += '<tr>';
+				html +='	<td>매칭 상태</td>';
+				html +='	<td style="color: '+color+'">';
+				html +='		'+status+'';
+				
+				
+			
+			//로그인 한 사용자에게 버튼이 보인다
+			if('${loginInfo.mNick}' == data.reqWriter){
+				
+				console.log('1');
+				
+				if(data.reqStatus == 0) {
+					html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+				}else if(data.reqStatus == 1){
+					html +='	<button onclick="cancel('+data.reqStatus+')" id="cancel">매칭취소</button>';
+				}
+				html += '	</td>';
+				//수정, 삭제
+				html += '<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
+				html += '<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
+				html += '<td><button onclick="review()">리뷰작성</button></td>';
+				html += '</tr>';
+			} 
+			
+			
+			//리뷰 작성 시에 시간초 지나야지 쓸 수 있는데 요 ?
+			else{
+				html += '<td><button onclick="review()">리뷰작성</button></td>';
+			}
+			
+			
+			
+			
 			
 			html += '<tr style="display: none;">';
 			html +='<td>이미지 경로</td>';
