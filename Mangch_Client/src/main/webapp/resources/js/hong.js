@@ -97,7 +97,7 @@ function boardList(){
 			var html= '';
 			for(var i=0;i<data.length; i++) {
 				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data[i].donateIdx+')">';
-				html+='		<input type="hidden class="donIdx" value="'+data[i].donateIdx+'">'
+				html+='		<input type="hidden" class="donIdx" value="'+data[i].donateIdx+'">'
 				html+='		<p class="board_loc" style="text-align:left;">'+data[i].doLoc+'</p>';
 				html+='		<p class="board_writer">'+data[i].writer+'</p>';
 				html+='		<img src="'+data[i].doImg+'" style="width: 100%;">';
@@ -133,7 +133,7 @@ function viewBoard(idx){
 			};
 			
 			view+='        <p>작성자 ' + data.writer+'</p>';
-			view+='        <p>조회수 <span id="viewCnt>' + data.doViewCnt+'</span></p>';
+			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
@@ -146,7 +146,7 @@ function viewBoard(idx){
 			view+='        <form id="commentForm" onsubmit="return false">';
 			view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">'
 			view+='				<input type="hidden" value="'+loginUser+'" id="commWriter" name="commWriter" readonly> <br>'
-			view+='				<input type="textarea" id="commForm" name="commContent" style="width: 80%; height: 100px; margin:10px;">'
+			view+='				<input type="textarea" id="commForm" name="commContent" placeholder="댓글을 입력해주세요" style="width: 80%; height: 70px; margin:10px;">'
 			view+='				<input type="submit" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">'
 			view+='        </form>';	
 			view+='			<div id="commList">'
@@ -166,13 +166,14 @@ function viewBoard(idx){
 $(document).ready(function(){
 	boardList();
 	
-	$('button.menu_card').click(function(){
+	$('.menu_card').click(function(){
+		console.log('click!');
 		var donateIdx=$(this).find('input[type=hidden]').val();
 		console.log(donateIdx);
 		$.ajax({
 			url : 'http://localhost:8080/donate/viewCnt'+donateIdx,
 			success : function(data){
-				$('#viewCnt').text(data);
+				console.log(data);
 			}
 		
 		});
