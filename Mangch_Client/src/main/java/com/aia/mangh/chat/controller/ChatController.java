@@ -1,7 +1,6 @@
 package com.aia.mangh.chat.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,10 @@ public class ChatController {
 		Member member = new Member();
 		member.setNick(nick);
 		req.getSession().setAttribute("loginInfo", member);
-		model.addAttribute("msgInfo",smi);
+		
+		if(smi.getuNick() != null) {
+			model.addAttribute("msgInfo",smi);
+		}
 		return "chatting/chatting";
 	}
 }
