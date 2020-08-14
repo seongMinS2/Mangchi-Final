@@ -6,18 +6,19 @@ function reply(parentIdx){
 
 
 function commReg() {
+	var comm=new FormData();
+	comm.append('donateIdx', $('#commDonIdx').val());
+	comm.append('commWriter', $('#commWriter').val());
+	comm.append('commText', $('#commText').val());
 
 	$.ajax({
-		url : 'http://localhost:8080/donate/comments/',
+		url : 'http://localhost:8080/donate/comments',
 		type : 'post',
-		data : {
-			donateIdx : $('#commDonIdx').val(),
-			commWriter : $('#commWriter').val(),
-			commText : $('#commText').val(),
-		
-		},
+		data : comm,
+		contentType : false,
+		processData : false,
 		success : function(data){
-			commList(data.donateIdx);
+			commList($('#commDonIdx').val());
 			document.getElementById('commentForm').reset();		
 		}
 	
@@ -115,7 +116,7 @@ function viewBoard(idx){
 		type : 'get',
 		success : function(data){
 			var view=''; 
-			view+='    <div class="w3-modal-content">';
+			view+='    <div class="w3-modal-content" style="overflow:auto;">';
 			view+='     <header class="w3-container">';
 			view+='        <span onclick="$(\'#id01\').css(\'display\',\'none\')"';
 			view+='        class="w3-button w3-display-topright">&times;</span>';
