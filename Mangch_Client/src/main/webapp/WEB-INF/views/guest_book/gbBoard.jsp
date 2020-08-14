@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -309,7 +309,7 @@ function gbList() {
 			
 			
 			
-			
+			/* 
 			var arrX = new Array();
 			var arrY = new Array();
 		
@@ -319,19 +319,20 @@ function gbList() {
 				arrX[i]=data[i].x;
 				arrY[i]=data[i].y;
 				
-				/*  console.log(
-						 getDistanceFromLatLonInKm(
-						 arrX[i],arrY[i],x,y).toFixed(1)); */
+				
 				 
 				realArr[i]= getDistanceFromLatLonInKm(
 						 arrX[i],arrY[i],x,y).toFixed(1);
 						 
 				console.log(realArr[i]);
-				if(realArr[i]>10.0){
-					$('#guestbookList').html(html);	
-				}
 				
-			}
+				
+				console.log(realArr[i]>10.0);
+				
+					$('#guestbookList').html(html);
+					
+					
+			} */
 			
 
 			
