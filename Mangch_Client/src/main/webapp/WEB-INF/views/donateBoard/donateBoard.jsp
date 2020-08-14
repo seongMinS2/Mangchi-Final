@@ -9,36 +9,46 @@
 <title>나눔 게시판</title>
 </head>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
-<script type="text/javascript" src='<c:url value="/resources/js/hong.js"/>'></script>
+<script type="text/javascript"
+	src='<c:url value="/resources/js/hong.js"/>'></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/hong.css"/>">
 <div id="donateWrap">
 	<h3>나눔 게시판</h3>
-	<c:if test="${loginInfo!=null} }">
+	<c:if test="${loginInfo!=null}">
 		<input type="hidden" id="loginUser" value="${loginInfo.mNick}">
 	</c:if>
-	<div id="topBox">
+	<div id="topBox" style="display: none;">
 
-		<button class="w3-button w3-black w3-round-xlarge" id="writeForm" onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
-		<div id="searchBox">
+		<button class="w3-button w3-block w3-black" style="width:100%" id="writeForm"
+			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
+
 			<form>
-				<input type="text" placeholder="아이디 혹은 물품을 검색하세요"> <input
-					type="submit" value="검색">
+				<input type="text" name="searchKeyWord" placeholder="아이디 혹은 물품을 검색하세요" style="width:80%;"> 
+				<input type="submit" style="width:15%;" value="검색">
 			</form>
-		</div>
+
 
 
 	</div>
 	<div id="contentsBox">
 		<div id="listBox"></div>
-		<div id="categoryBox"></div>
+		<div id="categoryBox">
+					<button class="w3-button w3-block w3-black" style="width:100%" id="writeForm"
+			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
+
+			<form>
+				<input type="text" name="searchKeyWord" placeholder="아이디 혹은 물품을 검색하세요" style="width:60%;"> 
+				<input type="submit" style="width:30%;" value="검색">
+			</form>
+
+		</div>
 	</div>
 	<div id="pageBox"></div>
 
 
 </div>
 
-<div id="id01" class="w3-modal">
-</div>
+<div id="id01" class="w3-modal"></div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
 
