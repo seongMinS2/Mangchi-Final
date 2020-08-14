@@ -15,7 +15,7 @@ import com.aia.mangh.mm.model.LoginRequest;
 import com.aia.mangh.mm.service.MemberLoginService;
 
 @Controller
-@RequestMapping("/member/loginForm")
+@RequestMapping("/member/memberLogin")
 public class MemberLoginController {
 
 	@Autowired

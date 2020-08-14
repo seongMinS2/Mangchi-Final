@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,22 +23,30 @@
 			</tr>
 			<tr>
 				<td>비밀번호</td>
-				<td><input type="password" name="mPw" id="mPw" autofocus>
-				<span id="checkmsg3"></span></td>
+				<td><input type="password" name="mPw" id="mPw"> <span
+					id="checkmsg3"></span></td>
 			</tr>
 			<tr>
 				<td>비밀번호 확인</td>
-				<td><input type="password" name="chkmPw" id="chkmPw" autofocus>
-				<span id="checkmsg4"></span></td>
+				<td><input type="password" name="chkmPw" id="chkmPw">
+					<span id="checkmsg4"></span></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><div class="alert alert-success" id="alert-success">비밀번호가
+						일치합니다.</div>
+					<div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지
+						않습니다.</div></td>
+
 			</tr>
 			<tr>
 				<td>이메일 인증</td>
-				<td><input type="text" name="chkEmail" id="chkEmail" autofocus></td>
+				<td><input type="text" name="chkEmail" id="chkEmail"></td>
 			</tr>
 			<tr>
 				<td>닉네임</td>
-				<td><input type="text" name="mNick" id="mNick" autofocus>
-					<span id="checkmsg2"></span></td>
+				<td><input type="text" name="mNick" id="mNick"> <span
+					id="checkmsg2"></span></td>
 			</tr>
 			<tr>
 				<td>사진</td>
@@ -48,7 +56,8 @@
 			<tr>
 				<td>주소</td>
 				<td><input type="text" name="mAddr" id="mAddr"><input
-					type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"></td>
+					type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">
+					<span id="checkmsg5"></span></td>
 				<td><input type="hidden" name="mLttd" id="mLttd"></td>
 				<!-- 위도 -->
 				<td><input type="hidden" name="mLgtd" id="mLgtd"></td>
@@ -61,7 +70,7 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="submit" value="회원가입" onclick="regSubmit();"></td>
+				<td><input type="button" id="button_joinus" value="회원가입" onclick="regSubmit();"></td>
 			</tr>
 		</table>
 	</form>
@@ -76,16 +85,37 @@
 		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
-	<script
-		src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
-
+<!-- 	<script
+		src="https://apis.google.com/js/platform.js?onload=renderButton"></script> -->
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
 
-			$('#mId').focusin(function() {
+			$("#alert-success").hide();
+			$("#alert-danger").hide();
+			$("input").keyup(function() {
+				var pwd1 = $("#mPw").val();
+				var pwd2 = $("#chkmPw").val();
+				if (pwd1 != "" || pwd2 != "") {
+					if (pwd1 == pwd2) {
+						$("#alert-success").show();
+						$("#alert-danger").hide();
+					} else {
+						$("#alert-success").hide();
+						$("#alert-danger").show();
 
-				$(this).val('');
+					}
+				}
+			});
+			
+			$("input").keydown(function() {
+				$("#alert-danger").hide();
+				$("#alert-success").hide();
+			});
+			
+
+			$('#mId').focusin(function() {
 
 				$('#checkmsg').text('');
 
@@ -94,29 +124,31 @@
 			});
 
 			$('#mId').focusout(function() {
-
-				if ($(this).val().length < 1) {
-					$('#checkmsg').text("아이디는 필수 항목입니다.");
-					$('#checkmsg').addClass('check_not');
-					return false;
-				}
+				/* 
+				 if ($(this).val().length < 1) {
+				 $('#checkmsg').text("아이디는 필수 항목입니다.");
+				 $('#checkmsg').addClass('check_not');
+				 return false;
+				 }  */
 
 				// ### 회원 ID 중복체크 ###
 				$.ajax({
-					url : 'http://localhost:8090/mc/member/chkmId',
+					url : 'member/memberReg/chkmId',
 					type : 'post',
 					data : {
 						mId : $(this).val()
 					},
 					success : function(data) {
-						if (data == '0') {
-							$('#checkmsg').text("사용가능한 아이디 입니다.");
-							$('#checkmsg').addClass('check_ok');
-							$('#idchk').prop('checked', true);
-						} else {
-							$('#checkmsg').text("사용이 불가능한 아이디 입니다.");
-							$('#checkmsg').addClass('check_not');
-							$('#idchk').prop('checked', false);
+						if ($('#mId').val().length > 0) {
+							if (data == '0') {
+								$('#checkmsg').text("사용가능한 아이디 입니다.");
+								$('#checkmsg').addClass('check_ok');
+								$('#idchk').prop('checked', true);
+							} else {
+								$('#checkmsg').text("사용이 불가능한 아이디 입니다.");
+								$('#checkmsg').addClass('check_not');
+								$('#idchk').prop('checked', false);
+							}
 						}
 					}
 				});
@@ -124,92 +156,109 @@
 			});
 
 			// 회원 닉네임 중복체크
-			$('#mNick').focusin(function() {
+			/* 			$('#mNick').focusin(function() {
 
-				$(this).val('');
+			 $('#checkmsg2').text('');
 
-				$('#checkmsg2').text('');
-
-				$('#checkmsg2').removeClass('check_not');
-				$('#checkmsg2').removeClass('check_ok');
-			});
+			 $('#checkmsg2').removeClass('check_not');
+			 $('#checkmsg2').removeClass('check_ok');
+			 }); */
 
 			$('#mNick').focusout(function() {
 
-				if ($(this).val().length < 1) {
-					$('#checkmsg2').text("닉네임은 필수 항목입니다.");
-					$('#checkmsg2').addClass('check_not');
-					return false;
-				}
+				/* 				if ($(this).val().length < 1) {
+				 $('#checkmsg2').text("닉네임은 필수 항목입니다.");
+				 $('#checkmsg2').addClass('check_not');
+				 return false;
+				 } */
 
 				$.ajax({
-					url : 'http://localhost:8090/mc/member/chkmNick',
+					url : 'member/memberReg/chkmNick',
 					type : 'post',
 					data : {
 						mNick : $(this).val()
 					},
 					success : function(data) {
-						if (data == '0') {
-							$('#checkmsg2').text("사용가능한 닉네임 입니다.");
-							$('#checkmsg2').addClass('check_ok');
-							$('#idchk').prop('checked', true);
-						} else {
-							$('#checkmsg2').text("사용이 불가능한 닉네임 입니다.");
-							$('#checkmsg2').addClass('check_not');
-							$('#idchk').prop('checked', false);
+						if ($('#mNick').val().length > 0) {
+							if (data == '0') {
+								$('#checkmsg2').text("사용가능한 닉네임 입니다.");
+								$('#checkmsg2').addClass('check_ok');
+								$('#idchk').prop('checked', true);
+							} else {
+								$('#checkmsg2').text("사용이 불가능한 닉네임 입니다.");
+								$('#checkmsg2').addClass('check_not');
+								$('#idchk').prop('checked', false);
+								
+							}
 						}
 					}
 				});
 
 			});
-			
 
 			// ### 비밀번호 입력 체크 ###
-			$('#mPw').focusin(function() {
+			/* 			$('#mPw').focusin(function() {
 
-				$(this).val('');
+			 $('#checkmsg3').text('');
 
-				$('#checkmsg3').text('');
-
-				$('#checkmsg3').removeClass('check_not');
-				$('#checkmsg3').removeClass('check_ok');
-			});
+			 $('#checkmsg3').removeClass('check_not');
+			 $('#checkmsg3').removeClass('check_ok');
+			 }); */
 
 			$('#mPw').focusout(function() {
 
-				if ($(this).val().length < 1) {
-					$('#checkmsg3').text("비밀번호는 필수 항목입니다.");
-					$('#checkmsg3').addClass('check_not');
-					return false;
-				}
+				/* 				if ($(this).val().length < 1) {
+				 $('#checkmsg3').text("비밀번호는 필수 항목입니다.");
+				 $('#checkmsg3').addClass('check_not');
+				 return false;
+				 } */
 
 			});
-			
-			
+
 			// ### 비밀번호 확인 체크 ###
-			$('#chkmPw').focusin(function() {
+			/* 		$('#chkmPw').focusin(function() {
 
-				$(this).val('');
+			 $('#checkmsg4').text('');
 
-				$('#checkmsg4').text('');
-
-				$('#checkmsg4').removeClass('check_not');
-				$('#checkmsg4').removeClass('check_ok');
-			});
+			 $('#checkmsg4').removeClass('check_not');
+			 $('#checkmsg4').removeClass('check_ok');
+			 }); */
 
 			$('#chkmPw').focusout(function() {
 
-				if ($(this).val().length < 1) {
-					$('#checkmsg4').text("비밀번호를 확인해주세요.");
-					$('#checkmsg4').addClass('check_not');
-					return false;
-				}
+				/* 				if ($(this).val().length < 1) {
+				 $('#checkmsg4').text("비밀번호를 확인해주세요.");
+				 $('#checkmsg4').addClass('check_not');
+				 return false;
+				 } */
 
 			});
 		});
 
 		// ### 회원가입 Submit ### 
 		function regSubmit() {
+
+			if ($('#mId').val().length < 1) {
+				document.getElementById('mId').focus();
+				$('#checkmsg').text("아이디를 입력해주세요.");
+
+			} else if ($('#mPw').val().length < 1) {
+				document.getElementById('mPw').focus();
+				$('#checkmsg3').text("비밀번호를 입력해주세요");
+
+			} else if ($('#chkmPw').val().length < 1) {
+				document.getElementById('chkmPw').focus();
+				$('#checkmsg4').text("비밀번호를 확인해주세요.");
+
+			} else if ($('#mNick').val().length < 1) {
+				document.getElementById('mNick').focus();
+				$('#checkmsg2').text("닉네임을 입력해주세요.");
+
+			} else if ($('#mAddr').val().length < 1) {
+				document.getElementById('mAddr').focus();
+				$('#checkmsg5').text("주소를 검색해주세요.");
+
+			}
 
 			var regFormData = new FormData();
 			regFormData.append('mId', $('#mId').val());
@@ -225,14 +274,15 @@
 				regFormData.append('mImg', $('#mImg')[0].files[0]);
 			}
 			$.ajax({
-				url : 'http://localhost:8090/mc/member',
+				url : 'member/memberReg/reg',
 				type : 'post',
 				processData : false,
 				contentType : false,
 				data : regFormData,
 
 				success : function(data) {
-					alert(data);
+					alert('회원가입이 완료되었습니다 !!');
+					location.href='http://localhost:8080/mangh';
 					document.getElementById('regForm').reset();
 				}
 			});

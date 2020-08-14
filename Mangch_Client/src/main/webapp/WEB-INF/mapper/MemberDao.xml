@@ -4,12 +4,12 @@
 <mapper namespace="com.aia.mangh.mm.dao.MemberDao">
 
 	<!-- select 결과를 객체에 바인딩 -->
- 	<resultMap id="resultMember"
+	<resultMap id="resultMember"
 		type="com.aia.mangh.mm.model.Member">
 		<id property="mIdx" column="member_idx" />
 		<result property="mId" column="member_id" />
 		<result property="mPw" column="member_pw" />
-		<result property="mNick" column="member_nick" /> 
+		<result property="mNick" column="member_nick" />
 		<result property="mScore" column="member_score" />
 		<result property="mRegdate" column="member_regdate" />
 		<result property="mLttd" column="member_latitude" />
@@ -19,14 +19,44 @@
 		<result property="mChk" column="member_check" />
 		<result property="mRadius" column="member_radius" />
 	</resultMap>
-	
+
+	<!-- 회원가입 -->
+	<insert id="insertMember"
+		parameterType="com.aia.mangh.mm.model.Member">
+		INSERT INTO Mangchi.member(
+		member_id,member_pw,member_nick,member_score,member_latitude,member_longitude,member_addr,member_img,member_check,member_radius)
+		VALUES(
+		#{mId},#{mPw},#{mNick},3.0,#{mLttd},#{mLgtd},#{mAddr},#{mImg},#{mChk},0)
+	</insert>
+
 	<!-- 로그인 -->
 	<select id="selectByIdPw" resultMap="resultMember">
-		select * from Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
+		select * from Mangchi.member
+		where member_id=#{mId} and member_pw=#{mPw}
 	</select>
 
 	<!-- ID, PW 체크 -->
-		<select id="checkIdPw" resultType="int">
-		select count(*) from Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
+	<select id="checkIdPw" resultType="int">
+		select count(*) from
+		Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
 	</select>
+
+	<!-- 회원 ID 중복체크 -->
+	<select id="selectById" resultType="int">
+		select count(*) from
+		Mangchi.member where member_id=#{mId}
+	</select>
+
+	<!-- 회원 ID 중복체크 -->
+	<select id="selectByNick" resultType="int">
+		select count(*) from
+		Mangchi.member where member_nick=#{mNick}
+	</select>
+
+	<!-- 회원 정보 출력 -->
+	<select id="selectList" parameterType="int"
+		resultMap="resultMember">
+		select * from Mangchi.member where member_idx=#{mIdx}
+	</select>
+
 </mapper>
