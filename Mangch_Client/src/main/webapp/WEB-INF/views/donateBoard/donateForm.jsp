@@ -8,12 +8,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>나눔 글쓰기</title>
 </head>
-<%-- <c:if test="${loginInfo==null}">
+<c:if test="${loginInfo==null}">
 	<script>
 		alert('나눔 글쓰기는 로그인 한 사용자만 가능합니다.');
 		location.href="<c:url value='/member/loginForm'/>";
 	</script>
-</c:if> --%>
+</c:if> 
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
 <script type="text/javascript" src='<c:url value="/resources/js/hong.js"/>'></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/hong.css'/>">

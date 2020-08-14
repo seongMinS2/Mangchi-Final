@@ -1,4 +1,8 @@
-function reply(parentIdx){
+
+
+
+
+function reply(parentIdx) {
 
 
 }
@@ -27,6 +31,7 @@ function commReg() {
 }
 
 function commList(donateIdx) {
+	var loginUser=$('#loginUser').val();
 	$.ajax({
 		url : 'http://localhost:8080/donate/comments/'+donateIdx,
 		type: 'get',
@@ -36,9 +41,22 @@ function commList(donateIdx) {
 				list+='<div class="comm">';
 				list+='	<p>작성자 : '+data[i].commWriter+'</p>';
 				list+='	<p>'+data[i].commText+'</p>'
-				list+='	<p style="font-size:0.8em;">'+data[i].commRegdate+'</p>'
-				list+='	<button type="button" onclick="reply('+data[i].commIdx+')">답글쓰기</button>'
+				list+='	<p style="font-size:0.8em; display:inline;">'+data[i].commRegdate+'</p>'
+				if(loginUser!=null) {
+					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
+				}
+				list+='	<div class="replyForm" style="display:none;">'
+				list+='	<form>'
+				list+='		<input type="hidden" name="donateIdx" value="'+data[i].donateIdx+'" class="commReplyDonIdx">'
+				list+='		<input type="hidden" name="commParent" value="'+data[i].commIdx+'" class="commReplyParIdx">'
+				list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter">'
+				list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText">'
+				list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply('+data[i].commIdx+')">'
+				list+='	</form>'
+				list+='	<div class="replyList"></div>'
+				list+='	</div>'
 				list+='</div>';
+				list+='<hr>'
 			}
 			$('#commList').html(list);
 		} 
@@ -109,6 +127,7 @@ function viewBoard(idx){
 	
 	$('#id01').css('display','block');
 	var loginUser=$('#loginUser').val();
+	
 	$.ajax({
 		url : 'http://localhost:8080/donate/donateBoard/'+idx,
 		type : 'get',
