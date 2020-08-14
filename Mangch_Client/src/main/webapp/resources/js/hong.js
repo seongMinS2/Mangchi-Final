@@ -88,29 +88,6 @@ function goWrite() {
 
 
 
-function boardList(){
-
-	$.ajax({
-		url : 'http://localhost:8080/donate/donateBoard',
-		type : 'get',
-		success : function(data){
-			var html= '';
-			for(var i=0;i<data.length; i++) {
-				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data[i].donateIdx+')">';
-				html+='		<input type="hidden" class="donIdx" value="'+data[i].donateIdx+'">'
-				html+='		<p class="board_loc" style="text-align:left;">'+data[i].doLoc+'</p>';
-				html+='		<p class="board_writer">'+data[i].writer+'</p>';
-				html+='		<img src="'+data[i].doImg+'" style="width: 100%;">';
-				html+='		<h4 class="board_title">'+data[i].title+'</h4>';
-				html+='		<p class="board_date">'+data[i].doDate+'</p>';
-				html+='		<p class="board_viewcnt">'+data[i].doViewCnt+'</p>';
-				html+='</button>';
-			}
-			$('#listBox').html(html);
-		
-		}
-	});
-}
 
 function viewBoard(idx){
 	
@@ -159,25 +136,47 @@ function viewBoard(idx){
 		}
 	
 	});
+	
+	$.ajax({
+		url : 'http://localhost:8080/donate/viewCnt/'+idx,
+		success : function(data){
+			console.log(data);
+		}
+		
+	});
+}
+
+
+function boardList(){
+
+	$.ajax({
+		url : 'http://localhost:8080/donate/donateBoard',
+		type : 'get',
+		success : function(data){
+			var html= '';
+			for(var i=0;i<data.length; i++) {
+				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data[i].donateIdx+')">';
+				html+='		<input type="hidden" class="donIdx" value="'+data[i].donateIdx+'">'
+				html+='		<p class="board_loc" style="text-align:left;">'+data[i].doLoc+'</p>';
+				html+='		<p class="board_writer">'+data[i].writer+'</p>';
+				html+='		<img src="'+data[i].doImg+'" style="width: 100%;">';
+				html+='		<h4 class="board_title">'+data[i].title+'</h4>';
+				html+='		<p class="board_date">'+data[i].doDate+'</p>';
+				html+='		<p class="board_viewcnt">'+data[i].doViewCnt+'</p>';
+				html+='</button>';
+			}
+			$('#listBox').html(html);
+		
+		}
+	});
 }
 
 
 
+
 $(document).ready(function(){
+
 	boardList();
 	
-	$('.menu_card').click(function(){
-		console.log('click!');
-		var donateIdx=$(this).find('input[type=hidden]').val();
-		console.log(donateIdx);
-		$.ajax({
-			url : 'http://localhost:8080/donate/viewCnt'+donateIdx,
-			success : function(data){
-				console.log(data);
-			}
-		
-		});
-	
-	});
 	
 });
