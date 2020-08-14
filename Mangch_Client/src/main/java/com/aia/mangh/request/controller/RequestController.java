@@ -19,12 +19,21 @@ public class RequestController {
 	public String requestRegForm() {
 		return "request/requestForm";
 	}
-	
-	//게시물 상세 정보 출력
+
+	// 게시물 상세 정보 출력
 	@RequestMapping("/request/requestDetail")
-	public String requestDetail(@RequestParam ("idx") int idx, Model model) {
+	public String requestDetail(@RequestParam("idx") int idx, @RequestParam("status") int status,Model model) {
 		model.addAttribute("idx", idx);
+		model.addAttribute("status",status);
 		return "request/requestDetail";
 	}
+
+	// 게시물 수정
+	@RequestMapping("/request/edit")
+	public String requestEdit(@RequestParam("reqIdx") int reqIdx, Model model) {
+		model.addAttribute("reqIdx", reqIdx);
+		return "request/requestForm";
+	}
+
 
 }

@@ -8,22 +8,6 @@
 }
 
 
-
-#topBox {
-	border:1px solid #DDD;
-	margin: 10px;
-	overflow: hidden;
-	
-}
-
-#writeForm {
-	float: left;
-}
-
-#searchBox{
-	float: right;
-}
-
 #contentsBox {
 	margin: auto;
 	border:1px solid #DDD;
@@ -44,7 +28,7 @@
 
 
 #categoryBox {
-	border:1px solid green;
+
 	width: 20%;
 	height: 100px;
 	float: right;
@@ -61,3 +45,18 @@
 	margin: auto;	
 	overflow: auto;
 }
+
+
+@media (max-width: 768px) {
+
+	#topBox {
+		display: block;
+	}
+	
+	#categoryBox {
+		display: none;
+	}
+
+}
+
+
