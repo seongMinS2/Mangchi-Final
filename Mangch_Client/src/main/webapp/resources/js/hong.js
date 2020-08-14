@@ -6,17 +6,15 @@ function reply(parentIdx){
 
 
 function commReg() {
-	var comm=new FormData();
-	comm.append('donateIdx', $('#commDonIdx').val());
-	comm.append('commWriter', $('#commWriter').val());
-	comm.append('commText', $('#commText').val());
 
 	$.ajax({
-		url : 'http://localhost:8080/donate/comments',
+		url : 'http://localhost:8080/donate/comments/',
 		type : 'post',
-		data : comm,
-		contentType : false,
-		processData : false,
+		data : {
+			donateIdx : $('#commDonIdx').val(),
+			commWriter : $('#commWriter').val(),
+			commText : $('#commText').val(),
+		},
 		success : function(data){
 			commList($('#commDonIdx').val());
 			document.getElementById('commentForm').reset();		
