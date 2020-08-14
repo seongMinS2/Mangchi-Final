@@ -205,11 +205,21 @@ function goPopup(guest_idx) {
 function gbList() {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book' ,
+		dataType:'json',
 		type:'get',
-		 
+		traditional : true,
+		 data : {
+			 'xx' :'${loginInfo.mLttd}',
+			 'yy' :'${loginInfo.mLgtd}',
+			 'rr' :'${loginInfo.mRadius}',
+			 'arrX' :arrX,
+			 'arrY' :arrY
+		 },
 		success : function (data) {
 			
 			var html='';
+			var arrX = new Array();
+			var arrY = new Array();
 			
 			for(var i=0; i<data.length; i++){
 				if(data[i].guest_photo !=null){
@@ -303,36 +313,39 @@ function gbList() {
 				}
 			
 				
-			
+				arrX[i].push(data[i].x);
+				arrY[i].push(data[i].y);
 			} // for문 끝 
 			
 			
 			
 			
-			/* 
-			var arrX = new Array();
-			var arrY = new Array();
-		
-			var realArr = new Array();
 			
-			for(var i=0; i<data.length; i++){
-				arrX[i]=data[i].x;
-				arrY[i]=data[i].y;
+			
+		
+			
+				/* arrX[i]=data[i].x; */
 				
 				
+				/* arrY[i]=data[i].y; */
+				
+			}
+							
 				 
-				realArr[i]= getDistanceFromLatLonInKm(
+		
+			
+			/* 	realArr[i]= getDistanceFromLatLonInKm(
 						 arrX[i],arrY[i],x,y).toFixed(1);
 						 
 				console.log(realArr[i]);
 				
 				
-				console.log(realArr[i]>10.0);
+				console.log(realArr[i]>10.0); */
 				
 					$('#guestbookList').html(html);
 					
 					
-			} */
+			
 			
 
 			
