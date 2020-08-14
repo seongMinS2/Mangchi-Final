@@ -85,9 +85,13 @@
 	<script>
 		//후순위  function
 		$(document).ready(function() {
-			listTimer = setInterval(function(){
-				chkNewMsg();
-			}, 2000);
+			
+			setInterval(function(){
+				chkNewMsg(chatList);
+			},2000);
+
+			
+			
 			//메세지 전송 
 			function sendMsg() {
 				$.ajax({
@@ -103,7 +107,7 @@
 					success : function(data) {
 						currRoom = data;
 						getMsgIdx(currRoom);
-						chatList(loginUser);
+						chkNewMsg(chatList);
 					}
 				});
 			}
@@ -145,12 +149,9 @@
 		
 		//클릭이벤트 : 내가 클릭한 채팅방의 메세지 리스트 가져오기
 		function getMsgIdx(idx) {
-			clearInterval(listTimer);
+			//clearInterval(listTimer);
 			//메세지 리스트함수
-			listTimer = setInterval(function(){
-				getMsgList();
-				chkNewMsg();
-			}, 2000);
+			getMsgList();
 		}
 
 		function getMsgList() {
@@ -199,7 +200,7 @@
 		}
 
 		//현재 로그인한 사용자에게 새로운메세지가 있으면 메세지리스트 갱신
-		function chkNewMsg() {
+		function chkNewMsg(callback) {
 			
 			console.log('새로운메세지 체크중');
 			var loginInfo = '${loginInfo.nick}';
@@ -211,23 +212,11 @@
 					//idx : currRoom
 				},
 				success : function(newMsgList) {
-					if (newMsgList.length > 0) {
-						console.log('새로운 메세지 확인!');
-						for(var i=0;i<newMsgList.length;i++){
-							$('.chatRoom'+newMsgList[i].roomIdx).find('.badge').text(newMsgList[i].newMsgCount);
-							if($('.badge').text()>0){
-								$('.badge').css('visibility','visible');
-							}else{
-								$('.badge').css('visibility','hidden');
-							}
-						}
-						$('.badge').each(function(i,badge){
-							if(badge.outerText>0){
-								$(badge).css('visibility','visible');
-							}else{
-								$(badge).css('visibility','hidden');
-							}
-						});
+					callback(loginUser,newMsgList);
+					
+					for(var i=0;i<newMsgList.length;i++){
+						if(newMsgList[i].roomIdx==currRoom)
+							getMsgList();
 					}
 				}
 
@@ -235,7 +224,7 @@
 		}
 
 		//채팅방 리스트 뽑긔
-		function chatList(loginUser) {
+		function chatList(loginUser,newMsgList) {
 			const cl = $('.chatRooms');
 			$.ajax({
 				url : 'http://localhost:8080/mc-chat/chat/chatRoom',
@@ -278,23 +267,35 @@
 					cl.html(html);
 					//채팅방 클릭이벤트
 					$('.chatRoom').click(function() {
-							$('#currChatRoom').val($(this).children('.roomIdx').val());
-							$('#currChatUser').val($(this).children('.opponent').val());
-							$('#chatRoom-reqIdx').val($(this).children('.reqIdx').val());
-							currRoom = $('#currChatRoom').val();
-							currUser = $('#currChatUser').val();
-							chatRoomReqIdx = $('#chatRoom-reqIdx').val();
-							getMsgIdx(currRoom);
+						$(this).children('.badge').css('visibility','hidden');
+						$('#currChatRoom').val($(this).children('.roomIdx').val());
+						$('#currChatUser').val($(this).children('.opponent').val());
+						$('#chatRoom-reqIdx').val($(this).children('.reqIdx').val());
+						currRoom = $('#currChatRoom').val();
+						currUser = $('#currChatUser').val();
+						chatRoomReqIdx = $('#chatRoom-reqIdx').val();
+						getMsgIdx(currRoom);
 					});
-					
-					console.log('채팅방목록 로딩완료 ');
+					for(var i=0;i<newMsgList.length;i++){
+						$('.chatRoom'+newMsgList[i].roomIdx).find('.badge').text(newMsgList[i].newMsgCount);
+					}
+					$('.badge').each(function(i,x){
+						if($(x).text()>0){
+							console.log('보여줄게');
+							$(x).css('visibility','visible');
+						}else{
+							console.log('지워줄게');
+							$(x).css('visibility','hidden');
+						}
+					});
 				}
 			});
 		}
 		
 		//가장 먼저 실행할 function
 		function init(){
-			chkNewMsg();
+			chkNewMsg(chatList);
+			
 			if(${msgInfo != null}){
 				//게시글 작성자에게 처음 메세지를 보낼때
 				currRoom = -1;
