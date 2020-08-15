@@ -69,18 +69,21 @@ function commList(donateIdx) {
 				if(loginUser!=null) {
 					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
 				}
+				list+='</div>';
+				list+='<hr>';
 			} 
 			
 			for(var j=0; j<data.commList.length; j++) {
 			if (data.commList[j].commParent===data.commList[i].commIdx) {
-				list+='<h5>RE : </h5>';
-				list+='<div class="commRe">';
+				list+='<div class="commRe" style="overflow:hidden;">';
+				list+='<span style="width:20px;">RE : </span>';
+				list+='<div style="diplay:inline; width:90%; float:right;">';
 				list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
 				list+='	<p>'+data.commList[j].commText+'</p>'
 				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[j].commRegdate+'</p>'
-				if(loginUser!=null) {
-					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
-				}									
+				list+='</div>';
+				list+='</div>';		
+				list+='<hr>';							
 			}
 			}
 				list+='	<div class="replyForm" style="display:none;">'
@@ -93,7 +96,7 @@ function commList(donateIdx) {
 				list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply()">'
 				list+='	</form>'
 				list+='	</div>'
-				list+='</div>';
+
 
 			}
 			for (var i=1; i<=data.pageTotalCount; i++){
