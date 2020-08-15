@@ -76,8 +76,7 @@ function commList(donateIdx) {
 			for(var j=0; j<data.commList.length; j++) {
 			if (data.commList[j].commParent===data.commList[i].commIdx) {
 				list+='<div class="commRe" style="overflow:hidden;">';
-				list+='<span style="width:20px;">RE : </span>';
-				list+='<div style="diplay:inline; width:90%; float:right;">';
+				list+='<div style="diplay:inline; width:95%; float:right;">';
 				list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
 				list+='	<p>'+data.commList[j].commText+'</p>'
 				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[j].commRegdate+'</p>'
