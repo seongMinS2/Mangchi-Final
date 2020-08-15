@@ -21,20 +21,19 @@ public class MemberLoginController {
 	@Autowired
 	MemberLoginService loginService;
 
-	@RequestMapping
+	@RequestMapping(method = RequestMethod.GET)
 	public String getRegForm() {
 		return "member/loginForm";
 	}
 
-	@RequestMapping("/login")  // /member/loginForm/login
-	@ResponseBody
-	public String login(LoginRequest loginRequest, HttpSession session, HttpServletResponse response, HttpServletRequest request) {
+	@RequestMapping(method = RequestMethod.POST)
+	public String login(LoginRequest loginRequest, HttpSession session, HttpServletResponse response, Model model) {
 
 		//request.setAttribute("result", loginService.loginMember(loginRequest, session, response));
 
 		//String result = (String) request.getAttribute("result");
 		
-		String result = loginService.loginMember(loginRequest, session, response);
+		//String result = loginService.loginMember(loginRequest, session, response);
 		
 //		if (session.getAttribute("loginInfo") != null) {
 //
@@ -43,9 +42,9 @@ public class MemberLoginController {
 //			return "member/loginForm";
 //		}
 		
+		model.addAttribute("result", loginService.loginMember(loginRequest, session, response));
 		
-		System.out.println("result:  "+result);
-		return result;
+		return "/member/mypageForm";
 	}
 
 //	@RequestMapping("/CheckIdPw")

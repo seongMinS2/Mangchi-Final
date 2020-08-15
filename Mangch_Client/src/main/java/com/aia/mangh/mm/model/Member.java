@@ -14,11 +14,11 @@ public class Member {
 	private double mLttd;
 	private double mLgtd;
 	private String mImg;
-	private int mChk;
+	private String mChk;
 	private int mRadius;
 
 	public Member(int mIdx, String mId, String mPw, String mNick, float mScore, Date mRegdate, String mAddr,
-			double mLttd, double mLgtd, String mImg, int mChk, int mRadius) {
+			double mLttd, double mLgtd, String mImg, String mChk, int mRadius) {
 		this.mIdx = mIdx;
 		this.mId = mId;
 		this.mPw = mPw;
@@ -33,7 +33,7 @@ public class Member {
 		this.mRadius = mRadius;
 	}
 
-	public Member(String mId, String mPw, String mNick, String mAddr, double mLttd, double mLgtd, int mChk) {
+	public Member(String mId, String mPw, String mNick, String mAddr, double mLttd, double mLgtd, String mChk) {
 		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 0);
 	}
 
@@ -124,11 +124,11 @@ public class Member {
 		this.mImg = mImg;
 	}
 
-	public int getmChk() {
+	public String getmChk() {
 		return mChk;
 	}
 
-	public void setmChk(int mChk) {
+	public void setmChk(String mChk) {
 		this.mChk = mChk;
 	}
 

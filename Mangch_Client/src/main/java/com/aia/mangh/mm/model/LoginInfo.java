@@ -13,11 +13,11 @@ public class LoginInfo {
 	private double mLttd;
 	private double mLgtd;
 	private String mImg;
-	private int mChk;
+	private String mChk;
 	private int mRadius;
 	
 	public LoginInfo(int mIdx, String mId, String mNick, float mScore, Date mRegdate, String mAddr, double mLttd,
-			double mLgtd, String mImg, int mChk, int mRadius) {
+			double mLgtd, String mImg, String mChk, int mRadius) {
 		this.mIdx = mIdx;
 		this.mId = mId;
 		this.mNick = mNick;
@@ -105,11 +105,11 @@ public class LoginInfo {
 		this.mImg = mImg;
 	}
 
-	public int getmChk() {
+	public String getmChk() {
 		return mChk;
 	}
 
-	public void setmChk(int mChk) {
+	public void setmChk(String mChk) {
 		this.mChk = mChk;
 	}
 

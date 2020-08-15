@@ -45,7 +45,7 @@ public class MemberLoginService {
 			
 			result = "Y";
 		}
-		System.out.println("rrrr"+result);
+		System.out.println("로그인 여부: "+result);
 		return result;
 
 	}

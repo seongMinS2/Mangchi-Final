@@ -119,55 +119,14 @@ div.card>ul>li {
 				</div>
 			</div>
 			<div class="w3-cell">
-				<div id="memberList"></div>
+				<div id="memberList">
+					<h1>${result}</h1>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-
-	<script>
-		
-	$(document).ready(function(){
-		
-		memberList();
-	});
-	
-	function memberList(){
-		$.ajax({
-			url: 'http://localhost:8090/mc/member/'+${loginInfo.mIdx},
-			type: 'get',
-			success: function(data){
-				alert(data);
-				var html = '';
-				
-				for(var i =0; i<data.length; i++){
-					html += '<div class="card">';
-					html += '	<ul>';
-					html += '		<li>mIdx : '+data[i].mIdx+'</li>';
-					html += '		<li>mId : '+data[i].mId+'</li>';
-					html += '		<li>mPw : '+data[i].mPw+'</li>';
-					html += '		<li>mNick : '+data[i].mNick+'</li>';
-					html += '		<li>mScore : '+data[i].mScore+'</li>';
-					html += '		<li>mRegdate : '+data[i].mRegdate+'</li>';
-					html += '		<li>mAddr : '+data[i].mAddr+'</li>';
-					html += '		<li>mLttd : '+data[i].mLttd+'</li>';
-					html += '		<li>mLgtd : '+data[i].mLgtd+'</li>';
-					html += '		<li>mImg : <img src="http://localhost:8090/mc'+data[i].mImg+'" width=50 height=50></li>';
-					html += '		<li>mChk : '+data[i].mChk+'</li>';
-					html += '		<li>mRadius : '+data[i].mRadius+'</li>';
-					html += '		<li><input type="button" value="수정" onclick="editForm('+data[i].mIdx+')"> ';
-					html += '		<input type="button" value="삭제" onclick="deleteMember('+data[i].mIdx+')"></li>';
-					html += '	</ul>';
-					html += '</div>';
-				}
-				$('#memberList').html(html);
-			}
-		});
-	}
-		
-		
-	</script>
 
 </body>
 </html>

@@ -18,17 +18,17 @@
 		<table>
 			<tr>
 				<td>아이디</td>
-				<td><input type="text" name="mId" id="mId" autofocus> <span
+				<td><input type="text" name="mId" id="mId" autofocus required oninvalid="this.setCustomValidity('아이디를 입력해주세요.')"> <span
 					id="checkmsg"></span></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
-				<td><input type="password" name="mPw" id="mPw"> <span
+				<td><input type="password" name="mPw" id="mPw" required oninvalid="this.setCustomValidity('비밀번호를 입력해주세요.')"> <span
 					id="checkmsg3"></span></td>
 			</tr>
 			<tr>
 				<td>비밀번호 확인</td>
-				<td><input type="password" name="chkmPw" id="chkmPw">
+				<td><input type="password" name="chkmPw" id="chkmPw" required oninvalid="this.setCustomValidity('비밀번호를 확인해주세요.')">
 					<span id="checkmsg4"></span></td>
 			</tr>
 			<tr>
@@ -41,11 +41,11 @@
 			</tr>
 			<tr>
 				<td>이메일 인증</td>
-				<td><input type="text" name="chkEmail" id="chkEmail"></td>
+				<td><input type="text" name="mChk" id="mChk" required oninvalid="this.setCustomValidity('인증받으실 이메일을 입력해주세요.')"></td>
 			</tr>
 			<tr>
 				<td>닉네임</td>
-				<td><input type="text" name="mNick" id="mNick"> <span
+				<td><input type="text" name="mNick" id="mNick" required oninvalid="this.setCustomValidity('닉네임을 입력해주세요.')"> <span
 					id="checkmsg2"></span></td>
 			</tr>
 			<tr>
@@ -55,7 +55,7 @@
 
 			<tr>
 				<td>주소</td>
-				<td><input type="text" name="mAddr" id="mAddr"><input
+				<td><input type="text" name="mAddr" id="mAddr" required oninvalid="this.setCustomValidity('주소를 검색해주세요.')"><input
 					type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">
 					<span id="checkmsg5"></span></td>
 				<td><input type="hidden" name="mLttd" id="mLttd"></td>
@@ -70,8 +70,7 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="button" id="button_joinus" value="회원가입" onclick="regSubmit();"></td>
-			</tr>
+				<td><input type="submit" id="submit" value="회원가입" onclick="regSubmit();">
 		</table>
 	</form>
 
@@ -94,7 +93,7 @@
 
 			$("#alert-success").hide();
 			$("#alert-danger").hide();
-			$("input").keyup(function() {
+			$("#mPw, #chkmPw").keyup(function() {
 				var pwd1 = $("#mPw").val();
 				var pwd2 = $("#chkmPw").val();
 				if (pwd1 != "" || pwd2 != "") {
@@ -109,7 +108,7 @@
 				}
 			});
 			
-			$("input").keydown(function() {
+			$("#mPw, #chkmPw").keydown(function() {
 				$("#alert-danger").hide();
 				$("#alert-success").hide();
 			});
@@ -124,17 +123,16 @@
 			});
 
 			$('#mId').focusout(function() {
-				/* 
-				 if ($(this).val().length < 1) {
+				 
+/* 				 if ($(this).val().length < 1) {
 				 $('#checkmsg').text("아이디는 필수 항목입니다.");
 				 $('#checkmsg').addClass('check_not');
 				 return false;
-				 }  */
+				 }   */
 
 				// ### 회원 ID 중복체크 ###
-				$.ajax({
-					url : 'member/memberReg/chkmId',
-					type : 'post',
+ 				$.ajax({
+					url : 'memberReg/chkmId',
 					data : {
 						mId : $(this).val()
 					},
@@ -151,30 +149,29 @@
 							}
 						}
 					}
-				});
+				}); 
 
 			});
 
 			// 회원 닉네임 중복체크
-			/* 			$('#mNick').focusin(function() {
+			 $('#mNick').focusin(function() {
 
 			 $('#checkmsg2').text('');
 
 			 $('#checkmsg2').removeClass('check_not');
 			 $('#checkmsg2').removeClass('check_ok');
-			 }); */
+			 }); 
 
 			$('#mNick').focusout(function() {
 
-				/* 				if ($(this).val().length < 1) {
+/* 				 if ($(this).val().length < 1) {
 				 $('#checkmsg2').text("닉네임은 필수 항목입니다.");
 				 $('#checkmsg2').addClass('check_not');
 				 return false;
-				 } */
+				 } */ 
 
-				$.ajax({
-					url : 'member/memberReg/chkmNick',
-					type : 'post',
+ 				$.ajax({
+					url : 'memberReg/chkmNick',
 					data : {
 						mNick : $(this).val()
 					},
@@ -192,75 +189,84 @@
 							}
 						}
 					}
-				});
+				}); 
 
 			});
 
 			// ### 비밀번호 입력 체크 ###
-			/* 			$('#mPw').focusin(function() {
+			$('#mPw').focusin(function() {
 
 			 $('#checkmsg3').text('');
 
 			 $('#checkmsg3').removeClass('check_not');
 			 $('#checkmsg3').removeClass('check_ok');
-			 }); */
+			 }); 
 
 			$('#mPw').focusout(function() {
 
-				/* 				if ($(this).val().length < 1) {
+				if ($(this).val().length < 1) {
 				 $('#checkmsg3').text("비밀번호는 필수 항목입니다.");
 				 $('#checkmsg3').addClass('check_not');
 				 return false;
-				 } */
+				 } 
 
 			});
 
 			// ### 비밀번호 확인 체크 ###
-			/* 		$('#chkmPw').focusin(function() {
+			 $('#chkmPw').focusin(function() {
 
 			 $('#checkmsg4').text('');
 
 			 $('#checkmsg4').removeClass('check_not');
 			 $('#checkmsg4').removeClass('check_ok');
-			 }); */
+			 }); 
 
 			$('#chkmPw').focusout(function() {
 
-				/* 				if ($(this).val().length < 1) {
+				if ($(this).val().length < 1) {
 				 $('#checkmsg4').text("비밀번호를 확인해주세요.");
 				 $('#checkmsg4').addClass('check_not');
 				 return false;
-				 } */
+				 } 
 
 			});
 		});
+		
+		document.getElementById('regForm').onsubmit=function(){
+			var mPw = $('#mPw').val();
+			var chkmPw = $('#chkmPw').val();
+			
+			if(mPw != chkmPw){
+				alert('비밀번호가 일치하지 않습니다.');
+				return false;
+			}
+			
+		}
 
 		// ### 회원가입 Submit ### 
 		function regSubmit() {
-
-			if ($('#mId').val().length < 1) {
+			
+/* 			console.log('hi');
+			 if ($('#mId').val().length < 1) {
 				document.getElementById('mId').focus();
 				$('#checkmsg').text("아이디를 입력해주세요.");
-
 			} else if ($('#mPw').val().length < 1) {
 				document.getElementById('mPw').focus();
 				$('#checkmsg3').text("비밀번호를 입력해주세요");
-
 			} else if ($('#chkmPw').val().length < 1) {
 				document.getElementById('chkmPw').focus();
 				$('#checkmsg4').text("비밀번호를 확인해주세요.");
-
 			} else if ($('#mNick').val().length < 1) {
 				document.getElementById('mNick').focus();
 				$('#checkmsg2').text("닉네임을 입력해주세요.");
-
 			} else if ($('#mAddr').val().length < 1) {
 				document.getElementById('mAddr').focus();
 				$('#checkmsg5').text("주소를 검색해주세요.");
 
-			}
-
-			var regFormData = new FormData();
+			} */
+			
+			
+/*  			var regFormData = new FormData();
 			regFormData.append('mId', $('#mId').val());
 			regFormData.append('mPw', $('#mPw').val());
 			regFormData.append('chkmPw', $('#chkmPw').val());
@@ -269,12 +275,12 @@
 			regFormData.append('mAddr', $('#mAddr').val());
 			regFormData.append('mLttd', $('#mLttd').val());
 			regFormData.append('mLgtd', $('#mLgtd').val());
-
+			regFormData.append('mChk',0); 
 			if ($('#mImg')[0].files[0] != null) {
 				regFormData.append('mImg', $('#mImg')[0].files[0]);
-			}
-			$.ajax({
-				url : 'member/memberReg/reg',
+			} */
+/* 			$.ajax({
+				url : 'reg',
 				type : 'post',
 				processData : false,
 				contentType : false,
@@ -285,9 +291,9 @@
 					location.href='http://localhost:8080/mangh';
 					document.getElementById('regForm').reset();
 				}
-			});
-
-		}
+			}); */
+		
+		} 
 
 		// ### 주소 검색 ###
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div

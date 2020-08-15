@@ -13,7 +13,7 @@
 
 	<h1>로그인</h1>
 	<hr>
-	<form onsubmit="return false;">
+	<form method="post">
 		<table>
 			<tr>
 				<td>아이디</td>
@@ -38,15 +38,14 @@
 	<script type="text/javascript">
 		function loginSubmit() {
 			$.ajax({
-				url : 'http://localhost:8080/mangh/member/loginForm/login',
-				type : 'get',
+				url : 'login',
+				type : 'post',
 				data : {
 					mId : $('#mId').val(),
 					mPw : $('#mPw').val()
 				},
 				success : function(data) {
 					if (data == 'Y') {
-						location.href = 'mypageForm';
 						alert('환영합니다 !!!');
 					} else if (data == 'N') {
 						alert('아이디와 비밀번호를 확인해주세요.');

@@ -1,7 +1,5 @@
 package com.aia.mangh.mm.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ public class ChkmIdService {
 	@Autowired
 	SqlSessionTemplate template;
 
-	public int ChkmId(String mId, HttpServletRequest request) {
+	public int ChkmId(String mId) {
 
 		dao = template.getMapper(MemberDao.class);
 
