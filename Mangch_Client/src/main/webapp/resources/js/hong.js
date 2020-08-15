@@ -20,7 +20,7 @@ function reply() {
 		success : function(data){
 			alert('대댓글을 작성였습니다.');
 			commList($('#commDonIdx').val());
-			document.getElementByClass('replayForm').reset();	
+			document.getElementByClassName('replayForm').reset();	
 			$('div.replyForm').css('display', 'none');	
 		}
 	
@@ -60,41 +60,44 @@ function commList(donateIdx) {
 		success : function(data) {
 			var list='';
 			for(var i=0; i<data.commList.length; i++)  {
-			
-			if(data.commList[i].commParent===0) {
-				list+='<div class="commOrigin">';
-				list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
-				list+='	<p>'+data.commList[i].commText+'</p>'
-				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>'
-				if(loginUser!=null) {
-					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
+				
+				if(data.commList[i].commParent===0) {
+					list+='<div class="commOrigin">';
+					list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
+					list+='	<p>'+data.commList[i].commText+'</p>'
+					list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>'
+					
+					if(loginUser!=null) {
+						
+						list+='	<button type="button" class="w3-btn w3-black" onclick="$(this).next().css("display", "block")">답글쓰기</button>'
+						list+='	<div class="replyForm" style="display:none;">'
+						list+='	<form class="replayForm">'
+						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx">'
+						list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx">'
+						list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth">'
+						list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter">'
+						list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText" placeholder="댓글을 입력해주세요." required>'
+						list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply()">'
+						list+='	</form>'
+						list+='	</div>'
+					}
+					
+					list+='</div>';
+	
+				} 
+				
+				for(var j=0; j<data.commList.length; j++) {
+					if (data.commList[j].commParent===data.commList[i].commIdx) {
+						list+='<div class="commRe" style="overflow:hidden;">';
+						list+='<div style="diplay:inline; width:95%; float:right;">';
+						list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
+						list+='	<p>'+data.commList[j].commText+'</p>'
+						list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[j].commRegdate+'</p>'
+						list+='</div>';
+						list+='</div>';		
+						list+='<hr>';							
+					}
 				}
-				list+='</div>';
-				list+='<hr>';
-			} 
-			
-			for(var j=0; j<data.commList.length; j++) {
-			if (data.commList[j].commParent===data.commList[i].commIdx) {
-				list+='<div class="commRe" style="overflow:hidden;">';
-				list+='<div style="diplay:inline; width:95%; float:right;">';
-				list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
-				list+='	<p>'+data.commList[j].commText+'</p>'
-				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[j].commRegdate+'</p>'
-				list+='</div>';
-				list+='</div>';		
-				list+='<hr>';							
-			}
-			}
-				list+='	<div class="replyForm" style="display:none;">'
-				list+='	<form class="replayForm">'
-				list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx">'
-				list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx">'
-				list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth">'
-				list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter">'
-				list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText" placeholder="댓글을 입력해주세요." required>'
-				list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply()">'
-				list+='	</form>'
-				list+='	</div>'
 
 
 			}
