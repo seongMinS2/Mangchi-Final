@@ -166,6 +166,43 @@ function goWrite() {
 		});
 	}
 
+function editForm(idx) {
+	$('#donateEdit').css('display','block');
+	var loginUser=$('#loginUser').val();
+	
+	$.ajax({
+		url : "http://localhost:8080/donate/donateBoard"+idx,
+		type : 'get',
+		success : function(data){
+			var post='';
+			post+='    <div class="w3-modal-content" style="overflow:auto;">';
+			post+='     <header class="w3-container">';
+			post+='        <span onclick="$("#donateEdit").css("display", "none")"';
+			post+='        class="w3-button w3-display-topright">&times;</span>';
+			post+='      </header>';		
+			post+='      <div class="w3-container">';
+			post+='			<form onsubmit="return false;">';
+			post+='				<input type="hidden" id="doLoc" name="doLoc" value="'+data.doLoc+'">';
+			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+data.doWriter+'" readonly><br>'; 
+			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" required/> <br> <br>';
+			post+='				<textarea id="summernote" name="content" required></textarea>';
+			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
+			post+='				<input type="reset" style="float: right;" >';
+			post+='				<input type="submit" value="글 수정" style="float: right;"
+									onclick="edit('+data.donateIdx+')" >';
+			post+='			</form>';
+			post+='      </div>';
+			post+='    </div>';
+			$('#donateEdit').html(post);
+		
+		
+		}
+	
+	});
+	
+
+
+}
 
 
 
@@ -190,7 +227,7 @@ function viewBoard(idx){
 			if(loginUser==data.writer) {
 				console.log(loginUser);
 				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donataIdx+')">삭제</button>';
-				view+='<button id="editDonate" style="float:right;" onclick="editBoard('+data.donateIdx+')">수정</button>';
+				view+='<button id="editDonate" style="float:right;" onclick="editForm('+data.donataIdx+')">수정</button>';
 			};
 			
 			view+='        <p>작성자 ' + data.writer+'</p>';

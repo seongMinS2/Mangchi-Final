@@ -53,6 +53,7 @@ var ctx = '<%=request.getContextPath()%>';
 </div>
 
 <div id="id01" class="w3-modal"></div>
+<div id="donateEdit" class="w3-modal"></div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
 
