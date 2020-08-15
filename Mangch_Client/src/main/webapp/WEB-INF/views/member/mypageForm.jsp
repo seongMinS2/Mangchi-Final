@@ -120,7 +120,8 @@ div.card>ul>li {
 			</div>
 			<div class="w3-cell">
 				<div id="memberList">
-					<h1>${result}</h1>
+					<h1><img src="<c:url value="${loginInfo.mImg}"/>" width=100
+						height=100></h1>
 				</div>
 			</div>
 		</div>
