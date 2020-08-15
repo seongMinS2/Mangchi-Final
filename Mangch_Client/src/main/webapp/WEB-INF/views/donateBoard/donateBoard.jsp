@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 var ctx = '<%=request.getContextPath()%>';
+
 </script>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@ var ctx = '<%=request.getContextPath()%>';
 			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
 
 			<form>
-				<input type="text" name="searchKeyWord" placeholder="아이디 혹은 물품을 검색하세요" style="width:100%;"> 
+				<input type="text" id="searchKey" name="searchKey" placeholder="아이디 혹은 물품을 검색하세요" style="width:100%;"> 
 				<input type="submit" style="width:100%;" value="검색">
 			</form>
 

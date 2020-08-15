@@ -59,30 +59,31 @@ function commList(donateIdx) {
 		type: 'get',
 		success : function(data) {
 			var list='';
-			for(var i=0; i<data.length; i++)  {
-			if(data[i].commDepth==0) {
+			for(var i=0; i<data.commList.length; i++)  {
+			console.log(data);
+			if(data.commList[i].commDepth==0) {
 				list+='<div class="commOrigin">';
-				list+='	<p>작성자 : '+data[i].commWriter+'</p>';
-				list+='	<p>'+data[i].commText+'</p>'
-				list+='	<p style="font-size:0.8em; display:inline;">'+data[i].commRegdate+'</p>'
+				list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
+				list+='	<p>'+data.commList[i].commText+'</p>'
+				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>'
 				if(loginUser!=null) {
 					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
 				}
-			} else if (data[i].commDepth>0) {
+			} else if (data.commList[i].commDepth>0) {
 				list+='<h5>RE : </h5>';
 				list+='<div class="commRe">';
-				list+='	<p>작성자 : '+data[i].commWriter+'</p>';
-				list+='	<p>'+data[i].commText+'</p>'
-				list+='	<p style="font-size:0.8em; display:inline;">'+data[i].commRegdate+'</p>'
+				list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
+				list+='	<p>'+data.commList[i].commText+'</p>'
+				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>'
 				if(loginUser!=null) {
 					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
 				}									
 			}
 				list+='	<div class="replyForm" style="display:none;">'
 				list+='	<form class="replayForm">'
-				list+='		<input type="hidden" name="donateIdx" value="'+data[i].donateIdx+'" class="commReplyDonIdx">'
-				list+='		<input type="hidden" name="commParent" value="'+data[i].commIdx+'" class="commReplyParIdx">'
-				list+='		<input type="hidden" name="commDepth" value="'+data[i].commDepth+'" class="commReplyDepth">'
+				list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx">'
+				list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx">'
+				list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth">'
 				list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter">'
 				list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText" placeholder="댓글을 입력해주세요." required>'
 				list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply()">'
@@ -91,6 +92,11 @@ function commList(donateIdx) {
 				list+='</div>';
 				list+='<hr>'
 			}
+			for (var i=1; i<=data.pageTotalCount; i++){
+				list+='	<a class="page" name="page" href="'+ctx+'/donate/comments?page='+i+'">['+i+']</a>';
+				
+			}
+			
 			$('#commList').html(list);
 		} 
 		
@@ -190,6 +196,10 @@ function viewBoard(idx){
 			view+='      <footer class="w3-container">';
 			view+='        <p>comments</p>';
 			
+			view+='			<hr>'
+			view+='			<div id="commList">'
+			view+='			</div>'	
+						
 			
 			if(loginUser!=null) {
 				view+='        <form id="commentForm" onsubmit="return false">';
@@ -200,11 +210,7 @@ function viewBoard(idx){
 				view+='        </form>';	
 			} else {
 				view+='	<p>로그인 한 사용자만 댓글을 달 수 있습니다.</p>'			
-			};
-			
-			view+='			<hr>'
-			view+='			<div id="commList">'
-			view+='			</div>'		
+			};	
 			view+='      </footer>';
 			view+='    </div>';
 			commList(data.donateIdx);		
@@ -246,7 +252,7 @@ function boardList(){
 			$('#listBox').html(html);
 			var page='';
 			for (var i=1; i<=data.pageTotalCount; i++){
-				page+='	<a href="'+ctx+'/donate/donateBoard?page='+i+'">['+i+']</a>';
+				page+='	<a class="page" name="page" href="'+ctx+'/donate/donateBoard?page='+i+'">['+i+']</a>';
 				
 			}
 			
