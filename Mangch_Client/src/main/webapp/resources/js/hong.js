@@ -1,4 +1,7 @@
-
+function getContextPath() {
+  var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+  return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+};
 
 
 
@@ -227,19 +230,27 @@ function boardList(){
 		url : 'http://localhost:8080/donate/donateBoard',
 		type : 'get',
 		success : function(data){
+			console.log(data);
 			var html= '';
-			for(var i=0;i<data.length; i++) {
-				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data[i].donateIdx+')">';
-				html+='		<input type="hidden" class="donIdx" value="'+data[i].donateIdx+'">'
-				html+='		<p class="board_loc" style="text-align:left;">'+data[i].doLoc+'</p>';
-				html+='		<p class="board_writer"> 작성자 : '+data[i].writer+'</p>';
-				html+='		<img src="'+data[i].doImg+'" style="width: 100%;">';
-				html+='		<h4 class="board_title">'+data[i].title+'</h4>';
-				html+='		<p class="board_date">'+data[i].doDate+'</p>';
-				html+='		<p class="board_viewcnt"> 조회수 : '+data[i].doViewCnt+'</p>';
+			for(var i=0; i<data.boardList.length; i++) {
+				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
+				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">'
+				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
+				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
+				html+='		<img src="'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				html+='		<h4 class="board_title">'+data.boardList[i].title+'</h4>';
+				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
+				html+='		<p class="board_viewcnt"> 조회수 : '+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
 			}
 			$('#listBox').html(html);
+			var page='';
+			for (var i=1; i<=data.pageTotalCount; i++){
+				page+='	<a href="'+ctx+'/donate/donateBoard?page='+i+'">['+i+']</a>';
+				
+			}
+			
+			$('#pageBox').html(page);
 		
 		}
 	});
