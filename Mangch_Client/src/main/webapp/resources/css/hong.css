@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+hr {
+	margin: 0;
+}
 
 #donateWrap {
 	width:80%;

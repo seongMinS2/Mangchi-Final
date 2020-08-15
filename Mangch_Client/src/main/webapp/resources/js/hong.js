@@ -60,8 +60,8 @@ function commList(donateIdx) {
 		success : function(data) {
 			var list='';
 			for(var i=0; i<data.commList.length; i++)  {
-			console.log(data);
-			if(data.commList[i].commDepth==0) {
+			
+			if(data.commList[i].commParent===0) {
 				list+='<div class="commOrigin">';
 				list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
 				list+='	<p>'+data.commList[i].commText+'</p>'
@@ -69,15 +69,19 @@ function commList(donateIdx) {
 				if(loginUser!=null) {
 					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
 				}
-			} else if (data.commList[i].commDepth>0) {
+			} 
+			
+			for(var j=0; j<data.commList.length; j++) {
+			if (data.commList[j].commParent===data.commList[i].commIdx) {
 				list+='<h5>RE : </h5>';
 				list+='<div class="commRe">';
-				list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
-				list+='	<p>'+data.commList[i].commText+'</p>'
-				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>'
+				list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
+				list+='	<p>'+data.commList[j].commText+'</p>'
+				list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[j].commRegdate+'</p>'
 				if(loginUser!=null) {
 					list+='	<button type="button" onclick="$(this).next().css(\'display\', \'block\');">답글쓰기</button>'
 				}									
+			}
 			}
 				list+='	<div class="replyForm" style="display:none;">'
 				list+='	<form class="replayForm">'
@@ -90,7 +94,7 @@ function commList(donateIdx) {
 				list+='	</form>'
 				list+='	</div>'
 				list+='</div>';
-				list+='<hr>'
+
 			}
 			for (var i=1; i<=data.pageTotalCount; i++){
 				list+='	<a class="page" name="page" href="'+ctx+'/donate/comments?page='+i+'">['+i+']</a>';
@@ -195,12 +199,10 @@ function viewBoard(idx){
 			view+='      </div>';
 			view+='      <footer class="w3-container">';
 			view+='        <p>comments</p>';
-			
 			view+='			<hr>'
 			view+='			<div id="commList">'
 			view+='			</div>'	
-						
-			
+			view+='			<hr>'			
 			if(loginUser!=null) {
 				view+='        <form id="commentForm" onsubmit="return false">';
 				view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">'
