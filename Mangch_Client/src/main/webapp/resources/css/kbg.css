@@ -17,6 +17,9 @@
    display : inline-block;
    cursor : pointer;
 }
+.b-modal{
+         cursor: default !important;
+        }
 
 
 
@@ -62,14 +65,10 @@
             height: 32px;
         }
         .hd_nick{
-        
-            display: flex;
-            flex-shrink: 1;
+        padding-top5px;
             margin-left: 48px;
             overflow: hidden;
-            align-items: flex-start;
             position: relative;
-                text-align: center;
             font-weight: bold;
             font-size: 15px;
             
@@ -138,6 +137,7 @@
         }
         .cmttext{
             margin-top: 10px;
+             margin-left: 10px;
         }
         .flex{
             display: flex;
@@ -338,6 +338,7 @@
         .in_cmttext{
             margin-top: 7px;
             margin-bottom: 10px;
+            
             width: 70%;
         }
         
@@ -350,3 +351,39 @@
             margin-top: 40px;
         }
         
+        .dotpopup{
+        float: right; 
+        height: 20px; 
+        background-color: white; 
+        border: 0; 
+        outline: 0;
+        cursor: pointer;
+        }
+        
+        
+        
+        .editdiv{
+        
+   width : 200px;
+            max-height: 100%;
+            overflow: hidden;
+   background-color : #fff;
+            border-radius: 12px;
+            display: none;
+            
+        }
+        
+        
+        .btnz{
+            
+            display: block;
+            min-height: 48px;
+            cursor: pointer;
+            background-color: white;
+            border:0;
+            margin: 0 auto;
+            width: 100%;
+            outline: 0;
+            border-bottom: 1px solid #dbdbdb;
+            min-width: 100px;
+        }

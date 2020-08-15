@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>동네생활</title>
-<link rel="stylesheet" href="<c:url value="/resources/css/kbg.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/kbg.css?ver=1"/>">
 
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <%-- <script type="text/javascript" src='<c:url value="/resources/js/kbg.js"/>'></script> --%>
@@ -52,8 +52,14 @@
 
 
 <div id="guestbookList"></div>
-
-
+<div id="editddd"></div>
+<!-- <div class="editdiv">
+            
+           <button class="btnz" >게시글 수정</button>
+            <button class="btnz">게시글 삭제</button>
+            <button class="btnz editdiv-close">취소</button>
+            
+        </div> -->
 
 
  
@@ -75,13 +81,34 @@
 
 <script type="text/javascript">
 
-var zz =$('#guest_writer').val();
-var bb=zz.trim();
+
+
+
+
+function deleteForm(guest_idx) {
+	if(confirm('정말 삭제하시겠습니까?')){
+		
+		$.ajax({
+			
+			url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+			type : 'DELETE',
+			success : function (data) {
+				alert(data);
+				gbList();
+			}
+		});
+	}
+}
+
+
+
+
 var x=$('#x').val();
+var y=$('#y').val();
 
 
 var mnick=$('')
-
+////////////////////////글쓰기 함수
 function guestPost() {
 	
 	var zz =$('#guest_writer').val();
@@ -91,8 +118,9 @@ function guestPost() {
 	postFormData.append('guest_text',$('#guest_text').val());
 	postFormData.append('x',x);
 	postFormData.append('y',y);
+	if($('#guest_photo')[0].files[0] !=null){
 	postFormData.append('photo',$('#guest_photo')[0].files[0]); // 파일첨부 코드	
-
+	}
 	$.ajax({
 		url : 'http://localhost:8080/guest/guest_book',
 		type : 'post',
@@ -114,6 +142,31 @@ function guestPost() {
 
 
 
+function editPopup(guest_idx) {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+		type:'GET',
+		success : function (data) {
+			var html='';
+		    html+='<div class="editdiv">';
+			html+='<button class="btnz" >게시글 수정</button>';
+			html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
+			html+='<button class="btnz">'+data.guest_idx+'</button>';
+			html+='<button class="btnz editdiv-close">취소</button>';
+			html+='</div>';
+			
+			$('#editddd').html(html);
+		}// 석세스끝
+
+	  $('.dotpopup').click(function(){
+	           $('.editdiv').bPopup({closeClass:'editdiv-close',
+	            opacity:0.4,
+	            modalClose:true
+	     });
+	        });
+		
+		}); // 에이젝스끝
+}//함수끝
 
 
 
@@ -222,7 +275,12 @@ function gbList() {
 			    //아래가 멤버프로필이미지 가져와야함
 			    html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    //아래가 멤버닉네임가져와야함
-			    html+='<div class="hd_nick">'+data[i].guest_writer+'</div>';
+			    html+='<div class="hd_nick">';
+			    html+=data[i].guest_writer
+			    if(data[i].guest_writer == ${loginInfo.mNick}){
+			    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+			    }
+			    html+='</div>'
 			    html+='</header>';
 			    html+='<div class="photo_body">'+data[i].guest_photo+'</div>';
 			    //html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
@@ -264,7 +322,12 @@ function gbList() {
 				    html+='<input type="hidden" name="guest_idx">';
 				    /* html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>'; */
 				    html+='<div class="hd_img">'+data[i].member_img+'</div>'; 
-				    html+='<div class="hd_nick">'+data[i].guest_writer+'</div>';
+				    html+='<div class="hd_nick">';
+				    html+=data[i].guest_writer
+				    if(data[i].guest_writer == ${loginInfo.mNick}){
+				    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+				    }
+				    html+='</div>'
 				    html+='</header>';
 				   
 				    
@@ -300,8 +363,6 @@ function gbList() {
 				    html+='<input type="submit" class="cmtsb" value="등록">';
 				    html+='</div>';
 				    html+='</div>';
-				    html+='<input type="hidden" value="'+data[i].x+'"><br>'
-				    html+='<input type="hidden" value="'+data[i].y+'"><br>'
 				    html+='</article>';
 				}
 			
@@ -343,6 +404,10 @@ function gbList() {
 				$(this).hide();
 				$(this).prev().show();
 		});
+			
+			
+
+			
 			
 		} // success끝 
 		
