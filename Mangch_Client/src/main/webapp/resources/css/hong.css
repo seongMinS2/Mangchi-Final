@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+hr {
+	margin: 0;
+}
 
 #donateWrap {
 	width:80%;
@@ -10,7 +13,6 @@
 
 #contentsBox {
 	margin: auto;
-	border:1px solid #DDD;
 	overflow: hidden;
 }
 

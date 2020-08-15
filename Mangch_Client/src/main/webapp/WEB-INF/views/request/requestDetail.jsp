@@ -10,14 +10,6 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
 
-<!-- <script>
-var paramStatus;
-if(${status} == 0){
-	paramStatus = ${status};		
-}
-
-</script>	 -->
-
 <style>
 #info {
 	/* border: 3px solid #DDD; */
@@ -105,6 +97,15 @@ td {
 
 	<script>
 
+
+
+	
+//매칭 취소 버튼 삭제
+setTimeout(function() { 
+		$('#cancel').remove();
+}, 5000);
+
+	
 //채팅하기 	
 function chat(reqIdx,uNick){
 
@@ -137,10 +138,6 @@ function cancel(reqStatus){
 }
 
 
-//매칭 취소 버튼 삭제
-setTimeout(function() { 
-		$('#cancel').remove();
-	}, 5000);
 
 
 //매칭 취소 버튼 생성 시 리뷰 작성 가능하게 하기 
@@ -229,8 +226,7 @@ $(document).ready(function(){
 			html+=	'	<td>'+data.reqCount+'</td>';
 			html += '</tr>';
 			
-			var status = '';
-			var color = '';
+			var status,color;
 			if(data.reqStatus == 0){
 				status = '대기중';
 				color = 'red';
@@ -244,31 +240,38 @@ $(document).ready(function(){
 				html +='	<td style="color: '+color+'">';
 				html +='		'+status+'';
 				
-				
 			
 			//로그인 한 사용자에게 버튼이 보인다
 			if('${loginInfo.mNick}' == data.reqWriter){
 				
-				console.log('1');
+				$('#chat').remove();
 				
-				if(data.reqStatus == 0) {
-					html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
-				}else if(data.reqStatus == 1){
-					html +='	<button onclick="cancel('+data.reqStatus+')" id="cancel">매칭취소</button>';
+				if(data.reqStatus == 1){
+					html +='	<td id="canceltd"><button onclick="cancel('+data.reqStatus+')" id="cancel">매칭취소</button></td>';
+					html += '<td><button onclick="review()">리뷰작성</button></td>';
 				}
 				html += '	</td>';
+				
 				//수정, 삭제
 				html += '<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
 				html += '<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
-				html += '<td><button onclick="review()">리뷰작성</button></td>';
 				html += '</tr>';
-			} 
-			
-			
-			//리뷰 작성 시에 시간초 지나야지 쓸 수 있는데 요 ?
-			else{
-				html += '<td><button onclick="review()">리뷰작성</button></td>';
 			}
+	
+			//로그인 한 회원 일 때
+			else if('${loginInfo.mNick}' == data.reqHelper){
+				if(data.reqStatus == 0){
+					html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+				}else {	
+					html += '<td><button onclick="review()">리뷰작성</button></td>';
+				}
+			}
+			 //비회원 일 때
+			else if('${loginInfo}' == ''){		
+				if(data.reqStatus == 0){
+					html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+				}
+			} 
 			
 			
 			

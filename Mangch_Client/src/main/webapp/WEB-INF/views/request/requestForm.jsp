@@ -94,6 +94,7 @@
 			
 			function edit(){
 				var editRequest = new FormData();
+				editRequest.append('reqWriter','${loginInfo.mNick}');
 				editRequest.append('reqTitle', $('#reqTitle').val());
 				editRequest.append('reqContents', $('#reqContents').val());
 				if ($('#reqImg')[0].files[0] != null) {

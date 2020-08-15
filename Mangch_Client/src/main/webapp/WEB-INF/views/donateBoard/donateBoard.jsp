@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
+var ctx = '<%=request.getContextPath()%>';
+
+</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,8 +27,8 @@
 			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
 
 			<form>
-				<input type="text" name="searchKeyWord" placeholder="아이디 혹은 물품을 검색하세요" style="width:80%;"> 
-				<input type="submit" style="width:15%;" value="검색">
+				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width:100%;"> 
+				<input type="submit" style="width:100%;" value="검색">
 			</form>
 
 
@@ -49,6 +53,7 @@
 </div>
 
 <div id="id01" class="w3-modal"></div>
+<div id="donateEdit" class="w3-modal"></div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
 
