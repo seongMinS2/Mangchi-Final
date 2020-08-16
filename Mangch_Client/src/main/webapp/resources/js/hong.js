@@ -102,7 +102,7 @@ function commList(donateIdx) {
 
 			}
 			for (var i=1; i<=data.pageTotalCount; i++){
-				list+='	<a class="page" name="page" href="'+ctx+'/donate/comments?page='+i+'">['+i+']</a>';
+				
 				
 			}
 			
@@ -184,7 +184,7 @@ function editForm(idx) {
 			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
 			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+loginUser+'" readonly><br>'; 
 			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" value="'+data.title+'" required/> <br> <br>';
-			post+='				<textarea id="summernote" name="content" value="'+data.content+'" required></textarea>';
+			post+='				<textarea class="summernote" name="content" value="'+data.content+'" required></textarea>';
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
 			post+='				<input type="reset" style="float: right;" >';
 			post+='				<input type="submit" value="글 수정" style="float: right;" onclick="editBoard('+data.donateIdx+')" >';
@@ -233,7 +233,7 @@ function viewBoard(idx){
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
-			view+='        <p><img src="'+data.doImg+'" style="width:200px;"></p>';
+			view+='        <p><img src="http://localhost:8080/donate/upload/'+data.doImg+'" style="width:200px;"></p>';
 			view+='        <p>'+data.content+'</p>';
 			view+='			<hr>';
 			view+='      </div>';
@@ -281,12 +281,12 @@ function boardList(){
 			console.log(data);
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
-				html+='<button type="button" class="menu_card w3-hover-light-grey" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
+				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
 				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">'
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
-				html+='		<img src="'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
-				html+='		<h4 class="board_title">'+data.boardList[i].title+'</h4>';
+				html+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
 				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
 				html+='		<p class="board_viewcnt"> 조회수 : '+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
@@ -294,7 +294,7 @@ function boardList(){
 			$('#listBox').html(html);
 			var page='';
 			for (var i=1; i<=data.pageTotalCount; i++){
-				page+='	<a class="page" name="page" href="'+ctx+'/donate/donateBoard?page='+i+'">['+i+']</a>';
+				
 				
 			}
 			
@@ -309,7 +309,6 @@ function boardList(){
 
 $(document).ready(function(){
 
-	boardList();
-	
+	boardList();	
 	
 });
