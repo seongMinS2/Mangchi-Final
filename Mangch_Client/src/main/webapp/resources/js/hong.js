@@ -165,6 +165,9 @@ function goWrite() {
 			}
 		});
 	}
+	
+	
+	
 
 function editForm(idx) {
 	$('#donateEdit').css('display','block');
@@ -174,17 +177,18 @@ function editForm(idx) {
 		url : "http://localhost:8080/donate/donateBoard/"+idx,
 		type : 'get',
 		success : function(data){
+			
 			var post='';
 			post+='    <div class="w3-modal-content" style="overflow:auto;">';
 			post+='     <header class="w3-container">';
 			post+='        <span onclick="$(\'#donateEdit\').css(\'display\', \'none\')" class="w3-button w3-display-topright">&times;</span>';
 			post+='      </header>';		
 			post+='      <div class="w3-container">';
-			post+='			<form onsubmit="return false;">';
+			post+='			<form onsubmit="return false">';
 			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
-			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+loginUser+'" readonly><br>'; 
+			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+data.writer+'" readonly><br>'; 
 			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" value="'+data.title+'" required/> <br> <br>';
-			post+='				<textarea class="summernote" name="content" value="'+data.content+'" required></textarea>';
+			post+='				<textarea id="summernote" name="content">'+data.content+'</textarea>';
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
 			post+='				<input type="reset" style="float: right;" >';
 			post+='				<input type="submit" value="글 수정" style="float: right;" onclick="editBoard('+data.donateIdx+')" >';
@@ -270,6 +274,24 @@ function viewBoard(idx){
 		
 	});
 }
+
+function viewImg(doImg){
+
+	$.ajax({
+		url : 'http://localhost:8080/donate/upload/'+doImg,
+		type : 'get',
+		success : function(data){
+			
+		
+		}
+	
+	
+	});
+
+}
+
+
+
 
 
 function boardList(){
