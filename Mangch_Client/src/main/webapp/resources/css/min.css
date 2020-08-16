@@ -16,13 +16,17 @@
 	}
 	.qnaArea{
 		height: 700px;
+		padding-left: 40%;
 	}
 	
 	.contentBox{
-		height: 700px;
-		padding-left: 40%
+		height: 1700px;
+		padding-left: 40%;
 	}
 	
 	.commentBox{
 		padding-top:200px;
+	}
+	.writeContainer{
+		padding : 10%;
 	}

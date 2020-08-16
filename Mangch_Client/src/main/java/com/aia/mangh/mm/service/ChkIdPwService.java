@@ -8,7 +8,7 @@ import com.aia.mangh.mm.dao.MemberDao;
 import com.aia.mangh.mm.model.LoginRequest;
 
 @Service
-public class CheckIdPwService {
+public class ChkIdPwService {
 	
 	private MemberDao dao;
 	

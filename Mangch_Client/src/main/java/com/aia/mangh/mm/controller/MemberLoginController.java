@@ -22,11 +22,12 @@ public class MemberLoginController {
 	MemberLoginService loginService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String getRegForm() {
+	public String getLoginForm() {
 		return "member/loginForm";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
+	@ResponseBody
 	public String login(LoginRequest loginRequest, HttpSession session, HttpServletResponse response, Model model) {
 
 		//request.setAttribute("result", loginService.loginMember(loginRequest, session, response));
@@ -42,9 +43,11 @@ public class MemberLoginController {
 //			return "member/loginForm";
 //		}
 		
-		model.addAttribute("result", loginService.loginMember(loginRequest, session, response));
-		
-		return "/member/mypageForm";
+		//model.addAttribute("result", loginService.loginMember(loginRequest, session, response));
+
+		//return "/member/mypageForm";
+
+		return loginService.loginMember(loginRequest, session, response);
 	}
 
 //	@RequestMapping("/CheckIdPw")

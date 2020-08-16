@@ -13,7 +13,7 @@
 
 	<h1>로그인</h1>
 	<hr>
-	<form method="post">
+	
 		<table>
 			<tr>
 				<td>아이디</td>
@@ -25,20 +25,20 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="submit" value="로그인" onclick="loginSubmit();"></td>
+				<td><input type="button" value="로그인" onclick="loginSubmit();"></td>
 			</tr>
 		</table>
-	</form>
+	
 	<a id="custom-login-btn" href="javascript:loginWithKakao()"> 
 	<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
 		width="300" />
 	</a>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
-	<script type="text/javascript">
+	<script>
 		function loginSubmit() {
 			$.ajax({
-				url : 'login',
+				url : 'memberLogin',
 				type : 'post',
 				data : {
 					mId : $('#mId').val(),
@@ -47,6 +47,7 @@
 				success : function(data) {
 					if (data == 'Y') {
 						alert('환영합니다 !!!');
+						location.href='memberMypage/mypageForm';
 					} else if (data == 'N') {
 						alert('아이디와 비밀번호를 확인해주세요.');
 						document.getElementById('loginForm').reset();
@@ -97,22 +98,20 @@
                     alert(res.properties.profile_image);
                     alert(res.properties.thumbnail_image);
                     alert(res.kakao_account.email);
-                    
-                    var id = res.id;
-                    var nickname = res.properties.nickname;
-                    var img = res.properties.profile_image;
+
                     var email = res.kakao_account.email;
                     
                     $.ajax({
-        				url : 'regFormKakao',
+        				url : 'kakao/kakaoId',
         				data : {
-        					id : id,
-        					nickname : nickname,
-        					img : img,
-        					email : email	
+        					mId : email	
         				},
         				success : function(data) {
- 							
+ 							if(data == 0) {		// 회원 가입
+ 								location.href='kakao';
+ 							} else {			// 로그인
+ 								location.href='memberMypage/mypageForm';
+ 							}
         				}
         			});
                     
