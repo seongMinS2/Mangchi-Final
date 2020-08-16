@@ -197,8 +197,8 @@ function editForm(idx) {
 			$('#donateEdit').html(post);
 			$('#editWriter').val(data.writer);
 			$('#editTitle').val(data.title);
-			$('#summernote').summernote('insertText', data.content);
-			$('#summernote').summernote('insertText', {
+			$('#summernote').val(data.content);
+			$('#summernote').summernote({
 				minHeight : 370,
 				maxHeight : null,
 				focus : true,
