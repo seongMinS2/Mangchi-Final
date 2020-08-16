@@ -275,20 +275,7 @@ function viewBoard(idx){
 	});
 }
 
-function viewImg(doImg){
 
-	$.ajax({
-		url : 'http://localhost:8080/donate/upload/'+doImg,
-		type : 'get',
-		success : function(data){
-			
-		
-		}
-	
-	
-	});
-
-}
 
 
 
