@@ -20,27 +20,54 @@
 
 
 
-<h1>방명록작성</h1>
- ${loginInfo}
 
+ ${loginInfo}
  
-<form id="postForm" onsubmit="return false;">
-		writer :<input type="text" name="guest_writer" id="guest_writer" value=" ${loginInfo.mNick}"><br>
-		text :<input type="text" name="guest_text" id="guest_text"><br>
-		 photo :<input type="file" name="guest_photo" id="guest_photo" ><br>
-		addr :<input type="text" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"><br>
-		x :<input type="text" name="x" id="x" value="${loginInfo.mLttd}"><br>
-		y :<input type="text" name="y" id="y" value="${loginInfo.mLgtd}"><br>
-		r :<input type="text" name="r" id="r" value="${loginInfo.mRadius}"><br>
-		<input type="submit" value="글쓰기" onclick="guestPost()">
-	
-</form>
+ 
+ <h3 style="font-weight: bold; text-align: center;">반가워요,${loginInfo.mNick }님!<br>
+  ${loginInfo.mNick }님의 근처 동네생활 입니다</h3>
+ 
+<article class="none_photo">
+
+<div id="postForm" onsubmit="return false;">
+		<input type="hidden" name="guest_writer" id="guest_writer" value=" ${loginInfo.mNick}">	
+		<input type="hidden" name="x" id="x" value="${loginInfo.mLttd}">
+		<input type="hidden" name="y" id="y" value="${loginInfo.mLgtd}">
+		<input type="hidden" name="r" id="r" value="${loginInfo.mRadius}">
+		<input type="hidden" name="member_img" id="member_img" value="${loginInfo.mImg}">
+	<div class="postwrap" style="display: block;">
+		<div class="postTitle" style="background-color: #DDD; line-height: 27px; ">
+		<span style="font-weight: bold; margin-left: 3px;">게시물 만들기</span>
+		</div>
+		<div class="postbody" style="height: auto;">
+		
+			<div style="width: 100%; display: flex; position: relative; height: 100px; border-bottom: 1px solid #DDD;">
+				<div style="width: 20%;">
+				<img   src="${pageContext.request.contextPath}${loginInfo.mImg}" style=" left: 6%; top: 25%; position: absolute; border: 2px solid #DDD; border-radius: 50px; width: 45px; height: 45px;">
+				</div>
+			
+			<textarea rows="10" cols="50"  type="textarea" name="guest_text" id="guest_text" required="required" placeholder="    ${loginInfo.mNick}님, 무슨생각을 하고계신가요?"
+				style="width: 80%; border: 0; outline: 0;  height: 50px; margin-top:33px; overflow: hidden; resize: none;"></textarea>
+			</div>
+				
+				<div class="foot" style="padding: 15px;">
+				<label for="guest_photo"><img src="${pageContext.request.contextPath}/resources/img/photo.png" style="height: 30px; width: 30px;"></label>
+		 <input type="file" name="guest_photo" id="guest_photo" style="display: none;">
+		 <input class="upload-name" value="파일선택"  style="border: 0; outline: 0; font-size: 10px; width:400px;" readonly="readonly">
+		 <input type="submit" value="게시" class="cmtsb" onclick="guestPost()" style="float: right;">
+		 		</div>
+		 </div>
+</div>
+ </div>
+ </article>
 
 
 
 <div style="margin-top:5%; text-align: center; margin: 0 auto;">
-<button class="Post">글쓰기</button>
+
 </div>
+  
+  
   
    <div id="popup" class="Pstyle">
       <span class="b-close">X</span>
@@ -49,33 +76,16 @@
 
 
 
-
-
 <div id="guestbookList"></div>
-<div id="editddd"></div>
-<!-- <div class="editdiv">
-            
-           <button class="btnz" >게시글 수정</button>
-            <button class="btnz">게시글 삭제</button>
-            <button class="btnz editdiv-close">취소</button>
-            
-        </div> -->
 
 
- 
-<form id="postForm" onsubmit="return false;">
-		writer :<input type="text" name="guest_writer" id="guest_writer" value="${loginInfo.mNick}"><br>
-		text :<input type="text" name="guest_text" id="guest_text"><br>
-		photo :<input type="file" name="guest_photo" id="guest_photo" ><br>
-		addr :<input type="text" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"><br>
-		x :<input type="text" name="x" id="x" value="${loginInfo.mLttd}"><br>
-		y :<input type="text" name="y" id="y" value="${loginInfo.mLgtd}"><br>
-		r :<input type="text" name="r" id="r" value="${loginInfo.mRadius}"><br>
-		
-		
-		<input type="submit" value="글쓰기" onclick="guestPost();"><br>
-		
-</form>
+<div id="editddd"  class="editdiv"></div>
+
+
+
+
+
+
 
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 
@@ -85,6 +95,10 @@
 
 
 
+
+
+
+//////////////삭제함수
 function deleteForm(guest_idx) {
 	if(confirm('정말 삭제하시겠습니까?')){
 		
@@ -93,31 +107,41 @@ function deleteForm(guest_idx) {
 			url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 			type : 'DELETE',
 			success : function (data) {
-				alert(data);
 				gbList();
 			}
 		});
 	}
+	$('.editdiv-close').trigger('click');
+	$('.b-close').trigger('click');
 }
 
 
 
 
+//세션 x,y값 전역변수선언
 var x=$('#x').val();
 var y=$('#y').val();
 
 
-var mnick=$('')
 ////////////////////////글쓰기 함수
 function guestPost() {
 	
 	var zz =$('#guest_writer').val();
 	var bb=zz.trim();
+	
+	
+	
+	//db에 줄바꿈
+	var str = $('#guest_text').val();
+	str = str.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+
+	
 	var postFormData = new FormData();
 	postFormData.append('guest_writer',bb);
-	postFormData.append('guest_text',$('#guest_text').val());
+	postFormData.append('guest_text',str);
 	postFormData.append('x',x);
 	postFormData.append('y',y);
+	postFormData.append('member_img',$('#member_img').val());
 	if($('#guest_photo')[0].files[0] !=null){
 	postFormData.append('photo',$('#guest_photo')[0].files[0]); // 파일첨부 코드	
 	}
@@ -129,44 +153,63 @@ function guestPost() {
 		contentType : false, // multipart/form-data 쓰는 코드
 		data : postFormData,
 		success : function (data) {
+			$('#guest_text').val('');
+			$(".upload-name").val('파일선택');
 			gbList();
-			$('#postForm')[0].reset();
 		}
-		
 	});
-	
-	
 }
 
+//////글쓰기 파일업로드 네임
+var fileTarget=$('#guest_photo');
+fileTarget.on('change',function(){
+	var cur=fileTarget.val();
+	var name=cur.substring(12)
+	$(".upload-name").val(name);
+	
+});
 
 
 
 
+
+
+
+////////////////////// 에디트팝업
 function editPopup(guest_idx) {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		success : function (data) {
+			
 			var html='';
-		    html+='<div class="editdiv">';
-			html+='<button class="btnz" >게시글 수정</button>';
-			html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
-			html+='<button class="btnz">'+data.guest_idx+'</button>';
-			html+='<button class="btnz editdiv-close">취소</button>';
-			html+='</div>';
+			
+				html+='<button class="btnz" >게시글 수정</button>';
+				html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
+				html+='<button class="btnz">'+data.guest_idx+'</button>';
+				html+='<button class="btnz editdiv-close">취소</button>';
 			
 			$('#editddd').html(html);
+			
+			
 		}// 석세스끝
-
-	  $('.dotpopup').click(function(){
-	           $('.editdiv').bPopup({closeClass:'editdiv-close',
-	            opacity:0.4,
-	            modalClose:true
-	     });
-	        });
 		
-		}); // 에이젝스끝
-}//함수끝
+	});
+	$("#editddd").bPopup({closeClass:'editdiv-close',
+        opacity:0.4,
+        modalClose:true}); // 열기
+	
+	
+	};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -186,8 +229,13 @@ function goPopup(guest_idx) {
 			}
 			html+='<div class="in_body">'
 			html+='<header>'
-			html+='<div class="in_hd_img"><img src="/images/3.png"></div>'
-			html+='<div class="in_hd_nick">'+data.guest_writer+'</div>'
+			html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
+			 html+='<div class="in_hd_nick">';
+		    html+=data.guest_writer
+		    if(data.guest_writer === `${loginInfo.mNick}`){
+		    	html+='<button class="dotpopup" style="float:right;" onclick="editPopup('+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+		    }
+		    html+='</div>'
 			html+='</header>'   
 			html+='<div class="null_content">'
 			html+='<div class="in_nonerealtext">'+data.guest_text+'</div>'
@@ -273,11 +321,11 @@ function gbList() {
 			    html+='<header>';
 			    html+='<input type="hidden" name="guest_idx">';
 			    //아래가 멤버프로필이미지 가져와야함
-			    html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
+			    html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data[i].member_img+'"></div>'; 
 			    //아래가 멤버닉네임가져와야함
 			    html+='<div class="hd_nick">';
 			    html+=data[i].guest_writer
-			    if(data[i].guest_writer == ${loginInfo.mNick}){
+			    if(data[i].guest_writer === `${loginInfo.mNick}`){
 			    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
 			    }
 			    html+='</div>'
@@ -321,11 +369,11 @@ function gbList() {
 				    html+='<header>';
 				    html+='<input type="hidden" name="guest_idx">';
 				    /* html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>'; */
-				    html+='<div class="hd_img">'+data[i].member_img+'</div>'; 
+				    html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data[i].member_img+'"></div>'; 
 				    html+='<div class="hd_nick">';
 				    html+=data[i].guest_writer
-				    if(data[i].guest_writer == ${loginInfo.mNick}){
-				    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+				    if(data[i].guest_writer === `${loginInfo.mNick}`){
+				    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
 				    }
 				    html+='</div>'
 				    html+='</header>';
@@ -359,7 +407,7 @@ function gbList() {
 				    html+='</section>'; 
 				    html+='</div>';
 				    html+='<div class="cmtbunki">';
-				    html+='<input type="text" class="cmtwr" id="cmtwr" placeholder="    댓글 달기">';
+				    html+='<input type="text" class="cmtwr"  placeholder="    댓글 달기">';
 				    html+='<input type="submit" class="cmtsb" value="등록">';
 				    html+='</div>';
 				    html+='</div>';
@@ -404,10 +452,7 @@ function gbList() {
 				$(this).hide();
 				$(this).prev().show();
 		});
-			
-			
 
-			
 			
 		} // success끝 
 		

@@ -155,7 +155,8 @@
             margin-right: 4px;
             border: 0;
             outline: 0;
-            color: skyblue
+            color: skyblue;
+            background-color: white;
             
         }
         .cmtbunki{
@@ -209,13 +210,10 @@
         }
         .in_hd_nick{
         
-            display: flex;
-            flex-shrink: 1;
             margin-left: 48px;
             overflow: hidden;
             align-items: flex-start;
             position: relative;
-                text-align: center;
             font-weight: bold;
             font-size: 15px;
             
