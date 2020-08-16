@@ -5,23 +5,23 @@ function getContextPath() {
 
 
 
-function reply() {
+function reply(idx) {
 
 	$.ajax({
 		url : 'http://localhost:8080/donate/comments/reply',
 		type : 'post',
 		data : {
-			donateIdx : $(this).prev('.commReplyDonIdx').val(),
-			commParent : $(this).prev('.commReplyParIdx').val(),
-			commDepth : $(this).prev('.commReplyDepth').val(),
-			commWriter : $(this).prev('.commReplyWriter').val(),
-			commText : $(this).prev('.commReplyText').val(),
+			donateIdx : $('.commReplyDonIdx'+idx).val(),
+			commParent : $('.commReplyParIdx'+idx).val(),
+			commDepth : $('.commReplyDepth'+idx).val(),
+			commWriter : $('.commReplyWriter'+idx).val(),
+			commText : $('.commReplyText'+idx).val(),
 		},
 		success : function(data){
 			alert('대댓글을 작성였습니다.');
 			commList($('#commDonIdx').val());
-			document.getElementByClassName('replayForm').reset();	
-			$('div.replyForm').css('display', 'none');	
+			document.getElementById('replayForm'+idx).reset();
+			$('.replyForm'+idx).css('display', 'none');
 		}
 	
 	});
@@ -70,18 +70,19 @@ function commList(donateIdx) {
 						
 						list+='	<button type="button" class="w3-btn w3-black" onclick="$(\'.replyForm'+data.commList[i].commIdx+'\').css(\'display\', \'block\')">답글쓰기</button>';
 						list+='	<div class="replyForm'+data.commList[i].commIdx+'" style="display:none;">';
-						list+='	<form class="replayForm'+data.commList[i].commIdx+'">';
+						list+='	<form id="replayForm'+data.commList[i].commIdx+'">';
 						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx'+data.commList[i].commIdx+'">';
 						list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx'+data.commList[i].commIdx+'">';
 						list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth'+data.commList[i].commIdx+'">';
 						list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter'+data.commList[i].commIdx+'">';
 						list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText'+data.commList[i].commIdx+'" placeholder="댓글을 입력해주세요." required>';
-						list+='		<input type="submit" class="replySubmit'+data.commList[i].commIdx+'" value="댓글 작성" onclick="reply()">';
+						list+='		<input type="submit" class="replySubmit'+data.commList[i].commIdx+'" value="댓글 작성" onclick="reply('+data.commList[i].commIdx+')">';
 						list+='	</form>';
 						list+='	</div>';
 					}
 					
 					list+='</div>';
+					list+='<hr>';
 	
 				} 
 				
@@ -182,8 +183,8 @@ function editForm(idx) {
 			post+='			<form onsubmit="return false;">';
 			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
 			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+loginUser+'" readonly><br>'; 
-			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" required/> <br> <br>';
-			post+='				<textarea id="summernote" name="content" required></textarea>';
+			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" value="'+data.title+'" required/> <br> <br>';
+			post+='				<textarea id="summernote" name="content" value="'+data.content+'" required></textarea>';
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
 			post+='				<input type="reset" style="float: right;" >';
 			post+='				<input type="submit" value="글 수정" style="float: right;" onclick="editBoard('+data.donateIdx+')" >';
@@ -280,7 +281,7 @@ function boardList(){
 			console.log(data);
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
-				html+='<button type="button" class="menu_card w3-hover-sand" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
+				html+='<button type="button" class="menu_card w3-hover-light-grey" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
 				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">'
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
