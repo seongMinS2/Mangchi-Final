@@ -16,25 +16,31 @@ public class Member {
 	private String mImg;
 	private String mChk;
 	private int mRadius;
+	private String kId;
 
 	public Member(int mIdx, String mId, String mPw, String mNick, float mScore, Date mRegdate, String mAddr,
-			double mLttd, double mLgtd, String mImg, String mChk, int mRadius) {
+			double mLttd, double mLgtd, String mImg, String mChk, int mRadius, String kId) {
 		this.mIdx = mIdx;
 		this.mId = mId;
 		this.mPw = mPw;
 		this.mNick = mNick;
 		this.mScore = mScore;
 		this.mRegdate = mRegdate;
+		this.mAddr = mAddr;
 		this.mLttd = mLttd;
 		this.mLgtd = mLgtd;
-		this.mAddr = mAddr;
 		this.mImg = mImg;
 		this.mChk = mChk;
 		this.mRadius = mRadius;
+		this.kId = kId;
 	}
 
 	public Member(String mId, String mPw, String mNick, String mAddr, double mLttd, double mLgtd, String mChk) {
-		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 0);
+		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 0, null);
+	}
+	
+	public Member(String mId, String mNick, String mAddr, double mLttd, double mLgtd, String kId) {
+		this(0, mId, null, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, null, 0, kId);
 	}
 
 	public LoginInfo toLoginInfo() {
@@ -139,6 +145,14 @@ public class Member {
 	public void setmRadius(int mRadius) {
 		this.mRadius = mRadius;
 	}
+	
+	public String getkId() {
+		return kId;
+	}
+
+	public void setkId(String kId) {
+		this.kId = kId;
+	}
 
 	public java.util.Date getToDate() {
 		return new java.util.Date(mRegdate.getTime());
@@ -147,7 +161,9 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [mIdx=" + mIdx + ", mId=" + mId + ", mPw=" + mPw + ", mNick=" + mNick + ", mScore=" + mScore
-				+ ", mRegdate=" + mRegdate + ", mLttd=" + mLttd + ", mLgtd=" + mLgtd + ", mAddr=" + mAddr + ", mImg="
-				+ mImg + ", mChk=" + mChk + ", mRadius=" + mRadius + "]";
+				+ ", mRegdate=" + mRegdate + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd=" + mLgtd + ", mImg="
+				+ mImg + ", mChk=" + mChk + ", mRadius=" + mRadius + ", kId=" + kId + "]";
 	}
+
+
 }

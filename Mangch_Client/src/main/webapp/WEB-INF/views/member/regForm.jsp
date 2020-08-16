@@ -86,7 +86,7 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
 <!-- 	<script
 		src="https://apis.google.com/js/platform.js?onload=renderButton"></script> -->
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -351,7 +351,6 @@
 			}).open();
 		}
 
-		// ID 중복체크
 	</script>
 </body>
 </html>
