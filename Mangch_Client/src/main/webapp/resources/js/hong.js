@@ -51,7 +51,6 @@ function commReg() {
 
 
 }
-
 function commList(donateIdx) {
 	var loginUser=$('#loginUser').val();
 	$.ajax({
@@ -69,15 +68,15 @@ function commList(donateIdx) {
 					
 					if(loginUser!=null) {
 						
-						list+='	<button type="button" class="w3-btn w3-black" onclick="$(this).next().css("display", "block")">답글쓰기</button>';
-						list+='	<div class="replyForm" style="display:none;">';
-						list+='	<form class="replayForm">';
-						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx">';
-						list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx">';
-						list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth">';
-						list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter">';
-						list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText" placeholder="댓글을 입력해주세요." required>';
-						list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply()">';
+						list+='	<button type="button" class="w3-btn w3-black" onclick="$(\'.replyForm'+data.commList[i].commIdx+'\').css(\'display\', \'block\')">답글쓰기</button>';
+						list+='	<div class="replyForm'+data.commList[i].commIdx+'" style="display:none;">';
+						list+='	<form class="replayForm'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter'+data.commList[i].commIdx+'">';
+						list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText'+data.commList[i].commIdx+'" placeholder="댓글을 입력해주세요." required>';
+						list+='		<input type="submit" class="replySubmit'+data.commList[i].commIdx+'" value="댓글 작성" onclick="reply()">';
 						list+='	</form>';
 						list+='	</div>';
 					}
