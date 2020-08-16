@@ -5,23 +5,23 @@ function getContextPath() {
 
 
 
-function reply() {
+function reply(idx) {
 
 	$.ajax({
 		url : 'http://localhost:8080/donate/comments/reply',
 		type : 'post',
 		data : {
-			donateIdx : $(this).prev('.commReplyDonIdx').val(),
-			commParent : $(this).prev('.commReplyParIdx').val(),
-			commDepth : $(this).prev('.commReplyDepth').val(),
-			commWriter : $(this).prev('.commReplyWriter').val(),
-			commText : $(this).prev('.commReplyText').val(),
+			donateIdx : $('.commReplyDonIdx'+idx).val(),
+			commParent : $('.commReplyParIdx'+idx).val(),
+			commDepth : $('.commReplyDepth'+idx).val(),
+			commWriter : $('.commReplyWriter'+idx).val(),
+			commText : $('.commReplyText'+idx).val(),
 		},
 		success : function(data){
 			alert('대댓글을 작성였습니다.');
 			commList($('#commDonIdx').val());
-			document.getElementByClassName('replayForm').reset();	
-			$('div.replyForm').css('display', 'none');	
+			document.getElementById('replayForm'+idx).reset();
+			$('.replyForm'+idx).css('display', 'none');
 		}
 	
 	});
@@ -51,7 +51,6 @@ function commReg() {
 
 
 }
-
 function commList(donateIdx) {
 	var loginUser=$('#loginUser').val();
 	$.ajax({
@@ -64,25 +63,26 @@ function commList(donateIdx) {
 				if(data.commList[i].commParent===0) {
 					list+='<div class="commOrigin">';
 					list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
-					list+='	<p>'+data.commList[i].commText+'</p>'
-					list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>'
+					list+='	<p>'+data.commList[i].commText+'</p>';
+					list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>';
 					
 					if(loginUser!=null) {
 						
-						list+='	<button type="button" class="w3-btn w3-black" onclick="$(this).next().css("display", "block")">답글쓰기</button>'
-						list+='	<div class="replyForm" style="display:none;">'
-						list+='	<form class="replayForm">'
-						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx">'
-						list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx">'
-						list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth">'
-						list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter">'
-						list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText" placeholder="댓글을 입력해주세요." required>'
-						list+='		<input type="submit" class="replySubmit" value="댓글 작성" onclick="reply()">'
-						list+='	</form>'
-						list+='	</div>'
+						list+='	<button type="button" class="w3-btn w3-black" onclick="$(\'.replyForm'+data.commList[i].commIdx+'\').css(\'display\', \'block\')">답글쓰기</button>';
+						list+='	<div class="replyForm'+data.commList[i].commIdx+'" style="display:none;">';
+						list+='	<form id="replayForm'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="commDepth" value="'+data.commList[i].commDepth+'" class="commReplyDepth'+data.commList[i].commIdx+'">';
+						list+='		<input type="hidden" name="commWriter" value="'+loginUser+'" class="commReplyWriter'+data.commList[i].commIdx+'">';
+						list+='		<input type="textarea" name="commText" style="width: 80%; height: 70px; margin:10px;" class="commReplyText'+data.commList[i].commIdx+'" placeholder="댓글을 입력해주세요." required>';
+						list+='		<input type="submit" class="replySubmit'+data.commList[i].commIdx+'" value="댓글 작성" onclick="reply('+data.commList[i].commIdx+')">';
+						list+='	</form>';
+						list+='	</div>';
 					}
 					
 					list+='</div>';
+					list+='<hr>';
 	
 				} 
 				
@@ -102,7 +102,7 @@ function commList(donateIdx) {
 
 			}
 			for (var i=1; i<=data.pageTotalCount; i++){
-				list+='	<a class="page" name="page" href="'+ctx+'/donate/comments?page='+i+'">['+i+']</a>';
+				
 				
 			}
 			
@@ -165,31 +165,33 @@ function goWrite() {
 			}
 		});
 	}
+	
+	
+	
 
 function editForm(idx) {
 	$('#donateEdit').css('display','block');
 	var loginUser=$('#loginUser').val();
 	
 	$.ajax({
-		url : "http://localhost:8080/donate/donateBoard"+idx,
+		url : "http://localhost:8080/donate/donateBoard/"+idx,
 		type : 'get',
 		success : function(data){
+			
 			var post='';
 			post+='    <div class="w3-modal-content" style="overflow:auto;">';
 			post+='     <header class="w3-container">';
-			post+='        <span onclick="$("#donateEdit").css("display", "none")"';
-			post+='        class="w3-button w3-display-topright">&times;</span>';
+			post+='        <span onclick="$(\'#donateEdit\').css(\'display\', \'none\')" class="w3-button w3-display-topright">&times;</span>';
 			post+='      </header>';		
 			post+='      <div class="w3-container">';
-			post+='			<form onsubmit="return false;">';
-			post+='				<input type="hidden" id="doLoc" name="doLoc" value="'+data.doLoc+'">';
-			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+data.doWriter+'" readonly><br>'; 
-			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" required/> <br> <br>';
-			post+='				<textarea id="summernote" name="content" required></textarea>';
+			post+='			<form onsubmit="return false">';
+			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
+			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+data.writer+'" readonly><br>'; 
+			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" value="'+data.title+'" required/> <br> <br>';
+			post+='				<textarea id="summernote" name="content">'+data.content+'</textarea>';
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
 			post+='				<input type="reset" style="float: right;" >';
-			post+='				<input type="submit" value="글 수정" style="float: right;"
-									onclick="edit('+data.donateIdx+')" >';
+			post+='				<input type="submit" value="글 수정" style="float: right;" onclick="editBoard('+data.donateIdx+')" >';
 			post+='			</form>';
 			post+='      </div>';
 			post+='    </div>';
@@ -226,8 +228,8 @@ function viewBoard(idx){
 			
 			if(loginUser==data.writer) {
 				console.log(loginUser);
-				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donataIdx+')">삭제</button>';
-				view+='<button id="editDonate" style="float:right;" onclick="editForm('+data.donataIdx+')">수정</button>';
+				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donateIdx+')">삭제</button>';
+				view+='<button id="editDonate" style="float:right;" onclick="editForm('+data.donateIdx+')">수정</button>';
 			};
 			
 			view+='        <p>작성자 ' + data.writer+'</p>';
@@ -235,22 +237,22 @@ function viewBoard(idx){
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
-			view+='        <p><img src="'+data.doImg+'" style="width:200px;"></p>';
+			view+='        <p><img src="http://localhost:8080/donate/upload/'+data.doImg+'" style="width:200px;"></p>';
 			view+='        <p>'+data.content+'</p>';
 			view+='			<hr>';
 			view+='      </div>';
 			view+='      <footer class="w3-container">';
 			view+='        <p>comments</p>';
-			view+='			<hr>'
-			view+='			<div id="commList">'
-			view+='			</div>'	
-			view+='			<hr>'			
+			view+='			<hr>';
+			view+='			<div id="commList">';
+			view+='			</div>'	;
+			view+='			<hr>';
 			if(loginUser!=null) {
 				view+='        <form id="commentForm" onsubmit="return false">';
-				view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">'
-				view+='				<input type="hidden" value="'+loginUser+'" id="commWriter" name="commWriter" readonly>'
-				view+='				<input type="textarea" id="commText" name="commText" placeholder="댓글을 입력해주세요" style="width: 80%; height: 70px; margin:10px;" required>'
-				view+='				<input type="submit" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">'
+				view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">';
+				view+='				<input type="hidden" value="'+loginUser+'" id="commWriter" name="commWriter" readonly>';
+				view+='				<input type="textarea" id="commText" name="commText" placeholder="댓글을 입력해주세요" style="width: 80%; height: 70px; margin:10px;" required>';
+				view+='				<input type="submit" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">';
 				view+='        </form>';	
 			} else {
 				view+='	<p>로그인 한 사용자만 댓글을 달 수 있습니다.</p>'			
@@ -274,6 +276,11 @@ function viewBoard(idx){
 }
 
 
+
+
+
+
+
 function boardList(){
 
 	$.ajax({
@@ -283,12 +290,12 @@ function boardList(){
 			console.log(data);
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
-				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
+				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
 				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">'
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
-				html+='		<img src="'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
-				html+='		<h4 class="board_title">'+data.boardList[i].title+'</h4>';
+				html+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
 				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
 				html+='		<p class="board_viewcnt"> 조회수 : '+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
@@ -296,7 +303,7 @@ function boardList(){
 			$('#listBox').html(html);
 			var page='';
 			for (var i=1; i<=data.pageTotalCount; i++){
-				page+='	<a class="page" name="page" href="'+ctx+'/donate/donateBoard?page='+i+'">['+i+']</a>';
+				
 				
 			}
 			
@@ -311,7 +318,6 @@ function boardList(){
 
 $(document).ready(function(){
 
-	boardList();
-	
+	boardList();	
 	
 });

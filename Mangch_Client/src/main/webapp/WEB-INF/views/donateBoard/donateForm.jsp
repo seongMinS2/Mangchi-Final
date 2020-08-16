@@ -11,7 +11,7 @@
 <c:if test="${loginInfo==null}">
 	<script>
 		alert('나눔 글쓰기는 로그인 한 사용자만 가능합니다.');
-		location.href="<c:url value='/member/loginForm'/>";
+		location.href="<c:url value='/member/memberLogin'/>";
 	</script>
 </c:if> 
 <jsp:include page="/WEB-INF/views/include/header.jsp" />

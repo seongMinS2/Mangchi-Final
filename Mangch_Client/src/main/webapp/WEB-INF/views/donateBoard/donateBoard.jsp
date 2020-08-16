@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 var ctx = '<%=request.getContextPath()%>';
-
 </script>
 <!DOCTYPE html>
 <html>
@@ -13,8 +12,8 @@ var ctx = '<%=request.getContextPath()%>';
 <title>나눔 게시판</title>
 </head>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
-<script type="text/javascript"
-	src='<c:url value="/resources/js/hong.js"/>'></script>
+
+<script type="text/javascript" src='<c:url value="/resources/js/hong.js"/>'></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/hong.css"/>">
 <div id="donateWrap">
 	<h3>나눔 게시판</h3>
