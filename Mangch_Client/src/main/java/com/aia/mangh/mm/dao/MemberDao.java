@@ -24,4 +24,7 @@ public interface MemberDao {
 	
 	// 회원 정보 출력
 	public List<Member> selectList(int mIdx);
+	
+	// 카카오 로그인
+	public Member selectBykakao(String mId);
 }

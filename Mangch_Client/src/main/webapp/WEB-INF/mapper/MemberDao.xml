@@ -18,15 +18,16 @@
 		<result property="mImg" column="member_img" />
 		<result property="mChk" column="member_check" />
 		<result property="mRadius" column="member_radius" />
+		<result property="kId" column="member_kId" />
 	</resultMap>
 
 	<!-- 회원가입 -->
 	<insert id="insertMember"
 		parameterType="com.aia.mangh.mm.model.Member">
 		INSERT INTO Mangchi.member(
-		member_id,member_pw,member_nick,member_score,member_latitude,member_longitude,member_addr,member_img,member_check,member_radius)
+		member_id,member_pw,member_nick,member_score,member_latitude,member_longitude,member_addr,member_img,member_check,member_radius,member_kId)
 		VALUES(
-		#{mId},#{mPw},#{mNick},3.0,#{mLttd},#{mLgtd},#{mAddr},#{mImg},#{mChk},0)
+		#{mId},#{mPw},#{mNick},3.0,#{mLttd},#{mLgtd},#{mAddr},#{mImg},#{mChk},0, #{kId})
 	</insert>
 
 	<!-- 로그인 -->
@@ -57,6 +58,12 @@
 	<select id="selectList" parameterType="int"
 		resultMap="resultMember">
 		select * from Mangchi.member where member_idx=#{mIdx}
+	</select>
+	
+	<!-- 카카오 로그인 -->
+	<select id="selectBykakao" resultMap="resultMember">
+		select * from Mangchi.member
+		where member_id=#{mId}
 	</select>
 
 </mapper>

@@ -2,152 +2,93 @@ package com.aia.mangh.mm.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class RegRequest {
+public class RegKakaoRequest {
 
 	private String mId;
-	private String mPw;
+	//private String mPw;
 	private String mNick;
-	private String chkmPw;
-	private String mChk;
 	private String mAddr;
 	private double mLttd;
 	private double mLgtd;
 	private MultipartFile mImg;
+	private String kId;
 	
-	public RegRequest() {}
+	public RegKakaoRequest() {}
 	
 	public Member toMember() {
-		return new Member(mId,mPw,mNick,mAddr,mLttd,mLgtd,mChk);
+		return new Member(mId,mNick,mAddr,mLttd,mLgtd, kId);
 	}
-
-	public RegRequest(String mId, String mPw, String mNick, String chkmPw, String mChk, String mAddr, double mLttd,
-			double mLgtd, MultipartFile mImg) {
+	
+	public RegKakaoRequest(String mId, String mNick, String mAddr, double mLttd, double mLgtd, MultipartFile mImg,String kId) {
 		this.mId = mId;
-		this.mPw = mPw;
 		this.mNick = mNick;
-		this.chkmPw = chkmPw;
-		this.mChk = mChk;
 		this.mAddr = mAddr;
 		this.mLttd = mLttd;
 		this.mLgtd = mLgtd;
 		this.mImg = mImg;
+		this.kId = kId;
 	}
-
-
 
 	public String getmId() {
 		return mId;
 	}
 
-
-
 	public void setmId(String mId) {
 		this.mId = mId;
 	}
-
-
-
-	public String getmPw() {
-		return mPw;
-	}
-
-
-
-	public void setmPw(String mPw) {
-		this.mPw = mPw;
-	}
-
-
 
 	public String getmNick() {
 		return mNick;
 	}
 
-
-
 	public void setmNick(String mNick) {
 		this.mNick = mNick;
 	}
-
-
-
-	public String getChkmPw() {
-		return chkmPw;
-	}
-
-
-
-	public void setChkmPw(String chkmPw) {
-		this.chkmPw = chkmPw;
-	}
-
-
-
-	public String getmChk() {
-		return mChk;
-	}
-
-
-
-	public void setmChk(String mChk) {
-		this.mChk = mChk;
-	}
-
-
 
 	public String getmAddr() {
 		return mAddr;
 	}
 
-
-
 	public void setmAddr(String mAddr) {
 		this.mAddr = mAddr;
 	}
-
-
 
 	public double getmLttd() {
 		return mLttd;
 	}
 
-
-
 	public void setmLttd(double mLttd) {
 		this.mLttd = mLttd;
 	}
-
-
 
 	public double getmLgtd() {
 		return mLgtd;
 	}
 
-
-
 	public void setmLgtd(double mLgtd) {
 		this.mLgtd = mLgtd;
 	}
-
-
 
 	public MultipartFile getmImg() {
 		return mImg;
 	}
 
-
-
 	public void setmImg(MultipartFile mImg) {
 		this.mImg = mImg;
 	}
 
+	public String getkId() {
+		return kId;
+	}
 
+	public void setkId(String kId) {
+		this.kId = kId;
+	}
 
 	@Override
 	public String toString() {
-		return "RegRequest [mId=" + mId + ", mPw=" + mPw + ", mNick=" + mNick + ", chkmPw=" + chkmPw + ", mChk=" + mChk
-				+ ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd=" + mLgtd + ", mImg=" + mImg + "]";
+		return "RegKakaoRequest [mId=" + mId + ", mNick=" + mNick + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd="
+				+ mLgtd + ", mImg=" + mImg + ", kId=" + kId + "]";
 	}
-	
 	
 }
