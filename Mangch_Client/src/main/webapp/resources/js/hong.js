@@ -176,13 +176,12 @@ function editForm(idx) {
 			var post='';
 			post+='    <div class="w3-modal-content" style="overflow:auto;">';
 			post+='     <header class="w3-container">';
-			post+='        <span onclick="$("#donateEdit").css("display", "none")"';
-			post+='        class="w3-button w3-display-topright">&times;</span>';
+			post+='        <span onclick="$(\'#donateEdit\').css(\'display\', \'none\')" class="w3-button w3-display-topright">&times;</span>';
 			post+='      </header>';		
 			post+='      <div class="w3-container">';
 			post+='			<form onsubmit="return false;">';
 			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
-			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+data.doWriter+'" readonly><br>'; 
+			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+loginUser+'" readonly><br>'; 
 			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" required/> <br> <br>';
 			post+='				<textarea id="summernote" name="content" required></textarea>';
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
@@ -281,7 +280,7 @@ function boardList(){
 			console.log(data);
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
-				html+='<button type="button" class="menu_card" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
+				html+='<button type="button" class="menu_card w3-hover-sand" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
 				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">'
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
