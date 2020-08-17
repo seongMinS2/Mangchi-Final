@@ -1,5 +1,6 @@
 var loading=false;
 var page=1;
+var commPage=1;
 
 
 function getContextPath() {
@@ -55,18 +56,39 @@ function commReg() {
 
 
 }
+
+function commPageUp(donateIdx, x){
+
+	commPage=x;
+	commList(donateIdx);
+}
+
+
 function commList(donateIdx) {
 	var loginUser=$('#loginUser').val();
 	$.ajax({
 		url : 'http://localhost:8080/donate/comments/'+donateIdx,
 		type: 'get',
+		data : {
+			'page' : commPage 
+		},
 		success : function(data) {
 			var list='';
+			for (var x=1; x<=data.pageTotalCount; x++){
+				list+='<button type="button" onclick="commPageUp('+donateIdx+', '+x+')">'+x+'</button>';
+			}
+			
+			list+='<hr>';
 			for(var i=0; i<data.commList.length; i++)  {
-				
+
+			
 				if(data.commList[i].commParent===0) {
-					list+='<div class="commOrigin">';
+					list+='<div class="commOrigin" style="overflow:hidden;">';
 					list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
+					if(loginUser!=null) {
+						list+='	<button style="float:right;">댓글 삭제</button>'
+						list+='	<button style="float:right;">댓글 수정</button>'
+					}
 					list+='	<p>'+data.commList[i].commText+'</p>';
 					list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>';
 					
@@ -95,6 +117,12 @@ function commList(donateIdx) {
 						list+='<div class="commRe" style="overflow:hidden;">';
 						list+='<div style="diplay:inline; width:95%; float:right;">';
 						list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
+						
+						if(loginUser!=null) {
+							list+='	<button style="float:right;">댓글 삭제</button>'
+							list+='	<button style="float:right;">댓글 수정</button>'
+						}
+
 						list+='	<p>'+data.commList[j].commText+'</p>'
 						list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[j].commRegdate+'</p>'
 						list+='</div>';
@@ -105,10 +133,7 @@ function commList(donateIdx) {
 
 
 			}
-			for (var i=1; i<=data.pageTotalCount; i++){
-				
-			}
-			
+
 			$('#commList').html(list);
 		} 
 		
@@ -342,6 +367,7 @@ function viewBoard(idx){
 	
 	$.ajax({
 		url : 'http://localhost:8080/donate/viewCnt/'+idx,
+		type : 'get',
 		success : function(data){
 			boardList();
 		}
