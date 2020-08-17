@@ -388,6 +388,13 @@ function gbList() {
 				    
 				    html+='<div class="null_content">'
 				    html+='<div class="nonerealtext">'+data[i].guest_text+'</div>'
+				    if(data[i].guest_text.includes('<br/>')){
+				    	console.log('되냐?');
+				    	html+='<span class="more" style="margin-left:13px; color:gray;">더보기</span>';
+				    }
+				    
+				    
+				    
 				    html+='</div>'
 				    
 				    html+='<div class="text_body">';
@@ -461,15 +468,28 @@ function gbList() {
 		});
 			
 			//더보기
-			$('.nonerealtext').readmore({
+		/* 	$('.nonerealtext').readmore({
 				
 			});
 			$('.realtext').readmore({
 				
-			});
+			}); */
 				
 			
+			$('.more').click(function () {
+				$(this).css('display','none');
+				var text=$(this).prev();
+				$(text).attr('class','nonerealtext2');
+				
+			})
+			
+			
+			
+			
 		} // success끝 
+		
+		
+		
 		
 		
 	}); // ajax끝 
