@@ -57,11 +57,26 @@ function commReg() {
 
 }
 
+function replyFormToggle(commIdx) {
+  var x = document.getElementById("replyForm"+commIdx);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+
+
+}
+
+
+
+
 function commPageUp(donateIdx, x){
 
 	commPage=x;
 	commList(donateIdx);
 }
+
 
 
 function commList(donateIdx) {
@@ -94,8 +109,8 @@ function commList(donateIdx) {
 					
 					if(loginUser!=null) {
 						
-						list+='	<button type="button" class="w3-btn w3-black" onclick="$(\'.replyForm'+data.commList[i].commIdx+'\').css(\'display\', \'block\')">답글쓰기</button>';
-						list+='	<div class="replyForm'+data.commList[i].commIdx+'" style="display:none;">';
+						list+='	<button type="button" class="w3-btn w3-black" onclick="replyFormToggle('+data.commList[i].commIdx+')">답글쓰기</button>';
+						list+='	<div class="w3-hide" id="replyForm'+data.commList[i].commIdx+'">';
 						list+='	<form id="replayForm'+data.commList[i].commIdx+'">';
 						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx'+data.commList[i].commIdx+'">';
 						list+='		<input type="hidden" name="commParent" value="'+data.commList[i].commIdx+'" class="commReplyParIdx'+data.commList[i].commIdx+'">';
