@@ -55,7 +55,11 @@ public class MemberRegKakaoService {
 				member.setmImg(mImg);
 
 			} else {
-				member.setmImg("defalult.png");
+				if(kakaoRequest.getkImg() != null) {
+					member.setmImg(kakaoRequest.getkImg());
+				}else {
+					member.setmImg("defalult.png");
+				}
 			}
 
 			result = dao.insertMember(member);

@@ -104,11 +104,11 @@ div.card>ul>li {
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-	<div class="w3-container">
-		<h2>마이페이지</h2>
-		<hr>
-		<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
+	<h2>마이페이지</h2>
+	<hr>
+	<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
 
+	<div class="w3-container">
 		<div class="w3-cell-row">
 			<div class="w3-cell">
 				<div id="profile-menu" class="active">
@@ -120,9 +120,8 @@ div.card>ul>li {
 			</div>
 			<div class="w3-cell">
 				<div id="memberList">
-					<h1>
-						<img src="<c:url value="${loginInfo.mImg}"/>" width=100 height=100>
-					</h1>
+					<h1><img src="<c:url value="${loginInfo.mImg}"/>" width=100
+						height=100></h1>
 				</div>
 			</div>
 		</div>
