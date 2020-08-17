@@ -26,6 +26,16 @@
 		<div>
 			<h1 class="w3-left" id="board_h1"></h1>
 			<div id="search"></div>
+			
+			<select id="ListType" onchange="change()">
+				<option value="date">최신순</option>
+				<option value="distance">거리순</option>
+			</select>	
+			
+			<select id="searchType">
+				<option value="title">제목</option>
+				<option value="name">이름</option>
+			</select>	
 			<a href="<c:url value="/request/requestWrite"/>" class="w3-right" id="writer_button"></a>
 		</div>
 
@@ -42,6 +52,10 @@
 <script>
 	
 	
+	$(document).ready(function(){
+		list();
+	});
+	
 	/* 로그인 했을 때 와 안했을 때 위도 경도 */
 	var mLttd,mLgtd,mRedisu;
 	
@@ -55,38 +69,38 @@
 		mRadius = 0;
 	}	
 	
+	var page = 1;
 	
-	//페이징 처리 
-	const  requestCountPage = 4; //한 페이지 당 표현 할 리스트 수 
-  	var requestTotalCount; // 전체 리스트 개수 
-  	var currentPageNumber=1; //현재 페이지 
+	function searchpage(data){
+		page = data;
+		search();
+		
+	}
 	
+	
+	function page(data){
+		page = data;
+		
+	}
+	
+	function change(){
+		list();
+	}
+	
+	
+	function list(){
 		$.ajax({
 				url : 'http://localhost:8080/rl/request',
 				type : 'GET',
 				data : {
 					mLat : mLttd,
 					mLon : mLgtd,
-					mRadius : mRadius
+					mRadius : mRadius,
+					page : page,
+					type : $('#ListType').val()
 				},
 				success : function(data) {
-					
-				requestTotalCount = data.length;	
-				
-				 //전체 페이지 수 구하기 (전체 리스트 개수 / 한페지 당 출력 할 값 )
-				  var pageTotalCount = requestTotalCount / requestCountPage;
-				  
-				  if (requestTotalCount % requestCountPage > 0) {
-					  pageTotalCount++;
-				  }
-				  
-				  var startRow = (currentPageNumber - 1) * requestCountPage;
-				  
-				  var endRow =  startRow + requestCountPage ;
-				  
-				  if(endRow > requestTotalCount){
-					  endRow = requestTotalCount;
-				  }
+			
 					
 				$('#board_h1').text('게시물 리스트');
 				var button = '<button class="w3-right">글쓰기</button>';
@@ -95,6 +109,7 @@
 				var search='<input type="text" id="search_text" placeholder="검색어를 입력하세요" >';
 				search +='<input type="button" id="search_btn" onclick="search()" value="검색">';
 				$('#search').append(search);
+				
 				
 				
 				var html = '';
@@ -113,91 +128,71 @@
 				
 				html += '	</tr>';
 				
-				if(requestTotalCount >0){
-				for (var i = startRow; i < endRow; i++) {
-						html += '<tr>';
+				for (var i = 0; i < data.requestReg.length; i++) {
+				 		html += '<tr>';
 						html += ' <td>' + (i+1) + '</td>';
-						html += ' <td> <a href="<c:url value="/request/requestDetail?idx='+ data[i].reqIdx+'" />" >'+ data[i].reqTitle + '</a></td>';
-						html += ' <td>' + data[i].reqAddr + '</td>';
+						html += ' <td> <a href="<c:url value="/request/requestDetail?idx='+ data.requestReg[i].reqIdx+'" />" >'+ data.requestReg[i].reqTitle + '</a></td>';
+						html += ' <td>' + data.requestReg[i].reqAddr + '</td>';
 						//회원 로그인 상태 일 때 거리 출력
 						if('${loginInfo}' != ''){
-							html += ' <td>' +data[i].distance+ ' m</td>';
+							html += ' <td>' +data.requestReg[i].distance+ ' m</td>';
 						}
 						
 						var status ,color;
-						if(data[i].reqStatus == 0){
+						if(data.requestReg[i].reqStatus == 0){
 							status = '대기중';
 							color = 'red';
-						}else if(data[i].reqStatus == 1){
+						}else if(data.requestReg[i].reqStatus == 1){
 							status = '요청 완료';
 							color = 'gray';
 						}
 						html +='	<td style="color: '+color+'">';
 						html +='		'+status+'';
 						html += '</td>';
-						html += ' <td>' + data[i].reqWriter + '</td>';
-						html += ' <td>' + data[i].reqCount + '</td>';
-						html += ' <td>' + data[i].reqDateTime + '</td>';
-						
+						html += ' <td>' + data.requestReg[i].reqWriter + '</td>';
+						html += ' <td>' + data.requestReg[i].reqCount + '</td>';
+						html += ' <td>' + data.requestReg[i].reqDateTime + '</td>';
 						html += '</tr>';
 					}
-				
-				} else{
-					alert('게시물이 없습니다.');
-				}
-				
-				
-				if(pageTotalCount >0 ){
-					
-					for(var m=1;m<=pageTotalCount;m++){		 
-						
-						var link = document.location.href; 
-						
-						var page ='<a id="listlink" ';
-						page +='href="#" onclick=page('+m+')';	
-						page +=">";
-						page +='['+m+']';
-						page +='</a>';
-						
-						$('.paging').append(page);
-					}	
-				}
-				
-					
 					html += '</table>';
 					$('#list').html(html);
+					
+					
+					
+					if(data.pageTotalCount >0 ){
+						
+						for(var m=1;m<=data.pageTotalCount;m++){		 
+							var page ='<a id="listlink" ';
+							page +='href="#" onclick=searchpage('+m+')';	
+							page +=">";
+							page +='['+m+']';
+							page +='</a>';
+							
+						$('.paging').html(page);	
+						}	
+					}
+					
+					
 				}
-				  
-				  	  
-
 			});
-	
+	}
+		
+		
+	 	function search(){
 			
-		function page(currentPage){
-					
-				currentPageNumber = currentPage;
+			var search = $('#search_text').val();
+			var type = $('#searchType').val();
 			
-				$.ajax({
-					url : 'http://localhost:8080/rl/request',
-					type : 'GET',
-					data : {
-						mLat : mLttd,
-						mLon : mLgtd,
-						mRadius : mRadius
-					},
-				success : function(data) {
-						
-				  var startRow = (currentPageNumber - 1) * requestCountPage;
-				  
-				  var endRow =  startRow + requestCountPage ;
-				  
-				  if(endRow > requestTotalCount){
-					  endRow = requestTotalCount;
-				  }
-					
-						
-					$('#board_h1').text('게시물 리스트');
-					
+			$.ajax({
+				
+				url : 'http://localhost:8080/rl/request/search',
+				type : 'GET',
+				data : {
+					'searchText' : search,
+					'type' : type,
+					'page' : page
+				},
+				success : function (data){
 					
 					var html = '';
 					html +='<table class="w3-table w3-border w3-hoverable">';
@@ -215,56 +210,57 @@
 					
 					html += '	</tr>';
 					
-					
-					if(requestTotalCount >0){
-						for (var i = startRow; i < endRow; i++) {
-							html += '<tr>';
+					for (var i = 0; i < data.requestReg.length; i++) {
+					 		html += '<tr>';
 							html += ' <td>' + (i+1) + '</td>';
-							html += ' <td> <a href="<c:url value="/request/requestDetail?idx='+ data[i].reqIdx+'" />" >'+ data[i].reqTitle + '</a></td>';
-							html += ' <td>' + data[i].reqAddr + '</td>';
+							html += ' <td> <a href="<c:url value="/request/requestDetail?idx='+ data.requestReg[i].reqIdx+'" />" >'+ data.requestReg[i].reqTitle + '</a></td>';
+							html += ' <td>' + data.requestReg[i].reqAddr + '</td>';
 							//회원 로그인 상태 일 때 거리 출력
 							if('${loginInfo}' != ''){
-								html += ' <td>' +data[i].distance+ ' m</td>';
+								html += ' <td>' +data.requestReg[i].distance+ ' m</td>';
 							}
 							
 							var status ,color;
-							if(data[i].reqStatus == 0){
+							if(data.requestReg[i].reqStatus == 0){
 								status = '대기중';
 								color = 'red';
-							}else if(data[i].reqStatus == 1){
+							}else if(data.requestReg[i].reqStatus == 1){
 								status = '요청 완료';
 								color = 'gray';
 							}
 							html +='	<td style="color: '+color+'">';
 							html +='		'+status+'';
 							html += '</td>';
-							html += ' <td>' + data[i].reqWriter + '</td>';
-							html += ' <td>' + data[i].reqCount + '</td>';
-							html += ' <td>' + data[i].reqDateTime + '</td>';
-							
+							html += ' <td>' + data.requestReg[i].reqWriter + '</td>';
+							html += ' <td>' + data.requestReg[i].reqCount + '</td>';
+							html += ' <td>' + data.requestReg[i].reqDateTime + '</td>';
 							html += '</tr>';
 						}
-						 
-					} else{
-						alert('게시물이 없습니다.');
+						html += '</table>';
+						$('#list').html(html);
+						
+						
+						
+						if(data.pageTotalCount >0 ){
+							
+							for(var m=1;m<=data.pageTotalCount;m++){		 
+								var page ='<a id="listlink" ';
+								page +='href="#" onclick=searchpage('+m+')';	
+								page +=">";
+								page +='['+m+']';
+								page +='</a>';
+								
+							$('.paging').html(page);	
+							}	
+						}
+						
 					}
-					
-							html += '</table>';
-							$('#list').html(html);
-					}
-
-				});
-		
-				
-			}
-		
-		
-		function search(){
+			});
 			
-			console.log	($('#search_text').val());
+			
 			
 		}
-				
+				 
 		
 		
 		
