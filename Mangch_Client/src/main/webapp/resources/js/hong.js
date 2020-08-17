@@ -180,19 +180,23 @@ function editForm(idx) {
 			var post='';
 			post+='    <div class="w3-modal-content" style="overflow:auto;">';
 			post+='     <header class="w3-container">';
+			post+='			<h2>나눔글 수정하기</h2>'
 			post+='        <span onclick="$(\'#donateEdit\').css(\'display\', \'none\')" class="w3-button w3-display-topright">&times;</span>';
 			post+='      </header>';		
 			post+='      <div class="w3-container">';
 			post+='			<form onsubmit="return false">';
 			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
-			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" readonly><br>'; 
-			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" required/> <br> <br>';
+			post+='				작성자 : <input type="text" id="editWriter" name="writer" style="width: 20%;" readonly><br>'; 
+			post+='				제   목 : <input type="text" id="editTitle" name="title" style="width: 40%;" required/> <br> <br>';
 			post+='				<textarea id="summernote" name="content"></textarea>';
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
 			post+='				<input type="reset" style="float: right;" >';
 			post+='				<input type="submit" value="글 수정" style="float: right;" onclick="editBoard('+data.donateIdx+')" >';
 			post+='			</form>';
 			post+='      </div>';
+			post+='		<footer class="w3-container">';
+			post+='		<br>'
+			post+='		</footer>';
 			post+='    </div>';
 			$('#donateEdit').html(post);
 			$('#editWriter').val(data.writer);
@@ -323,7 +327,7 @@ function boardList(){
 			$('#listBox').html(html);
 			var page='';
 			for (var i=1; i<=data.pageTotalCount; i++){
-			
+				page+='<a href="http://localhost:8080/donate/donateBoard?page='+i+'">['+i+']</a>';
 				
 			}
 			

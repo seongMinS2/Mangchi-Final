@@ -40,7 +40,7 @@ var ctx = '<%=request.getContextPath()%>';
 			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
 
 			<form>
-				<input type="text" name="searchKeyWord" placeholder="아이디 혹은 물품을 검색하세요" style="width:60%;"> 
+				<input type="text" name="searchKey" placeholder="아이디 혹은 물품을 검색하세요" style="width:60%;"> 
 				<input type="submit" style="width:30%;" value="검색">
 			</form>
 
