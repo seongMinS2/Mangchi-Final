@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib  prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,7 +64,8 @@ td {
 							</tr>
 							<tr>
 								<td>회원 평점</td>
-								<td>${loginInfo.mScore}</td>
+								<td>${loginInfo.mScore}
+								</td>
 							</tr>
 						</table>
 
@@ -95,7 +97,7 @@ td {
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
-	<script>
+<script>
 
 
 
@@ -115,7 +117,7 @@ function chat(reqIdx,uNick){
 		location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
 	}else{
 		alert('로그인 후 이용해주세요.');
-	 location.href="/mangh/member/loginForm"; 
+	 location.href="/mangh/member/memberLogin"; 
 	}
 }
 
@@ -141,8 +143,36 @@ function cancel(reqStatus){
 
 
 //매칭 취소 버튼 생성 시 리뷰 작성 가능하게 하기 
-function review(){
-	alert('1');
+function review(reqIdx,reqWriter,reqHelper){
+	
+
+		
+	 $.ajax({
+		 url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
+		 type : 'post',
+		 success : function(data){
+			
+			 if(data.writer == '${loginInfo.mNick}'){
+				 alert('리뷰를 작성했습니다.');
+			 }else{
+				 var form = $('<form></form>');
+				    form.attr('action', '/mangh/review/reviewForm');
+				    form.attr('method', 'post');
+				    form.appendTo('body');
+				    var reqIdx = $("<input type='hidden' value="+reqIdx+" name='reqIdx'>"); //게시글 번호
+				    var reqWriter = $("<input type='hidden' value="+reqWriter+" name='reqWriter'>"); //글쓴이
+				    var reqHelper = $("<input type='hidden' value="+reqHelper+" name='reqHelper'>"); //로그인 한 사용자  
+				    form.append(reqIdx);
+				    form.append(reqWriter);
+				    form.append(reqHelper);
+				    form.submit();
+			 }
+			 
+		 }
+		 
+	 }); 
+		
+	
 }
 
 
@@ -159,9 +189,7 @@ function reqDelete(reqIdx){
 	
 	//로그인 안했을 때 
 	if('${loginInfo}' != ''){
-		
 		if(confirm("정말로 삭제하시겠습니까?") == true){
-			
 			 $.ajax({
 				url : 'http://localhost:8080/rl/request/'+reqIdx,
 				type : 'DELETE',
@@ -180,10 +208,6 @@ function reqDelete(reqIdx){
 			});
 			
 		}	
-	}else{
-		alert('로그인 후 이용해주세요.');
-	 location.href="/mangh/member/loginForm"; 
-		
 	}
 	
 }
@@ -195,6 +219,7 @@ $(document).ready(function(){
 		
 		url : 'http://localhost:8080/rl/request/'+${idx},
 		type : 'GET',
+		
 		success : function(data){
 			
 			var title=data.reqTitle;
@@ -202,7 +227,7 @@ $(document).ready(function(){
 			$('#info_h1').text('요청 내용 ');
 			$('#writer_h1').text('요청자 정보');
 			$('#content_h1').text('상세내용');
-			$('#mNick').text(data.reqWriter);
+			$('#mNick').text(data.reqWriter); 
 			
 		//요청 게시글 상세 정보
 		var html =	'<table>';
@@ -239,48 +264,51 @@ $(document).ready(function(){
 				html +='	<td>매칭 상태</td>';
 				html +='	<td style="color: '+color+'">';
 				html +='		'+status+'';
+				html += '	</td>';
 				
 			
-			//로그인 한 사용자에게 버튼이 보인다
+			//로그인 한 사용자가 요청자 일 때 
 			if('${loginInfo.mNick}' == data.reqWriter){
-				
-				$('#chat').remove();
 				
 				if(data.reqStatus == 1){
 					html +='	<td id="canceltd"><button onclick="cancel('+data.reqStatus+')" id="cancel">매칭취소</button></td>';
-					html += '<td><button onclick="review()">리뷰작성</button></td>';
-				}
-				html += '	</td>';
-				
-				//수정, 삭제
-				html += '<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
-				html += '<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
-				html += '</tr>';
+					html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
+					//수정, 삭제
+					html += '	<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
+					html += '	<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
+				} 
 			}
 	
-			//로그인 한 회원 일 때
+			//로그인 한 회원이 수행자 일 때 
 			else if('${loginInfo.mNick}' == data.reqHelper){
-				if(data.reqStatus == 0){
-					html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
-				}else {	
-					html += '<td><button onclick="review()">리뷰작성</button></td>';
+				if(data.reqStatus == 1){
+					html += '	<td id="review" ><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
 				}
+				
 			}
+			
+			//로그인 한 사용자가 요청자도 수행자도 아닐 때 
+			else if('${loginInfo.mNick}' != data.reqHelper && '${loginInfo.mNick}' != data.reqWriter){
+				if(data.reqStatus == 0){
+					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
+				}
+				
+			}
+			
 			 //비회원 일 때
 			else if('${loginInfo}' == ''){		
 				if(data.reqStatus == 0){
-					html +='	<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
 				}
 			} 
-			
-			
-			
-			
-			
-			html += '<tr style="display: none;">';
-			html +='<td>이미지 경로</td>';
-			html +=	'	<td id="imgPath">'+data.reqImg+'</td>';
 			html += '</tr>';
+
+			
+	 		html +='<tr>';
+			html += '<td>';
+			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+' ">';
+			html += '</td>';
+			html +='</tr>'; 
 			
 			html +=	'</table>';	
 			
