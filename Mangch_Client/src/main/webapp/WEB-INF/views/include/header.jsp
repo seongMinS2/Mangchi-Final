@@ -19,6 +19,7 @@
 <script src="<c:url value='/resources/js/min.js'/>"></script>
 <!-- 보겸 자바스크립트 -->
 <script type="text/javascript" src='<c:url value="/resources/js/jquery.bpopup.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/js/readmore.js"/>'></script>
 <!-- moment() : 날짜 포멧팅 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
 <style>

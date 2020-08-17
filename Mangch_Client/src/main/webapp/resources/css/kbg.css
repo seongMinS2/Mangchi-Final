@@ -111,11 +111,13 @@
     
         .realtext{
             margin: 13px;
+            overflow: hidden;
         }
         
         .nonerealtext{
             margin-left: 13px;
             margin-top: 10px;
+            overflow: hidden;
         }
         
         .cmtnum{
@@ -162,11 +164,6 @@
         .cmtbunki{
             margin-top: 18px;
             height: 35px;
-        }
-        
-         .null_content{
-            margin: 5px;
-            margin-top: 20px;
         }
         
         
@@ -222,7 +219,7 @@
           .null_content{
             margin: 5px;
             margin-top: 20px;
-              margin-bottom: 20%;
+             
         }
         .in_nonerealtext{
             margin-left: 43px;
@@ -347,6 +344,7 @@
         
         .in_bodycmt{
             margin-top: 40px;
+            margin-bottom: 150px;
         }
         
         .dotpopup{
@@ -384,4 +382,12 @@
             outline: 0;
             border-bottom: 1px solid #dbdbdb;
             min-width: 100px;
+        }
+        
+        
+         .addr{
+            font-weight: bold;
+            color: gray;
+            font-size: 10px;
+            margin-left: 6px;
         }

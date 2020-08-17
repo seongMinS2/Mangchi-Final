@@ -11,62 +11,30 @@
 	href="//cdn.jsdelivr.net/gh/xpressengine/xeicon@2.3.1/xeicon.min.css">
 <style>
 .btn {cursor:pointer;}
+
+.comment_tool{
+	position: absolute;
+	right: 750px;
+}
+
+.layerMore{
+	height: 50px;
+	width: 50px;
+	background-color: red;
+}
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-<script type="text/javascript">
-$(function(){
-	var idx = ${idx};
-	contentsList(idx);
-});
-</script>
-	<div class="contentBox">
-		<!-- <div class="header">
-			<h1>제목 들어갈 자리</h1>
-		</div>
-
-		<div class="articleContainer">
-			<div class="mainContainer">
-				<p class="text">내용들어갈자리</p>
-			</div>
-			<div class="commentBox">
-				<h3 class="comment_title">
-					<b>댓글</b>
-				</h3>
-				생성할 태그
-				<div class="comment_area">
-					<div class="comment_Box">
-						<div class="comment_nickBox">유저 닉네임 들어갈 자리</div>
-						<div class="comment_textView">댓글 텍스트 들어갈자리</div>
-
-						<div class="comment_info_box">
-							<span class="comment_info_date"> 날짜정보들어갈 자리 </span> <a href="#">답글쓰기</a>
-						</div>
-					</div>
-				</div>
-				<div class="commentWriter">
-					<div class="comment_inbox">
-						<div class="comment_inbox_name">
-							<p>닉네임 자리</p>
-							<i class="xi-ellipsis-v"></i>
-						</div>
-						<div class="comment_inbox_text">
-							<p>댓글 쓸 내용 들어갈 자리</p>
-						</div>
-						<div class="comment_submit">
-							<button onclick="location.href=''">등록</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="articleBottomBtns">
-			<button onclick="location.href=''">글쓰기</button>
-			<button onclick="location.href=''">답글</button>
-			<button onclick="location.href=''">TOP</button>
-		</div> -->
-	</div>
+		<script type="text/javascript">
+			$(function(){
+				var idx = ${idx};
+				var loginSession = `${loginInfo.mNick}`;
+				console.log(loginSession);
+				contentsList(idx, loginSession);
+			});
+		</script>
+	<div class="contentBox"></div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>

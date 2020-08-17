@@ -35,6 +35,7 @@
 		<input type="hidden" name="y" id="y" value="${loginInfo.mLgtd}">
 		<input type="hidden" name="r" id="r" value="${loginInfo.mRadius}">
 		<input type="hidden" name="member_img" id="member_img" value="${loginInfo.mImg}">
+		<input type="hidden" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"> 
 	<div class="postwrap" style="display: block;">
 		<div class="postTitle" style="background-color: #DDD; line-height: 27px; ">
 		<span style="font-weight: bold; margin-left: 3px;">게시물 만들기</span>
@@ -46,7 +47,7 @@
 				<img   src="${pageContext.request.contextPath}${loginInfo.mImg}" style=" left: 6%; top: 25%; position: absolute; border: 2px solid #DDD; border-radius: 50px; width: 45px; height: 45px;">
 				</div>
 			
-			<textarea rows="10" cols="50"  type="textarea" name="guest_text" id="guest_text" required="required" placeholder="    ${loginInfo.mNick}님, 무슨생각을 하고계신가요?"
+			<textarea rows="100" cols="500"  type="textarea" name="guest_text" id="guest_text" required="required" placeholder="    ${loginInfo.mNick}님, 무슨생각을 하고계신가요?"
 				style="width: 80%; border: 0; outline: 0;  height: 50px; margin-top:33px; overflow: hidden; resize: none;"></textarea>
 			</div>
 				
@@ -122,13 +123,16 @@ function deleteForm(guest_idx) {
 var x=$('#x').val();
 var y=$('#y').val();
 
-
 ////////////////////////글쓰기 함수
 function guestPost() {
 	
 	var zz =$('#guest_writer').val();
 	var bb=zz.trim();
 	
+	var mImg=$('#member_img').val();
+	
+	var maddr=$('#guest_addr').val();
+	var addrbunki=maddr.substr(2,5);
 	
 	
 	//db에 줄바꿈
@@ -141,7 +145,8 @@ function guestPost() {
 	postFormData.append('guest_text',str);
 	postFormData.append('x',x);
 	postFormData.append('y',y);
-	postFormData.append('member_img',$('#member_img').val());
+	postFormData.append('member_img',mImg);
+	postFormData.append('guest_addr',addrbunki);
 	if($('#guest_photo')[0].files[0] !=null){
 	postFormData.append('photo',$('#guest_photo')[0].files[0]); // 파일첨부 코드	
 	}
@@ -325,6 +330,7 @@ function gbList() {
 			    //아래가 멤버닉네임가져와야함
 			    html+='<div class="hd_nick">';
 			    html+=data[i].guest_writer
+			    html+='<span class="addr">'+data[i].guest_addr+'</span>';
 			    if(data[i].guest_writer === `${loginInfo.mNick}`){
 			    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
 			    }
@@ -372,6 +378,7 @@ function gbList() {
 				    html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data[i].member_img+'"></div>'; 
 				    html+='<div class="hd_nick">';
 				    html+=data[i].guest_writer
+				    html+='<span class="addr">'+data[i].guest_addr+'</span>';
 				    if(data[i].guest_writer === `${loginInfo.mNick}`){
 				    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
 				    }
@@ -452,7 +459,15 @@ function gbList() {
 				$(this).hide();
 				$(this).prev().show();
 		});
-
+			
+			//더보기
+			$('.nonerealtext').readmore({
+				
+			});
+			$('.realtext').readmore({
+				
+			});
+				
 			
 		} // success끝 
 		

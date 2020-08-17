@@ -2,6 +2,7 @@ package com.aia.mangh.qna.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class QnABoard {
 	
 	
-	@RequestMapping("qnaBoard")
+	@GetMapping("qnaBoard")
 	public String qnaBoard() {
 		
 		// qna화면 이동
@@ -19,7 +20,7 @@ public class QnABoard {
 		return "/qna/qnaBoard";
 	}
 	
-	@RequestMapping("writeBoard")
+	@GetMapping("writeBoard")
 	public String qnaDetailBoard() {
 		
 		//글쓰기 이동
@@ -27,18 +28,30 @@ public class QnABoard {
 		return "/qna/writeBoard";
 	}
 	
-//	@RequestMapping("contents")
-//	public String qnaContentsView() {
-//		
-//		// 글 상세보기 이동
-//		
-//		return "/qna/contentsView";
-//	}
-	
-	@RequestMapping("/contents/{idx}")
+	@GetMapping("contents/{idx}")
 	public String qnaDetailView(@PathVariable int idx, Model model) {
+
+		//상세보기페이지 이동
 		
 		model.addAttribute("idx", idx);
 		return "/qna/contentsView";
+	}
+	
+	@GetMapping("update-board/{idx}")
+	public String qnaModifyBoard(@PathVariable int idx,Model model) {
+		
+		//수정폼 이동
+		
+		model.addAttribute("idx", idx);
+		return "/qna/modifyBoard";
+	}
+	
+	@GetMapping("reply-board/{idx}")
+	public String qnaReplyWriteBoard(@PathVariable int idx,Model model) {
+		
+		//답글쓰기 페이지 이동
+		
+		model.addAttribute("idx", idx);
+		return "/qna/replyWriteBoard";
 	}
 }

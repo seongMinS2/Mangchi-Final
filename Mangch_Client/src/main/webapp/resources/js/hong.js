@@ -103,7 +103,6 @@ function commList(donateIdx) {
 			}
 			for (var i=1; i<=data.pageTotalCount; i++){
 				
-				
 			}
 			
 			$('#commList').html(list);
@@ -115,6 +114,36 @@ function commList(donateIdx) {
 
 
 function editBoard(idx) {
+
+		var editBoard=new FormData();
+		editBoard.append('donateIdx', $('#editIdx').val());
+		editBoard.append('writer', $('#editWriter').val());
+		editBoard.append('title', $('#editTitle').val());
+		editBoard.append('content', $('#summernote').val());
+		editBoard.append('doLoc', $('#editDoLoc').val());
+		editBoard.append('oldImg', $('#oldImg').val());
+		editBoard.append('doStatus', $('#editStatus').val());
+		
+		if($('#editDoImg')[0].files[0]!=null) {
+			editBoard.append('doImg', $('#editDoImg')[0].files[0]);
+		}
+		
+
+		$.ajax({
+			url : "http://localhost:8080/donate/donateBoard/"+idx,
+			data : editBoard,
+			type : "POST",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+            	alert('나눔글을 수정하였습니다.')
+            	history.go(-1);
+			},
+			error : function(){
+				
+				console.log('실패한 수정 정보 : '+editBoard);				
+			}
+		});
 
 	
 
@@ -161,7 +190,7 @@ function goWrite() {
             	history.go(-1);
 			},
 			error : function(){
-				console.log(regBoard);				
+				console.log('실패한 글쓰기 정보 : '+regBoard);				
 			}
 		});
 	}
@@ -181,21 +210,53 @@ function editForm(idx) {
 			var post='';
 			post+='    <div class="w3-modal-content" style="overflow:auto;">';
 			post+='     <header class="w3-container">';
+			post+='			<h2>나눔글 수정하기</h2>'
 			post+='        <span onclick="$(\'#donateEdit\').css(\'display\', \'none\')" class="w3-button w3-display-topright">&times;</span>';
 			post+='      </header>';		
-			post+='      <div class="w3-container">';
+			post+='      <div class="w3-container" style="overflow:hidden;">';
 			post+='			<form onsubmit="return false">';
+			post+='				<select id="editStatus" style="display:block; float:right;">';
+			post+='					<option value="0" selected>나눔중</option>';
+			post+='					<option value="1">나눔완료</option>';
+			post+='				</select>';
+			post+='				<input type="hidden" id="editIdx" name="donateIdx" value="'+data.donateIdx+'">';
 			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
-			post+='				<input type="text" id="editWriter" name="writer" style="width: 20%;" value="'+data.writer+'" readonly><br>'; 
-			post+='				<input type="text" id="editTitle" name="title" style="width: 40%;" placeholder="제목" value="'+data.title+'" required/> <br> <br>';
-			post+='				<textarea id="summernote" name="content">'+data.content+'</textarea>';
+			post+='				작성자 : <input type="text" id="editWriter" name="writer" style="width: 20%;" readonly><br>'; 
+			post+='				제    목 : <input type="text" id="editTitle" name="title" style="width: 40%;" required/> <br> <br>';
+			post+='				<textarea id="summernote" name="content"></textarea>';
+			post+='				<input type="text" name="oldImg" id="oldImg" style="width:500px;">'
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
 			post+='				<input type="reset" style="float: right;" >';
 			post+='				<input type="submit" value="글 수정" style="float: right;" onclick="editBoard('+data.donateIdx+')" >';
 			post+='			</form>';
 			post+='      </div>';
+			post+='		<footer class="w3-container">';
+			post+='		<br>'
+			post+='		</footer>';
 			post+='    </div>';
 			$('#donateEdit').html(post);
+			$('#editWriter').val(data.writer);
+			$('#editTitle').val(data.title);
+			$('#oldImg').val(data.doImg);
+			$('#summernote').val(data.content);
+			$('#summernote').summernote({
+				minHeight : 370,
+				maxHeight : null,
+				focus : true,
+				lang : 'ko-KR',
+				toolbar: [
+				    ['fontname', ['fontname']],
+				    ['fontsize', ['fontsize']],
+				    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				    ['color', ['forecolor','color']],
+				    ['table', ['table']],
+				    ['para', ['ul', 'ol', 'paragraph']],
+				    ['height', ['height']],
+				    ['view', ['fullscreen', 'help']]
+				  ],
+				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+				fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+			});
 		
 		
 		}
@@ -226,12 +287,18 @@ function viewBoard(idx){
 			view+='        class="w3-button w3-display-topright">&times;</span>';
 			view+='        <h2>'+data.title+'</h2>';		
 			
-			if(loginUser==data.writer) {
+			if(loginUser==data.writer ) {
 				console.log(loginUser);
 				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donateIdx+')">삭제</button>';
 				view+='<button id="editDonate" style="float:right;" onclick="editForm('+data.donateIdx+')">수정</button>';
 			};
 			
+			if(data.doStatus===0) {
+				view+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>';
+			} else if(data.doStatus===1) {
+				view+='	<p style="display:inline; background-color:grey; color:white;">나눔완료</p>';			
+			
+			};
 			view+='        <p>작성자 ' + data.writer+'</p>';
 			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
 			view+='			<hr>';
@@ -247,6 +314,7 @@ function viewBoard(idx){
 			view+='			<div id="commList">';
 			view+='			</div>'	;
 			view+='			<hr>';
+			
 			if(loginUser!=null) {
 				view+='        <form id="commentForm" onsubmit="return false">';
 				view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">';
@@ -283,15 +351,25 @@ function viewBoard(idx){
 
 function boardList(){
 
+
 	$.ajax({
 		url : 'http://localhost:8080/donate/donateBoard',
 		type : 'get',
+		data : {
+			'searchKey' : $('#searchKey').val()
+		},
 		success : function(data){
-			console.log(data);
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
-				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
-				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">'
+				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 400px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
+				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">';
+				if(data.boardList[i].doStatus===0) {
+					html+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>';
+					
+				} else if(data.boardList[i].doStatus===1) {
+					html+='	<p style="display:inline; background-color:gray; color:white;">나눔완료</p>';			
+				
+				};
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
 				html+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
@@ -303,7 +381,7 @@ function boardList(){
 			$('#listBox').html(html);
 			var page='';
 			for (var i=1; i<=data.pageTotalCount; i++){
-				
+				page+='<a href="http://localhost:8080/donate/donateBoard?page='+i+'">['+i+']</a>';
 				
 			}
 			
