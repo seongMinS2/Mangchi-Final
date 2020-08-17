@@ -287,18 +287,18 @@ function viewBoard(idx){
 			view+='        class="w3-button w3-display-topright">&times;</span>';
 			view+='        <h2>'+data.title+'</h2>';		
 			
-			if(loginUser==data.writer) {
+			if(loginUser==data.writer ) {
 				console.log(loginUser);
 				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donateIdx+')">삭제</button>';
 				view+='<button id="editDonate" style="float:right;" onclick="editForm('+data.donateIdx+')">수정</button>';
 			};
-			if(data.doStatus===0) {
-				view+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>'
-			} 
 			
-			if(data.doStatus===1) {
-				view+='	<p style="display:inline; background-color:grey; color:white;>나눔완료</p>'			
-			}
+			if(data.doStatus===0) {
+				view+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>';
+			} else if(data.doStatus===1) {
+				view+='	<p style="display:inline; background-color:grey; color:white;">나눔완료</p>';			
+			
+			};
 			view+='        <p>작성자 ' + data.writer+'</p>';
 			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
 			view+='			<hr>';
@@ -314,6 +314,7 @@ function viewBoard(idx){
 			view+='			<div id="commList">';
 			view+='			</div>'	;
 			view+='			<hr>';
+			
 			if(loginUser!=null) {
 				view+='        <form id="commentForm" onsubmit="return false">';
 				view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">';
@@ -361,16 +362,14 @@ function boardList(){
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
 				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 400px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
-				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">'
+				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">';
 				if(data.boardList[i].doStatus===0) {
-					html+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>'
+					html+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>';
 					
-				} 
+				} else if(data.boardList[i].doStatus===1) {
+					html+='	<p style="display:inline; background-color:gray; color:white;">나눔완료</p>';			
 				
-				if(data.boardList[i].doStatus===1) {
-					html+='	<p style="display:inline; background-color:gray; color:white;>나눔완료</p>'			
-				
-				}
+				};
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
 				html+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
