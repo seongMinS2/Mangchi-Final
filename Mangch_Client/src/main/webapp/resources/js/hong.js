@@ -364,7 +364,7 @@ function boardList(){
 		},
 		success : function(data){
 			console.log(page+' page load');
-			if(page>=data.pageTotalCount) {
+			if(page>data.pageTotalCount) {
 				return;
 			}
 			var html= '';
