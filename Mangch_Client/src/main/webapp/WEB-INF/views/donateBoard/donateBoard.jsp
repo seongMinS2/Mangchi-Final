@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script>
-var ctx = '<%=request.getContextPath()%>';
-</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +26,7 @@ var ctx = '<%=request.getContextPath()%>';
 
 			<form action="http://localhost:8080/donate/donateBoard">
 				<input type="text" id="searchKey" name="searchKey" placeholder="아이디 혹은 물품을 검색하세요" style="width:60%;"> 
-				<input type="submit" style="width:30%;" value="검색">
+				<input type="submit" id="searchBar" style="width:30%;" value="검색">
 			</form>
 
 		</div>

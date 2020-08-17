@@ -1,6 +1,7 @@
 var loading=false;
 var page=1;
 var commPage=1;
+var search=null;
 
 
 function getContextPath() {
@@ -384,6 +385,7 @@ function viewBoard(idx){
 		url : 'http://localhost:8080/donate/viewCnt/'+idx,
 		type : 'get',
 		success : function(data){
+			console.log('조회수 업데이트 처리 1이면 성공 : '+data);
 			boardList();
 		}
 		
@@ -397,12 +399,15 @@ function viewBoard(idx){
 
 
 function boardList(){
+	
+
+
 
 	$.ajax({
 		url : 'http://localhost:8080/donate/donateBoard',
 		type : 'get',
 		data : {
-			'searchKey' : $('#searchKey').val(),
+			'searchKey' : search,
 			'page':page
 		},
 		success : function(data){
@@ -439,10 +444,9 @@ function boardList(){
 }
 
 
-
-
 $(document).ready(function(){
 	boardList();
+	
 	$(window).scroll(function() {
 		if($(window).scrollTop()+200>=$(document).height() - $(window).height()) {
 			if(!loading) {
@@ -451,6 +455,6 @@ $(document).ready(function(){
 			} 
         } 
     }); 
-	
+
 	
 });
