@@ -125,7 +125,7 @@ function editBoard(idx) {
 		editBoard.append('doStatus', $('#editStatus').val());
 		
 		if($('#editDoImg')[0].files[0]!=null) {
-			regBoard.append('doImg', $('#editDoImg')[0].files[0]);
+			editBoard.append('doImg', $('#editDoImg')[0].files[0]);
 		}
 		
 
