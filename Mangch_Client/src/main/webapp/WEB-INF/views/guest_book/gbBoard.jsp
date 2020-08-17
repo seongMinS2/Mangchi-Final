@@ -99,6 +99,8 @@
 
 
 
+
+
 //////////////삭제함수
 function deleteForm(guest_idx) {
 	if(confirm('정말 삭제하시겠습니까?')){
@@ -349,6 +351,9 @@ function gbList() {
 			    html+='</section>'; 
 			    html+='<div class="content">';
 			    html+='<div class="realtext">'+data[i].guest_text+'<br>';
+			    if(data[i].guest_text.includes('<br/>')){
+			    	html+='<span class="more">더보기</span>';
+			    }
 			    html+='</div>';
 			    html+='</div>';
 			    html+='<div class="comment">';
@@ -389,7 +394,6 @@ function gbList() {
 				    html+='<div class="null_content">'
 				    html+='<div class="nonerealtext">'+data[i].guest_text+'</div>'
 				    if(data[i].guest_text.includes('<br/>')){
-				    	console.log('되냐?');
 				    	html+='<span class="more" style="margin-left:13px; color:gray;">더보기</span>';
 				    }
 				    
@@ -414,10 +418,25 @@ function gbList() {
 				    html+='<div class="comment">';
 				    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
 				   	 html+='<section>';
-				   		html+='<div class="flex">';
-					    html+='<div class="cmtnick">짱가</div>';
-					    html+='<div class="cmttext">안녕하세요</div>';
-					    html+='</div>';
+				   		
+						
+				   		
+					    /* for(var j=0; j<data[i].guest_comment.length; j++){
+					    html+='<div class="cmtnick">'+data[i].guest_comment[j].member_nick+'</div>';
+					    html+='<div class="cmttext">'+data[i].guest_comment[j].comment_text+'</div>';
+					    } */
+					    
+					    for(var j=0; j<data[i].guest_comment.length; j++){
+					    	if(j<2){
+					    		html+='<div class="flex">';
+						    html+='<div class="cmtnick" style="display:block;">'+data[i].guest_comment[j].member_nick+'</div>';
+						    html+='<br/>'
+						    html+='<div class="cmttext">'+data[i].guest_comment[j].comment_text+'</div>';
+						    html+='</div>';
+					    	}
+						    }
+					    
+					   
 				    html+='</section>'; 
 				    html+='</div>';
 				    html+='<div class="cmtbunki">';

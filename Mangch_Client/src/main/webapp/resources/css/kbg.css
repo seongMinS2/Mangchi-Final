@@ -104,10 +104,6 @@
         .footers{
             margin: 13px;
         }
-        .likes{
-            font-weight: bold;
-            margin-left: 13px;
-        }
     
         .realtext{
             margin: 13px;
@@ -133,7 +129,7 @@
         
         .cmtnum{
             color: darkgrey;
-            margin-left: 13px; 
+            margin-left: 9px; 
  			margin-top: 10px;
  			 border: 0;
             outline: 0;
@@ -145,7 +141,7 @@
         
         .cmtnick{
             font-weight: bold;
-            margin-left: 13px;
+            margin-left: 17px;
             margin-top: 10px;
         }
         .cmttext{
@@ -251,7 +247,7 @@
         }
          .likes{
             font-weight: bold;
-            margin-left: 13px;
+            margin-left: 17px;
         }
         
          section>button{
@@ -325,12 +321,6 @@
         }
         
         
-         .cmtnick{
-            font-weight: bold;
-            margin-left: 13px;
-            margin-top: 10px;
-        }
-        
         
          .in_cmtnick{
             font-weight: bold;
@@ -402,3 +392,8 @@
             font-size: 10px;
             margin-left: 6px;
         }
+        
+        .more{
+        margin-left:13px; 
+        color:gray;
+        cursor: pointer;
