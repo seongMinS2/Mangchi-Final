@@ -115,6 +115,36 @@ function commList(donateIdx) {
 
 function editBoard(idx) {
 
+		var editBoard=new FormData();
+		editBoard.append('donateIdx', $('#editIdx').val());
+		editBoard.append('writer', $('#editWriter').val());
+		editBoard.append('title', $('#editTitle').val());
+		editBoard.append('content', $('#summernote').val());
+		editBoard.append('doLoc', $('#editDoLoc').val());
+		editBoard.append('oldImg', $('#oldImg').val());
+		editBoard.append('doStatus', $('#editStatus').val());
+		
+		if($('#editDoImg')[0].files[0]!=null) {
+			regBoard.append('doImg', $('#editDoImg')[0].files[0]);
+		}
+		
+
+		$.ajax({
+			url : "http://localhost:8080/donate/donateBoard/"+idx,
+			data : editBoard,
+			type : "POST",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+            	alert('나눔글을 수정하였습니다.')
+            	history.go(-1);
+			},
+			error : function(){
+				
+				console.log('실패한 수정 정보 : '+editBoard);				
+			}
+		});
+
 	
 
 }
@@ -160,7 +190,7 @@ function goWrite() {
             	history.go(-1);
 			},
 			error : function(){
-				console.log(regBoard);				
+				console.log('실패한 글쓰기 정보 : '+regBoard);				
 			}
 		});
 	}
@@ -183,12 +213,18 @@ function editForm(idx) {
 			post+='			<h2>나눔글 수정하기</h2>'
 			post+='        <span onclick="$(\'#donateEdit\').css(\'display\', \'none\')" class="w3-button w3-display-topright">&times;</span>';
 			post+='      </header>';		
-			post+='      <div class="w3-container">';
+			post+='      <div class="w3-container" style="overflow:hidden;">';
 			post+='			<form onsubmit="return false">';
+			post+='				<select id="editStatus" style="display:block; float:right;">';
+			post+='					<option value="0" selected>나눔중</option>';
+			post+='					<option value="1">나눔완료</option>';
+			post+='				</select>';
+			post+='				<input type="hidden" id="editIdx" name="donateIdx" value="'+data.donateIdx+'">';
 			post+='				<input type="hidden" id="editDoLoc" name="doLoc" value="'+data.doLoc+'">';
 			post+='				작성자 : <input type="text" id="editWriter" name="writer" style="width: 20%;" readonly><br>'; 
 			post+='				제   목 : <input type="text" id="editTitle" name="title" style="width: 40%;" required/> <br> <br>';
 			post+='				<textarea id="summernote" name="content"></textarea>';
+			post+='				<input type="text" name="oldImg" id="oldImg" style="width:500px;">'
 			post+='				<input type="file" name="doImg" id="editDoImg" style="display:block;">';
 			post+='				<input type="reset" style="float: right;" >';
 			post+='				<input type="submit" value="글 수정" style="float: right;" onclick="editBoard('+data.donateIdx+')" >';
@@ -201,6 +237,7 @@ function editForm(idx) {
 			$('#donateEdit').html(post);
 			$('#editWriter').val(data.writer);
 			$('#editTitle').val(data.title);
+			$('#oldImg').val(data.doImg);
 			$('#summernote').val(data.content);
 			$('#summernote').summernote({
 				minHeight : 370,
@@ -255,7 +292,11 @@ function viewBoard(idx){
 				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donateIdx+')">삭제</button>';
 				view+='<button id="editDonate" style="float:right;" onclick="editForm('+data.donateIdx+')">수정</button>';
 			};
-			
+			if(data.doStatus===0) {
+				view+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>'
+			} else if(data.doStatus===1) {
+				view+='	<p style="display:inline; background-color:gray; color:white;>나눔완료</p>'			
+			}
 			view+='        <p>작성자 ' + data.writer+'</p>';
 			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
 			view+='			<hr>';
@@ -307,11 +348,14 @@ function viewBoard(idx){
 
 function boardList(){
 
+
 	$.ajax({
 		url : 'http://localhost:8080/donate/donateBoard',
 		type : 'get',
+		data : {
+			'searchKey' : $('#searchKey').val()
+		},
 		success : function(data){
-			console.log(data);
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
 				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 350px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';

@@ -49,16 +49,3 @@ hr {
 }
 
 
-@media (max-width: 768px) {
-
-	#topBox {
-		display: block;
-	}
-	
-	#categoryBox {
-		display: none;
-	}
-
-}
-
-
