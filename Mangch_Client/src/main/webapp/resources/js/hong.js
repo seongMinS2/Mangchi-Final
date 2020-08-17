@@ -314,10 +314,6 @@ function viewBoard(idx){
 			view+='      </div>';
 			view+='      <footer class="w3-container">';
 			view+='        <p>comments</p>';
-			view+='			<hr>';
-			view+='			<div id="commList">';
-			view+='			</div>'	;
-			view+='			<hr>';
 			
 			if(loginUser!=null) {
 				view+='        <form id="commentForm" onsubmit="return false">';
@@ -328,7 +324,13 @@ function viewBoard(idx){
 				view+='        </form>';	
 			} else {
 				view+='	<p>로그인 한 사용자만 댓글을 달 수 있습니다.</p>'			
-			};	
+			};
+			view+='			<hr>';
+			view+='			<div id="commList">';
+			view+='			</div>'	;
+			view+='			<hr>';
+			
+	
 			view+='      </footer>';
 			view+='    </div>';
 			commList(data.donateIdx);		
