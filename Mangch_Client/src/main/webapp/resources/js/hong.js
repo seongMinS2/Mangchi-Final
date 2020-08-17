@@ -1,3 +1,7 @@
+var loading=false;
+var page=1;
+
+
 function getContextPath() {
   var hostIndex = location.href.indexOf( location.host ) + location.host.length;
   return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
@@ -351,14 +355,18 @@ function viewBoard(idx){
 
 function boardList(){
 
-
 	$.ajax({
 		url : 'http://localhost:8080/donate/donateBoard',
 		type : 'get',
 		data : {
-			'searchKey' : $('#searchKey').val()
+			'searchKey' : $('#searchKey').val(),
+			'page':page
 		},
 		success : function(data){
+			console.log(page+' page load');
+			if(page>=data.pageTotalCount) {
+				return;
+			}
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {
 				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 400px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
@@ -377,16 +385,12 @@ function boardList(){
 				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
 				html+='		<p class="board_viewcnt"> 조회수 : '+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
-			}
-			$('#listBox').html(html);
-			var page='';
-			for (var i=1; i<=data.pageTotalCount; i++){
-				page+='<a href="http://localhost:8080/donate/donateBoard?page='+i+'">['+i+']</a>';
 				
 			}
+			$('#listBox').append(html);
+			page++;
+			loading=false;
 			
-			$('#pageBox').html(page);
-		
 		}
 	});
 }
@@ -395,7 +399,15 @@ function boardList(){
 
 
 $(document).ready(function(){
-
-	boardList();	
+	boardList();
+	$(window).scroll(function() {
+		if($(window).scrollTop()+200>=$(document).height() - $(window).height()) {
+			if(!loading) {
+				loading=true;
+				boardList();
+			} 
+        } 
+    }); 
+	
 	
 });
