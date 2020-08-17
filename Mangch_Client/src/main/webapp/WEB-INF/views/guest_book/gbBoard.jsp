@@ -95,7 +95,27 @@
 
 
 
+function cmtWrite(guest_idx,text) {
+	var zz =$('#guest_writer').val();
+	var bb=zz.trim();
+$.ajax({
+		
+		url:'http://localhost:8080/guest/guest_book/cmt',
+		type : 'Post',
+		dataType:'json', 
+		data : {
+			
+			member_nick : bb,
+			comment_text :text,
+			comguest_idx : guest_idx
+		},
+		success : function (data) {
+			gbList();
+		}
+	});
+	
 
+}
 
 
 
@@ -343,12 +363,17 @@ function gbList() {
 			    html+='<div class="text_body">';
 			    html+='<section>';
 			    
+			    //아래라이크사진
+			   
 			    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 			    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
 			    
-			    html+='<button class="btmsg" onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
-			    html+='<div class="likes">좋아요 '+data[i].guest_like+' 개</div>';
+		    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+		    	
+			    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
+			    html+='</div>'
 			    html+='</section>'; 
+			    
 			    html+='<div class="content">';
 			    html+='<div class="realtext">'+data[i].guest_text+'<br>';
 			    if(data[i].guest_text.includes('<br/>')){
@@ -359,19 +384,21 @@ function gbList() {
 			    html+='<div class="comment">';
 			    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
 			    html+='<section>';
-			    html+='<div class="flex">';
-			    html+='<div class="cmtnick">짱가</div>';
-			    html+='<div class="cmttext">엌ㅋㅋㅋㅋ</div>';
-			    html+='</div>';
-			    html+='<div class="flex">';
-			    html+='<div class="cmtnick">병장</div>';
-			    html+='<div class="cmttext">앜ㅋㅋㅋㅋ</div>';
-			    html+='</div>';
+			    for(var j=0; j<data[i].guest_comment.length; j++){
+			    	if(j<2){
+			    		html+='<div class="flex">';
+				    html+='<div class="cmtnick" style="display:block;">'+data[i].guest_comment[j].member_nick+'</div>';
+				    html+='<br/>'
+				    html+='<div class="cmttext">'+data[i].guest_comment[j].comment_text+'</div>';
+				    html+='</div>';
+			    	}
+				    }
 			    html+='</section>';
 			    html+='</div>';
 			    html+='<div class="cmtbunki">';
 			    html+='<input type="text" class="cmtwr" id="cmtwr" placeholder="    댓글 달기">';
 			    html+='<input type="submit" class="cmtsb" value="등록">';
+			    html+='<input type="hidden" class="cmtwrtext" value="'+data[i].guest_idx+'">';
 			    html+='</div>';
 			    html+='</div>'; 
 			    html+='</article>';
@@ -442,6 +469,7 @@ function gbList() {
 				    html+='<div class="cmtbunki">';
 				    html+='<input type="text" class="cmtwr"  placeholder="    댓글 달기">';
 				    html+='<input type="submit" class="cmtsb" value="등록">';
+				    html+='<input type="hidden" class="cmtwrtext" value="'+data[i].guest_idx+'">';
 				    html+='</div>';
 				    html+='</div>';
 				    html+='</article>';
@@ -453,7 +481,11 @@ function gbList() {
 					
 					
 			
-			
+			$('.cmtsb').click(function () {
+				var a=$(this).next().val();
+				var b=$(this).prev().val();
+				cmtWrite(a,b);
+			});
 			
 			
 			$('.likebtn').click(function () {
