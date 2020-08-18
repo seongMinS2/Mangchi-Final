@@ -142,16 +142,24 @@
 							html += '<tr>';
 							html += ' <td>' + (i + data.startRow + 1) + '</td>';
 							html += ' <td> <a href="<c:url value="/request/requestDetail?idx='
-									+ data.requestReg[i].reqIdx
+									+ data.requestReg[i].reqIdx +'&distance='+data.requestReg[i].calDistance+'&count='+data.requestReg[i].reqCount
 									+ '" />" >'
 									+ data.requestReg[i].reqTitle + '</a></td>';
 							html += ' <td>' + data.requestReg[i].reqAddr
 									+ '</td>';
 							//회원 로그인 상태 일 때 거리 출력
 							if ('${loginInfo}' != '') {
-								html += ' <td>' + data.requestReg[i].distance
-										+ ' km</td>';
+							if( data.requestReg[i].calDistance >= 1000){
+								var calDistance = data.requestReg[i].calDistance;
+								calDistance = (Math.round(calDistance/100))/10;
+								html += ' <td>' + calDistance
+								+ ' km</td>';
+							}else{
+								html += ' <td>' + data.requestReg[i].calDistance+ ' m</td>';
+							}	
+							
 							}
+							
 
 							var status, color;
 							if (data.requestReg[i].reqStatus == 0) {

@@ -22,8 +22,12 @@ public class RequestController {
 
 	// 게시물 상세 정보 출력
 	@RequestMapping("/request/requestDetail")
-	public String requestDetail(@RequestParam("idx") int idx,Model model) {
+	public String requestDetail(@RequestParam("idx") int idx, @RequestParam("distance") int distance,
+			@RequestParam("count") int count, Model model) {
+		
 		model.addAttribute("idx", idx);
+		model.addAttribute("distance", distance);
+		model.addAttribute("count", count);
 		return "request/requestDetail";
 	}
 
@@ -33,6 +37,5 @@ public class RequestController {
 		model.addAttribute("reqIdx", reqIdx);
 		return "request/requestForm";
 	}
-
 
 }
