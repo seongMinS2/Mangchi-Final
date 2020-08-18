@@ -26,7 +26,7 @@
 			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
 
 			<form>
-				<input type="text" id="searchKey" name="searchKey" placeholder="아이디 혹은 물품을 검색하세요" style="width:60%;"> 
+				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width:60%;"> 
 				<input type="button" id="searchBar" style="width:30%;" value="검색">
 			</form>
 

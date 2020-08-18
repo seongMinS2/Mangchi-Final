@@ -344,8 +344,10 @@ function viewBoard(idx){
 				view+='	<p style="display:inline; background-color:grey; color:white;">나눔완료</p>';			
 			
 			};
-			view+='        <p>작성자 ' + data.writer+'</p>';
-			view+='        <p>조회수 ' + data.doViewCnt+'</p>';
+			view+='<br>';
+			view+='        작성자 <p style="display:inline;">'+ data.writer+'</p>';
+			view+='<br>';
+			view+='        조회수 <p style="display:inline;" id="ReadViewCnt">'+ data.doViewCnt+'</p>';
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
@@ -386,7 +388,7 @@ function viewBoard(idx){
 		type : 'get',
 		success : function(data){
 			console.log('조회수 업데이트 처리 1이면 성공 : '+data);
-			boardList();
+			$('.board_viewcnt'+idx).text($('#ReadViewCnt').text());
 		}
 		
 	});
@@ -428,7 +430,7 @@ function boardList(){
 				html+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
 				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
-				html+='		<p class="board_viewcnt"> 조회수 : '+data.boardList[i].doViewCnt+'</p>';
+				html+='		조회수 <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;">'+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
 				
 			}
@@ -468,7 +470,7 @@ function boardSearchList(search){
 				html+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
 				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
-				html+='		<p class="board_viewcnt"> 조회수 : '+data.boardList[i].doViewCnt+'</p>';
+				html+='		조회수 : <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;"> '+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
 				
 			}
