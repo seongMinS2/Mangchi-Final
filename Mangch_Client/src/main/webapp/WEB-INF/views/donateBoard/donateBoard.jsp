@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script>
-var ctx = '<%=request.getContextPath()%>';
-</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,24 +12,13 @@ var ctx = '<%=request.getContextPath()%>';
 
 <script type="text/javascript" src='<c:url value="/resources/js/hong.js"/>'></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/hong.css"/>">
+
 <div id="donateWrap">
 	<h3>나눔 게시판</h3>
 	<c:if test="${loginInfo!=null}">
 		<input type="hidden" id="loginUser" value="${loginInfo.mNick}">
 	</c:if>
-	<div id="topBox" style="display: none;">
 
-		<button class="w3-button w3-block w3-black" style="width:100%" id="writeForm"
-			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
-
-			<form>
-				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width:100%;"> 
-				<input type="submit" style="width:100%;" value="검색">
-			</form>
-
-
-
-	</div>
 	<div id="contentsBox">
 		<div id="listBox"></div>
 		<div id="categoryBox">
@@ -40,8 +26,8 @@ var ctx = '<%=request.getContextPath()%>';
 			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
 
 			<form>
-				<input type="text" name="searchKeyWord" placeholder="아이디 혹은 물품을 검색하세요" style="width:60%;"> 
-				<input type="submit" style="width:30%;" value="검색">
+				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width:60%;"> 
+				<input type="button" id="searchBar" style="width:30%;" value="검색">
 			</form>
 
 		</div>

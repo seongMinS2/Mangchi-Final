@@ -33,6 +33,8 @@
 	<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
 		width="300" />
 	</a>
+	<a href="javascript:kakaoLogout()">logout</a>
+    <a href="javascript:unlinkApp()">unlink</a>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
 	<script>
@@ -122,6 +124,29 @@
                 }
             });
         };
+        
+        function kakaoLogout() {
+            if (!Kakao.Auth.getAccessToken()) {
+                alert('Not logged in.')
+                return
+            }
+            Kakao.Auth.logout(function() {
+                alert('logout ok\naccess token -> ' + Kakao.Auth.getAccessToken())
+            })
+        }
+
+
+        function unlinkApp() {
+            Kakao.API.request({
+                url: '/v1/user/unlink',
+                success: function(res) {
+                    alert('success: ' + JSON.stringify(res))
+                },
+                fail: function(err) {
+                    alert('fail: ' + JSON.stringify(err))
+                },
+            })
+        }
 	</script>
 </body>
 </html>

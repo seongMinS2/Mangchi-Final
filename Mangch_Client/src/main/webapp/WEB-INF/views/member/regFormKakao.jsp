@@ -24,7 +24,8 @@
 			<tr>
 				<td>사진</td>
 				<td><input type="file" name="mImg" id="mImg"></td>
-				<img id="kImg" src="" width=101 height=128>
+				<td><input type="hidden" name="kImg" id="kImg"></td>
+				<img id="Img" src="" width=101 height=128>
 			</tr>
 
 			<tr>
@@ -80,7 +81,8 @@
                 
 				$('#kId').attr('value',id);
 				$('#mNick').attr('value',nick);
-				$('#kImg').attr('src',img);
+				$('#Img').attr('src',img);
+				$('#kImg').attr('value',img);
 				$('#mId').attr('value',email);
                 
                 

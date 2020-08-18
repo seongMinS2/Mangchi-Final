@@ -11,6 +11,7 @@ public class RegKakaoRequest {
 	private double mLttd;
 	private double mLgtd;
 	private MultipartFile mImg;
+	private String kImg;
 	private String kId;
 	
 	public RegKakaoRequest() {}
@@ -18,14 +19,16 @@ public class RegKakaoRequest {
 	public Member toMember() {
 		return new Member(mId,mNick,mAddr,mLttd,mLgtd, kId);
 	}
-	
-	public RegKakaoRequest(String mId, String mNick, String mAddr, double mLttd, double mLgtd, MultipartFile mImg,String kId) {
+
+	public RegKakaoRequest(String mId, String mNick, String mAddr, double mLttd, double mLgtd, MultipartFile mImg,
+			String kImg, String kId) {
 		this.mId = mId;
 		this.mNick = mNick;
 		this.mAddr = mAddr;
 		this.mLttd = mLttd;
 		this.mLgtd = mLgtd;
 		this.mImg = mImg;
+		this.kImg = kImg;
 		this.kId = kId;
 	}
 
@@ -77,6 +80,14 @@ public class RegKakaoRequest {
 		this.mImg = mImg;
 	}
 
+	public String getkImg() {
+		return kImg;
+	}
+
+	public void setkImg(String kImg) {
+		this.kImg = kImg;
+	}
+
 	public String getkId() {
 		return kId;
 	}
@@ -88,7 +99,11 @@ public class RegKakaoRequest {
 	@Override
 	public String toString() {
 		return "RegKakaoRequest [mId=" + mId + ", mNick=" + mNick + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd="
-				+ mLgtd + ", mImg=" + mImg + ", kId=" + kId + "]";
+				+ mLgtd + ", mImg=" + mImg + ", kImg=" + kImg + ", kId=" + kId + "]";
 	}
+	
+	
+	
+
 	
 }
