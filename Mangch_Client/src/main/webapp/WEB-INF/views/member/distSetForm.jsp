@@ -105,7 +105,7 @@ div.card>ul>li {
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 	<div class="w3-container">
-		<h2>대여리스트</h2>
+		<h2>거리 설정</h2>
 		<hr>
 		<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
 

@@ -1,14 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+@charset "UTF-8";
 
-<style>
 body {
 	margin: 0;
 	padding: 0;
@@ -100,38 +91,18 @@ div.card>ul>li {
 #profile-menu a:hover {
 	background: #f3f3f3
 }
-</style>
-</head>
-<body>
-	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-	<div class="w3-container">
-		<h2>대여리스트</h2>
-		<hr>
-		<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
 
-		<div class="w3-cell-row">
-			<div class="w3-cell">
-				<div id="profile-menu" class="active">
-					<a href="requestListForm">요청 리스트</a> 
-					<a href="lendingListForm">대여리스트</a>
-					<a href="reviewListForm">나의 리뷰</a> 
-					<a href="commentListForm">나의 댓글</a> 
-					<a href="mypageForm">나의 정보</a> 
-					<a href="distSetForm">거리 설정</a> 
-					<a href="keywordSetForm">키워드 설정</a>
-				</div>
-			</div>
-			<div class="w3-cell">
-				<div id="memberList">
-					<h1>
-						<img src="<c:url value="${loginInfo.mImg}"/>" width=100 height=100>
-					</h1>
-				</div>
-			</div>
-		</div>
-	</div>
+.container{
+	margin-left:5%; 
+	margin-right:5%;
+}
 
-	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+table {
+	width: 100%;
+	border: 1px solid #444444;
+	border-collapse: collapse;
+}
 
-</body>
-</html>
+th, td {
+	border: 1px solid #444444;
+}

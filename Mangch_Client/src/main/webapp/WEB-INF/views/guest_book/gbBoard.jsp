@@ -45,7 +45,10 @@
 			<div style="width: 100%; display: flex; position: relative; height: 100px; border-bottom: 1px solid #DDD;">
 				<div style="width: 20%;">
 				<img   src="${pageContext.request.contextPath}${loginInfo.mImg}" style=" left: 6%; top: 25%; position: absolute; border: 2px solid #DDD; border-radius: 50px; width: 45px; height: 45px;">
+				
 				</div>
+				
+				
 			
 			<textarea rows="100" cols="500"  type="textarea" name="guest_text" id="guest_text" required="required" placeholder="    ${loginInfo.mNick}님, 무슨생각을 하고계신가요?"
 				style="width: 80%; border: 0; outline: 0;  height: 50px; margin-top:33px; overflow: hidden; resize: none;"></textarea>
@@ -94,7 +97,7 @@
 
 
 
-
+//댓글쓰기
 function cmtWrite(guest_idx,text) {
 	var zz =$('#guest_writer').val();
 	var bb=zz.trim();
@@ -111,6 +114,7 @@ $.ajax({
 		},
 		success : function (data) {
 			gbList();
+			
 		}
 	});
 	
@@ -173,13 +177,14 @@ function guestPost() {
 	postFormData.append('photo',$('#guest_photo')[0].files[0]); // 파일첨부 코드	
 	}
 	$.ajax({
-		url : 'http://localhost:8080/guest/guest_book',
+		url : 'http://localhost:8080/guest/guest_book/post',
 		type : 'post',
 
 		processData : false, // File 전송시 필수 
 		contentType : false, // multipart/form-data 쓰는 코드
 		data : postFormData,
 		success : function (data) {
+			console.log(data);
 			$('#guest_text').val('');
 			$(".upload-name").val('파일선택');
 			gbList();
@@ -246,17 +251,119 @@ function goPopup(guest_idx) {
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		success : function (data) {
-			
+			console.log(data)
 			var html='';
+			if(data.guest_photo !=null){
+				html+='<article class="in_wrap">'
+					html+='<div class="flex">'
+						html+='<div class="in_photo"><img src="http://localhost:8080/guest_book/upload/'+data.guest_photo+'"></div>'
+						html+='<div class="in_body">'
+							html+='<header>'
+							html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
+							//html+='<div class="hd_img"><img src="${pageContext.request.contextPath}/upload/'+data.member_img+'"></div>';
+							 html+='<div class="in_hd_nick">';
+						    html+=data.guest_writer
+						    if(data.guest_writer === `${loginInfo.mNick}`){
+						    	html+='<button class="dotpopup" style="float:right;" onclick="editPopup('+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+						    }
+						    html+='</div>'
+							html+='</header>'   
+							html+='<div class="null_content">'
+							html+='<div class="in_nonerealtext">'+data.guest_text
+							html+='<section class="in_bodycmt">'
+							console.log(data.guest_comment)
+								 for(var j=0; j<data.guest_comment.length; j++){
+								    		html+='<div class="flex">';
+									    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
+									    html+='<br/>'
+									    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
+									    html+='</div>';
+									    }
+							html+='</section>'
+								html+='</div>'
+							html+='</div>'
+							html+='<section class="in_bottom">'
+							
+								html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+						    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+							
+						    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+							html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
+							html+='<div class="flex dh">'
+							html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
+							html+='<div class="in_date">'+data.guest_date+'</div>'	
+			
+			html+='</div>'
+			html+='<div class="in_cmtbunki">'
+			html+='<input type="text" class="in_cmtwr" placeholder="   댓글 달기">'	
+			html+='<input type="submit" class="cmtsb2" value="등록">'
+			html+='<input type="hidden" class="cmtwrtext" value="'+data.guest_idx+'">';
+			html+='</div>'
+			html+='</section>'                     
+			html+='</div>'
+			html+='</div>'
+			html+='</article>'
+			}else if(data.guest_photo ==null){
+				
+				html+='<article class="in_wrap">'
+				html+='<div class="no_wrap">'
+			
+				html+='<header>'
+				html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
+				//html+='<div class="hd_img"><img src="${pageContext.request.contextPath}/upload/'+data.member_img+'"></div>';
+				 html+='<div class="in_hd_nick_no">';
+			    html+=data.guest_writer
+			    if(data.guest_writer === `${loginInfo.mNick}`){
+			    	html+='<button class="dotpopup" style="float:right;" onclick="editPopup('+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+			    }
+			    html+='</div>'
+				html+='</header>'   
+				html+='<div class="null_content">'
+				html+='<div class="in_nonerealtext">'+data.guest_text
+				html+='<section class="in_bodycmt">'
+				console.log(data.guest_comment)
+					 for(var j=0; j<data.guest_comment.length; j++){
+					    		html+='<div class="flex">';
+						    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
+						    html+='<br/>'
+						    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
+						    html+='</div>';
+						    }
+				html+='</section>'
+					html+='</div>'
+				html+='</div>'
+				html+='<section class="in_bottom">'
+				
+					html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+			    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+				
+			    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+				html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
+				html+='<div class="flex dh">'
+				html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
+					html+='<div class="in_date_null">'+data.guest_date+'</div>'
+				html+='</div>'
+				html+='<div class="in_cmtbunki">'
+					html+='<input type="text" class="in_cmtwr_null" placeholder="   댓글 달기">'	
+				html+='<input type="submit" class="cmtsb2" value="등록">'
+				html+='<input type="hidden" class="cmtwrtext" value="'+data.guest_idx+'">';
+				html+='</div>'
+				html+='</section>'                     
+				html+='</div>'
+				
+				html+='</article>'
+			}
+			/* 
 			html+='<article class="in_wrap">'
 			html+='<div class="flex">'
 			if(data.guest_photo !=null){
 			//html+='<div class="in_photo">'+data.guest_photo+'</div>'
-			html+='<div class="in_photo"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&amp;fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>'
+			html+='<div class="in_photo"><img src="http://localhost:8080/guest_book/upload/'+data.guest_photo+'"></div>'
 			}
 			html+='<div class="in_body">'
 			html+='<header>'
 			html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
+			//html+='<div class="hd_img"><img src="${pageContext.request.contextPath}/upload/'+data.member_img+'"></div>';
 			 html+='<div class="in_hd_nick">';
 		    html+=data.guest_writer
 		    if(data.guest_writer === `${loginInfo.mNick}`){
@@ -265,19 +372,18 @@ function goPopup(guest_idx) {
 		    html+='</div>'
 			html+='</header>'   
 			html+='<div class="null_content">'
-			html+='<div class="in_nonerealtext">'+data.guest_text+'</div>'
+			html+='<div class="in_nonerealtext">'+data.guest_text
 			html+='<section class="in_bodycmt">'
-			html+='<div class="flex">'
-			html+='<div class="in_hd_img"><img src="/images/3.png"></div>'
-			html+='<div class="in_cmtnick">짱가</div>'
-			html+='<div class="in_cmttext">엌ㅋㅋㅋ엌ㅋㅋㅋㅋ엌ㅋㅋㅋㅋ엌ㅋㅋㅋㅋ엌ㅋㅋㅋㅋ엌ㅋㅋㅋㅋ엌ㅋㅋㅋ엌ㅋㅋㅋㅋ엌ㅋㅋㅋㅋㅋ엌ㅋㅋㅋㅋㅋ</div>'
-			html+='</div>'
-			html+='<div class="flex">'
-			html+='<div class="in_hd_img"><img src="/images/3.png"></div>'
-			html+='<div class="in_cmtnick">병장</div>'
-			html+='<div class="in_cmttext">앜ㅋㅋㅋㅋ</div>'
-			html+='</div>'
+			console.log(data.guest_comment)
+				 for(var j=0; j<data.guest_comment.length; j++){
+				    		html+='<div class="flex">';
+					    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
+					    html+='<br/>'
+					    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
+					    html+='</div>';
+					    }
 			html+='</section>'
+				html+='</div>'
 			html+='</div>'
 			html+='<section class="in_bottom">'
 			
@@ -300,21 +406,31 @@ function goPopup(guest_idx) {
 			}else{
 				html+='<input type="text" class="in_cmtwr" placeholder="   댓글 달기">'	
 			}
-			html+='<input type="submit" class="cmtsb" value="등록">'
+			html+='<input type="submit" class="cmtsb2" value="등록">'
+			html+='<input type="hidden" class="cmtwrtext" value="'+data.guest_idx+'">';
 			html+='</div>'
 			html+='</section>'                     
 			html+='</div>'
 			html+='</div>'
-			html+='</article>'
+			html+='</article>' */
 			
 			
 			$('#innerView').html(html);
 			
 			
+			$('.cmtsb2').click(function () {
+				var a=$(this).next().val();
+				var b=$(this).prev().val();
+				cmtWrite(a,b);
+				goPopup(guest_idx);
+				goPopup(guest_idx);
+			});
+			
 		}// 석세스끝
 		
 	});
 	$("#popup").bPopup(); // 열기
+	
 	};
 
 
@@ -358,7 +474,7 @@ function gbList() {
 			    }
 			    html+='</div>'
 			    html+='</header>';
-			    html+='<div class="photo_body">'+data[i].guest_photo+'</div>';
+			    html+='<div class="photo_body"><img src="http://localhost:8080/guest_book/upload/'+data[i].guest_photo+'"></div>';
 			    //html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
@@ -375,11 +491,12 @@ function gbList() {
 			    html+='</section>'; 
 			    
 			    html+='<div class="content">';
-			    html+='<div class="realtext">'+data[i].guest_text+'<br>';
+			    html+='<div class="nonerealtext">'+data[i].guest_text+'<br>';
+			   
+			    html+='</div>';
 			    if(data[i].guest_text.includes('<br/>')){
 			    	html+='<span class="more">더보기</span>';
 			    }
-			    html+='</div>';
 			    html+='</div>';
 			    html+='<div class="comment">';
 			    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';

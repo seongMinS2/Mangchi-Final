@@ -32,38 +32,42 @@
 
 	<!-- 로그인 -->
 	<select id="selectByIdPw" resultMap="resultMember">
-		select * from Mangchi.member
-		where member_id=#{mId} and member_pw=#{mPw}
+		select * from Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
 	</select>
 
 	<!-- ID, PW 체크 -->
 	<select id="checkIdPw" resultType="int">
-		select count(*) from
-		Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
+		select count(*) from Mangchi.member where member_id=#{mId} and member_pw=#{mPw}
 	</select>
 
 	<!-- 회원 ID 중복체크 -->
 	<select id="selectById" resultType="int">
-		select count(*) from
-		Mangchi.member where member_id=#{mId}
+		select count(*) from Mangchi.member where member_id=#{mId}
 	</select>
 
-	<!-- 회원 ID 중복체크 -->
+	<!-- 회원 닉네임 중복체크 -->
 	<select id="selectByNick" resultType="int">
-		select count(*) from
-		Mangchi.member where member_nick=#{mNick}
+		select count(*) from Mangchi.member where member_nick=#{mNick}
 	</select>
 
 	<!-- 회원 정보 출력 -->
-	<select id="selectList" parameterType="int"
-		resultMap="resultMember">
+	<select id="selectList" parameterType="int" resultMap="resultMember">
 		select * from Mangchi.member where member_idx=#{mIdx}
 	</select>
 	
 	<!-- 카카오 로그인 -->
 	<select id="selectBykakao" resultMap="resultMember">
-		select * from Mangchi.member
-		where member_id=#{mId}
+		select * from Mangchi.member where member_id=#{mId}
 	</select>
+	
+	<!-- 사진 확인 -->
+	<select id="selectByImg" parameterType="String" resultType="String">
+	select member_img from Mangchi.member where member_id = #{mId}
+	</select>
+	
+	<!-- 사진 수정 -->
+	<update id="updateByImg">
+	update Mangchi.member set member_img=#{param2} where member_id=#{param1}
+	</update>
 
 </mapper>
