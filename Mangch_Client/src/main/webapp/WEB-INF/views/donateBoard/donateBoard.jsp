@@ -12,6 +12,7 @@
 
 <script type="text/javascript" src='<c:url value="/resources/js/hong.js"/>'></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/hong.css"/>">
+
 <div id="donateWrap">
 	<h3>나눔 게시판</h3>
 	<c:if test="${loginInfo!=null}">
@@ -24,9 +25,9 @@
 					<button class="w3-button w3-block w3-black" style="width:100%" id="writeForm"
 			onclick="location.href='<c:url value="/donate/donateForm"/>'">글쓰기</button>
 
-			<form action="http://localhost:8080/donate/donateBoard">
+			<form>
 				<input type="text" id="searchKey" name="searchKey" placeholder="아이디 혹은 물품을 검색하세요" style="width:60%;"> 
-				<input type="submit" id="searchBar" style="width:30%;" value="검색">
+				<input type="button" id="searchBar" style="width:30%;" value="검색">
 			</form>
 
 		</div>
