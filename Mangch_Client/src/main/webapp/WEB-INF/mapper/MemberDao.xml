@@ -65,5 +65,15 @@
 		select * from Mangchi.member
 		where member_id=#{mId}
 	</select>
+	
+	<!-- 사진 확인 -->
+	<select id="selectByImg" parameterType="String" resultType="String">
+	select member_img from Mangchi.member where member_id = #{mId}
+	</select>
+	
+	<!-- 사진 수정 -->
+	<update id="updateByImg">
+	update Mangchi.member set member_img=#{param2} where member_id=#{param1}
+	</update>
 
 </mapper>

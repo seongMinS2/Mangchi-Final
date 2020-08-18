@@ -101,25 +101,16 @@ div.card>ul>li {
 	background: #f3f3f3
 }
 </style>
-
-<style>
-  table {
-    width: 100%;
-    border: 1px solid #444444;
-    border-collapse: collapse;
-  }
-  th, td {
-    border: 1px solid #444444;
-  }
-</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-	<div class="w3-container" style="margin-left:5%; margin-right:5%;">
-		<h2>요청리스트</h2>
+	<div class="w3-container">
+		<h2>거리 설정</h2>
 		<hr>
+		<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
+
 		<div class="w3-cell-row">
-			<div class="w3-cell" style="width:25%">
+			<div class="w3-cell">
 				<div id="profile-menu" class="active">
 					<a href="requestListForm">요청 리스트</a> 
 					<a href="lendingListForm">대여리스트</a>
@@ -130,63 +121,17 @@ div.card>ul>li {
 					<a href="keywordSetForm">키워드 설정</a>
 				</div>
 			</div>
-			<div class="w3-cell" style="width:75%">
-			<div id="requestList" style="margin-right:10%">
-					<table>
-						<tr>
-							<td>글번호</td>
-							<td>글제목</td>
-							<td>상태</td>
-							<td>작성 지역</td>
-							<td>작성자</td>
-							<td>작성 날짜</td>
-							<td>조회수</td>
-						</tr>
-						<tr>
-							
-						</tr>
-					</table>
+			<div class="w3-cell">
+				<div id="memberList">
+					<h1>
+						<img src="<c:url value="${loginInfo.mImg}"/>" width=100 height=100>
+					</h1>
 				</div>
 			</div>
 		</div>
-</div>
+	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-<script>
-	$(document).ready(function(){
-		
-		// 요청리스트 출력
-/* 		var mNick = '${loginInfo.mNick}';
-		alert(mNick);
-		
-		$.ajax({
-			url : 'memberLogin',
-			type : 'post',
-			data : {
-				mId : $('#mId').val(),
-				mPw : $('#mPw').val()
-			},
-			success : function(data) {
-				if (data == 'Y') {
-					alert('환영합니다 !!!');
-					location.href='memberMypage/mypageForm';
-				} else if (data == 'N') {
-					alert('아이디와 비밀번호를 확인해주세요.');
-					document.getElementById('loginForm').reset();
-				} else {
 
-				}
-			}
-		}); */
-		
-		
-		
-		
-		
-		
-		
-		
-	});
-</script>
 </body>
 </html>

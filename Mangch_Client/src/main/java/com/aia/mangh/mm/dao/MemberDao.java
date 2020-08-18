@@ -27,4 +27,10 @@ public interface MemberDao {
 	
 	// 카카오 로그인
 	public Member selectBykakao(String mId);
+	
+	// 사진 확인
+	public String selectByImg(String mId);
+	
+	// 사진 업데이트
+	public int updateByImg(String mId, String mImg);
 }

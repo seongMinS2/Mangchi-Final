@@ -104,24 +104,28 @@ div.card>ul>li {
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-	<h2>마이페이지</h2>
-	<hr>
-	<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
-
 	<div class="w3-container">
+		<h2>대여리스트</h2>
+		<hr>
+		<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
+
 		<div class="w3-cell-row">
 			<div class="w3-cell">
 				<div id="profile-menu" class="active">
-					<a href="/my/landing-page">요청 리스트</a> <a href="/my/profile">대여리스트</a>
-					<a href="/my/projects">나의 리뷰</a> <a href="/my/forums">나의 댓글</a> <a
-						href="/community/people/christoffer-erneholm">나의 정보</a> <a
-						href="/logout">거리 설정</a> <a href="/logout">키워드 설정</a>
+					<a href="requestListForm">요청 리스트</a> 
+					<a href="lendingListForm">대여리스트</a>
+					<a href="reviewListForm">나의 리뷰</a> 
+					<a href="commentListForm">나의 댓글</a> 
+					<a href="mypageForm">나의 정보</a> 
+					<a href="distSetForm">거리 설정</a> 
+					<a href="keywordSetForm">키워드 설정</a>
 				</div>
 			</div>
 			<div class="w3-cell">
 				<div id="memberList">
-					<h1><img src="<c:url value="${loginInfo.mImg}"/>" width=100
-						height=100></h1>
+					<h1>
+						<img src="<c:url value="${loginInfo.mImg}"/>" width=100 height=100>
+					</h1>
 				</div>
 			</div>
 		</div>

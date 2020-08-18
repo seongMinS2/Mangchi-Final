@@ -24,23 +24,37 @@ public class MemberKakaoController {
 	@Autowired
 	private MemberRegKakaoService kakaoService;
 	
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getkakaoForm() {
 		return "member/regFormKakao";
 	}
 
-	// 카카오 로그인 체크(0 or 1 반환)
+	// 카카오 로그인 체크(0 or 1 반환) 
+	// 카카오 회원의 프로필 사진 업데이트 체크 >> 프로필 사진 업데이트
 	@RequestMapping("/kakaoId")
 	@ResponseBody
-	public int kakaoId(String mId, HttpSession session) {
+	public int kakaoId(String mId, String mImg, HttpSession session) {
 		
 		int resultCnt = 0;
 		System.out.println("kakaoId >> " + mId);
-		resultCnt = chkkIdService.ChkkId(mId, session);
+		System.out.println("kakaoImg >> " + mImg);
+		resultCnt = chkkIdService.ChkkId(mId, mImg, session);
 
 		return resultCnt;
 	}
+	
+	// 카카오 회원가입 
+//	@RequestMapping("/kakaoImg")
+//	public int regKakao(String mImg, HttpSession session) {
+//		
+//		int resultCnt = 0;
+//
+//		System.out.println("kakao Img check >> "+ mImg);
+//		
+//		resultCnt =  kakaoService.regKakaoMember(kakaoRequest, request);
+//		
+//		return "Y";
+//	}
 	
 	// 카카오 회원가입 
 	@RequestMapping(method = RequestMethod.POST)
