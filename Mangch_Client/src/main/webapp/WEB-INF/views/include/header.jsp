@@ -77,7 +77,7 @@ body, html {
 					class="w3-bar-item w3-button">마이페이지</a> <a
 					href="<c:url value="/request/requestList"/>"
 					class="w3-bar-item w3-button">요청게시판</a> <a
-					href="<c:url value="/donate/donateBoard"/>"
+					href="<c:url value="/donateBoard"/>"
 					class="w3-bar-item w3-button">나눔게시판</a> <a
 					href="<c:url value="/guest_book/gbBoard"/>"
 					class="w3-bar-item w3-button">동네생활</a> <a
@@ -101,7 +101,7 @@ body, html {
 			onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a> <a
 			href="<c:url value="/request/requestList"/>" onclick="w3_close()"
 			class="w3-bar-item w3-button">요청게시판</a> <a
-			href="<c:url value="/donate/donateBoard"/>" onclick="w3_close()"
+			href="<c:url value="/donateBoard"/>" onclick="w3_close()"
 			class="w3-bar-item w3-button">나눔게시판</a> <a
 			href="<c:url value="/guest_book/gbBoard"/>" onclick="w3_close()"
 			class="w3-bar-item w3-button">동네생활</a> <a
