@@ -26,7 +26,7 @@
 				</div>
 
 				<div class="w3-border">
-					<form id="listReg" onsubmit="return false;">
+					<form onsubmit="return false;">
 
 						<table class="w3-table w3-border">
 							<tr>
@@ -62,7 +62,7 @@
 			<c:when test="${empty loginInfo}">
 				<script>
 					alert('로그인 후 이용해주세요');
-					location.href = "/mangh/member/loginForm";
+					location.href = "/mangh/member/memberLogin";
 				</script>
 			</c:when>
 		</c:choose>
