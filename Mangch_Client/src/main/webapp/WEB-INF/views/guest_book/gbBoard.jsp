@@ -440,10 +440,14 @@ function goPopup(guest_idx) {
 	    	html+='<div>안녕</div>'
 	    } */
 	
-	
+	    
 
+	    
+	    
+	    var page = 5;
 ///////////////////// 전체리스트
 function gbList() {
+	    	
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book' ,
 		dataType:'json',
@@ -452,10 +456,11 @@ function gbList() {
 		 data : {
 			 xx :'${loginInfo.mLttd}',
 			 yy :'${loginInfo.mLgtd}',
-			 member_radius :'${loginInfo.mRadius}'
+			 member_radius :'${loginInfo.mRadius}',
+			 limit : page
+			
 		 },
 		success : function (data) {
-			
 			var html='';
 			
 			for(var i=0; i<data.length; i++){
@@ -593,11 +598,15 @@ function gbList() {
 				}
 			
 			} // for문 끝 
+				
+			
 			
 					$('#guestbookList').html(html);
 					
 					
-			
+					
+				
+				
 			$('.cmtsb').click(function () {
 				var a=$(this).next().val();
 				var b=$(this).prev().val();
@@ -661,8 +670,14 @@ function gbList() {
 		
 		
 	}); // ajax끝 
-	
+	page=page+4
 }
+
+
+
+
+
+
 
 
 ///////////////////// 좋아요 증감 함수
@@ -696,8 +711,17 @@ function gbList() {
 
 
 $(document).ready(function () {
-	
+
 	gbList();
+	$(window).scroll(function() {
+	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+	    	console.log(page)
+	        gbList(); 
+	      
+	    }
+	});
+
+	//gbList();
 
 });
 </script>
