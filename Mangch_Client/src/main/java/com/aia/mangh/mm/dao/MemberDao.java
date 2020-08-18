@@ -33,4 +33,5 @@ public interface MemberDao {
 	
 	// 사진 업데이트
 	public int updateByImg(String mId, String mImg);
+
 }

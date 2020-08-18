@@ -21,8 +21,7 @@
 			<table>
 				<tr>
 					<td class="td"><p>아이디</p></td>
-					<td><input type="text" name="mId" id="mId" autofocus required
-						oninvalid="this.setCustomValidity('아이디를 입력해주세요.')"></td>
+					<td><input type="text" name="mId" id="mId" autofocus required></td>
 				</tr>
 				<tr>
 					<td class="td"></td>
@@ -30,8 +29,7 @@
 				</tr>
 				<tr>
 					<td class="td"><p>비밀번호</p></td>
-					<td><input type="password" name="mPw" id="mPw" required
-						oninvalid="this.setCustomValidity('비밀번호를 입력해주세요.')"></td>
+					<td><input type="password" name="mPw" id="mPw" required></td>
 
 				</tr>
 				<tr>
@@ -40,8 +38,7 @@
 				</tr>
 				<tr>
 					<td class="td"><p>비밀번호 확인</p></td>
-					<td><input type="password" name="chkmPw" id="chkmPw" required
-						oninvalid="this.setCustomValidity('비밀번호를 확인해주세요.')"></td>
+					<td><input type="password" name="chkmPw" id="chkmPw" required></td>
 
 				</tr>
 				<tr>
@@ -50,23 +47,20 @@
 				</tr>
 				<tr>
 					<td class="td"></td>
-					<td><div class="alert alert-success" id="alert-success">비밀번호가
-							일치합니다.</div></td>
-					<td>
-						<div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지
+					<td><div class="alert alert-success chkmsg" id="alert-success">비밀번호가
+							일치합니다.</div>
+						<div class="alert alert-danger chkmsg" id="alert-danger">비밀번호가 일치하지
 							않습니다.</div>
 					</td>
 
 				</tr>
 				<tr>
 					<td class="td"><p>이메일 인증</p></td>
-					<td><input type="text" name="mChk" id="mChk" required
-						oninvalid="this.setCustomValidity('인증받으실 이메일을 입력해주세요.')"></td>
+					<td><input type="text" name="mChk" id="mChk" required></td>
 				</tr>
 				<tr>
 					<td class="td"><p>닉네임</p></td>
-					<td><input type="text" name="mNick" id="mNick" required
-						oninvalid="this.setCustomValidity('닉네임을 입력해주세요.')"></td>
+					<td><input type="text" name="mNick" id="mNick" required></td>
 				</tr>
 				<tr>
 					<td class="td"></td>
@@ -77,8 +71,8 @@
 					<td>
 					<div class="filebox">
 							<label for="file">업로드</label> 
-							<input type="file" id="file">
-							<input class="upload-name" value="파일선택">
+							<input type="file" id="file" name="mImg">
+							<input name="mImg" id="mImg" value="파일선택">
 					</div>
 					</td>
 				</tr>
@@ -245,11 +239,11 @@
 
 			$('#mPw').focusout(function() {
 
-				if ($(this).val().length < 1) {
+/* 				if ($(this).val().length < 1) {
 					$('#checkmsg3').text("비밀번호는 필수 항목입니다.");
 					$('#checkmsg3').addClass('check_not');
 					return false;
-				}
+				} */
 
 			});
 
@@ -264,11 +258,11 @@
 
 			$('#chkmPw').focusout(function() {
 
-				if ($(this).val().length < 1) {
+/* 				if ($(this).val().length < 1) {
 					$('#checkmsg4').text("비밀번호를 확인해주세요.");
 					$('#checkmsg4').addClass('check_not');
 					return false;
-				}
+				} */
 
 			});
 		});

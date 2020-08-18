@@ -24,6 +24,7 @@ public class MemberKakaoController {
 	@Autowired
 	private MemberRegKakaoService kakaoService;
 	
+	// 카카오 추가회원가입 폼
 	@RequestMapping(method = RequestMethod.GET)
 	public String getkakaoForm() {
 		return "member/regFormKakao";
@@ -42,19 +43,6 @@ public class MemberKakaoController {
 
 		return resultCnt;
 	}
-	
-	// 카카오 회원가입 
-//	@RequestMapping("/kakaoImg")
-//	public int regKakao(String mImg, HttpSession session) {
-//		
-//		int resultCnt = 0;
-//
-//		System.out.println("kakao Img check >> "+ mImg);
-//		
-//		resultCnt =  kakaoService.regKakaoMember(kakaoRequest, request);
-//		
-//		return "Y";
-//	}
 	
 	// 카카오 회원가입 
 	@RequestMapping(method = RequestMethod.POST)
