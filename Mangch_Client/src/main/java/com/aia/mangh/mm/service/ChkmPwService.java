@@ -5,20 +5,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aia.mangh.mm.dao.MemberDao;
-import com.aia.mangh.mm.model.LoginRequest;
 
 @Service
-public class ChkIdPwService {
-	
-	private MemberDao dao;
-	
-	@Autowired
-	private SqlSessionTemplate template;
+public class ChkmPwService {
 
-	public int checkIdPw(LoginRequest loginRequest) {
+	private MemberDao dao;
+
+	@Autowired
+	SqlSessionTemplate template;
+
+	public int ChkmPw(String mPw) {
 
 		dao = template.getMapper(MemberDao.class);
-		int resultCnt = dao.checkIdPw(loginRequest);
+
+		int resultCnt = 0;
+
+		resultCnt = dao.selectById(mPw);
+
+		if (resultCnt > 0) {
+			resultCnt = 1;
+		}
 
 		return resultCnt;
 	}

@@ -214,7 +214,7 @@ form {
 }
 
 /* named upload */
-.filebox .upload-name {
+.filebox #mImg {
 	display: inline-block;
 	margin: 0;
 	height: 35px;

@@ -7,12 +7,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="<c:url value="/resources/css/kjj.css"/>">
+<c:if test="${loginInfo==null}">
+	<script>
+		alert('로그인해야 이용가능합니다');
+		location.href='/mangh/';
+	</script>
+</c:if>
 <style>
 .badge{
 	font-weight: bold;
 }
 .msgContainer{
 	position: relative;
+	
 }
 .msgdate{
 	padding-left:5px; 
@@ -35,6 +42,18 @@
 }
 .fa-trash{
 	cursor: pointer;
+}
+.dateCon{
+	background-color: #CFD8DC;
+}
+.imagebtn{
+	cursor: pointer;
+}
+#msgimgtag{
+	width: 250px;
+}
+.w3-cell{
+	height: in
 }
 </style>
 <script type="text/javascript"
@@ -81,14 +100,14 @@
 						</div>
 						<div class="w3-row w3-light-grey w3-padding msgArea">
 							<!-- 메세지 목록 -->
-							<div class="w3-cell-row w3-container msgContainer">
+							<!-- <div class="w3-cell-row w3-container msgContainer">
 								<div class="w3-cell-row">
 									<input type="hidden" class="messageIdx" value="'+msgList[i].idx+'">
 									<div class="w3-cell sender">euna</div>
 								</div>
 								<div class="w3-cell-row w3-container msg'+msgList[i].idx+'" style="width:75%; line-height: 20px;">
 									<span class="w3-cell w3-blue w3-padding w3-left">
-										ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+										ㅋㅋㅋㅋ
 									</span>
 									<span class="w3-cell w3-small msgdate w3-left">MM월DD일, HH:mm</span>
 								</div>
@@ -107,25 +126,26 @@
 									</span>
 									<span class="w3-cell w3-small msgdate w3-right">MM월DD일, HH:mm</span>
 								</div>
-							</div>
+							</div> -->
 							
 							
 							
 							
 						</div>
 
-						<div class="w3-row w3-padding inputArea">
-							<div class="w3-col" style="width: 85%">
+						<div class="w3-cell-row w3-padding inputArea">
+							<div class="w3-cell">
+								<button class="w3-button w3-indigo w3-hover-blue w3-round-large imgModalBtn">
+									<i class="fa fa-image"></i>
+								</button>
+							</div>
+							<div class="w3-cell w3-container" style="width: 80%">
 								<input class="w3-input w3-border w3-round-small" type="text" id="message">
 							</div>
-							<div class="w3-rest">
-								<button type="button" class="w3-button w3-blue w3-center" id="sendBtn">
+							<div class="w3-cell w3-container">
+								<button class="w3-button w3-blue w3-center" id="sendBtn">
 									전송 <i class="fa fa-plane"></i>
 								</button>
-								<input type="text" id="currChatRoom" value=""> 
-								<input type="text" id="currChatUser" value="">
-								<input type="text" id="chatRoom-reqIdx" value="">
-								<input type="button" id="test" value="ㅎㅎ" onclick="updateBadge()">
 							</div>
 						</div>
 					</div>
@@ -135,48 +155,95 @@
 				<p></p>
 			</div>
 		</div>
+		
+		<!-- 모달 -->
+		<div id="modal" class="w3-modal">
+			<div class="w3-modal-content w3-animate-top" style="width: 50%">
+				<header class="w3-container w3-indigo"> 
+					<span class="w3-button w3-display-topright w3-xlarge closeImgModal">&times;</span>
+					<h3>사진 보내기</h3>
+				</header>
+				<div class="w3-container">
+					<p>사진을 선택하세요</p>
+					<p><input type="file" name="msgPhoto" id="msgPhoto"></p>
+					<p><button class="w3-button w3-round-large w3-indigo imgSelect">선택완료</button></p>
+				</div>
+			</div>
+		</div>
+		<div id="clickImgModal" class="w3-modal" onclick="this.style.display='none'">
+  			<img class="w3-modal-content w3-display-middle" id="clickImg" style="width:50%">
+		</div>
+		
+		<div id="askDelChatRoomModal" class="w3-modal">
+			<div class="w3-modal-content w3-animate-top" style="width: 50%">
+				<header class="w3-container w3-indigo"> 
+						<h3>채팅방 삭제</h3>
+				</header>
+				<div class="w3-container">
+					<h3 class="w3-center">채팅방을 삭제하면 이전의 모든 메세지가 삭제되며<br>상대방에게 더이상 메세지를 받을 수 없습니다.</h3>
+	  				<h3 class="w3-center">삭제하시겠습니까?</h3>
+					<p class="w3-center">
+					<button class="w3-button w3-xlarge w3-round-large w3-red delRoomYes w3-margin-right">삭제</button>
+					<button class="w3-button w3-xlarge w3-round-large w3-indigo delRoomNo w3-margin-left">취소</button>
+					</p>
+				</div>
+			</div>
+		</div>
 	</div>
+	<!-- 확인용 -->
+	<input type="text" id="currChatRoom" value=""> 
+	<input type="text" id="currChatUser" value="">
+	<input type="text" id="chatRoom-reqIdx" value="">
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-
-	<!-- moment() : 날짜 포멧팅 -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
 
 	<!-- 채팅방 리스트, n번idx채팅방의 메세지 리스트-->
 	<!-- interval로 안읽은 메세지 있을때 갱신-->
 	<script>
 		//후순위  function
 		$(document).ready(function() {
-			
 			setInterval(function(){
 				chkNewMsg(chatList);
-			},1000);
-
-			//메세지 전송 
-			function sendMsg() {
-				$.ajax({
-					url : 'http://localhost:8080/mc-chat/chat',
-					type : 'post',
-					data : {
-						roomIdx : currRoom,
-						sender : loginUser,
-						receiver : currUser,
-						text : $('#message').val(),
-						reqIdx : chatRoomReqIdx
-					},
-					success : function(data) {
-						currRoom = data;
-						getMsgIdx(currRoom);
-						chkNewMsg(chatList);
-					}
-				});
-			}
+			},1500);
+			
+			$('.delRoomNo').click(function(){
+				$('#askDelChatRoomModal').hide();
+			});
+			
+			$('.delRoomYes').click(function(){
+				if(currRoom!=-1&&currRoom!=-2){
+					console.log('delYesClick:'+currRoom);
+					delChatRoom(currRoom);
+				}else{
+					alert('채팅방이 존재하지 않습니다');
+				}
+				$('#askDelChatRoomModal').hide();
+			});
+			
+			$('.imgModalBtn').click(function(){
+				$('#modal').show();
+				$('#message').val('');
+			});
+			
+			$('.closeImgModal').click(function(){
+				$('#modal').hide();
+			});
+			
+			//이미지선택완료 버튼 클릭이벤트
+			$('.imgSelect').click(function(){
+				if($('#msgPhoto')[0].files[0]==null){
+					alert('이미지가 선택되지 않았어요');
+				}else{
+					sendMsg();
+					$('#modal').hide();
+					$("#msgPhoto").val('');
+				}
+			});
 			
 			//메세지가 없을때 전송버튼 비활성화
 			$('#message').keyup(function(e) {
-				if (currRoom == -2 || $('#message').val().length == 0) {
+				if (currRoom == -2 || $('#message').val().length == 0 ||delChkCurrRoom[currRoom]!=null) {
 					$('#sendBtn').attr('disabled', true);
-				} else if(currRoom > -2 && $('#message').val().length > 0){
+				} else if(currRoom > -2 && $('#message').val().length > 0&&delChkCurrRoom[currRoom]==null){
 					$('#sendBtn').attr('disabled', false);
 				}
 				//엔터쳤을때 메세지 전송(전송버튼 강제클릭)
@@ -189,11 +256,14 @@
 			$('#sendBtn').click(function() {
 				//단순히 채팅페이지에 들어왔거나 메세지길이가 0이면 전송안됨
 				if (currRoom > -2 && $('#message').val().length > 0) {
-					console.log('메세지전송');
-					sendMsg();
+					if(delChkCurrRoom[currRoom]==null){
+						console.log('메세지전송');
+						sendMsg();
+					}
 				}
 				$('#message').val('');
 				$('#sendBtn').attr('disabled', true);
+				$('#modal').hide();
 			});
 		});
 		
@@ -207,19 +277,57 @@
 		var chatRoomReqIdx;
 		//셋인터벌
 		var listTimer;
+		//클릭한 채팅방 삭제여부확인
+		var delChkCurrRoom={};
 		
-		//클릭이벤트 : 내가 클릭한 채팅방의 메세지 리스트 가져오기
-		function getMsgIdx(idx) {
-			//clearInterval(listTimer);
-			//메세지 리스트함수
-			getMsgList();
+		//채팅방 삭제
+		function delChatRoom(curr){
+			$.ajax({
+				url : 'http://localhost:8080/mc-chat/chat/chatRoom',
+				type : 'post',
+				data : {
+					delUser:delChkCurrRoom[curr],
+					loginUser:loginUser,
+					roomIdx:curr
+				},
+				success : function(data) {
+					location.reload();
+				}
+				
+			});
 		}
-
-		function getMsgList() {
+		
+		//메세지 전송 
+		function sendMsg() {
+			var regFormData = new FormData();
+			regFormData.append('roomIdx',currRoom);
+			regFormData.append('sender',loginUser);
+			regFormData.append('receiver',currUser);
+			regFormData.append('text',$('#message').val());
+			regFormData.append('reqIdx',chatRoomReqIdx);
+			if($('#msgPhoto')[0].files[0]!=null){
+				regFormData.append('msgPhoto',$('#msgPhoto')[0].files[0]); //file
+			}
+			$.ajax({
+				url : 'http://localhost:8080/mc-chat/chat',
+				type : 'post',
+				processData: false, // File전송시 필수
+				contentType: false, // false = Multipart/form-data
+				data : regFormData,
+				success : function(data) {
+					currRoom = data;
+					getMsgList(currRoom);
+					chkNewMsg(chatList);
+				}
+			});
+		}
+		//클릭이벤트 : 내가 클릭한 채팅방의 메세지 리스트 가져오기
+		//메세지 리스트 가져오긔
+		function getMsgList(roomIdx) {
 			const ma = $('.msgArea');
 			const rc = $('.receiver');
 			$.ajax({
-				url : 'http://localhost:8080/mc-chat/chat/' + currRoom,
+				url : 'http://localhost:8080/mc-chat/chat/' + roomIdx,
 				type : 'get',
 				data : {
 					uNick : loginUser
@@ -229,62 +337,110 @@
 					if (msgList[0].sender == loginUser) {
 						html2 += '<div class="w3-bar-item"><h3>'+msgList[0].receiver+'님과의 대화</h3></div>';
 						html2 += '<div class="w3-bar-item w3-right">';
-						html2 += '	<i class="fa fa-trash w3-xxlarge w3-padding-large w3-hover-red w3-circle"></i>';
+						html2 += '	<i class="fa fa-trash w3-xxlarge w3-padding-large w3-hover-red w3-circle delChatRoom"></i>';
 						html2 += '</div>'
 					} else {
 						html2 += '<div class="w3-bar-item"><h3>'+msgList[0].sender+'님과의 대화</h3></div>';
 						html2 += '<div class="w3-bar-item w3-right">';
-						html2 += '	<i class="fa fa-trash w3-xxlarge w3-padding-large w3-hover-red w3-circle"></i>';
+						html2 += '	<i class="fa fa-trash w3-xxlarge w3-padding-large w3-hover-red w3-circle delChatRoom"></i>';
 						html2 += '</div>'
 					}
 					rc.html(html2);
 					
 					var html = '';
 					for (i in msgList) {
+						//날짜가 바뀌면 날짜 출력
+						if(i>1){
+							if(moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD')){
+								html +='<div class="w3-cell-row w3-container w3-center">';
+								html +='	<p class="w3-round-xxlarge dateCon">'+moment(msgList[i].date).format('MM월 DD일')+'</p>';
+								html +='</div>';
+							}
+						}
 						if (msgList[i].sender != loginUser) {
 							html += '<div class="w3-cell-row w3-container msgContainer">';
 							html += '	<div class="w3-cell-row">';
 							html += '		<input type="hidden" class="messageIdx" value="'+msgList[i].idx+'">';
-							if(i>1){
-								if(msgList[i].sender!=msgList[i-1].sender)
-								html += '		<div class="w3-cell w3-left sender">'+msgList[i].sender+'</div>';
+							//이전메세지의 발신자와 현재메세지의 발신자가 다르면 닉네임 출력하지만
+							//이전메세지의 날짜랑 현재메세지의 날짜가 다르면 닉네임출력
+							if(i==0){
+							html += '		<div class="w3-cell w3-left sender">'+msgList[i].sender+'</div>';
+							}else{
+							if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD'))
+							html += '		<div class="w3-cell w3-left sender">'+msgList[i].sender+'</div>';
 							}
 							html += '	</div>';
-							html += '	<div class="w3-cell-row w3-container w3-left msg msg'+msgList[i].idx+'">';
+							html += '	<div class="w3-cell-row w3-container w3-left msg msg'+msgList[i].idx+'" style="width:80%;">';
+							//메세지가 이미지면 이미지출력, 텍스트면 텍스트 출력
+							if(msgList[i].img!=null&&msgList[i].img.length>0){
+							html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">';
+							html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
+							}else{
 							html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">'+msgList[i].text+'</span>';
-							html += '		<span class="w3-cell w3-small msgdate w3-left w3-left-align">'+moment(msgList[i].date).format('MM월DD일, HH:mm')+'</span>';
+							}
+							html += '		<span class="w3-cell w3-small msgdate w3-left w3-left-align">'+moment(msgList[i].date).format('a h:mm')+'</span>';
 							html += '	</div>';
 							html += '</div>';
+							
+							
 						} else {
 							html += '<div class="w3-cell-row w3-container msgContainer">';
 							html += '	<div class="w3-cell-row">';
 							html += '		<input type="hidden" class="messageIdx" value="'+msgList[i].idx+'">';
-							if(i>1){
-								if(msgList[i].sender!=msgList[i-1].sender)
-								html += '		<div class="w3-cell w3-right sender">'+msgList[i].sender+'</div>';
+							//이전메세지의 발신자와 현재메세지의 발신자가 다르면 닉네임 출력하지만
+							//이전메세지의 날짜랑 현재메세지의 날짜가 다르면 닉네임출력
+							if(i==0){
+							html += '		<div class="w3-cell w3-right sender">'+msgList[i].sender+'</div>';
+							}else{
+							if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD'))
+							html += '		<div class="w3-cell w3-right sender">'+msgList[i].sender+'</div>';
 							}
 							html += '	</div>';
-							html += '	<div class="w3-cell-row w3-container w3-right msg msg'+msgList[i].idx+'">';
+							html += '	<div class="w3-cell-row w3-container w3-right msg msg'+msgList[i].idx+'" style="width:80%;">';
+							//메세지가 이미지면 이미지출력, 텍스트면 텍스트 출력
+							if(msgList[i].img!=null&&msgList[i].img.length>0){
+							html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">';
+							html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
+							}else{
 							html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">'+msgList[i].text+'</span>';
-							html += '		<span class="w3-cell w3-small msgdate w3-right w3-right-align">'+moment(msgList[i].date).format('MM월DD일, HH:mm')+'</span>';
+							}
+							html += '		<span class="w3-cell w3-small msgdate w3-right w3-right-align">'+moment(msgList[i].date).format('a h:mm')+'</span>';
 							html += '	</div>';
 							html += '</div>';
 						}
 					}
 					ma.html(html);
+					if(delChkCurrRoom[currRoom]!=null){
+						var h ='<div class="w3-cell-row w3-container w3-center">';
+						h +='	<p class="w3-round-xxlarge w3-red">상대방이 채팅을 종료했습니다.<br> 메세지를 보낼 수 없습니다</p>';
+						h +='	<button class="w3-button w3-large w3-round-large w3-red delChatRoom">삭제</button>'
+						h +='</div>';
+						$('.msgArea').append(h);
+					}
+					
 					//스크롤 제일 밑으로 (최신메세지에 포커스 맞추기위해)
 					$('.msgArea').scrollTop($('.msgArea')[0].scrollHeight);
+					$('.msgimgtag').click(function(){
+						console.log($(this).attr('src'));
+						$('#clickImg').attr('src',$(this).attr('src'));
+						$('#clickImgModal').show();
+					});
+					
+					$('.delChatRoom').click(function(){
+						$('#askDelChatRoomModal').show();
+					});
+					
 				}
 			});
 		}
 
 		//현재 로그인한 사용자에게 새로운메세지가 있으면 메세지리스트 갱신
-		function chkNewMsg(callback) {
+		function chkNewMsg(chatList) {
 			
 			console.log('새로운메세지 체크중');
 			var loginInfo = '${loginInfo.nick}';
 			$.ajax({
-				url : 'http://localhost:8080/mc-chat/chat/',
+				url : 'http://localhost:8080/mc-chat/chat',
 				type : 'get',
 				data : {
 					uNick : loginInfo
@@ -294,11 +450,11 @@
 					if(newMsgList.length>0){
 						console.log('new Msg 확인!')
 					}
-					callback(loginUser,newMsgList);
+					chatList(loginUser,newMsgList);
 					
 					for(var i=0;i<newMsgList.length;i++){
 						if(newMsgList[i].roomIdx==currRoom)
-							getMsgList();
+							getMsgList(currRoom);
 					}
 				}
 
@@ -320,30 +476,52 @@
 						//채팅방에는
 						//로그인한 사용자와 채팅참여자1의 이름이 같을때
 						if (loginUser == list[i].mbNick1) {
-							html += '<li class="w3-bar w3-border w3-margin-bottom w3-white w3-hover-blue chatRoom chatRoom'+ list[i].idx +'">';
+							html += '<li class="w3-bar w3-border w3-round-large w3-margin-bottom w3-white w3-hover-blue chatRoom chatRoom'+ list[i].idx +'">';
 							html += '	<input type="hidden" class="roomIdx" value="'+ list[i].idx +'">';
 							html += '	<input type="hidden" class="opponent" value="'+ list[i].mbNick2 +'">';
-							html += '	<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							html += '	<span class="w3-bar-item w3-right w3-badge w3-red badge"></span>';
 							html += '	<img src="<c:url value="/resources/img/memberDefault.png"/>" class="w3-bar-item w3-circle w3-hide-small" style="height: 70px;">';
 							html += '	<div class="w3-bar-item">';
-							html += '		<span class="w3-large">'+ list[i].mbNick2 +'</span><br> ';
+							html += '		<span class="w3-large" style="font-weight: bold;">'+ list[i].mbNick2 +'</span><br> ';
+							if(list[i].delUser != null){
+							html += '		<span class="w3-red">상대방이 채팅을 종료했습니다</span>';
+							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+							}else if(list[i].reqIdx==0){
+							html += '		<span class="w3-text-grey">' + list[i].reqTitle+ '</span>';
+							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+							}else{
 							html += '		<span>' + list[i].reqTitle+ '</span>';
+							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+							}
 							html += '	</div>';
 							html += '</li>';
 						//로그인한 사용자와 채팅참여자2의 이름이 같을때
 						} else {
-							html += '<li class="w3-bar w3-border w3-margin-bottom w3-white w3-hover-blue chatRoom chatRoom'+ list[i].idx +'">';
+							html += '<li class="w3-bar w3-border w3-round-large w3-margin-bottom w3-white w3-hover-blue chatRoom chatRoom'+ list[i].idx +'">';
 							html += '	<input type="hidden" class="roomIdx" value="'+ list[i].idx +'">';
 							html += '	<input type="hidden" class="opponent" value="'+ list[i].mbNick1 +'">';
-							html += '	<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							html += '	<span class="w3-bar-item w3-right w3-badge w3-red badge"></span>';
 							html += '	<img src="<c:url value="/resources/img/memberDefault.png"/>" class="w3-bar-item w3-circle w3-hide-small" style="height: 70px;">';
 							html += '	<div class="w3-bar-item">';
-							html += '		<span class="w3-large">'+ list[i].mbNick1 +'</span><br> ';
+							html += '		<span class="w3-large" style="font-weight: bold;">'+ list[i].mbNick1 +'</span><br> ';
+							if(list[i].delUser != null){
+							html += '		<span class="w3-red">상대방이 채팅을 종료했습니다</span>';
+							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+							}else if(list[i].reqIdx==0){
+							html += '		<span class="w3-text-grey">' + list[i].reqTitle+ '</span>';
+							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+							}else{
 							html += '		<span>' + list[i].reqTitle+ '</span>';
+							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+							}
 							html += '	</div>';
 							html += '</li>';
+						}
+						if(list[i].delUser != null){
+							delChkCurrRoom[list[i].idx]=list[i].delUser;
+							if(currRoom!=-1 && currRoom!=-2){
+								getMsgList(currRoom);
+							}
 						}
 					}
 					cl.html(html);
@@ -353,11 +531,13 @@
 						$(this).children('.badge').css('visibility','hidden');
 						$('#currChatRoom').val($(this).children('.roomIdx').val());
 						$('#currChatUser').val($(this).children('.opponent').val());
-						$('#chatRoom-reqIdx').val($(this).children('.reqIdx').val());
+						$('#chatRoom-reqIdx').val($(this).find('.reqIdx').val());
 						currRoom = $('#currChatRoom').val();
 						currUser = $('#currChatUser').val();
 						chatRoomReqIdx = $('#chatRoom-reqIdx').val();
-						getMsgIdx(currRoom);
+						getMsgList(currRoom);
+						console.log(delChkCurrRoom[currRoom]);
+						
 					});
 					
 					//새로운 메세지가 있으면 메세지 개수만큼 뱃지달아주기 

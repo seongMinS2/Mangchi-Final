@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,36 +8,44 @@
 <title>로그인</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/member/login.css'/>">
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-
-	<h1>로그인</h1>
-	<hr>
-	
-		<table>
-			<tr>
-				<td>아이디</td>
-				<td><input type="text" name="mId" id="mId"></td>
-			</tr>
-			<tr>
-				<td>비밀번호</td>
-				<td><input type="password" name="mPw" id="mPw"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="button" value="로그인" onclick="loginSubmit();"></td>
-			</tr>
-		</table>
-	
-	<a id="custom-login-btn" href="javascript:loginWithKakao()"> 
-	<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
-		width="300" />
-	</a>
-	<a href="javascript:kakaoLogout()">logout</a>
-    <a href="javascript:unlinkApp()">unlink</a>
-	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-
+	<div class="w3-container">
+		<br> <br>
+		<h2>Login</h2>
+		<div id="loginbox">
+			<table>
+				<tr>
+					<td><p>아이디</p></td>
+					<td><input type="text" name="mId" id="mId"></td>
+				</tr>
+				<tr>
+					<td><p>비밀번호</p></td>
+					<td><input type="password" name="mPw" id="mPw"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="button" id="login" value="로그인"
+						onclick="loginSubmit();"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><a id="custom-login-btn"
+						href="javascript:loginWithKakao()"> <img
+							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
+							width="325" />
+					</a></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><a class="logout" href="javascript:kakaoLogout()">logout</a>
+					<a class="logout" href="javascript:unlinkApp()">unlink</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
 	<script>
 		function loginSubmit() {
 			$.ajax({
@@ -95,18 +104,20 @@
                 url: '/v2/user/me',
                 success: function(res) {
                     alert(JSON.stringify(res));
-                    alert(res.id);
+  /*                  alert(res.id);
                     alert(res.properties.nickname);
                     alert(res.properties.profile_image);
                     alert(res.properties.thumbnail_image);
-                    alert(res.kakao_account.email);
+                    alert(res.kakao_account.email); */
 
                     var email = res.kakao_account.email;
+                    var kImg = res.properties.profile_image;
                     
                     $.ajax({
         				url : 'kakao/kakaoId',
         				data : {
-        					mId : email	
+        					mId : email,	
+        					mImg: kImg
         				},
         				success : function(data) {
  							if(data == 0) {		// 회원 가입

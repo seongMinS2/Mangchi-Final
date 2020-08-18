@@ -45,7 +45,6 @@ public class MemberRegController {
 	
 	
 	  // 회원 ID 중복체크
-	  
 	  @RequestMapping("/chkmId")
 	  @ResponseBody 
 	  public int chkmId(String mId) {
@@ -56,7 +55,6 @@ public class MemberRegController {
 	  
 	  
 	  // 회원 닉네임 중복체크
-	  
 	  @RequestMapping("/chkmNick")
 	  @ResponseBody 
 	  public int chkmNick(String mNick) {
