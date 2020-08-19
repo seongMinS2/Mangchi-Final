@@ -183,7 +183,6 @@
 						html += '</table>';
 
 						 if (data.pageTotalCount > 0) {
-
 							for (var m = 1; m <= data.pageTotalCount; m++) {
 								html += '<a id="listlink" ';
 								html += 'href="#" onclick="listpage(' + m

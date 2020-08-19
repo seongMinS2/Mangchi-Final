@@ -123,18 +123,16 @@ function chat(reqIdx,uNick){
 
 //매칭 완료 버튼 
 function complete(){
-	alert('1');
 	
 	
-/* 	$.ajax({
-		 url : 'http://localhost:8080/rl/request/'+ ${idx},
+ 	$.ajax({
+ 		url : 'http://localhost:8080/rl/request/'+ ${idx},
 		 type : 'PUT',
 		 success : function(data){
-			 alert('매칭이 취소되었습니다.');
-			 history.go(0);
+				alert('1');
 		 }
 		 
-	 }); */
+	 });
 	
 }
 
@@ -344,7 +342,7 @@ $(document).ready(function(){
 			
 	 		html +='<tr>';
 			html += '<td>';
-			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+' ">';
+			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
 			html += '</td>';
 			html +='</tr>'; 
 			
