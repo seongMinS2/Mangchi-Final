@@ -603,7 +603,7 @@ function gbList() {
 				
 			
 			
-					
+					$('#guestbookList').html(html);
 					
 					
 					
@@ -678,20 +678,13 @@ function gbList() {
 				});
 			
 			
-			
-			$('#guestbookList').html(html);
-			
-			
-			
-			var qaqa=Number($('article').length-1);
+			var qaqa=$('article').length-1;
 			var zaza=$('.tztz').val();
 			console.log(qaqa)
 			console.log(zaza)
 			
-			
 			if(qaqa>zaza){
 				$(window).off();
-				alert('넘었다');
 			} 
 			
 			page=page+4
