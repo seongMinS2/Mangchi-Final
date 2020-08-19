@@ -82,9 +82,12 @@
   
   
   
-   <div id="popup" class="Pstyle">
+   <div id="popup" style="width : 800px;
+   height : 500px;
+   background-color : #fff;
+            display: none;">
       <span class="b-close">X</span>
-      <!-- <div class="content" id="innerView" style="height:auto; width:auto;"></div> -->
+      <div class="content" id="innerView" style="height:auto; width:auto;"></div>
    </div>
 
 
@@ -233,23 +236,14 @@ function editPopup(guest_idx) {
 			$('#editddd').html(html);
 			
 			
-			
-			
-		    $('.editform').click(function () {
-		    	//$('#editddd').bPopup().close();
-				ehtml='';				
-		    	ehtml+='<input type="text">';
-				$('#realedit').html(ehtml);
-				$('#realedit').bPopup();
-			});
-			
 		}// 석세스끝
+		
 	});
 	$("#editddd").bPopup({closeClass:'editdiv-close',
         opacity:0.4,
         modalClose:true}); // 열기
 	
-    
+        ////////여기야
 	
 	};
 
@@ -372,7 +366,7 @@ function goPopup(guest_idx) {
 			
 			
 			
-			$('#popup').html(html);
+			$('#innerView').html(html);
 			
 			
 			$('.cmtsb2').click(function () {
@@ -386,10 +380,7 @@ function goPopup(guest_idx) {
 		}// 석세스끝
 		
 	});
-	$("#popup").bPopup({closeClass:'b-close',
-        opacity:0.4,
-        modalClose:true,
-        }); // 열기
+	$("#popup").bPopup(); // 열기
 	
 	};
 

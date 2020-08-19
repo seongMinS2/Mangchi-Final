@@ -191,9 +191,8 @@
         
         /* 게시글 들어갔을때 */
         .in_wrap{
-            height: 506px;;
+            height: 500px;;
             width: 800px;
-            border: 1px solid #DDD;
             position: relative;
             margin: 0 auto;
             font-size: 14px;
@@ -448,4 +447,11 @@
         
         #heart,#mmsg{
         cursor: pointer;
+        }
+        
+        .realedit{
+        width : 800px;
+   height : 500px;
+   background-color : #fff;
+            display: none;
         }
