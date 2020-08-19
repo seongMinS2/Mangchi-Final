@@ -689,19 +689,24 @@ function gbList() {
 			console.log(zaza)
 			
 			
+			
+			page=page+4
+			
 			if(qaqa>zaza){
 				$(window).off();
 				alert('넘었다');
 			} 
 			
-			page=page+4
 		} // success끝 
 		
 		
 		
-		
+		 
 		
 	}); // ajax끝 
+	
+	
+	
 	
     }
 		});
