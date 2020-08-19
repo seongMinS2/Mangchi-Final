@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,21 +12,22 @@
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 	<h1>카카오 추가 회원가입</h1>
+	${kakaoInfo}
 	<hr>
-	<form id="kakaoForm" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="kId" id="kId">
-		<input type="hidden" name="mId" id="mId">
+	<form action="regkakao" id="kakaoForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="kId" id="kId" value="${kakaoInfo.kId}">
+		<input type="hidden" name="mId" id="mId" value="${kakaoInfo.mId}">
 		<!-- <input type="hidden" name="mPw" id="mPw" value=""> -->
 		<table>
 			<tr>
 				<td>닉네임</td>
-				<td><input type="text" name="mNick" id="mNick"></td>
+				<td><input type="text" name="mNick" id="mNick" value="${kakaoInfo.mNick}"></td>
 			</tr>
 			<tr>
 				<td>사진</td>
 				<td><input type="file" name="mImg" id="mImg"></td>
-				<td><input type="hidden" name="kImg" id="kImg"></td>
-				<img id="Img" src="" width=101 height=128>
+				<td><input type="hidden" name="kImg" id="kImg" value="${kakaoInfo.mImg}"></td>
+				<img src="${kakaoInfo.mImg}" width=101 height=128>
 			</tr>
 
 			<tr>
@@ -60,13 +62,13 @@
 	
 	Kakao.init('93566b80fb99a5007a395716fd157aaa');
 
-	$(document).ready(function(){
+	//$(document).ready(function(){
 	
 	// kakao 데이터 가져오기
 
-        Kakao.API.request({
+/*         Kakao.API.request({
             url: '/v2/user/me',
-            success: function(res) {
+            success: function(res) { */
                 //alert(JSON.stringify(res));
                 //alert(res.id);
                 //alert(res.properties.nickname);
@@ -74,7 +76,7 @@
                 //alert(res.properties.thumbnail_image);
                 //alert(res.kakao_account.email);
 
-                var id = res.id;
+/*                 var id = res.id;
                 var nick = res.properties.nickname;
                 var img = res.properties.profile_image
                 var email = res.kakao_account.email;
@@ -91,7 +93,7 @@
                 alert(JSON.stringify(error));
             }
         });
-	});
+	}); */
 	
 
 	// ### 주소 검색 ###
