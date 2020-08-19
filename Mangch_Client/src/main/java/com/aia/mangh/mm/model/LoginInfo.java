@@ -108,8 +108,8 @@ public class LoginInfo {
 	public void setkId(String kId) {
 		this.kId = kId;
 	}
-	@Override
-	public String toString() {
+
+	public String onString() {
 		return "LoginInfo [mIdx=" + mIdx + ", mId=" + mId + ", mNick=" + mNick + ", mScore=" + mScore + ", mRegdate="
 				+ mRegdate + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd=" + mLgtd + ", mImg=" + mImg + ", mChk="
 				+ mChk + ", mRadius=" + mRadius + ", kId=" + kId + "]";
