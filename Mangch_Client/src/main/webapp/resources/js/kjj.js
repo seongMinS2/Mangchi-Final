@@ -6,6 +6,7 @@ $("#sendBtn").click(function () {
     $('#message').val('');
     $('#message').focus();
 });
+
 let sock = new SockJS("http://localhost:8080/mc-chat/echo/");
 sock.onmessage
 console.log(sock);

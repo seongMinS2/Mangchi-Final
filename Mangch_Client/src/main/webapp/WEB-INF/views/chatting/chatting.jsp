@@ -78,58 +78,17 @@
 						<div class="w3-row w3-light-grey chatRoomList">
 							<ul class="w3-ul w3-margin chatRooms">
 								<!-- 채팅방 목록 -->
-								<%-- <li class="w3-bar w3-border w3-margin-bottom chatRoom">
-									<input type="hidden" class="roomIdx" value=""> 
-									<input type="hidden" class="opponent" value="">
-									<span onclick="" class="w3-bar-item w3-right w3-badge w3-blue" >9</span>
-									<img src="<c:url value="/resources/img/redheart.png"/>" class="w3-bar-item w3-circle w3-hide-small" style="height: 70px;">
-									<div class="w3-bar-item">
-										<span class="w3-large">Mike</span><br> 
-										<span>Web Designerasdfasd</span>
-									</div>
-								</li> --%>
+								
 							</ul>
 						</div>
 					</div>
 					<div class="w3-container w3-twothird chatArea">
 						<div class="w3-bar w3-indigo receiver">
 							<div class="w3-bar-item"><h3>메세지를 선택해주세요</h3></div>
-							<!-- <div class="w3-bar-item w3-right">
-								<i class="fa fa-trash w3-xxlarge w3-padding-large w3-hover-red w3-circle"></i>
-							</div> -->
+							
 						</div>
 						<div class="w3-row w3-light-grey w3-padding msgArea">
 							<!-- 메세지 목록 -->
-							<!-- <div class="w3-cell-row w3-container msgContainer">
-								<div class="w3-cell-row">
-									<input type="hidden" class="messageIdx" value="'+msgList[i].idx+'">
-									<div class="w3-cell sender">euna</div>
-								</div>
-								<div class="w3-cell-row w3-container msg'+msgList[i].idx+'" style="width:75%; line-height: 20px;">
-									<span class="w3-cell w3-blue w3-padding w3-left">
-										ㅋㅋㅋㅋ
-									</span>
-									<span class="w3-cell w3-small msgdate w3-left">MM월DD일, HH:mm</span>
-								</div>
-							</div>
-							
-							
-							
-							<div class="w3-cell-row w3-container msgContainer">
-								<div class="w3-cell-row">
-									<input type="hidden" class="messageIdx" value="'+msgList[i].idx+'">
-									<div class="w3-cell w3-right sender">euna</div>
-								</div>
-								<div class="w3-cell-row w3-container w3-right msg'+msgList[i].idx+'" style="width:75%; line-height: 20px;">
-									<span class="w3-cell w3-green w3-padding w3-right">
-										ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-									</span>
-									<span class="w3-cell w3-small msgdate w3-right">MM월DD일, HH:mm</span>
-								</div>
-							</div> -->
-							
-							
-							
 							
 						</div>
 
@@ -196,8 +155,6 @@
 	<input type="text" id="chatRoom-reqIdx" value="">
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
-	<!-- 채팅방 리스트, n번idx채팅방의 메세지 리스트-->
-	<!-- interval로 안읽은 메세지 있을때 갱신-->
 	<script>
 		//후순위  function
 		$(document).ready(function() {
@@ -265,7 +222,7 @@
 				$('#sendBtn').attr('disabled', true);
 				$('#modal').hide();
 			});
-		});
+		});//document.ready 종료
 		
 		//로그인사용자
 		var loginUser = '${loginInfo.nick}';
@@ -321,6 +278,7 @@
 				}
 			});
 		}
+		
 		//클릭이벤트 : 내가 클릭한 채팅방의 메세지 리스트 가져오기
 		//메세지 리스트 가져오긔
 		function getMsgList(roomIdx) {
@@ -364,19 +322,19 @@
 							//이전메세지의 발신자와 현재메세지의 발신자가 다르면 닉네임 출력하지만
 							//이전메세지의 날짜랑 현재메세지의 날짜가 다르면 닉네임출력
 							if(i==0){
-							html += '		<div class="w3-cell w3-left sender">'+msgList[i].sender+'</div>';
+								html += '		<div class="w3-cell w3-left sender">'+msgList[i].sender+'</div>';
 							}else{
-							if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD'))
-							html += '		<div class="w3-cell w3-left sender">'+msgList[i].sender+'</div>';
+								if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD'))
+									html += '		<div class="w3-cell w3-left sender">'+msgList[i].sender+'</div>';
 							}
 							html += '	</div>';
 							html += '	<div class="w3-cell-row w3-container w3-left msg msg'+msgList[i].idx+'" style="width:80%;">';
 							//메세지가 이미지면 이미지출력, 텍스트면 텍스트 출력
 							if(msgList[i].img!=null&&msgList[i].img.length>0){
-							html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">';
-							html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
+								html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">';
+								html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
 							}else{
-							html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">'+msgList[i].text+'</span>';
+								html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">'+msgList[i].text+'</span>';
 							}
 							html += '		<span class="w3-cell w3-small msgdate w3-left w3-left-align">'+moment(msgList[i].date).format('a h:mm')+'</span>';
 							html += '	</div>';
@@ -390,25 +348,25 @@
 							//이전메세지의 발신자와 현재메세지의 발신자가 다르면 닉네임 출력하지만
 							//이전메세지의 날짜랑 현재메세지의 날짜가 다르면 닉네임출력
 							if(i==0){
-							html += '		<div class="w3-cell w3-right sender">'+msgList[i].sender+'</div>';
+								html += '		<div class="w3-cell w3-right sender">'+msgList[i].sender+'</div>';
 							}else{
-							if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD'))
-							html += '		<div class="w3-cell w3-right sender">'+msgList[i].sender+'</div>';
+								if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD'))
+									html += '		<div class="w3-cell w3-right sender">'+msgList[i].sender+'</div>';
 							}
 							html += '	</div>';
 							html += '	<div class="w3-cell-row w3-container w3-right msg msg'+msgList[i].idx+'" style="width:80%;">';
 							//메세지가 이미지면 이미지출력, 텍스트면 텍스트 출력
 							if(msgList[i].img!=null&&msgList[i].img.length>0){
-							html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">';
-							html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
+								html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">';
+								html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
 							}else{
-							html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">'+msgList[i].text+'</span>';
+								html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">'+msgList[i].text+'</span>';
 							}
 							html += '		<span class="w3-cell w3-small msgdate w3-right w3-right-align">'+moment(msgList[i].date).format('a h:mm')+'</span>';
 							html += '	</div>';
 							html += '</div>';
 						}
-					}
+					}//for문 종료
 					ma.html(html);
 					if(delChkCurrRoom[currRoom]!=null){
 						var h ='<div class="w3-cell-row w3-container w3-center">';
@@ -484,14 +442,14 @@
 							html += '	<div class="w3-bar-item">';
 							html += '		<span class="w3-large" style="font-weight: bold;">'+ list[i].mbNick2 +'</span><br> ';
 							if(list[i].delUser != null){
-							html += '		<span class="w3-red">상대방이 채팅을 종료했습니다</span>';
-							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+								html += '		<span class="w3-red">상대방이 채팅을 종료했습니다</span>';
+								html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							}else if(list[i].reqIdx==0){
-							html += '		<span class="w3-text-grey">' + list[i].reqTitle+ '</span>';
-							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+								html += '		<span class="w3-text-grey">' + list[i].reqTitle+ '</span>';
+								html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							}else{
-							html += '		<span>' + list[i].reqTitle+ '</span>';
-							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+								html += '		<span>' + list[i].reqTitle+ '</span>';
+								html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							}
 							html += '	</div>';
 							html += '</li>';
@@ -505,14 +463,14 @@
 							html += '	<div class="w3-bar-item">';
 							html += '		<span class="w3-large" style="font-weight: bold;">'+ list[i].mbNick1 +'</span><br> ';
 							if(list[i].delUser != null){
-							html += '		<span class="w3-red">상대방이 채팅을 종료했습니다</span>';
-							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+								html += '		<span class="w3-red">상대방이 채팅을 종료했습니다</span>';
+								html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							}else if(list[i].reqIdx==0){
-							html += '		<span class="w3-text-grey">' + list[i].reqTitle+ '</span>';
-							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+								html += '		<span class="w3-text-grey">' + list[i].reqTitle+ '</span>';
+								html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							}else{
-							html += '		<span>' + list[i].reqTitle+ '</span>';
-							html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
+								html += '		<span>' + list[i].reqTitle+ '</span>';
+								html += '		<input type="hidden" class="reqIdx" value="'+ list[i].reqIdx +'">';
 							}
 							html += '	</div>';
 							html += '</li>';
