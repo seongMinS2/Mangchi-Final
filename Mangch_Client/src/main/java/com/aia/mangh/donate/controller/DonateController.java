@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DonateController {
 	
-	@RequestMapping("/donate/donateBoard")
+	@RequestMapping("/donateBoard")
 	public String donateBoard() {
 		return "/donateBoard/donateBoard";
 	}
 	
-	@RequestMapping("/donate/donateForm")
+	@RequestMapping("/donateForm")
 	public String donateForm() {
 		return "/donateBoard/donateForm";
 	}

@@ -3,14 +3,13 @@ var page=1;
 var commPage=1;
 var search=null;
 
-
+//ContextPath 얻기
 function getContextPath() {
   var hostIndex = location.href.indexOf( location.host ) + location.host.length;
   return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 };
 
-
-
+//댓글의 댓글 달기
 function reply(idx) {
 
 	$.ajax({
@@ -24,7 +23,7 @@ function reply(idx) {
 			commText : $('.commReplyText'+idx).val(),
 		},
 		success : function(data){
-			alert('대댓글을 작성였습니다.');
+			alert('대댓글을 작성하였습니다.');
 			commList($('#commDonIdx').val());
 			document.getElementById('replayForm'+idx).reset();
 			$('.replyForm'+idx).css('display', 'none');
@@ -35,7 +34,7 @@ function reply(idx) {
 }
 
 
-
+//댓글 달기
 function commReg() {
 
 	$.ajax({
@@ -58,6 +57,7 @@ function commReg() {
 
 }
 
+//댓글달기 폼 열기
 function replyFormToggle(commIdx) {
   var x = document.getElementById("replyForm"+commIdx);
   if (x.className.indexOf("w3-show") == -1) {
@@ -71,15 +71,14 @@ function replyFormToggle(commIdx) {
 
 
 
-
+//댓글 페이징
 function commPageUp(donateIdx, x){
-
 	commPage=x;
 	commList(donateIdx);
 }
 
 
-
+//댓글 리스트
 function commList(donateIdx) {
 	var loginUser=$('#loginUser').val();
 	$.ajax({
@@ -157,7 +156,7 @@ function commList(donateIdx) {
 }
 
 
-
+//글 수정하기
 function editBoard(idx) {
 
 		var editBoard=new FormData();
@@ -194,6 +193,7 @@ function editBoard(idx) {
 
 }
 
+//글 삭제하기
 function deleteBoard(idx) {
 	if(confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
@@ -211,7 +211,7 @@ function deleteBoard(idx) {
 }
 
 
-
+//글쓰기
 function goWrite() {
 		var regBoard=new FormData();
 		regBoard.append('writer', $('#writer').val());
@@ -242,7 +242,7 @@ function goWrite() {
 	
 	
 	
-
+//수정 폼 열기
 function editForm(idx) {
 	$('#donateEdit').css('display','block');
 	var loginUser=$('#loginUser').val();
@@ -315,7 +315,7 @@ function editForm(idx) {
 
 
 
-
+//상세 글 보기
 function viewBoard(idx){
 	
 	$('#id01').css('display','block');
@@ -399,7 +399,7 @@ function viewBoard(idx){
 
 
 
-
+//게시판 리스트
 function boardList(){
 	
 
@@ -442,7 +442,7 @@ function boardList(){
 	});
 }
 
-
+//검색하기
 function boardSearchList(search){
 
 	$.ajax({
@@ -488,6 +488,7 @@ $(document).ready(function(){
 
 	boardList();
 	
+	//무한 스크롤 페이징
 	$(window).scroll(function() {
 		if($(window).scrollTop()+200>=$(document).height() - $(window).height()) {
 			if(!loading) {
@@ -497,6 +498,7 @@ $(document).ready(function(){
         } 
     }); 
 
+	//검색 버튼을 누르면
 	$('#searchBar').click(function(){
 		search=$('#searchKey').val();
 		console.log('검색어 :'+search);
