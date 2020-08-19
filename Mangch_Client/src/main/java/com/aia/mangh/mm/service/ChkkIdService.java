@@ -49,38 +49,21 @@ public class ChkkIdService {
 			if(hpmImg.equals("http")) {
 				if(!(mImg.equals(curImg))) {
 					System.out.println("카카오 프로필 사진이 변경되었습니다.");
-					
 					dao.updateByImg(mId, mImg);
-					
 					member = dao.selectBykakao(mId);
-					
-					loginInfo =  member.toLoginInfo();
-
-					session.setAttribute("loginInfo", loginInfo);
-
-					System.out.println("loginInfo >>> " + loginInfo + "로그인 되셨습니다 !!");
 				}else {
 					System.out.println("카카오 프로필 사진이 기존과 동일합니다.");
-					
 					member = dao.selectBykakao(mId);
-					
-					loginInfo =  member.toLoginInfo();
-
-					session.setAttribute("loginInfo", loginInfo);
-
-					System.out.println("loginInfo >>> " + loginInfo + "로그인 되셨습니다 !!");
 				}
 			} else {
 				System.out.println("사용자 지정 사진이 기존과 동일합니다.");
-				
 				member = dao.selectBykakao(mId);
-				
-				loginInfo =  member.toLoginInfo();
-
-				session.setAttribute("loginInfo", loginInfo);
-
-				System.out.println("loginInfo >>> " + loginInfo + "로그인 되셨습니다 !!");
 			}
+			
+			loginInfo =  member.toLoginInfo();
+			loginInfo.setmPic("K");
+			session.setAttribute("loginInfo", loginInfo);
+			System.out.println("loginInfo >>> " + loginInfo + "로그인 되셨습니다 !!");
 		}
 
 		return resultCnt;

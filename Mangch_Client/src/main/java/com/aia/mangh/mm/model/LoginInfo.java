@@ -16,10 +16,12 @@ public class LoginInfo {
 	private String mChk;
 	private int mRadius;
 	private String kId;
+	private String mPic;
 	
-	public LoginInfo(int mIdx, String mId, String mNick, float mScore, Date mRegdate, String mAddr, double mLttd,
-			double mLgtd, String mImg, String mChk, int mRadius, String kId) {
 
+	public LoginInfo(int mIdx, String mId, String mNick, float mScore, Date mRegdate, String mAddr, double mLttd,
+			double mLgtd, String mImg, String mChk, int mRadius, String kId, String mPic) {
+		
 		this.mIdx = mIdx;
 		this.mId = mId;
 		this.mNick = mNick;
@@ -32,6 +34,7 @@ public class LoginInfo {
 		this.mChk = mChk;
 		this.mRadius = mRadius;
 		this.kId = kId;
+		this.mPic = mPic;
 	}
 	public LoginInfo() {
 
@@ -109,12 +112,17 @@ public class LoginInfo {
 		this.kId = kId;
 	}
 
+	public String getmPic() {
+		return mPic;
+	}
+	public void setmPic(String mPic) {
+		this.mPic = mPic;
+	}
+	
 	public String onString() {
 		return "LoginInfo [mIdx=" + mIdx + ", mId=" + mId + ", mNick=" + mNick + ", mScore=" + mScore + ", mRegdate="
 				+ mRegdate + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd=" + mLgtd + ", mImg=" + mImg + ", mChk="
-				+ mChk + ", mRadius=" + mRadius + ", kId=" + kId + "]";
+				+ mChk + ", mRadius=" + mRadius + ", kId=" + kId + ", mPic=" + mPic + "]";
 	}
-	
-	
 	
 }
