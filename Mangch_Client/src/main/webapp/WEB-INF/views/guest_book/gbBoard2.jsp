@@ -603,7 +603,7 @@ function gbList() {
 				
 			
 			
-					$('#guestbookList').html(html);
+					
 					
 					
 					
@@ -678,23 +678,35 @@ function gbList() {
 				});
 			
 			
-			var qaqa=$('article').length-1;
+			
+			$('#guestbookList').html(html);
+			
+			
+			
+			var qaqa=Number($('article').length-1);
 			var zaza=$('.tztz').val();
 			console.log(qaqa)
 			console.log(zaza)
 			
-			if(qaqa>zaza){
-				$(window).off();
-			} 
+			
 			
 			page=page+4
+			
+			if(qaqa>zaza){
+				$(window).off();
+				alert('넘었다');
+			} 
+			
 		} // success끝 
 		
 		
 		
-		
+		 
 		
 	}); // ajax끝 
+	
+	
+	
 	
     }
 		});
