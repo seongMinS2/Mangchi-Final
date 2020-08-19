@@ -184,7 +184,6 @@ function guestPost() {
 		contentType : false, // multipart/form-data 쓰는 코드
 		data : postFormData,
 		success : function (data) {
-			console.log(data);
 			$('#guest_text').val('');
 			$(".upload-name").val('파일선택');
 			gbList();
@@ -255,7 +254,7 @@ function goPopup(guest_idx) {
 			if(data.guest_photo !=null){
 				html+='<article class="in_wrap">'
 					html+='<div class="flex">'
-						html+='<div class="in_photo"><img src="http://localhost:8080/guest_book/upload/'+data.guest_photo+'"></div>'
+						html+='<div class="in_photo"><img src="http://localhost:8080/guest/upload/'+data.guest_photo+'"></div>'
 						html+='<div class="in_body">'
 							html+='<header>'
 							html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
@@ -270,7 +269,6 @@ function goPopup(guest_idx) {
 							html+='<div class="null_content">'
 							html+='<div class="in_nonerealtext">'+data.guest_text
 							html+='<section class="in_bodycmt">'
-							console.log(data.guest_comment)
 								 for(var j=0; j<data.guest_comment.length; j++){
 								    		html+='<div class="flex">';
 									    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
@@ -320,7 +318,6 @@ function goPopup(guest_idx) {
 				html+='<div class="null_content">'
 				html+='<div class="in_nonerealtext">'+data.guest_text
 				html+='<section class="in_bodycmt">'
-				console.log(data.guest_comment)
 					 for(var j=0; j<data.guest_comment.length; j++){
 					    		html+='<div class="flex">';
 						    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
@@ -352,66 +349,7 @@ function goPopup(guest_idx) {
 				
 				html+='</article>'
 			}
-			/* 
-			html+='<article class="in_wrap">'
-			html+='<div class="flex">'
-			if(data.guest_photo !=null){
-			//html+='<div class="in_photo">'+data.guest_photo+'</div>'
-			html+='<div class="in_photo"><img src="http://localhost:8080/guest_book/upload/'+data.guest_photo+'"></div>'
-			}
-			html+='<div class="in_body">'
-			html+='<header>'
-			html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
-			//html+='<div class="hd_img"><img src="${pageContext.request.contextPath}/upload/'+data.member_img+'"></div>';
-			 html+='<div class="in_hd_nick">';
-		    html+=data.guest_writer
-		    if(data.guest_writer === `${loginInfo.mNick}`){
-		    	html+='<button class="dotpopup" style="float:right;" onclick="editPopup('+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
-		    }
-		    html+='</div>'
-			html+='</header>'   
-			html+='<div class="null_content">'
-			html+='<div class="in_nonerealtext">'+data.guest_text
-			html+='<section class="in_bodycmt">'
-			console.log(data.guest_comment)
-				 for(var j=0; j<data.guest_comment.length; j++){
-				    		html+='<div class="flex">';
-					    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
-					    html+='<br/>'
-					    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
-					    html+='</div>';
-					    }
-			html+='</section>'
-				html+='</div>'
-			html+='</div>'
-			html+='<section class="in_bottom">'
 			
-				html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
-		    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
-			
-		    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
-			html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
-			html+='<div class="flex dh">'
-			html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
-			if(data.guest_photo ==null){
-				html+='<div class="in_date_null">'+data.guest_date+'</div>'
-			}else{
-				html+='<div class="in_date">'+data.guest_date+'</div>'	
-			}
-			html+='</div>'
-			html+='<div class="in_cmtbunki">'
-			if(data.guest_photo ==null){
-				html+='<input type="text" class="in_cmtwr_null" placeholder="   댓글 달기">'	
-			}else{
-				html+='<input type="text" class="in_cmtwr" placeholder="   댓글 달기">'	
-			}
-			html+='<input type="submit" class="cmtsb2" value="등록">'
-			html+='<input type="hidden" class="cmtwrtext" value="'+data.guest_idx+'">';
-			html+='</div>'
-			html+='</section>'                     
-			html+='</div>'
-			html+='</div>'
-			html+='</article>' */
 			
 			
 			$('#innerView').html(html);
@@ -478,7 +416,7 @@ function gbList() {
 			    }
 			    html+='</div>'
 			    html+='</header>';
-			    html+='<div class="photo_body"><img src="http://localhost:8080/guest_book/upload/'+data[i].guest_photo+'"></div>';
+			    html+='<div class="photo_body"><img src="http://localhost:8080/guest/upload/'+data[i].guest_photo+'"></div>';
 			    //html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
@@ -503,7 +441,9 @@ function gbList() {
 			    }
 			    html+='</div>';
 			    html+='<div class="comment">';
+			    if(data[i].guest_comment.length !=0){
 			    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
+			    }
 			    html+='<section>';
 			    for(var j=0; j<data[i].guest_comment.length; j++){
 			    	if(j<2){
@@ -517,7 +457,7 @@ function gbList() {
 			    html+='</section>';
 			    html+='</div>';
 			    html+='<div class="cmtbunki">';
-			    html+='<input type="text" class="cmtwr" id="cmtwr" placeholder="    댓글 달기">';
+			    html+='<input type="text" class="cmtwr"  placeholder="    댓글 달기">';
 			    html+='<input type="submit" class="cmtsb" value="등록">';
 			    html+='<input type="hidden" class="cmtwrtext" value="'+data[i].guest_idx+'">';
 			    html+='</div>';
@@ -564,7 +504,9 @@ function gbList() {
 				    html+='</section>'; 
 				    
 				    html+='<div class="comment">';
-				    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
+				    if(data[i].guest_comment.length !=0){
+					    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
+					    }
 				   	 html+='<section>';
 				   		
 						
@@ -610,6 +552,7 @@ function gbList() {
 				var a=$(this).next().val();
 				var b=$(this).prev().val();
 				cmtWrite(a,b);
+				$('#guest_photo').val('');
 			});
 			
 			
@@ -619,7 +562,6 @@ function gbList() {
 					var b = a.next();
 					var c = b.next();
 					var d =c.children('.dlikes').text();
-					console.log(d);
 					d=Number(d)+1;
 					c.children('.dlikes').text(d);
 					$(this).hide();
@@ -636,13 +578,13 @@ function gbList() {
 				var b = a.next();
 				var c = b.children('.dlikes').text();
 				
-				console.log(c);
 				c=Number(c)-1;
 				b.children('.dlikes').text(c);
 				$(this).hide();
 				$(this).prev().show();
 		});
 			
+
 			//더보기
 		/* 	$('.nonerealtext').readmore({
 				
@@ -661,23 +603,38 @@ function gbList() {
 			
 			
 			
-
+			var current=$('article').length-1;
+			
+			
+			///////////// 게시글 토탈카운트 구하는 에이젝스 실행 
 			$.ajax({
 				url:'http://localhost:8080/guest/guest_book/test',
 				type:'GET',
 				contentType: 'application/json; charset=utf-8',
 				success : function (data) {
 					
-					var total=data.a;
-					console.log(total);
-					if(data.a<page){
+			/* 		console.log('토탈'+data.a);
+					console.log('커런트'+current);
+					console.log('페이지'+page);
+					if(current!=page){
+						var Cal =page-current
+						console.log(Cal);
+						page=page-Cal
+					} */
+					
+					
+					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
+					console.log('페이지'+page);
+					if(data.a+5<page){
+						
+						console.log("끝"+page);
 						$(window).off();
 					}		 
 				}
 			});
 		
 			
-			console.log(page);
+			//console.log('페이지':page);
 			
 			
 		} // success끝 
@@ -733,6 +690,8 @@ $(document).ready(function () {
 	$(window).scroll(function() {
 	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 	    	
+	    	
+	    	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
 	        gbList(page=page+4); 
 	        //console.log(page)
 	    }

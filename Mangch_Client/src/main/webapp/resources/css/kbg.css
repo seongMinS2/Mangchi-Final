@@ -134,6 +134,7 @@
  			 border: 0;
             outline: 0;
             background-color: white;
+            cursor:pointer;
          }
         
      
@@ -291,6 +292,8 @@
             margin: 13px;
         }
         
+        .
+        
      
         .in_cmtbunki{
             margin-top: 14px;
@@ -316,7 +319,8 @@
             margin-right: 4px;
             border: 0;
             outline: 0;
-            color: skyblue
+            color: skyblue;
+            cursor: pointer;
         }
         .in_date{
             display: flex;
@@ -442,4 +446,8 @@
         
         .no_wrap{
         height: 500px;
+        }
+        
+        #heart,#mmsg{
+        cursor: pointer;
         }
