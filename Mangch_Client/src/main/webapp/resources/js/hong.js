@@ -456,7 +456,7 @@ function boardList(){
 
 //검색하기
 function boardSearchList(search){
-
+	
 	loading=false;
 	$.ajax({
 		url : 'http://localhost:8080/donate/donateBoard',
@@ -467,7 +467,10 @@ function boardSearchList(search){
 		},
 		success : function(data){
 			console.log(search+' 검색 중');
-
+			if(page>data.pageTotalCount) {
+				$(window).off();
+			}
+			
 			var searchHtml= '';
 			for(var i=0; i<data.boardList.length; i++) {
 				searchHtml+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 400px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
@@ -490,10 +493,21 @@ function boardSearchList(search){
 			}
 			$('#listBox').html(searchHtml);
 
+	if(
 			
 			
 		}
 	});
+	
+			//무한 스크롤 페이징
+	$(window).scroll(function() {
+		if($(window).scrollTop()+200>=$(document).height() - $(window).height()) {
+			if(!loading) {
+				loading=true;
+				boardSearchList(search);
+			} 
+        } 
+    }); 	
 	
 }
 
