@@ -85,7 +85,7 @@
 
 <div id="editddd"  class="editdiv"></div>
 
-<div id="testt"></div>
+
 
 
 
@@ -251,7 +251,6 @@ function goPopup(guest_idx) {
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		success : function (data) {
-			console.log(data)
 			var html='';
 			if(data.guest_photo !=null){
 				html+='<article class="in_wrap">'
@@ -446,10 +445,8 @@ function goPopup(guest_idx) {
 	    
 	    var page = 5;
 ///////////////////// 전체리스트
-
 function gbList() {
-	 $(window).scroll(function vv() {
-    if ($(window).scrollTop() == $(document).height() - $(window).height()) { 
+	    	
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book' ,
 		dataType:'json',
@@ -603,7 +600,7 @@ function gbList() {
 				
 			
 			
-					
+					$('#guestbookList').html(html);
 					
 					
 					
@@ -663,38 +660,26 @@ function gbList() {
 			})
 			
 			
-				$.ajax({
-					url:'http://localhost:8080/guest/guest_book/test',
-					type:'GET',
-					contentType: 'application/json; charset=utf-8',
-					success : function (data) {
-						
-						html='';
-						html+='<input type="text" class="tztz" value="'+data.a+'">'
-						$('#testt').html(html);
-						
-						
-					}
-				});
+			
+
+			$.ajax({
+				url:'http://localhost:8080/guest/guest_book/test',
+				type:'GET',
+				contentType: 'application/json; charset=utf-8',
+				success : function (data) {
+					
+					var total=data.a;
+					console.log(total);
+					if(data.a<page){
+						$(window).off();
+					}		 
+				}
+			});
+		
+			
+			console.log(page);
 			
 			
-			
-			$('#guestbookList').html(html);
-			
-			
-			
-			var qaqa=Number($('article').length-1);
-			var zaza=$('.tztz').val();
-			console.log(qaqa)
-			console.log(zaza)
-			
-			
-			if(qaqa>zaza){
-				$(window).off();
-				alert('넘었다');
-			} 
-			
-			page=page+4
 		} // success끝 
 		
 		
@@ -703,8 +688,6 @@ function gbList() {
 		
 	}); // ajax끝 
 	
-    }
-		});
 }
 
 
@@ -742,20 +725,18 @@ function gbList() {
 	
 			
 			
-			
-			
 
 
 $(document).ready(function () {
 
 	gbList();
-	/* $(window).scroll(function() {
-	    if ($(window).scrollTop() == $(document).height() - $(window).height()) { */
-	    	//console.log(page)
-	       /* gbList(); 
-	      
+	$(window).scroll(function() {
+	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+	    	
+	        gbList(page=page+4); 
+	        //console.log(page)
 	    }
-	}); */
+	});
 
 	//gbList();
 
