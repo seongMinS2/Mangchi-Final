@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@taglib  prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib  prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,23 +91,29 @@ td {
 
 		</div>
 	</div>
-
-
-
+	
+	<div class="w3-modal" id="modal"></div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
 <script>
 
-
-
 	
 //매칭 취소 버튼 삭제
-setTimeout(function() { 
-		$('#cancel').remove();
-}, 5000);
 
-	
+<%
+	Cookie[] cookies = request.getCookies();
+	int cancelStatus = 0;
+	for(int i=0;i<cookies.length;i++){
+		if(cookies[i].getName().equals("cancelStatus")){
+			cancelStatus = 1;
+		}
+	}
+%>
+
+var cancelStatus = <%= cancelStatus %>;
+//취소 버튼 삭제
+
 //채팅하기 	
 function chat(reqIdx,uNick){
 
@@ -121,27 +127,79 @@ function chat(reqIdx,uNick){
 	}
 }
 
+//모달 닫기
+function modalClose(){
+	$('#modal').css('display','none');
+}
+
 //매칭 완료 버튼 
 function complete(){
+	$('#modal').css('display','block');
 	
-	
- 	$.ajax({
- 		url : 'http://localhost:8080/rl/request/'+ ${idx},
-		 type : 'PUT',
+	$.ajax({
+ 		url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
+		 type : 'get',
 		 success : function(data){
-				alert('1');
+		 		var html = '<div class="w3-modal-content">';
+				html += '	 <header class="w3-container">';
+				html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
+				html += '  		<h2>Modal Header</h2>';
+				html += ' 	</header>';
+				html += '		<div class="w3-container">';
+				
+				if(data.length <= 0 ){
+					html +='<div>매칭 상대가 없습니다.</div>';
+				}else {
+		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람 
+						html += ' 			<div onclick="updateHelper(\''+data[i].helper+'\')">'+data[i].helper+'</div>';
+		 			}
+		 		}
+				html += ' 		</div>';
+		 		html += "</div>";
+					 		
+		 		$('#modal').html(html);
 		 }
-		 
 	 });
-	
 }
+
+//매칭 완료 데이터 업데이트
+function updateHelper(helper){
+	
+	
+	if(confirm(helper+"님을 선택하시겠습니까?") == true){
+		
+		//매칭 완료 시 쿠키 생성 				
+		$.ajax({
+			
+			url : 'http://localhost:8080/rl/chat/'+${idx},
+			type : 'get',
+			data : {
+				helper: helper
+			},
+			success : function(data){
+				alert('매칭이 완료되었습니다.');
+				location.href= "/mangh/makeCookie?idx="+${idx}+"&distance="+${distance}+"&count="+${count};
+				modalClose();
+				//history.go(0); // 새로 고침되면서 취소 버튼 생성되고 리뷰 작성이 가능 해짐 
+			}
+			
+		});
+	}
+}
+
+
 
 //매칭 취소 버튼
 function cancel(reqStatus){
+		
+	if(cancelStatus == 0){
+		alert('취소 불가능합니다.');
+		history.go(0);
+	} else {
 	
 	//로그인한 사용자가 취소 버튼을 누르면 DB 업데이트
 	if(confirm('매칭을 취소하겠습니까?') == true){
-
+	
 		 $.ajax({
 			 url : 'http://localhost:8080/rl/request/'+ ${idx},
 			 type : 'PUT',
@@ -152,6 +210,8 @@ function cancel(reqStatus){
 			 
 		 });	
 	}	 
+	
+	}
 }
 
 
@@ -159,25 +219,23 @@ function cancel(reqStatus){
 
 //리뷰 작성 
 function review(reqIdx,reqWriter,reqHelper){
-		
 	 $.ajax({
 		 url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
 		 type : 'post',
 		 success : function(data){
-			
 			 if(data.writer == '${loginInfo.mNick}'){
-				 alert('리뷰를 작성했습니다.');
+				 alert('이미 리뷰가 작성되었습니다.');
 			 }else{
 				 var form = $('<form></form>');
 				    form.attr('action', '/mangh/review/reviewForm');
 				    form.attr('method', 'post');
 				    form.appendTo('body');
-				    var reqIdx = $("<input type='hidden' value="+reqIdx+" name='reqIdx'>"); //게시글 번호
-				    var reqWriter = $("<input type='hidden' value="+reqWriter+" name='reqWriter'>"); //글쓴이
-				    var reqHelper = $("<input type='hidden' value="+reqHelper+" name='reqHelper'>"); //로그인 한 사용자  
-				    form.append(reqIdx);
-				    form.append(reqWriter);
-				    form.append(reqHelper);
+				    var idx = $("<input type='hidden' value="+reqIdx+" name='reqIdx'>"); //게시글 번호
+				    var writer = $("<input type='hidden' value="+reqWriter+" name='reqWriter'>"); //글쓴이
+				    var helper = $("<input type='hidden' value="+reqHelper+" name='reqHelper'>"); //로그인 한 사용자  
+				    form.append(idx);
+				    form.append(writer);
+				    form.append(helper);
 				    form.submit();
 			 }
 			 
@@ -227,6 +285,7 @@ function reqDelete(reqIdx){
 
 
 $(document).ready(function(){
+	
 	
 	
 	$.ajax({
@@ -305,27 +364,40 @@ $(document).ready(function(){
 			if('${loginInfo.mNick}' == data.reqWriter){
 				
 				if(data.reqStatus == 1){
-					html +='	<td id="canceltd"><button onclick="cancel('+data.reqStatus+')" id="cancel">매칭취소</button></td>';
+					if(cancelStatus == 1){
+						html +='	<td><button onclick="cancel('+data.reqStatus+')" id="cancelBtn" >매칭취소</button></td>';
+					}
 					html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
-					//수정, 삭제
-					html += '	<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
-					html += '	<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
 				} else if(data.reqStatus == 0){
-					html +='	<td id="canceltd"><button onclick="complete()">매칭완료</button></td>';
-				}
+					html +='	<td><button onclick="complete()">매칭완료</button></td>';
+					//취소 후 리뷰 작성 가능 ... 상태는 변경 되있음 
+					if(data.reqHelper != null ){
+						html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
+					}
+				} 
+				
+				//수정, 삭제
+				html += '	<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
+				html += '	<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
+				
 			}
 	
 			//로그인 한 회원이 수행자 일 때 
 			else if('${loginInfo.mNick}' == data.reqHelper){
 				if(data.reqStatus == 1){
-					html += '	<td id="review" ><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
+					html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
+				} else if(data.reqStatus == 0){
+					//취소 후 리뷰 작성 가능 ... 상태는 변경 되있음 
+					if(data.reqHelper != null ){
+						html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
+					}
 				}
 				
 			}
 			
 			//로그인 한 사용자가 요청자도 수행자도 아닐 때 
 			else if('${loginInfo.mNick}' != data.reqHelper && '${loginInfo.mNick}' != data.reqWriter){
-				if(data.reqStatus == 0){
+				if(data.reqStatus == 0){	
 					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
 				}
 				
