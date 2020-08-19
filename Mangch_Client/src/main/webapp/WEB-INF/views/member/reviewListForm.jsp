@@ -107,7 +107,6 @@ div.card>ul>li {
 	<div class="w3-container">
 		<h2>나의 리뷰</h2>
 		<hr>
-		<p>session : ${loginInfo} ${loginInfo.mIdx}</p>
 
 		<div class="w3-cell-row">
 			<div class="w3-cell">
@@ -122,16 +121,76 @@ div.card>ul>li {
 				</div>
 			</div>
 			<div class="w3-cell">
-				<div id="memberList">
-					<h1>
-						<img src="<c:url value="${loginInfo.mImg}"/>" width=100 height=100>
-					</h1>
+				<div id="reviewList">
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+	
+	
+	
+	
+	<script>
+		function listpage(data) {
+			page = data;
+			list();
+		}
+
+		var page = 1;
+		// 요청리스트 출력
+
+		function list() {
+			$.ajax({
+						url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
+						type : 'GET',
+						data : {
+							page : page
+						},
+						success : function(data) {
+							var html = '';
+							html += '<table class="w3-table w3-border w3-hoverable">';
+							html += '	<tr class="w3-hover-grayscale">';
+							html += '	<th>번호</th>';
+							html += '	<th>평점</th>';
+							html += '	<th>등록날짜</th>';
+							html += '	</tr>';
+
+							for (var i = 0; i < data.requestReg.length; i++) {
+								html += '<tr>';
+								html += ' <td>' + (i + data.startRow + 1)
+										+ '</td>';
+								html += ' <td>' + data.requestReg[i].avg
+										+ '</td>';
+								html += ' <td>'
+										+ data.requestReg[i].reqDateTime
+										+ '</td>';
+								html += '</tr>';
+							}
+							html += '</table>';
+							if (data.pageTotalCount > 0) {
+								for (var m = 1; m <= data.pageTotalCount; m++) {
+									html += '<a id="listlink" ';
+									html += 'href="#" onclick="listpage(' + m
+											+ ')"';
+									html += ">";
+									html += '[' + m + ']';
+									html += '</a>';
+								}
+							}
+
+							$('#reviewList').html(html);
+
+						}
+					});
+
+		}
+
+		$(document).ready(function() {
+			list();
+		});
+	</script>
 
 </body>
 </html>
