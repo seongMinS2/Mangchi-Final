@@ -1,18 +1,15 @@
 package com.aia.mangh.mm.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
-public class EditRequest {
+public class EditRequest2 {
 
 	private String mId;
 	private String mNick;
 	private String mAddr;
 	private double mLttd;
 	private double mLgtd;
-	private MultipartFile mImg;
+	private String mImg;
 	
-	public EditRequest(String mId, String mNick, String mAddr, double mLttd, double mLgtd, MultipartFile mImg) {
-
+	public EditRequest2(String mId, String mNick, String mAddr, double mLttd, double mLgtd, String mImg) {
 		this.mId = mId;
 		this.mNick = mNick;
 		this.mAddr = mAddr;
@@ -20,11 +17,8 @@ public class EditRequest {
 		this.mLgtd = mLgtd;
 		this.mImg = mImg;
 	}
-	public EditRequest() {
-	}
-	
-	public EditRequest2 toEditMember() {
-		return new EditRequest2(mId,mNick,mAddr,mLttd,mLgtd,null);
+	public EditRequest2() {
+
 	}
 	public String getmId() {
 		return mId;
@@ -56,17 +50,16 @@ public class EditRequest {
 	public void setmLgtd(double mLgtd) {
 		this.mLgtd = mLgtd;
 	}
-	public MultipartFile getmImg() {
+	public String getmImg() {
 		return mImg;
 	}
-	public void setmImg(MultipartFile mImg) {
+	public void setmImg(String mImg) {
 		this.mImg = mImg;
 	}
 	@Override
 	public String toString() {
-		return "EditRequest [mId=" + mId + ", mNick=" + mNick + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd="
+		return "EditRequest2 [mId=" + mId + ", mNick=" + mNick + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd="
 				+ mLgtd + ", mImg=" + mImg + "]";
 	}
-
 	
 }

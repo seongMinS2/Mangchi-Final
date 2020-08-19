@@ -104,7 +104,7 @@
                 url: '/v2/user/me',
                 success: function(res) {
                     alert(JSON.stringify(res));
-  /*                  alert(res.id);
+  /*                alert(res.id);
                     alert(res.properties.nickname);
                     alert(res.properties.profile_image);
                     alert(res.properties.thumbnail_image);
@@ -123,6 +123,7 @@
  							if(data == 0) {		// 회원 가입
  								location.href='kakao';
  							} else {			// 로그인
+
  								location.href='memberMypage/mypageForm';
  							}
         				}

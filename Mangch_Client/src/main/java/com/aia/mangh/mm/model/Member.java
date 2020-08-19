@@ -17,9 +17,11 @@ public class Member {
 	private String mChk;
 	private int mRadius;
 	private String kId;
+	private String mDel;
 
 	public Member(int mIdx, String mId, String mPw, String mNick, float mScore, Date mRegdate, String mAddr,
-			double mLttd, double mLgtd, String mImg, String mChk, int mRadius, String kId) {
+			double mLttd, double mLgtd, String mImg, String mChk, int mRadius, String kId, String mDel) {
+		super();
 		this.mIdx = mIdx;
 		this.mId = mId;
 		this.mPw = mPw;
@@ -33,14 +35,15 @@ public class Member {
 		this.mChk = mChk;
 		this.mRadius = mRadius;
 		this.kId = kId;
+		this.mDel = mDel;
 	}
 
 	public Member(String mId, String mPw, String mNick, String mAddr, double mLttd, double mLgtd, String mChk) {
-		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 0, null);
+		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 0, null, null);
 	}
 	
 	public Member(String mId, String mNick, String mAddr, double mLttd, double mLgtd, String kId) {
-		this(0, mId, null, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, null, 0, kId);
+		this(0, mId, null, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, null, 0, kId, null);
 	}
 
 	public LoginInfo toLoginInfo() {
@@ -50,6 +53,7 @@ public class Member {
 	public Member() {
 	}
 
+	
 	public int getmIdx() {
 		return mIdx;
 	}
@@ -98,6 +102,14 @@ public class Member {
 		this.mRegdate = mRegdate;
 	}
 
+	public String getmAddr() {
+		return mAddr;
+	}
+
+	public void setmAddr(String mAddr) {
+		this.mAddr = mAddr;
+	}
+
 	public double getmLttd() {
 		return mLttd;
 	}
@@ -112,14 +124,6 @@ public class Member {
 
 	public void setmLgtd(double mLgtd) {
 		this.mLgtd = mLgtd;
-	}
-
-	public String getmAddr() {
-		return mAddr;
-	}
-
-	public void setmAddr(String mAddr) {
-		this.mAddr = mAddr;
 	}
 
 	public String getmImg() {
@@ -145,13 +149,21 @@ public class Member {
 	public void setmRadius(int mRadius) {
 		this.mRadius = mRadius;
 	}
-	
+
 	public String getkId() {
 		return kId;
 	}
 
 	public void setkId(String kId) {
 		this.kId = kId;
+	}
+
+	public String getmDel() {
+		return mDel;
+	}
+
+	public void setmDel(String mDel) {
+		this.mDel = mDel;
 	}
 
 	public java.util.Date getToDate() {
@@ -162,8 +174,7 @@ public class Member {
 	public String toString() {
 		return "Member [mIdx=" + mIdx + ", mId=" + mId + ", mPw=" + mPw + ", mNick=" + mNick + ", mScore=" + mScore
 				+ ", mRegdate=" + mRegdate + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd=" + mLgtd + ", mImg="
-				+ mImg + ", mChk=" + mChk + ", mRadius=" + mRadius + ", kId=" + kId + "]";
+				+ mImg + ", mChk=" + mChk + ", mRadius=" + mRadius + ", kId=" + kId + ", mDel=" + mDel + "]";
 	}
-
 
 }

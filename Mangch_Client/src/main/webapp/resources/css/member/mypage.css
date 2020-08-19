@@ -92,9 +92,9 @@ div.card>ul>li {
 	background: #f3f3f3
 }
 
-.container{
-	margin-left:5%; 
-	margin-right:5%;
+.container {
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 table {
@@ -105,4 +105,202 @@ table {
 
 th, td {
 	border: 1px solid #444444;
+}
+
+/* file css */
+.filebox input[type="file"] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
+
+.filebox label {
+	display: inline-block;
+	margin-left: 5%;
+	padding: 10px 20px;
+	color: #999;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-radius: 5px;
+}
+
+/* named upload */
+.filebox #Img {
+	display: inline-block;
+	margin: 0;
+	height: 35px;
+	width: 60%;
+	font-size: 18px;
+	padding: 0 10px;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-radius: 5px;
+}
+
+/* modal 회원정보 수정*/
+.pop-layer .pop-container {
+	padding: 20px 25px;
+}
+
+.pop-layer p.ctxt {
+	color: #666;
+	line-height: 25px;
+}
+
+.pop-layer .btn-r {
+	width: 100%;
+	margin: 10px 0 20px;
+	padding-top: 10px;
+	border-top: 1px solid #DDD;
+	text-align: right;
+}
+
+.pop-layer {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 500px;
+	height: 360px;
+	background-color: #fff;
+	border: 5px solid #666;
+	z-index: 10;
+}
+
+.dim-layer {
+	display: none;
+	position: fixed;
+	_position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+.dim-layer .dimBg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: .5;
+	filter: alpha(opacity = 50);
+}
+
+.dim-layer .pop-layer {
+	display: block;
+}
+
+a.btn-layerClose {
+	display: inline-block;
+	height: 25px;
+	padding: 0 14px 0;
+	margin: 3%;
+	border: 1px solid #304a8a;
+	background-color: #3f5a9d;
+	font-size: 13px;
+	color: #fff;
+	line-height: 25px;
+}
+
+a.btn-layerClose:hover {
+	border: 1px solid #091940;
+	background-color: #1f326a;
+	color: #fff;
+}
+
+.btn-r {
+	position: absolute;
+	top: 280px;
+	right: 0px;
+}
+
+
+
+/* modal 회원탈퇴 */
+.pop-layer2 .pop-container2 {
+	padding: 20px 25px;
+}
+
+.pop-layer2 p.ctxt2 {
+	color: #666;
+	line-height: 25px;
+}
+
+.pop-layer2 .btn-r2 {
+	width: 100%;
+	margin: 10px 0 20px;
+	padding-top: 10px;
+	border-top: 1px solid #DDD;
+	text-align: right;
+}
+
+.pop-layer2 {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 500px;
+	height: 360px;
+	background-color: #fff;
+	border: 5px solid #666;
+	z-index: 10;
+}
+
+.dim-layer2 {
+	display: none;
+	position: fixed;
+	_position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+.dim-layer2 .dimBg2 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: .5;
+	filter: alpha(opacity = 50);
+}
+
+.dim-layer2 .pop-layer2 {
+	display: block;
+}
+
+a.btn-layerClose2 {
+	display: inline-block;
+	height: 25px;
+	padding: 0 14px 0;
+	margin: 3%;
+	border: 1px solid #304a8a;
+	background-color: #3f5a9d;
+	font-size: 13px;
+	color: #fff;
+	line-height: 25px;
+}
+
+a.btn-layerClose2:hover {
+	border: 1px solid #091940;
+	background-color: #1f326a;
+	color: #fff;
+}
+
+.btn-r2 {
+	position: absolute;
+	top: 280px;
+	right: 0px;
 }

@@ -2,6 +2,7 @@ package com.aia.mangh.mm.dao;
 
 import java.util.List;
 
+import com.aia.mangh.mm.model.EditRequest2;
 import com.aia.mangh.mm.model.LoginRequest;
 import com.aia.mangh.mm.model.Member;
 
@@ -33,5 +34,20 @@ public interface MemberDao {
 	
 	// 사진 업데이트
 	public int updateByImg(String mId, String mImg);
+	
+	// 아이디로 Member 객체 가져오기
+	public Member selectByMember(String mId);
+	
+	// 회원수정
+	public int updateByMember(EditRequest2 editRequest2);
+	
+	// 회원 비밀번호 수정
+	public int updateByPw(String mId, String nPw);
+	
+	// 회원탈퇴
+	public int deleteMember(String mId, String mDel);
+	
+	// 회원탈퇴 체크
+	public int deleteChk(String mId);
 
 }

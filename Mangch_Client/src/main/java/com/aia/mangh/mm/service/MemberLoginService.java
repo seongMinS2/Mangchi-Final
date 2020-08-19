@@ -28,12 +28,20 @@ public class MemberLoginService {
 		
 		LoginInfo loginInfo = null;
 		
+		int deleteChk = 0;
+		
 		String result = "N";
 		System.out.println("loginRequest: "+loginRequest);
 	
 		member = dao.selectByIdPw(loginRequest);
 
 		System.out.println("LoginService member: " +member);
+		
+		deleteChk = dao.deleteChk(loginRequest.getmId());
+		
+		if(deleteChk != 0) {
+			member = null;
+		}
 	
 		if (member != null) {
 			

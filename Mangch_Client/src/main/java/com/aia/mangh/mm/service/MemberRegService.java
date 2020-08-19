@@ -37,7 +37,7 @@ public class MemberRegService {
 			System.out.println(regRequest);
 
 			if (file != null && !file.isEmpty() && file.getSize() > 0) {
-				String uri = "/resources/img/upload";
+				String uri = request.getSession().getServletContext().getInitParameter("memberUploadPath");
 
 				String realPath = request.getSession().getServletContext().getRealPath(uri);
 
@@ -46,11 +46,9 @@ public class MemberRegService {
 				File saveFile = new File(realPath, newFileName);
 				file.transferTo(saveFile);
 				
-				String mImg = uri + "/"+ newFileName;
-				
 				System.out.println("저장 완료 : " + newFileName);
 
-				member.setmImg(mImg);
+				member.setmImg(newFileName);
 
 			} else {
 				member.setmImg("defalult.png");
