@@ -160,7 +160,7 @@ function deleteForm(guest_idx) {
 //세션 x,y값 전역변수선언
 var x=$('#x').val();
 var y=$('#y').val();
-
+var r=$('#r').val();
 ////////////////////////글쓰기 함수
 function guestPost() {
 	
@@ -395,7 +395,7 @@ function goPopup(guest_idx) {
 
 	    
 	    
-	    var page = 5;
+	    var page = 4;
 ///////////////////// 전체리스트
 function gbList() {
 	    	
@@ -615,7 +615,6 @@ function gbList() {
 			})
 			
 			
-			
 			var current=$('article').length-1;
 			
 			
@@ -624,21 +623,18 @@ function gbList() {
 				url:'http://localhost:8080/guest/guest_book/test',
 				type:'GET',
 				contentType: 'application/json; charset=utf-8',
+				data : {
+					 x :x,
+					 y :y,
+					 r :r
+				},
 				success : function (data) {
-					
-			/* 		console.log('토탈'+data.a);
-					console.log('커런트'+current);
-					console.log('페이지'+page);
-					if(current!=page){
-						var Cal =page-current
-						console.log(Cal);
-						page=page-Cal
-					} */
+			
 					
 					
 					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
 					console.log('페이지'+page);
-					if(data.a+5<page){
+					if(data<page){
 						
 						console.log("끝"+page);
 						$(window).off();
@@ -698,14 +694,15 @@ function gbList() {
 
 
 $(document).ready(function () {
-
+	
 	gbList();
+	
 	$(window).scroll(function() {
 	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
+	    	page=page+4
 	    	
-	    	
-	    	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
-	        gbList(page=page+4); 
+	        gbList(); 
 	        //console.log(page)
 	    }
 	});

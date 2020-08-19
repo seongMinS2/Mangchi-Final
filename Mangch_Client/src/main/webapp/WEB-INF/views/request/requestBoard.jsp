@@ -26,12 +26,14 @@
 
 		<div>
 			<h1 class="w3-left" id="board_h1"></h1>
-			<div id="search">
 			
+			<!-- 검색 -->
+			<div id="search">
 			<input type="text" id="search_text" placeholder="검색어를 입력하세요" >
 			<input type="button" id="search_btn" onclick="search()" value="검색">
 			</div>
-
+			
+			<!-- 거리순 -->
 			<c:if test="${loginInfo.mNick !=null}">
 			<select id="ListType" onchange="change()">
 				<option value="distance">거리순</option>
@@ -39,14 +41,15 @@
 			</select> 
 			</c:if>
 			
-			
+			<!-- 검색 타입 -->
 			<select id="searchType">
 				<option value="title">제목</option>
 				<option value="name">이름</option>
 			</select> <a href="<c:url value="/request/requestWrite"/>" class="w3-right"
 				id="writer_button"></a>
 		</div>
-
+		
+		<!-- 테이블 출력 -->
 		<div class=" w3-margin-bottom" id="list"></div>
 
 	</div>

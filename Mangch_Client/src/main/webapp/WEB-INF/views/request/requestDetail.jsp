@@ -220,8 +220,11 @@ function cancel(reqStatus){
 //리뷰 작성 
 function review(reqIdx,reqWriter,reqHelper){
 	 $.ajax({
-		 url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
+		 url : 'http://localhost:8080/rl/review/'+ idx,
 		 type : 'post',
+		 data : {
+			 mNick : '${loginInfo.mNick}'
+		 }
 		 success : function(data){
 			 if(data.writer == '${loginInfo.mNick}'){
 				 alert('이미 리뷰가 작성되었습니다.');

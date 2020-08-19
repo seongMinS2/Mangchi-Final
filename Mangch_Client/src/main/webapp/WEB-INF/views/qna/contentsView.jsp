@@ -21,6 +21,8 @@
 	height: 50px;
 	width: 50px;
 	background-color: red;
+	left:auto;
+	right: 0;
 }
 </style>
 </head>
@@ -29,13 +31,24 @@
 		<script type="text/javascript">
 			$(function(){
 				var idx = ${idx};
-				var loginSession = `${loginInfo.mNick}`;
-				console.log(loginSession);
-				contentsList(idx, loginSession);
+				//var loginSession;
+				var loginSession = `${loginInfo}`;
+				if(loginSession!=null && loginSession!=''){
+					loginSession = {
+							mIdx:'${loginInfo.mIdx}',
+							mId:'${loginInfo.mId}',
+							mNick:'${loginInfo.mNick}'
+					};
+					contentsList(idx, loginSession);
+				}else{
+					loginSession = null;
+					contentsList(idx, loginSession);
+				}
 			});
 		</script>
+		
 	<div class="contentBox"></div>
-
+	
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>
