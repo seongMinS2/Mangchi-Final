@@ -111,27 +111,23 @@ div.card>ul>li {
 		<div class="w3-cell-row">
 			<div class="w3-cell">
 				<div id="profile-menu" class="active">
-					<a href="requestListForm">요청 리스트</a> 
-					<a href="lendingListForm">대여리스트</a>
-					<a href="reviewListForm">나의 리뷰</a> 
-					<a href="commentListForm">나의 댓글</a> 
-					<a href="mypageForm">나의 정보</a> 
-					<a href="distSetForm">거리 설정</a> 
+					<a href="requestListForm">요청 리스트</a> <a href="lendingListForm">대여리스트</a>
+					<a href="reviewListForm">나의 리뷰</a> <a href="commentListForm">나의
+						댓글</a> <a href="mypageForm">나의 정보</a> <a href="distSetForm">거리 설정</a>
 					<a href="keywordSetForm">키워드 설정</a>
 				</div>
 			</div>
 			<div class="w3-cell">
-				<div id="reviewList">
-				</div>
+				<div id="reviewList"></div>
 			</div>
 		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-	
-	
-	
-	
+
+
+
+
 	<script>
 		function listpage(data) {
 			page = data;
@@ -142,30 +138,40 @@ div.card>ul>li {
 		// 요청리스트 출력
 
 		function list() {
-			$.ajax({
-						url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
+			$
+					.ajax({
+						url : 'http://localhost:8080/rl/review/'
+								+ '${loginInfo.mNick}',
 						type : 'GET',
 						data : {
 							page : page
 						},
 						success : function(data) {
+
 							var html = '';
 							html += '<table class="w3-table w3-border w3-hoverable">';
 							html += '	<tr class="w3-hover-grayscale">';
 							html += '	<th>번호</th>';
-							html += '	<th>평점</th>';
-							html += '	<th>등록날짜</th>';
+							html += '	<th>상대방</th>';
+							html += '	<th>작성자</th>';
+							html += '	<th>내용 ?</th>';
 							html += '	</tr>';
 
-							for (var i = 0; i < data.requestReg.length; i++) {
+							for (var i = 0; i < data.reviewList.length; i++) {
 								html += '<tr>';
 								html += ' <td>' + (i + data.startRow + 1)
 										+ '</td>';
-								html += ' <td>' + data.requestReg[i].avg
+
+								html += '</td>';
+								html += ' <td>' + data.reviewList[i].receiver
 										+ '</td>';
-								html += ' <td>'
-										+ data.requestReg[i].reqDateTime
+
+								html += ' <td>' + data.reviewList[i].writer
 										+ '</td>';
+
+								html += ' <td>' + data.reviewList[i].text
+										+ '</td>';
+										
 								html += '</tr>';
 							}
 							html += '</table>';
@@ -180,6 +186,7 @@ div.card>ul>li {
 								}
 							}
 
+							html += ' <div>평점 ' + data.avg +'</div>';
 							$('#reviewList').html(html);
 
 						}
