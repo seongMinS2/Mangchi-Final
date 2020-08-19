@@ -111,7 +111,7 @@ setTimeout(function() {
 //채팅하기 	
 function chat(reqIdx,uNick){
 
-	//로그인 안했을 때 
+	//로그인 체크
 	if('${loginInfo}' != ''){
 		//채팅하기로 링크 이동 ------------------------		
 		location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
@@ -121,31 +121,44 @@ function chat(reqIdx,uNick){
 	}
 }
 
+//매칭 완료 버튼 
+function complete(){
+	
+	
+ 	$.ajax({
+ 		url : 'http://localhost:8080/rl/request/'+ ${idx},
+		 type : 'PUT',
+		 success : function(data){
+				alert('1');
+		 }
+		 
+	 });
+	
+}
+
 //매칭 취소 버튼
 function cancel(reqStatus){
 	
 	//로그인한 사용자가 취소 버튼을 누르면 DB 업데이트
-		if(confirm('매칭을 취소하겠습니까?') == true){
+	if(confirm('매칭을 취소하겠습니까?') == true){
 
-			 $.ajax({
-				 url : 'http://localhost:8080/rl/request/'+ ${idx},
-				 type : 'PUT',
-				 success : function(data){
-					 alert('매칭이 취소되었습니다.');
-					 history.go(0);
-				 }
-				 
-			 });	
-		}	 
+		 $.ajax({
+			 url : 'http://localhost:8080/rl/request/'+ ${idx},
+			 type : 'PUT',
+			 success : function(data){
+				 alert('매칭이 취소되었습니다.');
+				 history.go(0);
+			 }
+			 
+		 });	
+	}	 
 }
 
 
 
 
-//매칭 취소 버튼 생성 시 리뷰 작성 가능하게 하기 
+//리뷰 작성 
 function review(reqIdx,reqWriter,reqHelper){
-	
-
 		
 	 $.ajax({
 		 url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
@@ -214,14 +227,16 @@ function reqDelete(reqIdx){
 
 
 $(document).ready(function(){
-
+	
+	
 	$.ajax({
 		
 		url : 'http://localhost:8080/rl/request/'+${idx},
 		type : 'GET',
-		
+		data : {
+			count : ${count}
+		},
 		success : function(data){
-			
 			var title=data.reqTitle;
 			$('#title').text(title);
 			$('#info_h1').text('요청 내용 ');
@@ -251,6 +266,25 @@ $(document).ready(function(){
 			html+=	'	<td>'+data.reqCount+'</td>';
 			html += '</tr>';
 			
+			html += '<tr>';
+			html	+='<td>거리</td>';
+			
+			if ('${loginInfo}' != '') {
+				if( ${distance} >= 1000){
+					var calDistance = ${distance};
+					calDistance = (Math.round(calDistance/100))/10;
+					html += ' <td>' + calDistance + ' km</td>';
+				}else{
+					html += '	<td>'+${distance}+'Km</td>';
+				}	
+				
+				}
+			
+			
+			
+			
+			html += '</tr>';
+			
 			var status,color;
 			if(data.reqStatus == 0){
 				status = '대기중';
@@ -260,11 +294,11 @@ $(document).ready(function(){
 				color = 'gray';
 			}
 			
-				html += '<tr>';
-				html +='	<td>매칭 상태</td>';
-				html +='	<td style="color: '+color+'">';
-				html +='		'+status+'';
-				html += '	</td>';
+			html += '<tr>';
+			html +='	<td>매칭 상태</td>';
+			html +='	<td style="color: '+color+'">';
+			html +='		'+status+'';
+			html += '	</td>';
 				
 			
 			//로그인 한 사용자가 요청자 일 때 
@@ -276,7 +310,9 @@ $(document).ready(function(){
 					//수정, 삭제
 					html += '	<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
 					html += '	<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
-				} 
+				} else if(data.reqStatus == 0){
+					html +='	<td id="canceltd"><button onclick="complete()">매칭완료</button></td>';
+				}
 			}
 	
 			//로그인 한 회원이 수행자 일 때 
@@ -306,7 +342,7 @@ $(document).ready(function(){
 			
 	 		html +='<tr>';
 			html += '<td>';
-			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+' ">';
+			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
 			html += '</td>';
 			html +='</tr>'; 
 			

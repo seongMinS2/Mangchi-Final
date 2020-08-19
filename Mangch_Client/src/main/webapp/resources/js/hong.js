@@ -3,14 +3,13 @@ var page=1;
 var commPage=1;
 var search=null;
 
-
+//ContextPath 얻기
 function getContextPath() {
   var hostIndex = location.href.indexOf( location.host ) + location.host.length;
   return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 };
 
-
-
+//댓글의 댓글 달기
 function reply(idx) {
 
 	$.ajax({
@@ -24,7 +23,7 @@ function reply(idx) {
 			commText : $('.commReplyText'+idx).val(),
 		},
 		success : function(data){
-			alert('대댓글을 작성였습니다.');
+			alert('대댓글을 작성하였습니다.');
 			commList($('#commDonIdx').val());
 			document.getElementById('replayForm'+idx).reset();
 			$('.replyForm'+idx).css('display', 'none');
@@ -35,7 +34,7 @@ function reply(idx) {
 }
 
 
-
+//댓글 달기
 function commReg() {
 
 	$.ajax({
@@ -58,6 +57,7 @@ function commReg() {
 
 }
 
+//댓글달기 폼 열기
 function replyFormToggle(commIdx) {
   var x = document.getElementById("replyForm"+commIdx);
   if (x.className.indexOf("w3-show") == -1) {
@@ -71,15 +71,14 @@ function replyFormToggle(commIdx) {
 
 
 
-
+//댓글 페이징
 function commPageUp(donateIdx, x){
-
 	commPage=x;
 	commList(donateIdx);
 }
 
 
-
+//댓글 리스트
 function commList(donateIdx) {
 	var loginUser=$('#loginUser').val();
 	$.ajax({
@@ -157,7 +156,7 @@ function commList(donateIdx) {
 }
 
 
-
+//글 수정하기
 function editBoard(idx) {
 
 		var editBoard=new FormData();
@@ -194,6 +193,7 @@ function editBoard(idx) {
 
 }
 
+//글 삭제하기
 function deleteBoard(idx) {
 	if(confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
@@ -211,7 +211,7 @@ function deleteBoard(idx) {
 }
 
 
-
+//글쓰기
 function goWrite() {
 		var regBoard=new FormData();
 		regBoard.append('writer', $('#writer').val());
@@ -242,7 +242,7 @@ function goWrite() {
 	
 	
 	
-
+//수정 폼 열기
 function editForm(idx) {
 	$('#donateEdit').css('display','block');
 	var loginUser=$('#loginUser').val();
@@ -315,7 +315,7 @@ function editForm(idx) {
 
 
 
-
+//상세 글 보기
 function viewBoard(idx){
 	
 	$('#id01').css('display','block');
@@ -399,7 +399,7 @@ function viewBoard(idx){
 
 
 
-
+//게시판 리스트
 function boardList(){
 	
 
@@ -440,54 +440,8 @@ function boardList(){
 			
 		}
 	});
-}
-
-
-function boardSearchList(search){
-
-	$.ajax({
-		url : 'http://localhost:8080/donate/donateBoard',
-		type : 'get',
-		data : {
-			'searchKey':search,
-		},
-		success : function(data){
-			console.log(search+' 검색 중');
-
-			var html= '';
-			for(var i=0; i<data.boardList.length; i++) {
-				html+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 400px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
-				html+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">';
-				if(data.boardList[i].doStatus===0) {
-					html+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>';
-					
-				} else if(data.boardList[i].doStatus===1) {
-					html+='	<p style="display:inline; background-color:gray; color:white;">나눔완료</p>';			
-				
-				};
-				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
-				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
-				html+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
-				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
-				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
-				html+='		조회수 : <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;"> '+data.boardList[i].doViewCnt+'</p>';
-				html+='</button>';
-				
-			}
-			$('#listBox').html(html);
-			
-		}
-	});
-
-
-}
-
-
-
-$(document).ready(function(){
-
-	boardList();
 	
+		//무한 스크롤 페이징
 	$(window).scroll(function() {
 		if($(window).scrollTop()+200>=$(document).height() - $(window).height()) {
 			if(!loading) {
@@ -495,12 +449,77 @@ $(document).ready(function(){
 				boardList();
 			} 
         } 
-    }); 
+    }); 	
+	
+	
+}
 
+//검색하기
+function boardSearchList(search){
+	
+	loading=false;
+	$.ajax({
+		url : 'http://localhost:8080/donate/donateBoard',
+		type : 'get',
+		data : {
+			'searchKey':search
+
+		},
+		success : function(data){
+			console.log(search+' 검색 중');
+			if(page>data.pageTotalCount) {
+				$(window).off();
+			}
+			
+			var searchHtml= '';
+			for(var i=0; i<data.boardList.length; i++) {
+				searchHtml+='<button type="button" class="menu_card w3-hover-shadow" style="width: 250px; height: 400px; background-color:white; border-radius:10%; margin:10px;" onclick="viewBoard('+data.boardList[i].donateIdx+')">';
+				searchHtml+='		<input type="hidden" class="donIdx" value="'+data.boardList[i].donateIdx+'">';
+				if(data.boardList[i].doStatus===0) {
+					searchHtml+='	<p style="display:inline; background-color:green; color:white;">나눔중</p>';
+					
+				} else if(data.boardList[i].doStatus===1) {
+					searchHtml+='	<p style="display:inline; background-color:gray; color:white;">나눔완료</p>';			
+				
+				};
+				searchHtml+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
+				searchHtml+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
+				searchHtml+='		<img src="http://localhost:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				searchHtml+='		<p class="board_title">'+data.boardList[i].title+'</p>';
+				searchHtml+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
+				searchHtml+='		조회수 : <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;"> '+data.boardList[i].doViewCnt+'</p>';
+				searchHtml+='</button>';
+				
+			}
+			$('#listBox').html(searchHtml);
+			
+		}
+	});
+	
+			//무한 스크롤 페이징
+	$(window).scroll(function() {
+		if($(window).scrollTop()+200>=$(document).height() - $(window).height()) {
+			if(!loading) {
+				loading=true;
+				boardSearchList(search);
+			} 
+        } 
+    }); 	
+	
+}
+
+
+
+$(document).ready(function(){
+
+	boardList();
+
+	//검색 버튼을 누르면
 	$('#searchBar').click(function(){
 		search=$('#searchKey').val();
 		console.log('검색어 :'+search);
 		boardSearchList(search);
+
 	});
 	
 

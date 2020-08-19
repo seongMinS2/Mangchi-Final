@@ -374,7 +374,7 @@
 							//메세지가 이미지면 이미지출력, 텍스트면 텍스트 출력
 							if(msgList[i].img!=null&&msgList[i].img.length>0){
 							html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">';
-							html += '		<img src="http://localhost:8080/mc-chat/resources/image/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
+							html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
 							}else{
 							html += '		<span class="w3-cell w3-blue w3-padding w3-left lMsg">'+msgList[i].text+'</span>';
 							}
@@ -400,7 +400,7 @@
 							//메세지가 이미지면 이미지출력, 텍스트면 텍스트 출력
 							if(msgList[i].img!=null&&msgList[i].img.length>0){
 							html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">';
-							html += '		<img src="http://localhost:8080/mc-chat/resources/image/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
+							html += '		<img src="http://localhost:8080/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"></span>';
 							}else{
 							html += '		<span class="w3-cell w3-green w3-padding w3-right rMsg">'+msgList[i].text+'</span>';
 							}
