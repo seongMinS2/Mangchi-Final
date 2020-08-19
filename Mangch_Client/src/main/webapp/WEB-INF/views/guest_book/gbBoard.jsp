@@ -99,7 +99,12 @@
 
 
 
-<div id="realedit"></div>
+<div id="realedit" class="Pstyle">
+<input type="text" class="etext">
+</div>
+
+
+
 
 
 
@@ -214,7 +219,26 @@ fileTarget.on('change',function(){
 });
 
 
-
+/////////////////////수정 팝업펑션
+/* function editService(guest_idx,text) {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/edi'+guest_idx ,
+		type:'POST',
+		data : {
+			guest_idx : guest_idx
+			//guest_text : text
+		}
+		success : function (data) {
+			
+			console.log('test');
+			
+			
+			
+		}// 석세스끝
+		
+	});
+	
+} */
 
 
 
@@ -234,6 +258,15 @@ function editPopup(guest_idx) {
 				html+='<button class="btnz editdiv-close">취소</button>';
 			
 			$('#editddd').html(html);
+			
+			$('.editform').click(function () {
+				$('.realedit').bPopup();
+					var text=$('.etext').val();
+					console.log(text);
+					//editService(data.guest_idx,text);
+			})
+			
+			
 			
 			
 		}// 석세스끝
@@ -418,7 +451,7 @@ function gbList() {
 				if(data[i].guest_photo !=null){
 				html+='<article class="have_photo">';
 			    html+='<header>';
-			    html+='<input type="hidden" name="guest_idx">';
+			    html+='<input type="hidden" name="guest_idx" class="idx" value="'+data[i].guest_idx+'">';
 			    //아래가 멤버프로필이미지 가져와야함
 			    html+='<div class="hd_img"><img src="'+data[i].member_img+'"></div>';  
 			    //아래가 멤버닉네임가져와야함
@@ -447,7 +480,7 @@ function gbList() {
 			    html+='</section>'; 
 			    
 			    html+='<div class="content">';
-			    html+='<div class="nonerealtext">'+data[i].guest_text+'<br>';
+			    html+='<div class="nonerealtext" id="nonerealtext2">'+data[i].guest_text+'<br>';
 			   
 			    html+='</div>';
 			    if(data[i].guest_text.includes('<br/>')){
@@ -479,8 +512,9 @@ function gbList() {
 			    html+='</article>';
 				} else if(data[i].guest_photo ==null){
 					html+='<article class="none_photo">';
+					
 				    html+='<header>';
-				    html+='<input type="hidden" name="guest_idx">';
+				    html+='<input type="hidden" name="guest_idx" class="idx" value="'+data[i].guest_idx+'">';
 				    html+='<div class="hd_img"><img src="'+data[i].member_img+'"></div>'; 
 				    html+='<div class="hd_nick">';
 				    html+=data[i].guest_writer
@@ -493,7 +527,7 @@ function gbList() {
 				   
 				    
 				    html+='<div class="null_content">'
-				    html+='<div class="nonerealtext">'+data[i].guest_text+'</div>'
+				    html+='<div class="nonerealtext" id="nonerealtext2">'+data[i].guest_text+'</div>'
 				    if(data[i].guest_text.includes('<br/>')){
 				    	html+='<span class="more" style="margin-left:13px; color:gray;">더보기</span>';
 				    }
