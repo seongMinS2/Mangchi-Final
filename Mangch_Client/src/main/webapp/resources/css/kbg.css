@@ -3,10 +3,8 @@
 	.Pstyle {
    opacity : 0;
    display : none;
-   position : relative;
-   width : auto;
+  
    border : 5px solid #fff;
-   padding : 20px;
    background-color : #fff;
 }
 .b-close {
@@ -195,7 +193,7 @@
         .in_wrap{
             height: 506px;;
             width: 800px;
-            border: 3px solid #DDD;
+            border: 1px solid #DDD;
             position: relative;
             margin: 0 auto;
             font-size: 14px;

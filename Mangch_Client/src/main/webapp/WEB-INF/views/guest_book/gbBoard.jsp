@@ -34,7 +34,7 @@
 		<input type="hidden" name="x" id="x" value="${loginInfo.mLttd}">
 		<input type="hidden" name="y" id="y" value="${loginInfo.mLgtd}">
 		<input type="hidden" name="r" id="r" value="${loginInfo.mRadius}">
-		<input type="hidden" name="member_img" id="member_img" value="${loginInfo.mImg}">
+
 		<input type="hidden" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"> 
 	<div class="postwrap" style="display: block;">
 		<div class="postTitle" style="background-color: #DDD; line-height: 27px; ">
@@ -44,7 +44,16 @@
 		
 			<div style="width: 100%; display: flex; position: relative; height: 100px; border-bottom: 1px solid #DDD;">
 				<div style="width: 20%;">
-				<img   src="${pageContext.request.contextPath}${loginInfo.mImg}" style=" left: 6%; top: 25%; position: absolute; border: 2px solid #DDD; border-radius: 50px; width: 45px; height: 45px;">
+				
+				<c:if test="${empty loginInfo.kId}">
+				<input type="hidden" name="member_img" id="member_img" value="${pageContext.request.contextPath}/resources/img/upload/${loginInfo.mImg}">
+				<img   src="${pageContext.request.contextPath}/resources/img/upload/${loginInfo.mImg}" style=" left: 6%; top: 25%; position: absolute; border: 2px solid #DDD; border-radius: 50px; width: 45px; height: 45px;">
+				</c:if>
+				
+				<c:if test="${not empty loginInfo.kId}">
+				<input type="hidden" name="member_img" id="member_img" value="${loginInfo.mImg}">
+				<img   src="${loginInfo.mImg}" style=" left: 6%; top: 25%; position: absolute; border: 2px solid #DDD; border-radius: 50px; width: 45px; height: 45px;">
+				</c:if>
 				
 				</div>
 				
@@ -75,7 +84,7 @@
   
    <div id="popup" class="Pstyle">
       <span class="b-close">X</span>
-      <div class="content" id="innerView" style="height:auto; width:auto;"></div>
+      <!-- <div class="content" id="innerView" style="height:auto; width:auto;"></div> -->
    </div>
 
 
@@ -87,7 +96,7 @@
 
 
 
-
+<div id="realedit"></div>
 
 
 
@@ -157,6 +166,7 @@ function guestPost() {
 	
 	var mImg=$('#member_img').val();
 	
+	
 	var maddr=$('#guest_addr').val();
 	var addrbunki=maddr.substr(2,5);
 	
@@ -215,7 +225,7 @@ function editPopup(guest_idx) {
 			
 			var html='';
 			
-				html+='<button class="btnz" >게시글 수정</button>';
+				html+='<button class="btnz editform">게시글 수정</button>';
 				html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
 				html+='<button class="btnz">'+data.guest_idx+'</button>';
 				html+='<button class="btnz editdiv-close">취소</button>';
@@ -223,13 +233,23 @@ function editPopup(guest_idx) {
 			$('#editddd').html(html);
 			
 			
+			
+			
+		    $('.editform').click(function () {
+		    	//$('#editddd').bPopup().close();
+				ehtml='';				
+		    	ehtml+='<input type="text">';
+				$('#realedit').html(ehtml);
+				$('#realedit').bPopup();
+			});
+			
 		}// 석세스끝
-		
 	});
 	$("#editddd").bPopup({closeClass:'editdiv-close',
         opacity:0.4,
         modalClose:true}); // 열기
 	
+    
 	
 	};
 
@@ -257,7 +277,7 @@ function goPopup(guest_idx) {
 						html+='<div class="in_photo"><img src="http://localhost:8080/guest/upload/'+data.guest_photo+'"></div>'
 						html+='<div class="in_body">'
 							html+='<header>'
-							html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
+								html+='<div class="hd_img"><img src="'+data.member_img+'"></div>';  
 							//html+='<div class="hd_img"><img src="${pageContext.request.contextPath}/upload/'+data.member_img+'"></div>';
 							 html+='<div class="in_hd_nick">';
 						    html+=data.guest_writer
@@ -306,7 +326,7 @@ function goPopup(guest_idx) {
 				html+='<div class="no_wrap">'
 			
 				html+='<header>'
-				html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data.member_img+'"></div>'; 
+					html+='<div class="hd_img"><img src="'+data.member_img+'"></div>';  
 				//html+='<div class="hd_img"><img src="${pageContext.request.contextPath}/upload/'+data.member_img+'"></div>';
 				 html+='<div class="in_hd_nick_no">';
 			    html+=data.guest_writer
@@ -352,7 +372,7 @@ function goPopup(guest_idx) {
 			
 			
 			
-			$('#innerView').html(html);
+			$('#popup').html(html);
 			
 			
 			$('.cmtsb2').click(function () {
@@ -366,7 +386,10 @@ function goPopup(guest_idx) {
 		}// 석세스끝
 		
 	});
-	$("#popup").bPopup(); // 열기
+	$("#popup").bPopup({closeClass:'b-close',
+        opacity:0.4,
+        modalClose:true,
+        }); // 열기
 	
 	};
 
@@ -406,7 +429,7 @@ function gbList() {
 			    html+='<header>';
 			    html+='<input type="hidden" name="guest_idx">';
 			    //아래가 멤버프로필이미지 가져와야함
-			    html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data[i].member_img+'"></div>'; 
+			    html+='<div class="hd_img"><img src="'+data[i].member_img+'"></div>';  
 			    //아래가 멤버닉네임가져와야함
 			    html+='<div class="hd_nick">';
 			    html+=data[i].guest_writer
@@ -467,8 +490,7 @@ function gbList() {
 					html+='<article class="none_photo">';
 				    html+='<header>';
 				    html+='<input type="hidden" name="guest_idx">';
-				    /* html+='<div class="hd_img"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>'; */
-				    html+='<div class="hd_img"><img src="${pageContext.request.contextPath}'+data[i].member_img+'"></div>'; 
+				    html+='<div class="hd_img"><img src="'+data[i].member_img+'"></div>'; 
 				    html+='<div class="hd_nick">';
 				    html+=data[i].guest_writer
 				    html+='<span class="addr">'+data[i].guest_addr+'</span>';
