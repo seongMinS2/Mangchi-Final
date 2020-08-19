@@ -9,19 +9,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aia.mangh.chat.model.SendMsgInfo;
+import com.aia.mangh.mm.model.LoginInfo;
 
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
 	@RequestMapping(method = RequestMethod.GET)
-	public String chatPage(SendMsgInfo smi,HttpServletRequest req,Model model,@RequestParam("nick") String nick) {
-		Member member = new Member();
-		member.setNick(nick);
-		req.getSession().setAttribute("loginInfo", member);
-		
+	public String chatPage(SendMsgInfo smi,HttpServletRequest req,Model model) {
+		LoginInfo loginInfo = new LoginInfo();
+		loginInfo.setmNick("테스트용");
+		loginInfo.setmId("gogo@naver.com");
+		//req.getSession().setAttribute("loginInfo", loginInfo);
 		if(smi.getuNick() != null) {
 			model.addAttribute("msgInfo",smi);
 		}
-		return "chatting/chatting";
+		return "chatting/chatting2";
 	}
 }
