@@ -22,6 +22,6 @@ public class MemberEditController {
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
 	@ResponseBody
 	public int edit(EditRequest editRequest, HttpServletRequest request) {
-		return editService.edtMember(editRequest, request);
+		return editService.editMember(editRequest, request);
 	}
 }

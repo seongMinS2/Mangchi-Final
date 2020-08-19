@@ -51,6 +51,8 @@ public class MemberLoginService {
 
 			System.out.println("loginInfo >>> " + loginInfo + "로그인 되셨습니다 !!");
 			
+			System.out.println("loginInfo session >> "+loginInfo.onString());
+			
 			result = "Y";
 		}
 		System.out.println("로그인 여부: "+result);
