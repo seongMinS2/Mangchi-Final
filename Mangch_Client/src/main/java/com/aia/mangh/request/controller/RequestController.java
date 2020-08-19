@@ -37,5 +37,16 @@ public class RequestController {
 		model.addAttribute("reqIdx", reqIdx);
 		return "request/requestForm";
 	}
+	
+	
+	//쿠키 생성
+	@RequestMapping("/makeCookie")
+	public String makeCookie(@RequestParam("idx") int idx, @RequestParam("distance") int distance,
+			@RequestParam("count") int count, Model model) {
+		model.addAttribute("idx", idx);
+		model.addAttribute("distance", distance);
+		model.addAttribute("count", count);
+		return "request/cookie/makeCookie";
+	}
 
 }

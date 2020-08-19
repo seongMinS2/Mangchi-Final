@@ -10,9 +10,13 @@ public class ReviewController {
 
 	// 리뷰 작성
 	@RequestMapping("/review/reviewForm")
-	public String reviewForm(@RequestParam("reqIdx") int reqIdx, @RequestParam("reqWriter") String reqWriter,
-			@RequestParam("reqHelper") String reqHelper, Model model) {
+	public String reviewForm(@RequestParam("reqIdx") int reqIdx,
+			@RequestParam("reqWriter") String reqWriter,
+			@RequestParam("reqHelper") String reqHelper, 
+			Model model) {
 
+		System.out.println(reqIdx);
+		
 		model.addAttribute("reqIdx", reqIdx);
 		model.addAttribute("reqWriter", reqWriter);
 		model.addAttribute("reqHelper", reqHelper);
