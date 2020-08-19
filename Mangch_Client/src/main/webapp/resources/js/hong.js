@@ -492,9 +492,6 @@ function boardSearchList(search){
 				
 			}
 			$('#listBox').html(searchHtml);
-
-	if(
-			
 			
 		}
 	});
