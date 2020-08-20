@@ -49,18 +49,18 @@
 					<td class="td"></td>
 					<td><div class="alert alert-success chkmsg" id="alert-success">비밀번호가
 							일치합니다.</div>
-						<div class="alert alert-danger chkmsg" id="alert-danger">비밀번호가 일치하지
-							않습니다.</div>
-					</td>
+						<div class="alert alert-danger chkmsg" id="alert-danger">비밀번호가
+							일치하지 않습니다.</div></td>
 
 				</tr>
 				<tr>
 					<td class="td"><p>이메일 인증</p></td>
 					<td><input type="text" name="mChk" id="mChk" required></td>
+					<td><button type="button" onclick="javascript:sendMail();" >인증번호 발송</button></td>
 				</tr>
-				<tr>
-					<td class="td"><p>이메일 </p></td>
-					<td><input type="text" name="Chk" id="Chk" required></td>
+				<tr id="codeshow">
+					<td class="td"><p>인증번호 입력</p></td>
+					<td><input type="text" name="code" id="code"></td>
 				</tr>
 				<tr>
 					<td class="td"><p>닉네임</p></td>
@@ -73,25 +73,24 @@
 				<tr>
 					<td class="td"><p>사진</p></td>
 					<td>
-					<div class="filebox">
-							<label for="file">업로드</label> 
-							<input type="file" id="file" name="mImg">
-							<input name="mImg" id="mImg" value="파일선택">
-					</div>
+						<div class="filebox">
+							<label for="file">업로드</label> <input type="file" id="file"
+								name="mImg"> <input name="mImg" id="mImg" value="파일선택">
+						</div>
 					</td>
 				</tr>
 
 				<tr>
 					<td class="td"><p>주소</p></td>
 					<td><input type="text" name="mAddr" id="mAddr" required
-						oninvalid="this.setCustomValidity('주소를 검색해주세요.')" ><input
+						oninvalid="this.setCustomValidity('주소를 검색해주세요.')"><input
 						type="button" id="button" onclick="sample5_execDaumPostcode()"
 						value="주소 검색"></td>
 					<td><input type="hidden" name="mLttd" id="mLttd" required></td>
 					<!-- 위도 -->
 					<td><input type="hidden" name="mLgtd" id="mLgtd" required></td>
 					<!-- 경도 -->
-					
+
 				</tr>
 				<tr>
 					<td class="td"></td>
@@ -100,7 +99,7 @@
 				<tr>
 					<td class="td"></td>
 					<td><div id="map"
-							style="width: 300px; height: 300px; margin-top: 10px; margin-left: 12%;display: none"></div></td>
+							style="width: 300px; height: 300px; margin-top: 10px; margin-left: 12%; display: none"></div></td>
 				</tr>
 				<tr>
 					<td class="td"></td>
@@ -122,18 +121,35 @@
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 	<script>
+	var emailCode;
+	
+	function sendMail() {
+		var email = $('#mChk').val();
+		$.ajax({
+			url : 'verify/MailSend',
+			data : {
+				email : email
+			},
+			success : function(data) {
+				alert('인증번호를 발송하였습니다 !!');
+				$('#codeshow').show();
+				alert(data);
+				emailCode=data;
+				alert(emailCode);
+			}
+		});
+	}
+	
 		$(document).ready(function() {
-			
-			$(document).ready(function(){ 
-				
-				$('#mAddr').hide();
-				
-				  var fileTarget = $('#file'); 
-				  fileTarget.on('change', function(){ // 값이 변경되면
-				      var cur=$(".filebox input[type='file']").val();
-				    $(".upload-name").val(cur);
-				  }); 
-				}); 
+
+			$('#mAddr').hide();
+			$('#codeshow').hide();
+
+			var fileTarget = $('#file');
+			fileTarget.on('change', function() { // 값이 변경되면
+				var cur = $(".filebox input[type='file']").val();
+				$(".upload-name").val(cur);
+			});
 
 			$("#alert-success").hide();
 			$("#alert-danger").hide();
@@ -247,11 +263,11 @@
 
 			$('#mPw').focusout(function() {
 
-/* 				if ($(this).val().length < 1) {
-					$('#checkmsg3').text("비밀번호는 필수 항목입니다.");
-					$('#checkmsg3').addClass('check_not');
-					return false;
-				} */
+				/* 				if ($(this).val().length < 1) {
+				 $('#checkmsg3').text("비밀번호는 필수 항목입니다.");
+				 $('#checkmsg3').addClass('check_not');
+				 return false;
+				 } */
 
 			});
 
@@ -266,11 +282,11 @@
 
 			$('#chkmPw').focusout(function() {
 
-/* 				if ($(this).val().length < 1) {
-					$('#checkmsg4').text("비밀번호를 확인해주세요.");
-					$('#checkmsg4').addClass('check_not');
-					return false;
-				} */
+				/* 				if ($(this).val().length < 1) {
+				 $('#checkmsg4').text("비밀번호를 확인해주세요.");
+				 $('#checkmsg4').addClass('check_not');
+				 return false;
+				 } */
 
 			});
 		});
@@ -334,7 +350,13 @@
 			 document.getElementById('regForm').reset();
 			 }
 			 }); */
-			
+			 
+			 if($('#code').val()!=emailCode){
+				 $('form').attr('onSubmit','return false');
+				 alert('인증번호가 일치하지 않습니다');
+			 } else{
+				 $('form').attr('onSubmit','return true');
+			 }
 
 		}
 

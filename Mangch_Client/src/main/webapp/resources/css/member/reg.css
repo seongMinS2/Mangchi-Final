@@ -104,6 +104,10 @@ textarea:focus, input:focus {
 	border-bottom: 2px solid #FBD75C;
 }
 
+#code {
+	border-bottom: 2px solid #FBD75C;
+}
+
 label {
 	color: #BDC3C7;
 	text-transform: uppercase;
