@@ -12,17 +12,42 @@
 <style>
 .btn {cursor:pointer;}
 
+.comment_nick_box
+{
+	position: relative;
+	/* z-index:1; */
+} 
+
 .comment_tool{
+	margin-left:400px;
+	position: relative;
+	z-index:1;
+}
+.comment_Box {
+    padding: 15px;
+}
+
+.xi-ellipsis-v{
 	position: absolute;
-	right: 750px;
 }
 
 .layerMore{
+	position: absolute;
 	height: 50px;
 	width: 50px;
 	background-color: red;
 	left:auto;
-	right: 0;
+	right: 736px;
+	top: 10px;
+}
+.comment_coment_area,
+.comment_inbox{
+	margin-left:15px;
+}
+.comment_inbox,
+.comment_textView,
+.comment_text_box{
+	margin-left:15px;
 }
 </style>
 </head>
