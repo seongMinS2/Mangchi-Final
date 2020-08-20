@@ -201,7 +201,7 @@ function editBoard(idx) {
 			processData : false,
 			success : function(data) {
             	alert('나눔글을 수정하였습니다.')
-            	history.go(-1);
+            	location.href=getContextPath()+"/donateBoard";
 			},
 			error : function(){
 				
@@ -252,7 +252,7 @@ function goWrite() {
 			processData : false,
 			success : function(data) {
             	alert('나눔글을 작성하였습니다. 좋은 사람...')
-            	history.go(-1);
+            	location.href=getContextPath()+"/donateBoard";
 			},
 			error : function(){
 				console.log('실패한 글쓰기 정보 : '+regBoard);				
