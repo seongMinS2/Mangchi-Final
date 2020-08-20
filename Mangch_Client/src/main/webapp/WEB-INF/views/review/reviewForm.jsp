@@ -15,7 +15,7 @@
 		<table>
 			<tr>
 				<td>리뷰내용</td>
-				<td><textarea id="reviewText"></textarea></td>
+				<td><textarea id="reviewText" required></textarea></td>
 			</tr>
 			<tr>
 				<td>평점</td>

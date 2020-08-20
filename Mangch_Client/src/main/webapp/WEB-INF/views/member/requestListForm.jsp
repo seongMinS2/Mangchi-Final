@@ -32,6 +32,7 @@
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 	<script>
+		
 		function listpage(data) {
 			page = data;
 			list();
@@ -42,8 +43,7 @@
 		var type = "request";
 
 		function list() {
-			$
-					.ajax({
+			$.ajax({
 						url : 'http://localhost:8080/rl/mypage/'
 								+ '${loginInfo.mNick}',
 						type : 'GET',

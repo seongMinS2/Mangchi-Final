@@ -16,42 +16,60 @@
 #wriBtn {
 	margin-top: 15px;
 }
+
+
+select {
+
+    width: 200px; /* 원하는 너비설정 */
+    border: 1px solid #999;
+    border-radius: 0px; /* iOS 둥근모서리 제거 */
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+
 </style>
 
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
-	<div class="w3-container">
-
-		<div>
-			<h1 class="w3-left" id="board_h1"></h1>
-			
-			<!-- 검색 -->
-			<div id="search">
-			<input type="text" id="search_text" placeholder="검색어를 입력하세요" >
-			<input type="button" id="search_btn" onclick="search()" value="검색">
-			</div>
-			
-			<!-- 거리순 -->
-			<c:if test="${loginInfo.mNick !=null}">
-			<select id="ListType" onchange="change()">
-				<option value="distance">거리순</option>
-				<option value="date">최신순</option>
-			</select> 
-			</c:if>
-			
-			<!-- 검색 타입 -->
-			<select id="searchType">
-				<option value="title">제목</option>
-				<option value="name">이름</option>
-			</select> <a href="<c:url value="/request/requestWrite"/>" class="w3-right"
-				id="writer_button"></a>
+	<div class="w3-auto">
+		<div class="w3-container" id="panel">
+				<!-- 거리순 -->
+				<c:if test="${loginInfo.mNick !=null}">
+				<select id="ListType" onchange="change()">
+					<option value="distance">거리순</option>
+					<option value="date">최신순</option>
+				</select> 
+				</c:if>
+				</div> 
+				<!-- 검색 타입 -->
+				<div id="type" class="w3-third">
+				<select id="searchType">
+					<option value="title">제목</option>
+					<option value="name">이름</option>
+				</select>
+				</div>
+				
+				<!-- 검색어 입력 -->
+				<div id="search" class="w3-third" >
+				<input type="text" id="search_text" placeholder="검색어를 입력하세요" >
+				<input type="button" id="search_btn" onclick="search()" value="검색">
+				</div>
+				
+				<!-- 글쓰기 -->					
+				<div class="w3-blue" class="w3-third">
+				 <a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a>
+				</div>	
+				
 		</div>
-		
-		<!-- 테이블 출력 -->
-		<div class=" w3-margin-bottom" id="list"></div>
-
+			
+		<div class="w3-container" >
+			<!-- 테이블 출력 -->
+			<div class=" w3-margin-bottom" id="list"></div>
+		</div>
 	</div>
 
 
@@ -116,8 +134,8 @@
 						searchType : searchType
 					},
 					success : function(data) {
-
-						$('#board_h1').text('게시물 리스트');
+						
+						
 						var button = '<button class="w3-right">글쓰기</button>';
 						$('#writer_button').html(button);
 

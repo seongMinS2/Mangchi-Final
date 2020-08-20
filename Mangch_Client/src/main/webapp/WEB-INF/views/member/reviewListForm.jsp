@@ -138,10 +138,8 @@ div.card>ul>li {
 		// 요청리스트 출력
 
 		function list() {
-			$
-					.ajax({
-						url : 'http://localhost:8080/rl/review/'
-								+ '${loginInfo.mNick}',
+			$.ajax({
+						url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
 						type : 'GET',
 						data : {
 							page : page
@@ -152,6 +150,7 @@ div.card>ul>li {
 							html += '<table class="w3-table w3-border w3-hoverable">';
 							html += '	<tr class="w3-hover-grayscale">';
 							html += '	<th>번호</th>';
+							html += '	<th>게시글 제목</th>';
 							html += '	<th>상대방</th>';
 							html += '	<th>작성자</th>';
 							html += '	<th>내용 ?</th>';
@@ -161,8 +160,10 @@ div.card>ul>li {
 								html += '<tr>';
 								html += ' <td>' + (i + data.startRow + 1)
 										+ '</td>';
-
-								html += '</td>';
+								
+										html += ' <td>' + data.reviewList[i].reqList[0].reqTitle
+									+ '</td>';		
+										
 								html += ' <td>' + data.reviewList[i].receiver
 										+ '</td>';
 
