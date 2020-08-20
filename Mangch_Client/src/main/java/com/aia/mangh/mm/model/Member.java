@@ -47,7 +47,7 @@ public class Member {
 	}
 
 	public LoginInfo toLoginInfo() {
-		return new LoginInfo(mIdx, mId, mNick, mScore, mRegdate, mAddr, mLttd, mLgtd, mImg, mChk, mRadius, kId);
+		return new LoginInfo(mIdx, mId, mNick, mScore, mRegdate, mAddr, mLttd, mLgtd, mImg, mChk, mRadius, kId, null);
 	}
 
 	public Member() {

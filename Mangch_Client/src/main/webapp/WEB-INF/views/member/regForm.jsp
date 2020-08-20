@@ -95,7 +95,7 @@
 				<tr>
 					<td class="td"></td>
 					<td><div id="map"
-							style="width: 300px; height: 300px; margin-top: 10px; display: none"></div></td>
+							style="width: 300px; height: 300px; margin-top: 10px; margin-left: 5%;display: none"></div></td>
 				</tr>
 				<tr>
 					<td class="td"></td>

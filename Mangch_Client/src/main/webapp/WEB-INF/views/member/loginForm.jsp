@@ -32,22 +32,32 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><a id="custom-login-btn"
+					<!-- 										<td><a id="custom-login-btn"
 						href="javascript:loginWithKakao()"> <img
 							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
+							width="325" />
+					</a></td> -->
+					<td><a id="custom-login-btn"
+						href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a01763f7f7d5db1bd274b95045628499&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST" >
+							<img
+							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" 
 							width="325" />
 					</a></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><a class="logout" href="javascript:kakaoLogout()">logout</a>
-					<a class="logout" href="javascript:unlinkApp()">unlink</a></td>
+					<td><a class="logout" href="kakao/logout">logout</a> <!-- <a class="logout" href="javascript:unlinkApp()">unlink</a></td> -->
 				</tr>
 			</table>
 		</div>
 	</div>
 	<script>
-		function loginSubmit() {
+		function hello(){
+			alert('hi');
+		}
+	
+	
+		 function loginSubmit() {
 			$.ajax({
 				url : 'memberLogin',
 				type : 'post',
@@ -69,9 +79,11 @@
 			});
 			return false;
 		}
+		 
+		 
 
 		// ### kakao login ###
-		Kakao.init('93566b80fb99a5007a395716fd157aaa');
+ 		Kakao.init('93566b80fb99a5007a395716fd157aaa');
 
 		function loginWithKakao() {
 			// 로그인 창을 띄웁니다.
@@ -86,9 +98,9 @@
 					alert(JSON.stringify(err));
 				}
 			});
-		};
+		};  
 
-/* 		function startWithKakao() {
+ 		function startWithKakao() {
 			Kakao.Auth.getStatusInfo(function(statusObj) {
 				if (statusObj.status == 'connected') {
 					$('#custom-login-btn').css('display', 'none');
@@ -96,7 +108,7 @@
 					$('#custom-login-btn').css('display', 'inline');
 				}
 			});
-		}; */
+		}; 
 		
         function infoWithKakao() {
             // 로그인 성공시, API를 호출합니다.
@@ -104,11 +116,11 @@
                 url: '/v2/user/me',
                 success: function(res) {
                     alert(JSON.stringify(res));
-  /*                alert(res.id);
+                  alert(res.id);
                     alert(res.properties.nickname);
                     alert(res.properties.profile_image);
                     alert(res.properties.thumbnail_image);
-                    alert(res.kakao_account.email); */
+                    alert(res.kakao_account.email); 
 
                     var email = res.kakao_account.email;
                     var kImg = res.properties.profile_image;
@@ -123,7 +135,8 @@
  							if(data == 0) {		// 회원 가입
  								location.href='kakao';
  							} else {			// 로그인
-
+ 								// 실시간 프로필 사진 업데이트
+								updateImg();
  								location.href='memberMypage/mypageForm';
  							}
         				}
@@ -137,6 +150,21 @@
             });
         };
         
+        
+        // 실시간 프로필 사진 업데이트
+        function updateImg(){
+        	alert('hidddd');
+        	Kakao.API.request({
+        	    url: '/v1/api/talk/profile',
+        	    success: function(response) {
+        	        alert(response);
+        	    },
+        	    fail: function(error) {
+        	        alert(error);
+        	    }
+        	});
+        }
+          
         function kakaoLogout() {
             if (!Kakao.Auth.getAccessToken()) {
                 alert('Not logged in.')

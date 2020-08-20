@@ -36,7 +36,10 @@ public class MemberEditService {
 	}
 
 	public int editMember(EditRequest editRequest, HttpServletRequest request) {
-
+		
+		LoginInfo loginInfo = null;
+		int result = 0;
+		
 		EditRequest2 editRequest2 = editRequest.toEditMember();
 
 		System.out.println("getmid: " + editRequest.getmId());
@@ -44,10 +47,10 @@ public class MemberEditService {
 		member = getMember(editRequest.getmId());
 
 		dao = template.getMapper(MemberDao.class);
-
-		int result = 0;
-
-		LoginInfo loginInfo = null;
+		
+		member = dao.selectByMember(editRequest2.getmId());
+		System.out.println("memberrrrrr: " + member);
+		loginInfo = member.toLoginInfo();
 
 		try {
 			System.out.println("try membr: " + member);
@@ -92,10 +95,8 @@ public class MemberEditService {
 			System.out.println("dao 들어가기전에 editRequest: " + editRequest2);
 			result = dao.updateByMember(editRequest2);
 			System.out.println("memberrddfdfdfdfdfdrrrr: " + result);
-			member = dao.selectByMember(editRequest2.getmId());
-			System.out.println("memberrrrrr: " + member);
-			loginInfo = member.toLoginInfo();
 
+			System.out.println("loginInfo kakaoedit: "+loginInfo.onString());
 			request.getSession().setAttribute("loginInfo", loginInfo);
 
 		} catch (IllegalStateException e) {

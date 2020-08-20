@@ -51,11 +51,11 @@
 	<div class="w3-container container">
 		<h2>마이페이지</h2>
 		<hr>
-		${loginInfo }
+		${loginInfo}
 		<div class="w3-cell-row">
 			<div>
 				<div id="profile-menu" class="active">
-					<a href="requestListForm">요청 리스트</a> <a href="lendingListForm">대여리스트</a>
+					<a href="<c:url value="requestListForm"/>">요청 리스트</a> <a href="lendingListForm">대여리스트</a>
 					<a href="reviewListForm">나의 리뷰</a> <a href="commentListForm">나의
 						댓글</a> <a href="mypageForm">나의 정보</a> <a href="distSetForm">거리 설정</a>
 					<a href="keywordSetForm">키워드 설정</a>
@@ -66,39 +66,39 @@
 
 					<div id="mypage">
 						<div class="w3-cell-row">
-							<div id="w3-col"
+							<div id="w3-cell"
 								style="width: 30%; margin: 0; display: inline-block;">
-								<c:set var="kId" value="${loginInfo.kId}" />
+								<c:set var="mPic" value="${loginInfo.mPic}" />
 
-								<c:if test="${kId eq null}">
+								<c:if test="${mPic eq null}">
 									<img
 										src="<c:url value="/resources/img/upload/${loginInfo.mImg}"/>"
 										width="150px" height="150px" style="border-radius: 100px;">
 								</c:if>
-								<c:if test="${kId ne null}">
-									<img
-										src="${loginInfo.mImg}"
-										width="150px" height="150px" style="border-radius: 100px;">
+								<c:if test="${mPic ne null}">
+									<img src="${loginInfo.mImg}" width="150px" height="150px"
+										style="border-radius: 100px;">
 								</c:if>
 								<%-- 								<div class="filebox">
 									<label for="mImg">업로드</label> 
 									<input type="file" id="mImg" name="mImg" value="${loginInfo.mImg}"> 
 									<input name="Img" id="Img" value="${loginInfo.mImg}">
 								</div> --%>
-								<br>
-								<!-- <input type="file" name="mImg" id="mImg" > -->
+
 							</div>
-							<div id="w3-col"
+							<div id="w3-cell"
 								style="width: 70%; margin: 0; display: inline-block;">
 								<form action="edit" method="post" enctype="multipart/form-data">
-									<input type="hidden" name="mId" id="mId"
-										value="${loginInfo.mId}"> <input type="file"
-										name="mImg" id="mImg">
+									<c:set var="mPic" value="${loginInfo.mPic}" />
+									<input type="hidden" name="mId" id="mId" value="${loginInfo.mId}"> 
+									<c:if test="${mPic eq null}">
+									<input type="file" name="mImg" id="mImg">
+									</c:if>
 									<table>
 										<tr>
 											<td>이름</td>
 											<td><input type="text" name="mNick" id="mNick"
-												value="${loginInfo.mNick}" disabled></td>
+												value="${loginInfo.mNick}" readonly></td>
 										</tr>
 										<tr>
 											<td>주소</td>
@@ -210,6 +210,16 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
 	<script>
+	// checkbox 선택
+		function oneCheckbox(a) {
+			var obj = document.getElementsByName("checkbox");
+			for (var i = 0; i < obj.length; i++) {
+				if (obj[i] != a) {
+					obj[i].checked = false;
+				}
+			}
+		}
+
 		// 비밀번호 변경
 		function updatePw() {
 
