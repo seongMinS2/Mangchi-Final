@@ -117,7 +117,7 @@
 
 <div id="layer_popup" class="button_style">
  <span class="layer_close">X</span>
- <form>
+ <form class="ditform" onsubmit="return false;">
 <input type="text" name="guest_idx" id="guest_idx">
 <input  type="text" name="guest_text" id="guest_text" class="guest_text">
 <input  type="text" name="guest_writer" id="guest_writer" class="wr">
@@ -167,14 +167,21 @@ $.ajax({
 
 
 //////////////삭제함수
-function deleteForm(guest_idx) {
+function deleteForm(a,b) {
 	if(confirm('정말 삭제하시겠습니까?')){
-		
+		alert(a);
+		alert(b);
 		$.ajax({
 			
-			url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+			url:'http://localhost:8080/guest/guest_book/delete',
 			type : 'DELETE',
+			dataType:'json',
+			data :
+				{
+				guest_idx:a,
+				guest_photo:b},
 			success : function (data) {
+			
 				gbList();
 			}
 		});
@@ -251,7 +258,9 @@ fileTarget.on('change',function(){
 	var editFormData = new FormData();
 	editFormData.append('guest_idx',$('#guest_idx').val());
 	editFormData.append('guest_text',$('.guest_text').val());
+
 	editFormData.append('oldFile',$('#oldphoto').val());
+	
 	if($('#photo')[0].files[0] !=null){
 		editFormData.append('photo',$('#photo')[0].files[0]); // 파일첨부 코드	
 	}
@@ -265,8 +274,11 @@ fileTarget.on('change',function(){
 		success : function (data) {
 			
 		alert('수정이 완료됐습니다');
+		
 		$('#layer_popup').bPopup().close();
 		$('#editddd').bPopup().close();
+		$("#popup").bPopup().close();
+		$('.ditform')[0].reset();
 			gbList();
 			
 			
@@ -289,11 +301,18 @@ function editPopup(guest_idx) {
 			var html='';
 			
 				html+='<button class="btnz editform">게시글 수정</button>';
-				html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
+				html+='<button class="btnz deleteService" onclick="">게시글 삭제</button>';
 				html+='<button class="btnz">'+data.guest_idx+'</button>';
 				html+='<button class="btnz editdiv-close">취소</button>';
 				
 			$('#editddd').html(html);
+			
+			
+			$('.deleteService').click(function () {
+				var deidx=data.guest_idx;
+				var dephoto=data.guest_photo;
+				deleteForm(deidx,dephoto);
+			})
 			
 			
 			$('.editform').click(function () {
