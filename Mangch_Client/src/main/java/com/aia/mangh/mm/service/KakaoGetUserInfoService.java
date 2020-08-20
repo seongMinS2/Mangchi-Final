@@ -47,15 +47,15 @@ public class KakaoGetUserInfoService {
 
 			JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 			JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
-			String email = element.getAsJsonObject().get("id").getAsString();;
 			
-			if (kakao_account.getAsJsonObject().get("email").getAsString() == null) {
-				email = null;
-			} else {
+			String email = null;
+			
+			if(kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() == "true") {
+				 email = element.getAsJsonObject().get("id").getAsString();;
+			} else if(kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() == "false") {
 				email = kakao_account.getAsJsonObject().get("email").getAsString();
-
 			}
+			
 			String id = element.getAsJsonObject().get("id").getAsString();
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 			String img = properties.getAsJsonObject().get("profile_image").getAsString();
