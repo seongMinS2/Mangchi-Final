@@ -95,17 +95,14 @@ div.card>ul>li {
 .container {
 	margin-left: 5%;
 	margin-right: 5%;
+	margin-bottom: 5%;
 }
 
 table {
 	width: 100%;
-	border: 1px solid #444444;
 	border-collapse: collapse;
 }
 
-th, td {
-	border: 1px solid #444444;
-}
 
 /* file css */
 .filebox input[type="file"] {

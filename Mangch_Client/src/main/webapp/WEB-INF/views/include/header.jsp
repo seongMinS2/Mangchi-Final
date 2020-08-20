@@ -8,25 +8,25 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/summernote/summernote-lite.css'/>">
-		<script
-		src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-	<!-- summernote -->
-	<script
-		src="<c:url value='/resources/js/summernote/summernote-lite.js'/>"></script>
-	<script
-		src="<c:url value='/resources/js/summernote/lang/summernote-ko-KR.js'/>"></script>
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<!-- summernote -->
+<script
+	src="<c:url value='/resources/js/summernote/summernote-lite.js'/>"></script>
+<script
+	src="<c:url value='/resources/js/summernote/lang/summernote-ko-KR.js'/>"></script>
 
-	<script src="<c:url value='/resources/js/qnaSummernote.js'/>"></script>
-	<!-- 성민 자바스크립트 -->
-	<script src="<c:url value='/resources/js/min.js'/>"></script>
-	<!-- 보겸 자바스크립트 -->
-	<script type="text/javascript"
-		src='<c:url value="/resources/js/jquery.bpopup.min.js"/>'></script>
-	<script type="text/javascript"
-		src='<c:url value="/resources/js/readmore.js"/>'></script>
-	<!-- moment() : 날짜 포멧팅 -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+<script src="<c:url value='/resources/js/qnaSummernote.js'/>"></script>
+<!-- 성민 자바스크립트 -->
+<script src="<c:url value='/resources/js/min.js'/>"></script>
+<!-- 보겸 자바스크립트 -->
+<script type="text/javascript"
+	src='<c:url value="/resources/js/jquery.bpopup.min.js"/>'></script>
+<script type="text/javascript"
+	src='<c:url value="/resources/js/readmore.js"/>'></script>
+<!-- moment() : 날짜 포멧팅 -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
 <style>
 body, h1, h2, h3, h4, h5, h6 {
 	font-family: "Raleway", sans-serif
@@ -72,14 +72,15 @@ body, html {
 				<a href="<c:url value="/member/memberReg"/>"
 					class="w3-bar-item w3-button">회원가입</a> <a
 					href="<c:url value="/member/memberLogin"/>"
-					class="w3-bar-item w3-button">로그인</a> <a
-					href="<c:url value="/member/memberMypage/mypageForm"/>"
-					class="w3-bar-item w3-button">마이페이지</a> <a
-					href="<c:url value="/request/requestList"/>"
+					class="w3-bar-item w3-button">로그인</a>
+				<c:if test="${!empty loginInfo }">
+					<a href="<c:url value="/member/memberMypage/mypageForm"/>"
+						class="w3-bar-item w3-button">마이페이지</a>
+				</c:if>
+				<a href="<c:url value="/request/requestList"/>"
 					class="w3-bar-item w3-button">요청게시판</a> <a
-					href="<c:url value="/donateBoard"/>"
-					class="w3-bar-item w3-button">나눔게시판</a> <a
-					href="<c:url value="/guest_book/gbBoard"/>"
+					href="<c:url value="/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
+				<a href="<c:url value="/guest_book/gbBoard"/>"
 					class="w3-bar-item w3-button">동네생활</a> <a
 					href="<c:url value="/qna/qnaBoard"/>" class="w3-bar-item w3-button">Q&A</a>
 				<a href="<c:url value="/chat"/>" class="w3-bar-item w3-button">채팅</a>
@@ -96,10 +97,12 @@ body, html {
 			href="<c:url value="/member/memberReg"/>" onclick="w3_close()"
 			class="w3-bar-item w3-button">회원가입</a> <a
 			href="<c:url value="/member/memberLogin"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">로그인</a> <a
-			href="<c:url value="/member/memberMypage/mypageForm"/>"
-			onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a> <a
-			href="<c:url value="/request/requestList"/>" onclick="w3_close()"
+			class="w3-bar-item w3-button">로그인</a>
+		<c:if test="${!empty loginInfo }">
+			<a href="<c:url value="/member/memberMypage/mypageForm"/>"
+				onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a>
+		</c:if>
+		<a href="<c:url value="/request/requestList"/>" onclick="w3_close()"
 			class="w3-bar-item w3-button">요청게시판</a> <a
 			href="<c:url value="/donateBoard"/>" onclick="w3_close()"
 			class="w3-bar-item w3-button">나눔게시판</a> <a
