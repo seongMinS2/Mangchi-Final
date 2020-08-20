@@ -73,8 +73,7 @@ messaging.onMessage(function(payload){
     console.log('onMessage: ', payload);
     const title = "동네에서 대여하기 :: MANGCHI!";
     const options = {
-            body: payload.notification.body,
-            icon: payload.notification.icon
+            body: payload.notification.body
     };
     var notification = new Notification(title, options);
     return self.registration.showNotification(notification);
