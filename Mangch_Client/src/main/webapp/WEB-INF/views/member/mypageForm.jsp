@@ -73,14 +73,14 @@
 						<div class="w3-cell-row">
 							<div id="w3-cell"
 								style="width: 30%; margin: 0; display: inline-block;">
-								<c:set var="mPic" value="${loginInfo.mPic}" />
+								<c:set var="kId" value="${loginInfo.kId}" />
 
-								<c:if test="${mPic eq null}">
+								<c:if test="${kId eq null}">
 									<img
 										src="<c:url value="/resources/img/upload/${loginInfo.mImg}"/>"
 										width="150px" height="150px" style="border-radius: 100px;">
 								</c:if>
-								<c:if test="${mPic ne null}">
+								<c:if test="${kId ne null}">
 									<img src="${loginInfo.mImg}" width="150px" height="150px"
 										style="border-radius: 100px;">
 								</c:if>
@@ -93,7 +93,7 @@
 							</div>
 							<div id="w3-cell"
 								style="width: 70%; margin: 0; display: inline-block;">
-								<form action="edit" method="post" enctype="multipart/form-data">
+								<form action="<c:url value='/member/memberMypage/edit'/>" method="post" enctype="multipart/form-data">
 									<c:set var="mPic" value="${loginInfo.mPic}" />
 									<input type="hidden" name="mId" id="mId"
 										value="${loginInfo.mId}">

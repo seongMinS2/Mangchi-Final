@@ -133,7 +133,11 @@ public class MemberKakaoController {
 				return "member/regFormKakao";
 			}
 
+		}else if(userInfo.get("email") == null){
+			
+			return "member/regForm";
 		}
+		
 		return "index";
 	}
 	
