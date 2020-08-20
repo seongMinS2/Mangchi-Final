@@ -71,13 +71,13 @@ messaging.usePublicVapidKey('BPSYuV8DZh_GVPCu74wa9ve8HhPcA-MFBJ7sWJSIcufcqXGyDLu
 
 messaging.onMessage(function(payload){
     console.log('onMessage: ', payload);
-    var title = "동네에서 대여하기 :: MANGCHI!";
-    var options = {
+    const title = "동네에서 대여하기 :: MANGCHI!";
+    const options = {
             body: payload.notification.body,
             icon: payload.notification.icon
     };
-    
     var notification = new Notification(title, options);
+    return self.registration.showNotification(notification);
 });
 
 
@@ -196,7 +196,17 @@ function subscribeDonate() {
 		})
 		.then(function(token) {
 			console.log(token); //토큰을 출력
-			
+			$.ajax({
+				url : 'http://localhost:8080/subscribe/sub/'+token,
+				type : 'post',
+				data : {
+					memberNick : $('#loginUser').val(),
+					token : token
+				},
+				success : function(data){
+					alert('나눔게시판 구독 알림이 시작됩니다.');
+				}
+			});
 			
 		})
 		.catch(function(err) {
