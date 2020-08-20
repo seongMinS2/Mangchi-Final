@@ -13,7 +13,7 @@
 <script type="text/javascript"
 	src='<c:url value="/resources/js/hong.js"/>'></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/hong.css"/>">
-
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
 <div id="donateWrap">
 	<h3>나눔 게시판</h3>
 	<c:if test="${loginInfo!=null}">
