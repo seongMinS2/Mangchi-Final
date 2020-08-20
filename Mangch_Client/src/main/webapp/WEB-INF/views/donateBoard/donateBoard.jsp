@@ -27,7 +27,7 @@
 			<form>
 				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> 
 				<input type="button" id="searchBar" class="w3-button w3-theme-l3" style="width: 30%;" value="검색">
-				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기">
+				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기" onclick="subscribeDonate()">
 				<input type="button" class="w3-button w3-block w3-theme-l1" id="notification" value="키워드 알람 설정"
 				onclick="noticeForm()">
 			</form>
@@ -69,20 +69,6 @@ const messaging = firebase.messaging();
 //웹 푸쉬 인증키 등록
 messaging.usePublicVapidKey('BPSYuV8DZh_GVPCu74wa9ve8HhPcA-MFBJ7sWJSIcufcqXGyDLuakZSQhCylTuIdcZBft0LDf0ESX1Mfxsxb5hU');
 
-messaging.requestPermission()
-.then(function() {
-	console.log('알림 허가');
-	return messaging.getToken(); //토큰을 받는 함수를 추가
-	
-})
-.then(function(token) {
-	console.log(token); //토큰을 출력!
-	notificationConfig(token);
-})
-.catch(function(err) {
-	console.log('fcm에러 : ', err);
-})
-
 messaging.onMessage(function(payload){
     console.log('onMessage: ', payload);
     var title = "동네에서 대여하기 :: MANGCHI!";
@@ -98,7 +84,7 @@ messaging.onMessage(function(payload){
 
 function deleteKeyword(idx) {
 	$.ajax({
-		url : 'http://localhost:8080/donate/fcmKey/'+idx,
+		url : 'http://localhost:8080/subscribe/fcmKey/'+idx,
 		type : 'delete',
 		success : function(data){
 			noticeList($('#loginUser').val());	
@@ -110,18 +96,21 @@ function deleteKeyword(idx) {
 function noticeList(user){
 	
 	$.ajax({
-		url : 'http://localhost:8080/donate/fcmKey/'+user,
+		url : 'http://localhost:8080/subscribe/fcmKey/'+user,
 		type : 'get',
 		success : function(data){
+			console.log(data);
 			var keyList='';
+			keyList+='<table>';
+
 			for(var i=0; i<data.length; i++) {
-				keyList+='<table>';
 				keyList+='	<tr>';
-				keyList+='		<td>'+data.keyword+'</td>';
-				keyList+='		<td><button type="button" onclick="deleteKeyword('+data.noticeIdx+')">x</button></td>';
+				keyList+='		<td>'+data[i].keyword+'</td>';
+				keyList+='		<td><button type="button" onclick="deleteKeyword('+data[i].noticeIdx+')">x</button></td>';
 				keyList+='	</tr>';
-				keyList+='</table>';
 			}
+			keyList+='	</tr>';
+			keyList+='</table>';
 			$('#noticList').html(keyList);
 		}
 		
@@ -130,22 +119,35 @@ function noticeList(user){
 }
 
 
-function notificationConfig(token){
+function notificationConfig(){
 	
-	$.ajax({
-		url : 'http://localhost:8080/donate/fcmKey',
-		type : 'post',
-		data : {
-			noticeUser : $('#loginUser').val(),
-			noticeKeyword : $('#notificKeyword').val(),
-			noticeToken : messaging.getToken()
-		},
-		success : function(data){
-			alert($('#notificKeyword').val()+'를 키워드 등록하였습니다.');
-			noticeList($('#loginUser').val());
-		}
+	messaging.requestPermission()
+	.then(function() {
+		console.log('알림 허가');
+		return messaging.getToken(); //토큰을 받는 함수를 추가
 		
-	});
+	})
+	.then(function(token) {
+		console.log(token); //토큰을 출력
+		$.ajax({
+			url : 'http://localhost:8080/subscribe/fcmKey/'+token,
+			type : 'post',
+			data : {
+				memberNick : $('#loginUser').val(),
+				keyword : $('#notificKeyword').val(),
+				token : token
+			},
+			success : function(data){
+				alert($('#notificKeyword').val()+'를 키워드 등록하였습니다.');
+				noticeList($('#loginUser').val());
+			}
+			
+		});
+		 
+	})
+	.catch(function(err) {
+		console.log('fcm에러 : ', err);
+	})
 	
 }
 
@@ -153,7 +155,7 @@ function notificationConfig(token){
 function noticeForm(){
 	var loginUser=$('#loginUser').val();
 	if(loginUser==null) {
-		alert('구독은 로그인 한 사용자만 가능합니다.');
+		alert('키워드 알람 서비스는 로그인 한 사용자만 이용 가능합니다.');
 		history.go(0);
 	} else {
 			
@@ -168,16 +170,40 @@ function noticeForm(){
 		notice+='	<div class="w3-container">';
 		notice+='		<form id="noticeConfig" onsubmit="return false">';
 		notice+='			<input type="text" name="noticeKeyword" id="notificKeyword">';
-		notice+='			<input type="submit" id="notificSubmit" value="키워드 구독" onclick="notificationConfig(token)">';
+		notice+='			<input type="submit" id="notificSubmit" value="키워드 구독" onclick="notificationConfig()">';
 		notice+='		</form>';
 		notice+='		<div id="noticList"></div>';
 		notice+='		<hr>';
 		notice+='	</div>';
 		notice+='</div>';
 		$('#keywordNot').html(notice);
+		noticeList(loginUser);
+		
 	}
 }
 
+function subscribeDonate() {
+	var loginUser=$('#loginUser').val();
+	if(loginUser==null) {
+		alert('구독은 로그인 한 사용자만 가능합니다.');
+		history.go(0);
+	} else {
+		messaging.requestPermission()
+		.then(function() {
+			console.log('구독 알림 허가');
+			return messaging.getToken(); //토큰을 받는 함수를 추가
+			
+		})
+		.then(function(token) {
+			console.log(token); //토큰을 출력
+			
+			
+		})
+		.catch(function(err) {
+			console.log('fcm에러 : ', err);
+		})
+	}
+}
 
 </script>
 
