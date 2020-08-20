@@ -371,7 +371,7 @@ function viewBoard(idx){
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
-			view+='        <p><img src="http://http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.doImg+'" style="width:200px;"></p>';
+			view+='        <p><img src="http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.doImg+'" style="width:200px;"></p>';
 			view+='        <p>'+data.content+'</p>';
 			view+='			<hr>';
 			view+='      </div>';
