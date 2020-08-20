@@ -8,14 +8,17 @@ public class EditRequest2 {
 	private double mLttd;
 	private double mLgtd;
 	private String mImg;
+	private int mRadius;
 	
-	public EditRequest2(String mId, String mNick, String mAddr, double mLttd, double mLgtd, String mImg) {
+
+	public EditRequest2(String mId, String mNick, String mAddr, double mLttd, double mLgtd, String mImg, int mRadius) {
 		this.mId = mId;
 		this.mNick = mNick;
 		this.mAddr = mAddr;
 		this.mLttd = mLttd;
 		this.mLgtd = mLgtd;
 		this.mImg = mImg;
+		this.mRadius = mRadius;
 	}
 	public EditRequest2() {
 
@@ -56,10 +59,17 @@ public class EditRequest2 {
 	public void setmImg(String mImg) {
 		this.mImg = mImg;
 	}
+	
+	public int getmRadius() {
+		return mRadius;
+	}
+	public void setmRadius(int mRadius) {
+		this.mRadius = mRadius;
+	}
 	@Override
 	public String toString() {
 		return "EditRequest2 [mId=" + mId + ", mNick=" + mNick + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd="
-				+ mLgtd + ", mImg=" + mImg + "]";
+				+ mLgtd + ", mImg=" + mImg + ", mRadius=" + mRadius + "]";
 	}
 	
 }

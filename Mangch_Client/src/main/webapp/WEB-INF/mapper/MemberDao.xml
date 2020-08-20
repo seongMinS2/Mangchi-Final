@@ -93,7 +93,7 @@
 		member_nick=#{mNick},
 		member_addr=#{mAddr},
 		member_latitude=#{mLttd},
-		member_longitude=#{mLgtd}, member_img=#{mImg}
+		member_longitude=#{mLgtd}, member_img=#{mImg}, member_radius=#{mRadius}
 		where member_id=#{mId}
 	</update>
 

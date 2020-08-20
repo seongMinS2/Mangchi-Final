@@ -10,21 +10,25 @@ public class EditRequest {
 	private double mLttd;
 	private double mLgtd;
 	private MultipartFile mImg;
+	private int mRadius;
 	
-	public EditRequest(String mId, String mNick, String mAddr, double mLttd, double mLgtd, MultipartFile mImg) {
 
+	public EditRequest(String mId, String mNick, String mAddr, double mLttd, double mLgtd, MultipartFile mImg,
+			int mRadius) {
 		this.mId = mId;
 		this.mNick = mNick;
 		this.mAddr = mAddr;
 		this.mLttd = mLttd;
 		this.mLgtd = mLgtd;
 		this.mImg = mImg;
+		this.mRadius = mRadius;
 	}
+
 	public EditRequest() {
 	}
 	
 	public EditRequest2 toEditMember() {
-		return new EditRequest2(mId,mNick,mAddr,mLttd,mLgtd,null);
+		return new EditRequest2(mId,mNick,mAddr,mLttd,mLgtd,null,mRadius);
 	}
 	public String getmId() {
 		return mId;
@@ -62,11 +66,19 @@ public class EditRequest {
 	public void setmImg(MultipartFile mImg) {
 		this.mImg = mImg;
 	}
+	
+	public int getmRadius() {
+		return mRadius;
+	}
+
+	public void setmRadius(int mRadius) {
+		this.mRadius = mRadius;
+	}
+
 	@Override
 	public String toString() {
 		return "EditRequest [mId=" + mId + ", mNick=" + mNick + ", mAddr=" + mAddr + ", mLttd=" + mLttd + ", mLgtd="
-				+ mLgtd + ", mImg=" + mImg + "]";
+				+ mLgtd + ", mImg=" + mImg + ", mRadius=" + mRadius + "]";
 	}
 
-	
 }

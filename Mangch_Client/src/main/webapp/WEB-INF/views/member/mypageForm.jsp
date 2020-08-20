@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/member/mypage.css'/>">
-<style>
+<!-- <style>
 #modal {
 	position: relative;
 	width: 100%;
@@ -44,7 +44,7 @@
 	background: rgba(0, 0, 0, 0.5);
 	z-index: -1;
 }
-</style>
+</style> -->
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -55,10 +55,15 @@
 		<div class="w3-cell-row">
 			<div>
 				<div id="profile-menu" class="active">
-					<a href="<c:url value="requestListForm"/>">요청 리스트</a> <a href="lendingListForm">대여리스트</a>
-					<a href="reviewListForm">나의 리뷰</a> <a href="commentListForm">나의
-						댓글</a> <a href="mypageForm">나의 정보</a> <a href="distSetForm">거리 설정</a>
-					<a href="keywordSetForm">키워드 설정</a>
+					<a href="<c:url value='/member/memberMypage/requestListForm'/>">요청
+						리스트</a> <a
+						href="<c:url value='/member/memberMypage/lendingListForm'/>">대여리스트</a>
+					<a href="<c:url value='/member/memberMypage/reviewListForm'/>">나의
+						리뷰</a> <a href="<c:url value='/member/memberMypage/commentListForm'/>">나의
+						댓글</a> <a href="<c:url value='/member/memberMypage/mypageForm'/>">나의
+						정보</a> <a href="<c:url value='/member/memberMypage/distSetForm'/>">거리
+						설정</a> <a href="<c:url value='/member/memberMypage/keywordSetForm'/>">키워드
+						설정</a>
 				</div>
 			</div>
 			<div class="w3-cell" style="width: 75%">
@@ -90,9 +95,10 @@
 								style="width: 70%; margin: 0; display: inline-block;">
 								<form action="edit" method="post" enctype="multipart/form-data">
 									<c:set var="mPic" value="${loginInfo.mPic}" />
-									<input type="hidden" name="mId" id="mId" value="${loginInfo.mId}"> 
+									<input type="hidden" name="mId" id="mId"
+										value="${loginInfo.mId}">
 									<c:if test="${mPic eq null}">
-									<input type="file" name="mImg" id="mImg">
+										<input type="file" name="mImg" id="mImg">
 									</c:if>
 									<table>
 										<tr>
@@ -114,8 +120,18 @@
 											<!-- 경도 -->
 										</tr>
 										<tr>
+											<td></td>
 											<td><div id="map"
 													style="width: 300px; height: 300px; margin-top: 10px; display: none"></div></td>
+										</tr>
+										<tr>
+											<td>거리</td>
+											<td><select name="mRadius" id="mRadius" value="${loginInfo.mRadius}">
+													<option value="1" id="1">1km</option>
+													<option value="2" id="2">2km</option>
+													<option value="3" id="3">3km</option>
+													<option value="4" id="4">4km</option>
+											</select></td>
 										</tr>
 										<tr>
 											<td></td>
@@ -210,7 +226,23 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
 	<script>
-	// checkbox 선택
+	$(document).ready(function(){
+		var mRadius = '${loginInfo.mRadius}';
+ 		if(mRadius == 1){
+			$('#1').attr('selected','selected');
+		} else if(mRadius == 2){
+			$('#2').attr('selected','selected');
+		} else if(mRadius == 3){
+			$('#3').attr('selected','selected');
+		} else if(mRadius == 4){
+			$('#4').attr('selected','selected');
+		} 
+		/* $('#mRadius').val().attr('selected','selected'); */
+		/* $('#mRadius option:eq(${loginInfo.mRadius})').attr('selected','selected'); */
+	});
+	
+	
+		// checkbox 선택
 		function oneCheckbox(a) {
 			var obj = document.getElementsByName("checkbox");
 			for (var i = 0; i < obj.length; i++) {

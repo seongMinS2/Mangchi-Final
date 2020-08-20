@@ -59,6 +59,10 @@
 					<td><input type="text" name="mChk" id="mChk" required></td>
 				</tr>
 				<tr>
+					<td class="td"><p>이메일 </p></td>
+					<td><input type="text" name="Chk" id="Chk" required></td>
+				</tr>
+				<tr>
 					<td class="td"><p>닉네임</p></td>
 					<td><input type="text" name="mNick" id="mNick" required></td>
 				</tr>
@@ -80,13 +84,14 @@
 				<tr>
 					<td class="td"><p>주소</p></td>
 					<td><input type="text" name="mAddr" id="mAddr" required
-						oninvalid="this.setCustomValidity('주소를 검색해주세요.')"><input
+						oninvalid="this.setCustomValidity('주소를 검색해주세요.')" ><input
 						type="button" id="button" onclick="sample5_execDaumPostcode()"
 						value="주소 검색"></td>
-					<td><input type="hidden" name="mLttd" id="mLttd"></td>
+					<td><input type="hidden" name="mLttd" id="mLttd" required></td>
 					<!-- 위도 -->
-					<td><input type="hidden" name="mLgtd" id="mLgtd"></td>
+					<td><input type="hidden" name="mLgtd" id="mLgtd" required></td>
 					<!-- 경도 -->
+					
 				</tr>
 				<tr>
 					<td class="td"></td>
@@ -95,7 +100,7 @@
 				<tr>
 					<td class="td"></td>
 					<td><div id="map"
-							style="width: 300px; height: 300px; margin-top: 10px; margin-left: 5%;display: none"></div></td>
+							style="width: 300px; height: 300px; margin-top: 10px; margin-left: 12%;display: none"></div></td>
 				</tr>
 				<tr>
 					<td class="td"></td>
@@ -120,6 +125,9 @@
 		$(document).ready(function() {
 			
 			$(document).ready(function(){ 
+				
+				$('#mAddr').hide();
+				
 				  var fileTarget = $('#file'); 
 				  fileTarget.on('change', function(){ // 값이 변경되면
 				      var cur=$(".filebox input[type='file']").val();
@@ -326,6 +334,7 @@
 			 document.getElementById('regForm').reset();
 			 }
 			 }); */
+			
 
 		}
 
@@ -383,6 +392,7 @@
 					});
 				}
 			}).open();
+			$('#mAddr').show();
 		}
 	</script>
 </body>

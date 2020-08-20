@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -125,13 +124,13 @@ public class MemberKakaoController {
 
 			if (result > 0) {
 				System.out.println("result: " + result);
-				 return "/member/mypageForm";
+				 return "member/mypageForm";
 				
 			} else {
 				kakaoRequest kakaoInfo = new kakaoRequest(mId, mNick, mImg, kId, access_Token);
 				session.setAttribute("kakaoInfo", kakaoInfo);
 				session.setAttribute("access_Token", access_Token);
-				return "/member/regFormKakao";
+				return "member/regFormKakao";
 			}
 
 		}

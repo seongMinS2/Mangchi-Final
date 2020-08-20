@@ -205,6 +205,8 @@ form {
 	display: inline-block;
 	margin-left: 5%;
 	padding: 10px 20px;
+	width: 58px;
+	height: 15px;
 	color: #999;
 	vertical-align: middle;
 	background-color: #fdfdfd;
@@ -218,7 +220,7 @@ form {
 	display: inline-block;
 	margin: 0;
 	height: 35px;
-	width: 60%;
+	width: 53%;
 	font-size: 18px;
 	padding: 0 10px;
 	vertical-align: middle;

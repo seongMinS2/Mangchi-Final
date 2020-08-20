@@ -42,8 +42,8 @@ public class Member {
 		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 0, null, null);
 	}
 	
-	public Member(String mId, String mNick, String mAddr, double mLttd, double mLgtd, String kId) {
-		this(0, mId, null, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, null, 0, kId, null);
+	public Member(String mId, String mNick, String mAddr, double mLttd, double mLgtd,  String kId) {
+		this(0, mId, null, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, null,1 , kId, null);
 	}
 
 	public LoginInfo toLoginInfo() {

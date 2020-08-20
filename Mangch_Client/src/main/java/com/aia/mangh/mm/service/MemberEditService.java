@@ -48,9 +48,7 @@ public class MemberEditService {
 
 		dao = template.getMapper(MemberDao.class);
 		
-		member = dao.selectByMember(editRequest2.getmId());
-		System.out.println("memberrrrrr: " + member);
-		loginInfo = member.toLoginInfo();
+
 
 		try {
 			System.out.println("try membr: " + member);
@@ -95,6 +93,10 @@ public class MemberEditService {
 			System.out.println("dao 들어가기전에 editRequest: " + editRequest2);
 			result = dao.updateByMember(editRequest2);
 			System.out.println("memberrddfdfdfdfdfdrrrr: " + result);
+			
+			member = dao.selectByMember(editRequest2.getmId());
+			System.out.println("memberrrrrr: " + member);
+			loginInfo = member.toLoginInfo();
 
 			System.out.println("loginInfo kakaoedit: "+loginInfo.onString());
 			request.getSession().setAttribute("loginInfo", loginInfo);

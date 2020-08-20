@@ -96,7 +96,7 @@ public class MemberMypageController {
 		return result;
 	}
 	
-	// 회원정보 수정(닉네임, 주소, 사진)
+	// 회원정보 수정(닉네임, 주소, 사진, 거리)
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
 	public String edit(EditRequest editRequest, HttpServletRequest request) {
 		System.out.println("controller : "+editRequest);
@@ -105,6 +105,7 @@ public class MemberMypageController {
 		return "/member/mypageForm";
 	}
 	
+	// 회원 비밀번호 수정
 	@RequestMapping(value="/editPw", method=RequestMethod.POST)
 	@ResponseBody
 	public int editPw(String mId, String nPw) {
@@ -115,6 +116,7 @@ public class MemberMypageController {
 		return result;
 	}
 	
+	// 회원 탈퇴
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	@ResponseBody
 	public int delete(String mId) {
@@ -122,5 +124,6 @@ public class MemberMypageController {
 		int result = deleteService.delete(mId);
 		return result;
 	}
+	
 
 }
