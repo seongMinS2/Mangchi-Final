@@ -117,6 +117,14 @@
 
 <div id="layer_popup" class="button_style">
  <span class="layer_close">X</span>
+ <form>
+<input type="text" name="guest_idx" id="guest_idx">
+<input  type="text" name="guest_text" id="guest_text" class="guest_text">
+<input  type="text" name="guest_writer" id="guest_writer" class="wr">
+<input type="file" name="photo" id="photo">
+<input type="text" name="oldphoto" id="oldphoto">
+<input type="button" value="수정" onclick="editService();">
+</form>
  </div>
 
 
@@ -236,16 +244,24 @@ fileTarget.on('change',function(){
 
 
 /////////////////////수정 팝업펑션
-  function editService(text,guest_idx,oldFile) {
+  function editService() {
+	
+	console.log($('.guest_text').val());
+	
+	var editFormData = new FormData();
+	editFormData.append('guest_idx',$('#guest_idx').val());
+	editFormData.append('guest_text',$('.guest_text').val());
+	editFormData.append('oldFile',$('#oldphoto').val());
+	if($('#photo')[0].files[0] !=null){
+		editFormData.append('photo',$('#photo')[0].files[0]); // 파일첨부 코드	
+	}
 	
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/edi' ,
 		type:'POST',
-		data : {
-			guest_idx : guest_idx,
-			guest_text : text,
-			guest_photo : oldFile
-		},
+		processData : false, // File 전송시 필수 
+		contentType : false, // multipart/form-data 쓰는 코드
+		data : editFormData,
 		success : function (data) {
 			
 		alert('수정이 완료됐습니다');
@@ -276,35 +292,20 @@ function editPopup(guest_idx) {
 				html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
 				html+='<button class="btnz">'+data.guest_idx+'</button>';
 				html+='<button class="btnz editdiv-close">취소</button>';
-			
+				
 			$('#editddd').html(html);
 			
 			
 			$('.editform').click(function () {
 				
-				
-				var html2='';
-				html2+=''
-				html2+='<form>';
-				html2+='<input  type="text" class="zztest">';
-				html2+='<input type="submit" class="cmtsb3" value="등록">'
-				html2+='<input type="file">'
-				//html2+='<button type="button" class="cmtsb3">버튼</button>' 새로고침안됨
-				html2+='</form>';
-					$('#layer_popup').html(html2);
-				
+
+		
+			console.log(data.guest_writer);
+				$('#guest_idx').val(data.guest_idx);				
+				$('#oldphoto').val(data.guest_photo);
+				$('.wr').val(data.guest_writer);
 				
 				$('#layer_popup').bPopup();
-				
-				
-
-				$('.cmtsb3').click(function () {
-					var text=$('.zztest').val();
-					var idx=data.guest_idx;
-					var oldFile=data.guest_photo;
-					editService(text,idx,oldFile);
-					
-				})
 				
 			});
 			
