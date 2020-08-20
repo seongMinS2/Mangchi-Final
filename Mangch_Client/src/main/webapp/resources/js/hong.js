@@ -479,7 +479,7 @@ function boardSearchList(search){
 	
 	loading=false;
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard',
+		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard',
 		type : 'get',
 		data : {
 			'searchKey':search
