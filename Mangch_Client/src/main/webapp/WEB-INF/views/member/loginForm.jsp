@@ -46,7 +46,8 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><a class="logout" href="kakao/logout">logout</a> <!-- <a class="logout" href="javascript:unlinkApp()">unlink</a></td> -->
+					<td><a class="logout" href="kakao/logout">logout</a>
+					<a class="signup" href="<c:url value="/member/memberReg"/>">Sign up</a></td> <!-- <a class="logout" href="javascript:unlinkApp()">unlink</a></td> -->
 				</tr>
 			</table>
 		</div>

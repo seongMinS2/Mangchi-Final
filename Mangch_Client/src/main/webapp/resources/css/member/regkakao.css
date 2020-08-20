@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.con{
+	margin-left:35%;
+}
+
+table {
+	width: 100%;
+	margin-bottom: 10%;
+	border-collapse: collapse;
+}
+tr, td{
+	margin: 5%;
+}
+
+.imgbox{
+	margin-left: 15%;
+	margin-bottom:5%;
+}

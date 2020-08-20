@@ -27,7 +27,7 @@ public class MemberRegController {
 	@Autowired
 	private ChkmNickService chkmNickService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public String getRegForm() {
 		return "member/regForm";
 	}

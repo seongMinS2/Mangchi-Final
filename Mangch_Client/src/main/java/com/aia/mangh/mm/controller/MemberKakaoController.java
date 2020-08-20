@@ -75,34 +75,6 @@ public class MemberKakaoController {
 		String access_Token = kakao.getAccessToken(code);
 		System.out.println("controller access_token : " + access_Token);
 
-//		HashMap<String, Object> userInfo = kakaoGetUserService.getUserInfo(access_Token);
-//		System.out.println("User Info: " + userInfo);
-//
-//		String mId = (String) userInfo.get("email");
-//		String kId = (String) userInfo.get("id");
-//		String mNick = (String) userInfo.get("nickname");
-//		String mImg = (String) userInfo.get("img");
-//
-//		if (userInfo.get("email") != null) {
-//			
-//			mImg = kakao.getUpdateProfile(access_Token);
-//
-//			int result = chkkIdService.ChkkId(mId, mImg, session);
-//
-//			if (result > 0) {
-//				System.out.println("result: " + result);
-//				// return "/member/mypageForm";
-//				
-//			} else {
-//				kakaoRequest kakaoInfo = new kakaoRequest(mId, mNick, mImg, kId, access_Token);
-//				session.setAttribute("kakaoInfo", kakaoInfo);
-//				session.setAttribute("access_Token", access_Token);
-//				return "/member/regFormKakao";
-//			}
-//
-//		}
-//
-//		return "index";
 		return login(access_Token, session);
 	}
 	
@@ -132,8 +104,6 @@ public class MemberKakaoController {
 				session.setAttribute("access_Token", access_Token);
 				return "member/regFormKakao";
 			}
-
-		
 		
 		return "index";
 	}
