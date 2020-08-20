@@ -21,7 +21,7 @@
 			<table>
 				<tr>
 					<td class="td"><p>아이디</p></td>
-					<td><input type="text" name="mId" id="mId" autofocus required></td>
+					<td><input type="email" name="mId" id="mId" autofocus required></td>
 				</tr>
 				<tr>
 					<td class="td"></td>

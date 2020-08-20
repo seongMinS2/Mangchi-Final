@@ -116,7 +116,7 @@ public class MemberKakaoController {
 		String mNick = (String) userInfo.get("nickname");
 		String mImg = (String) userInfo.get("img");
 
-		if (userInfo.get("email") != null) {
+		
 			
 			mImg = kakao.getUpdateProfile(access_Token);
 
@@ -126,17 +126,14 @@ public class MemberKakaoController {
 				System.out.println("result: " + result);
 				 return "member/mypageForm";
 				
-			} else {
+			} else if(result == 0){
 				kakaoRequest kakaoInfo = new kakaoRequest(mId, mNick, mImg, kId, access_Token);
 				session.setAttribute("kakaoInfo", kakaoInfo);
 				session.setAttribute("access_Token", access_Token);
 				return "member/regFormKakao";
 			}
 
-		}else if(userInfo.get("email") == null){
-			
-			return "member/regForm";
-		}
+		
 		
 		return "index";
 	}
