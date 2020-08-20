@@ -9,6 +9,27 @@ function getContextPath() {
   return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 };
 
+
+
+//댓글 삭제
+function deleteComm(idx){
+
+		if(confirm('정말로 삭제하시겠습니까?')) {
+		$.ajax({
+			url : "http://localhost:8080/donate/comments/"+idx,
+			type : "delete",
+			success : function(data){
+				alert('댓글을 삭제하였습니다.');
+				history.go(0);
+			}
+		
+		});
+	}
+
+
+}
+
+
 //댓글의 댓글 달기
 function reply(idx) {
 
@@ -38,7 +59,7 @@ function reply(idx) {
 function commReg() {
 
 	$.ajax({
-		url : 'http://localhost:8080/donate/comments/',
+		url : 'http://localhost:8080/donate/comments',
 		type : 'post',
 		data : {
 			donateIdx : $('#commDonIdx').val(),
@@ -89,10 +110,11 @@ function commList(donateIdx) {
 		},
 		success : function(data) {
 			var list='';
+			list+='<div id="commpageBox" style="text-align:center;">';
 			for (var x=1; x<=data.pageTotalCount; x++){
-				list+='<button type="button" onclick="commPageUp('+donateIdx+', '+x+')">'+x+'</button>';
+				list+='<button type="button" class="w3-button w3-theme-l1" onclick="commPageUp('+donateIdx+', '+x+')">'+x+'</button>';
 			}
-			
+			list+='</div>';			
 			list+='<hr>';
 			for(var i=0; i<data.commList.length; i++)  {
 
@@ -101,15 +123,14 @@ function commList(donateIdx) {
 					list+='<div class="commOrigin" style="overflow:hidden;">';
 					list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
 					if(loginUser!=null) {
-						list+='	<button style="float:right;" onclick="deleteComm('+data.commList[i].commIdx+')">댓글 삭제</button>';
-						list+='	<button style="float:right;" onclick="editComm('+data.commList[i].commIdx+')">댓글 수정</button>';
+						list+='	<button class="w3-button w3-theme-l3" style="float:right;" onclick="deleteComm('+data.commList[i].commIdx+')">댓글 삭제</button>';
 					}
 					list+='	<p>'+data.commList[i].commText+'</p>';
 					list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>';
 					
 					if(loginUser!=null) {
 						
-						list+='	<button type="button" class="w3-btn w3-black" onclick="replyFormToggle('+data.commList[i].commIdx+')">답글쓰기</button>';
+						list+='	<button type="button" class="w3-button w3-theme-l5" onclick="replyFormToggle('+data.commList[i].commIdx+')">답글쓰기</button>';
 						list+='	<div class="w3-hide" id="replyForm'+data.commList[i].commIdx+'">';
 						list+='	<form id="replayForm'+data.commList[i].commIdx+'">';
 						list+='		<input type="hidden" name="donateIdx" value="'+data.commList[i].donateIdx+'" class="commReplyDonIdx'+data.commList[i].commIdx+'">';
@@ -134,8 +155,7 @@ function commList(donateIdx) {
 						list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
 						
 						if(loginUser!=null) {
-							list+='	<button style="float:right;">댓글 삭제</button>'
-							list+='	<button style="float:right;">댓글 수정</button>'
+							list+='	<button class="w3-button w3-theme-l3" style="float:right;" onclick="deleteComm('+data.commList[i].commIdx+')">댓글 삭제</button>'
 						}
 
 						list+='	<p>'+data.commList[j].commText+'</p>'
@@ -197,11 +217,11 @@ function editBoard(idx) {
 function deleteBoard(idx) {
 	if(confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
-			url : "http://localhost:8080/donate/donateBoard"+idx,
+			url : "http://localhost:8080/donate/donateBoard/"+idx,
 			type : "delete",
 			success : function(data){
 				alert('나눔글을 삭제하였습니다.');
-				history.go(-1);
+				history.go(0);
 			}
 		
 		});
@@ -334,8 +354,8 @@ function viewBoard(idx){
 			
 			if(loginUser==data.writer ) {
 				console.log(loginUser);
-				view+='<button id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donateIdx+')">삭제</button>';
-				view+='<button id="editDonate" style="float:right;" onclick="editForm('+data.donateIdx+')">수정</button>';
+				view+='<button class="w3-button w3-theme-l5" id="deleteDonate" style="float:right;" onclick="deleteBoard('+data.donateIdx+')">삭제</button>';
+				view+='<button class="w3-button w3-theme-l5" id="editDonate" style="float:right;" onclick="editForm('+data.donateIdx+')">수정</button>';
 			};
 			
 			if(data.doStatus===0) {
@@ -363,7 +383,7 @@ function viewBoard(idx){
 				view+='				<input type="hidden" value="'+data.donateIdx+'" id="commDonIdx" name="commDonIdx">';
 				view+='				<input type="hidden" value="'+loginUser+'" id="commWriter" name="commWriter" readonly>';
 				view+='				<input type="textarea" id="commText" name="commText" placeholder="댓글을 입력해주세요" style="width: 80%; height: 70px; margin:10px;" required>';
-				view+='				<input type="submit" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">';
+				view+='				<input type="submit" class="w3-button w3-theme-l5" id="commSubmit" value="댓글 작성" onclick="commReg('+data.donateIdx+')">';
 				view+='        </form>';	
 			} else {
 				view+='	<p>로그인 한 사용자만 댓글을 달 수 있습니다.</p>'			
@@ -412,7 +432,7 @@ function boardList(){
 		success : function(data){
 			console.log(page+' page load');
 			if(page>data.pageTotalCount) {
-				return;
+				$(window).off();
 			}
 			var html= '';
 			for(var i=0; i<data.boardList.length; i++) {

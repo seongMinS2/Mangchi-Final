@@ -38,6 +38,7 @@
 
 
 </div>
+<div id="moreView" class="w3-theme-l5" style="width:100%; height: 50px; text-align:center;"></div>
 
 <div id="id01" class="w3-modal"></div>
 <div id="donateEdit" class="w3-modal"></div>
