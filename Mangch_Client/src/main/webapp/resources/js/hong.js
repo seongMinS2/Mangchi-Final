@@ -101,8 +101,8 @@ function commList(donateIdx) {
 					list+='<div class="commOrigin" style="overflow:hidden;">';
 					list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
 					if(loginUser!=null) {
-						list+='	<button style="float:right;">댓글 삭제</button>'
-						list+='	<button style="float:right;">댓글 수정</button>'
+						list+='	<button style="float:right;" onclick="deleteComm('+data.commList[i].commIdx+')">댓글 삭제</button>';
+						list+='	<button style="float:right;" onclick="editComm('+data.commList[i].commIdx+')">댓글 수정</button>';
 					}
 					list+='	<p>'+data.commList[i].commText+'</p>';
 					list+='	<p style="font-size:0.8em; display:inline;">'+data.commList[i].commRegdate+'</p>';

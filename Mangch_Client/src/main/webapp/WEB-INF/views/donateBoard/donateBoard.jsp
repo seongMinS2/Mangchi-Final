@@ -22,15 +22,14 @@
 
 	<div id="contentsBox">
 		<div id="listBox"></div>
-		<div id="categoryBox">
-			<button class="w3-button w3-block w3-black" style="width: 100%"
-				id="writeForm"
-				onclick="location.href='<c:url value="/donateForm"/>'">글쓰기</button>
-
+		<div id="categoryBox" style="paddind:10px;">
+			<button class="w3-button w3-block w3-theme-l5" id="writeForm" onclick="location.href='<c:url value="/donateForm"/>'">글쓰기</button>
 			<form>
-				<input type="text" id="searchKey" name="searchKey"
-					placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> <input
-					type="button" id="searchBar" style="width: 30%;" value="검색">
+				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> 
+				<input type="button" id="searchBar" class="w3-button w3-theme-l3" style="width: 30%;" value="검색">
+				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기">
+				<input type="button" class="w3-button w3-block w3-theme-l1" id="notification" value="키워드 알람 설정"
+				onclick="noticeForm()">
 			</form>
 
 		</div>
@@ -42,11 +41,13 @@
 
 <div id="id01" class="w3-modal"></div>
 <div id="donateEdit" class="w3-modal"></div>
+<div id="keywordNot" class="w3-modal"></div>
 
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-messaging.js"></script>
 <script>
+
 //키등록
 var config = {
     apiKey: "AIzaSyDDYOCHCJe-_sOTVkVo-Hi63oRTE1dVlgs",
@@ -67,33 +68,116 @@ const messaging = firebase.messaging();
 //웹 푸쉬 인증키 등록
 messaging.usePublicVapidKey('BPSYuV8DZh_GVPCu74wa9ve8HhPcA-MFBJ7sWJSIcufcqXGyDLuakZSQhCylTuIdcZBft0LDf0ESX1Mfxsxb5hU');
 
-//알람 허용 요청시 토큰 검색
-Notification.requestPermission().then((permission) => {
-	if (permission === 'granted') {
-		console.log('Notification permission granted.');
-		messaging.getToken().then((currentToken) => {
-			if (currentToken) {
-				console.log('방금 받은 토큰 : '+currentToken);
-//				sendTokenToServer(currentToken);
-//			    updateUIForPushEnabled(currentToken);
-			  } else {
-			    // Show permission request.
-			    console.log('No Instance ID token available. Request permission to generate one.');
-			    // Show permission UI.
-//			    updateUIForPushPermissionRequired();
-//			    setTokenSentToServer(false);
-			  }
-			
-		}).catch((err) => {
-			console.log('An error occurred while retrieving token. ', err);
-//			showToken('Error retrieving Instance ID token. ', err);
-//			setTokenSentToServer(false);
-		});
+messaging.requestPermission()
+.then(function() {
+	console.log('알림 허가');
+	return messaging.getToken(); //토큰을 받는 함수를 추가
+	
+})
+.then(function(token) {
+	console.log(token); //토큰을 출력!
+	notificationConfig(token);
+})
+.catch(function(err) {
+	console.log('fcm에러 : ', err);
+})
 
-	} else {
-		console.log('Unable to get permission to notify.');
-	}
+messaging.onMessage(function(payload){
+    console.log('onMessage: ', payload);
+    var title = "동네에서 대여하기 :: MANGCHI!";
+    var options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon
+    };
+    
+    var notification = new Notification(title, options);
 });
+
+
+
+function deleteKeyword(idx) {
+	$.ajax({
+		url : 'http://localhost:8080/donate/fcmKey/'+idx,
+		type : 'delete',
+		success : function(data){
+			noticeList($('#loginUser').val());	
+		}
+	});
+}
+
+
+function noticeList(user){
+	
+	$.ajax({
+		url : 'http://localhost:8080/donate/fcmKey/'+user,
+		type : 'get',
+		success : function(data){
+			var keyList='';
+			for(var i=0; i<data.length; i++) {
+				keyList+='<table>';
+				keyList+='	<tr>';
+				keyList+='		<td>'+data.keyword+'</td>';
+				keyList+='		<td><button type="button" onclick="deleteKeyword('+data.noticeIdx+')">x</button></td>';
+				keyList+='	</tr>';
+				keyList+='</table>';
+			}
+			$('#noticList').html(keyList);
+		}
+		
+	});
+	
+}
+
+
+function notificationConfig(token){
+	
+	$.ajax({
+		url : 'http://localhost:8080/donate/fcmKey',
+		type : 'post',
+		data : {
+			noticeUser : $('#loginUser').val(),
+			noticeKeyword : $('#notificKeyword').val(),
+			noticeToken : messaging.getToken()
+		},
+		success : function(data){
+			alert($('#notificKeyword').val()+'를 키워드 등록하였습니다.');
+			noticeList($('#loginUser').val());
+		}
+		
+	});
+	
+}
+
+
+function noticeForm(){
+	var loginUser=$('#loginUser').val();
+	if(loginUser==null) {
+		alert('구독은 로그인 한 사용자만 가능합니다.');
+		history.go(0);
+	} else {
+			
+		$('#keywordNot').css('display','block');
+		var notice='';
+		notice+='<div class="w3-modal-content" style="width:400px;">';
+		notice+='	<header class="w3-container">';
+		notice+='		<h4>푸시알림을 받을 키워드를 입력하세요. </h4>';
+		notice+='        <span onclick="$(\'#keywordNot\').css(\'display\',\'none\')"';
+		notice+='        class="w3-button w3-display-topright">&times;</span>';	
+		notice+='	</header>';
+		notice+='	<div class="w3-container">';
+		notice+='		<form id="noticeConfig" onsubmit="return false">';
+		notice+='			<input type="text" name="noticeKeyword" id="notificKeyword">';
+		notice+='			<input type="submit" id="notificSubmit" value="키워드 구독" onclick="notificationConfig(token)">';
+		notice+='		</form>';
+		notice+='		<div id="noticList"></div>';
+		notice+='		<hr>';
+		notice+='	</div>';
+		notice+='</div>';
+		$('#keywordNot').html(notice);
+	}
+}
+
+
 </script>
 
 </body>
