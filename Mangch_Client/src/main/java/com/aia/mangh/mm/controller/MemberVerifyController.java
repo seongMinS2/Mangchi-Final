@@ -1,7 +1,5 @@
 package com.aia.mangh.mm.controller;
 
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,18 +15,6 @@ public class MemberVerifyController {
 	@Autowired
 	private MemberVerifyService verifyService;
 
-//	//@ResponseBody
-//	@RequestMapping("/member/verify")
-//	public String verify(
-//			@RequestParam("id") String id,
-//			@RequestParam("code") String code
-//			) {
-//		
-//		String verifyResult = verifyService.verify(id, code);
-//		
-//		return "member/verify"+verifyResult;		
-//	}
-
 	// 메일 재 발송 요청
 	@ResponseBody
 	@RequestMapping("/MailSend")
@@ -43,9 +29,9 @@ public class MemberVerifyController {
 	}
 
 	public String makeRandom() {
-		String value = null;
+		String value = "";
 		for (int i = 0; i < 8; i++) {
-			
+
 			int rndVal = (int) (Math.random() * 62);
 			if (rndVal < 10) {
 				value += rndVal;

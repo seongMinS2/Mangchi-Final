@@ -78,7 +78,7 @@ public class MemberKakaoController {
 		return login(access_Token, session);
 	}
 	
-	// 로그인
+	// 카카오 회원가입 / 로그인
 	public String login(String access_Token, HttpSession session) {
 		HashMap<String, Object> userInfo = kakaoGetUserService.getUserInfo(access_Token);
 		System.out.println("User Info: " + userInfo);
@@ -109,7 +109,7 @@ public class MemberKakaoController {
 	}
 	
 
-	// 카카오 로그아웃
+	// 카카오 로그아웃 + 로그아웃
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
 		if ((String) session.getAttribute("access_Token") != null) {

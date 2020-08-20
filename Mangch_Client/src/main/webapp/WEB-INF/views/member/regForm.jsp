@@ -20,16 +20,16 @@
 		<form id="regForm" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>
-					<td class="td"><p>아이디</p></td>
-					<td><input type="email" name="mId" id="mId" autofocus required></td>
+					<td class="td"><p class="tdname">아이디</p></td>
+					<td><input type="email" name="mId" id="mId" autofocus></td>
 				</tr>
 				<tr>
 					<td class="td"></td>
 					<td><span id="checkmsg" class="chkmsg"></span></td>
 				</tr>
 				<tr>
-					<td class="td"><p>비밀번호</p></td>
-					<td><input type="password" name="mPw" id="mPw" required></td>
+					<td class="td"><p class="tdname">비밀번호</p></td>
+					<td><input type="password" name="mPw" id="mPw"></td>
 
 				</tr>
 				<tr>
@@ -37,8 +37,8 @@
 					<td><span id="checkmsg3" class="chkmsg"></span></td>
 				</tr>
 				<tr>
-					<td class="td"><p>비밀번호 확인</p></td>
-					<td><input type="password" name="chkmPw" id="chkmPw" required></td>
+					<td class="td"><p class="tdname">비밀번호 확인</p></td>
+					<td><input type="password" name="chkmPw" id="chkmPw"></td>
 
 				</tr>
 				<tr>
@@ -54,24 +54,27 @@
 
 				</tr>
 				<tr>
-					<td class="td"><p>이메일 인증</p></td>
-					<td><input type="text" name="mChk" id="mChk" required></td>
-					<td><button type="button" onclick="javascript:sendMail();" >인증번호 발송</button></td>
+					<td class="td"><p class="tdname">이메일 인증</p></td>
+					<td><input type="email" name="mChk" id="mChk"></td>
+					<td><button type="button" id="sendmail"
+							onclick="javascript:sendMail();">
+							<p class="sendp">인증번호 발송</p>
+						</button></td>
 				</tr>
 				<tr id="codeshow">
-					<td class="td"><p>인증번호 입력</p></td>
+					<td class="td"><p class="tdname">인증번호 입력</p></td>
 					<td><input type="text" name="code" id="code"></td>
 				</tr>
 				<tr>
-					<td class="td"><p>닉네임</p></td>
-					<td><input type="text" name="mNick" id="mNick" required></td>
+					<td class="td"><p class="tdname">닉네임</p></td>
+					<td><input type="text" name="mNick" id="mNick"></td>
 				</tr>
 				<tr>
 					<td class="td"></td>
 					<td><span id="checkmsg2" class="chkmsg"></span></td>
 				</tr>
 				<tr>
-					<td class="td"><p>사진</p></td>
+					<td class="td"><p class="tdname">사진</p></td>
 					<td>
 						<div class="filebox">
 							<label for="file">업로드</label> <input type="file" id="file"
@@ -81,14 +84,14 @@
 				</tr>
 
 				<tr>
-					<td class="td"><p>주소</p></td>
-					<td><input type="text" name="mAddr" id="mAddr" required
+					<td class="td"><p class="tdname">주소</p></td>
+					<td><input type="text" name="mAddr" id="mAddr"
 						oninvalid="this.setCustomValidity('주소를 검색해주세요.')"><input
 						type="button" id="button" onclick="sample5_execDaumPostcode()"
 						value="주소 검색"></td>
-					<td><input type="hidden" name="mLttd" id="mLttd" required></td>
+					<td><input type="hidden" name="mLttd" id="mLttd"></td>
 					<!-- 위도 -->
-					<td><input type="hidden" name="mLgtd" id="mLgtd" required></td>
+					<td><input type="hidden" name="mLgtd" id="mLgtd"></td>
 					<!-- 경도 -->
 
 				</tr>
@@ -116,29 +119,29 @@
 		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
-	
+
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 	<script>
-	var emailCode;
-	
-	function sendMail() {
-		var email = $('#mChk').val();
-		$.ajax({
-			url : 'verify/MailSend',
-			data : {
-				email : email
-			},
-			success : function(data) {
-				alert('인증번호를 발송하였습니다 !!');
-				$('#codeshow').show();
-				alert(data);
-				emailCode=data;
-				alert(emailCode);
-			}
-		});
-	}
-	
+		var emailCode;
+
+		function sendMail() {
+			var email = $('#mChk').val();
+			$.ajax({
+				url : 'verify/MailSend',
+				data : {
+					email : email
+				},
+				success : function(data) {
+					alert('인증번호를 발송하였습니다 !!');
+					$('#codeshow').show();
+					alert(data);
+					emailCode = data;
+					alert(emailCode);
+				}
+			});
+		}
+
 		$(document).ready(function() {
 
 			$('#mAddr').hide();
@@ -349,13 +352,54 @@
 			 document.getElementById('regForm').reset();
 			 }
 			 }); */
-			 
-			 if($('#code').val()!=emailCode){
-				 $('form').attr('onSubmit','return false');
-				 alert('인증번호가 일치하지 않습니다');
-			 } else{
-				 $('form').attr('onSubmit','return true');
-			 }
+
+			if ($('#mId').val().length < 1) {
+				document.getElementById('mId').focus();
+				alert('아이디를 입력해주세요.');
+				$('form').attr('onSubmit', 'return false');
+			} else if ($('#mPw').val().length < 1) {
+				document.getElementById('mPw').focus();
+				alert('비밀번호를 입력해주세요.');
+				$('form').attr('onSubmit', 'return false');
+			} else if ($('#chkmPw').val().length < 1) {
+				document.getElementById('chkmPw').focus();
+				alert('비밀번호를 확인해주세요.');
+				$('form').attr('onSubmit', 'return false');
+			} else if ($('#mChk').val().length < 1) {
+				document.getElementById('mChk').focus();
+				alert('인증받으실 이메일을 입력해주세요.');
+				$('form').attr('onSubmit', 'return false');
+			} else if ($('#code').val().length < 1) {
+				document.getElementById('code').focus();
+				alert('인증번호 입력해주세요.');
+				$('form').attr('onSubmit', 'return false');
+			} else if ($('#mNick').val().length < 1) {
+				document.getElementById('mNick').focus();
+				alert('닉네임을 입력해주세요.');
+				$('form').attr('onSubmit', 'return false');
+			} else if ($('#mAddr').val().length < 1) {
+				document.getElementById('mAddr').focus();
+				alert('주소를 입력해주세요.');
+				$('form').attr('onSubmit', 'return false');
+			}
+
+			if ($('#mPw').val() != $('#chkmPw').val()) {
+				$('form').attr('onSubmit', 'return false');
+				document.getElementById('chkmPw').focus();
+				alert('비밀번호를 확인해주세요.');
+			} else{
+				$('form').attr('onSubmit', 'return true');
+			}
+
+			if ($('#code').val() != emailCode && $('#code').val().length > 0) {
+				$('form').attr('onSubmit', 'return false');
+				alert('인증번호가 일치하지 않습니다');
+			} else if ($('#code').val() == emailCode
+					&& $('#code').val().length > 0) {
+				$('form').attr('onSubmit', 'return true');
+			} else {
+				$('form').attr('onSubmit', 'return false');
+			}
 
 		}
 

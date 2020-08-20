@@ -24,16 +24,14 @@ public class MailSenderService {
 			message.setSubject("[인증안내] 이메일 인증을 해주세요.", "UTF-8");
 			String htmlMsg = "<h2>인증번호:     "+code+"</h2>";
 			message.setText(htmlMsg, "UTF-8", "html");
-			message.setFrom(new InternetAddress("ryuyj@nate.com")); // Gmail에서는 from mail의 설정이 안된다. 
+			message.setFrom(new InternetAddress("ryuyj@nate.com")); 
 			message.addRecipient(RecipientType.TO, new InternetAddress(email, "고객님", "utf-8"));
 
 			sender.send(message);
 
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -59,10 +59,10 @@
 							<div id="w3-cell"
 								style="width: 70%; margin: 0; display: inline-block;">
 								<form action="<c:url value='/member/memberMypage/edit'/>" method="post" enctype="multipart/form-data">
-									<c:set var="mPic" value="${loginInfo.mPic}" />
+									<c:set var="kId" value="${loginInfo.kId}" />
 									<input type="hidden" name="mId" id="mId"
 										value="${loginInfo.mId}">
-									<c:if test="${mPic eq null}">
+									<c:if test="${kId eq null}">
 										<input type="file" name="mImg" id="mImg">
 									</c:if>
 									<table>

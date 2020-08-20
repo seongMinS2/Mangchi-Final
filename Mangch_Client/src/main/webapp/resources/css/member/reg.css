@@ -24,7 +24,7 @@ table {
 	margin-bottom: 15px;
 }
 
-.chkmsg{
+.chkmsg {
 	margin-left: 5%;
 }
 
@@ -36,11 +36,19 @@ a {
 	padding: 20px 0 0;
 }
 
-p {
+.tdname {
 	font-family: 'Nanum Gothic', sans-serif;
 	font-weight: 400;
 	font-size: 20px;
 	color: #6E6E6E;
+}
+
+.sendp {
+	padding: 0;
+	margin: 0;
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 14px;
+	color: white;
 }
 
 form {
@@ -74,6 +82,19 @@ input {
 	font-size: 1.5em;
 	padding: 0 0 2%;
 	background: none;
+}
+
+#sendmail {
+	background-color: #F8BC94;
+	border-radius: 5px;
+	cursor: pointer;
+	height: 30px;
+	border: 0;
+	outline: 0;
+}
+
+#sendmail:hover {
+	background-color:#F9B486;
 }
 
 textarea:focus, input:focus {
