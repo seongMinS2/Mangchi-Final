@@ -224,39 +224,59 @@ function cancel(reqStatus){
 
 
 //리뷰 작성 
-function review(reqIdx,reqWriter,reqHelper){
-	 $.ajax({
-		 url : 'http://localhost:8080/rl/review/'+ reqIdx,
-		 type : 'post',
-		 data : {
-			 mNick : '${loginInfo.mNick}'
-		 },
-		 success : function(data){
-			 if(data.writer == '${loginInfo.mNick}'){
-				 alert('이미 리뷰가 작성되었습니다.');
-			 }else{
-				 var form = $('<form></form>');
-				    form.attr('action', '/mangh/review/reviewForm');
-				    form.attr('method', 'post');
-				    form.appendTo('body');
-				    var idx = $("<input type='hidden' value="+reqIdx+" name='reqIdx'>"); //게시글 번호
-				    var writer = $("<input type='hidden' value="+reqWriter+" name='reqWriter'>"); //글쓴이
-				    var helper = $("<input type='hidden' value="+reqHelper+" name='reqHelper'>"); //로그인 한 사용자  
-				    form.append(idx);
-				    form.append(writer);
-				    form.append(helper);
-				    form.submit();
-			 }
-			 
-		 }
-		 
-	 }); 
-		
+function review(reviewWriter,reviewStatus){
 	
+	 if(reviewStatus == 1){
+		 alert('이미 리뷰가 작성되었습니다.');
+	 }else if(reviewStatus == 0){
+		 
+		 //상대방 선택 하기 
+		  $.ajax({
+	 		url : 'http://localhost:8080/rl/review/'+ reviewWriter,
+			 type : 'post',
+			 success : function(data){ 
+				 $('#modal').css('display','block');
+			 		var html = '<div class="w3-modal-content">';
+					html += '	 <header class="w3-container">';
+					html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
+					html += '  		<h2>Modal Header</h2>';
+					html += ' 	</header>';
+					html += '		<div class="w3-container">';
+					
+		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람  
+		 				
+						html += ' 			<div onclick="reviewWrite('+data[i].reviewIdx+','+data[i].status+')">'+data[i].receiver+'</div>';
+		 			}
+					html += ' 		</div>';
+			 		html += "</div>";
+						 		
+			 		$('#modal').html(html); 
+			 }
+		 });
+		 
+	 }
+			 
+	
+} 
+
+
+//리뷰 작성 하기
+function reviewWrite(reviewIdx,rstatus){
+alert(rstatus);
+	  var form = $('<form></form>');
+	    form.attr('action', '/mangh/review/reviewForm');
+	    form.attr('method', 'post');
+	    form.appendTo('body');
+	    var idx = $("<input type='hidden' value="+reviewIdx+" name='reviewIdx'>"); //게시글 번호
+	    var reviewStatus = $("<input type='hidden' value="+rstatus+" name='rstatus'>"); //게시글 상태 
+	    form.append(idx);
+	    form.append(reviewStatus);
+	    alert(reviewStatus);
+	    form.submit(); 
 }
-
-
-
+	 
+	 
+	
 //글 수정
 function reqEdit(reqIdx){
 	
@@ -348,10 +368,6 @@ $(document).ready(function(){
 				}	
 				
 				}
-			
-			
-			
-			
 			html += '</tr>';
 			
 			var status,color;
@@ -373,54 +389,32 @@ $(document).ready(function(){
 			//로그인 한 사용자가 요청자 일 때 
 			if('${loginInfo.mNick}' == data.reqWriter){
 				
-				if(data.reqStatus == 1){
-					if(cancelStatus == 1){
+				if(data.reqStatus == 1){ // 매칭 완료 상태
+					if(cancelStatus == 1){ //취소 버튼 쿠키가 있을 때 취소 가능
 						html +='	<td><button onclick="cancel('+data.reqStatus+')" id="cancelBtn" >매칭취소</button></td>';
-					}
-					html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
-				} else if(data.reqStatus == 0){
+					} 
+				} else if(data.reqStatus == 0){ //매칭 전 상태
 					html +='	<td><button onclick="complete()">매칭완료</button></td>';
-					//취소 후 리뷰 작성 가능 ... 상태는 변경 되있음 
-					/* if(data.reqHelper != null ){
-						html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
-					} */
 				} 
-				
 				//수정, 삭제
 				html += '	<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
 				html += '	<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
-				
 			}
 	
-			//로그인 한 회원이 수행자 일 때 
-			else if('${loginInfo.mNick}' == data.reviewWriter){
-				/* if(data.reqStatus == 1){ 
-					
-					if(data.reviewStatus > 0){
-						html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
-					}
-				} 
-				else if(data.reqStatus == 0){
-					//취소 후 리뷰 작성 가능 ... 상태는 변경 되있음 
-					if(data.reqHelper != null ){
-						html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
-					}
-				}  */
-				
-					html += '	<td><button onclick="review('+data.reqIdx+',\''+data.reqWriter +' \' ,\' '+data.reqHelper+' \')">리뷰작성</button></td>';
-				
+			//로그인 한 회원이 리뷰 작성자 일 때 - 권한 확인 
+			if('${loginInfo.mNick}' == data.reviewWriter){
+					html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
 			}
 			
 			
 			//로그인 한 사용자가 요청자도 수행자도 아닐 때 
-			else if('${loginInfo.mNick}' != data.reqHelper && '${loginInfo.mNick}' != data.reqWriter){
-				if(data.reqStatus == 0){	
+			if('${loginInfo.mNick}' != data.reqHelper && '${loginInfo.mNick}' != data.reqWriter){ 
+				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
 				} 
 			}
-			
 			 //비회원 일 때
-			else if('${loginInfo}' == ''){		
+			 else if('${loginInfo}' == ''){		
 				if(data.reqStatus == 0){
 					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
 				}
