@@ -1,8 +1,8 @@
 // Give the service worker access to Firebase Messaging.
 // Note that you can only use Firebase Messaging here, other Firebase libraries
 // are not available in the service worker.
-importScripts('https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/7.17.1/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/5.10.1/firebase-messaging.js');
  
 // Initialize Firebase
 firebase.initializeApp({
@@ -19,10 +19,9 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 //수신자 앱이 포그라운드 상태일 때 메시지 수신
-messaging.onMessage((payload) => {
-  console.log('Message received. ', payload);
- 
-});
+//messaging.onMessage((payload) => {
+//  console.log('Message received. ', payload);
+//});
 
 
 //수신자 앱이 백그라운드 상태일 때 메시지 수신
