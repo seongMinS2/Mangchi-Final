@@ -78,7 +78,8 @@ function contentsList(idx, loginSession) {
 				if (data.comment[i].parents === 0) {
 					html += '				<div class="comment_area">';
 					html += '					<div class="comment_Box">';
-					html += '						<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
+					if(loginSession!=null)
+						html += '						<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
 					html += '						<div class="layerMore"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[i].idx + ')">삭제</a></div>';
 					html += '						</div>';
 					html += '						<div class="comment_nick_box">' + data.comment[i].writer;
@@ -98,7 +99,7 @@ function contentsList(idx, loginSession) {
 						html += '				<div class="commentWriter">';
 						html += '					<div class="comment_inbox">';
 						html += '						<div class="comment_inbox_name">';
-						html += '							<p class="commet_nick">' + loginSession.mNick + '</p>';
+						html += '							<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
 						html += '						</div>';
 						html += '						<div class="comment_inbox_text">';
 						html += '							<textarea class="comment_insert"></textarea>';
@@ -114,14 +115,14 @@ function contentsList(idx, loginSession) {
 						html += '				<div class="commentWriter">';
 						html += '					<div class="comment_inbox">';
 						html += '						<div class="comment_inbox_name">';
-						html += '							<p class="commet_nick">' + loginSession.mNick + '</p>';
+						html += '							<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
 						html += '						</div>';
 						html += '						<div class="comment_inbox_text">';
 						html += '						<textarea class="comment_insert">'+data.comment[i].contents+'</textarea>';
 						html += '						</div>';
 						html += '						<div class="comment_submit">';
 						html += '							<button class="comment_modify_cancel">취소</button>';
-						html += '							<button onclick="qnaModifyComment(' + data.comment[i].idx + ')">등록</button>';
+						html += `							<button id="modifySub" onclick="qnaModifyComment(${data.comment[i].idx},this)">등록</button>`;
 						html += '						</div>';
 						html += '					</div>';
 						html += '				</div>';
@@ -132,7 +133,8 @@ function contentsList(idx, loginSession) {
 				for (var j = 0; j < data.comment.length; j++) {
 					if (data.comment[j].parents === data.comment[i].idx) {
 						html += '			<div class="comment_coment_area">';
-						html += '				<div class="comment_Box">';
+						html += '				<div class="comment_Box w3-row">';
+						if(loginSession!=null)
 						html += '					<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
 						html += '					<div class="layerMore"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[j].idx + ')">삭제</a></div>';
 						html += '					</div>';
@@ -153,7 +155,7 @@ function contentsList(idx, loginSession) {
 							html += '			<div class="commentWriter">';
 							html += '				<div class="comment_inbox">';
 							html += '					<div class="comment_inbox_name">';
-							html += '						<p class="commet_nick">' + loginSession.mNick + '</p>';
+							html += '						<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
 							html += '					</div>';
 							html += '					<div class="comment_inbox_text">';
 							html += '					<textarea class="comment_insert"></textarea>';
@@ -170,14 +172,14 @@ function contentsList(idx, loginSession) {
 							html += '			<div class="commentWriter">';
 							html += '				<div class="comment_inbox">';
 							html += '					<div class="comment_inbox_name">';
-							html += '						<p class="commet_nick">' + loginSession.mNick + '</p>';
+							html += '						<p class="comment_nick">' + loginSession.mNick + '</p>';
 							html += '					</div>';
 							html += '					<div class="comment_inbox_text">';
 							html += '					<textarea class="comment_insert">'+data.comment[j].contents+'</textarea>';
 							html += '					</div>';
-							html += '					<div class="comment_submit">';
+							html += '					<div class="comment_submit" id="submit">';
 							html += '						<button class="comment_modify_cancel">취소</button>';
-							html += '						<button onclick="qnaModifyComment(' + data.comment[j].idx + ')">등록</button>';
+							html += `						<button id="modifySub" onclick="qnaModifyComment(${data.comment[j].idx},this)">등록</button>`;
 							html += '					</div>';
 							html += '				</div>';
 							html += '			</div>';
@@ -214,8 +216,8 @@ function contentsList(idx, loginSession) {
 					html += '<a href="/mangh/qna/update-board/' + idx + '">수정하기</a>';
 					}
 					html += '<a href="/mangh/qna/reply-board/' + idx + '">답글쓰기</a>';
+					html += '		<a href="#" onclick="qnaDelete(' + idx + ')">글 삭제</a>';
 				}
-			html += '		<a href="#" onclick="qnaDelete(' + idx + ')">글 삭제</a>';
 			html += '		<a href="#">TOP</a>';
 			html += '	</div>';
 			html += '</div>';
@@ -260,8 +262,8 @@ function qnaWritComment(idx) {
 
 	var writeData = {
 		boardIdx: idx,
-		writer: $('.commet_nick').text(),
-		contents: $('.comment_insert').val(),
+		writer: $('.commet_nick:last').text(),
+		contents: $('.comment_insert:last').val(),
 	};
 	$.ajax({
 		url: '/mc/qna/contents/',
@@ -287,7 +289,7 @@ function writeHirachyComment(boIdx,idx) {
 
 	var writeData = {
 		boardIdx: boIdx,
-		parentIdx: idx,
+		parents: idx,
 		writer: $('.commet_nick').text(),
 		contents: $('.comment_insert').val(),
 	};
@@ -313,30 +315,28 @@ function writeHirachyComment(boIdx,idx) {
 
 
 //댓글수정
-function qnaModifyComment(idx) {
-
+function qnaModifyComment(mdIdx,modify) {
 	var writeData = {
-		boardIdx: idx,
-		writer: $('.commet_nick').text(),
-		contents: $('.comment_insert').val(),
+		contents: $(modify).parent().prev().children().val(),
+		idx: mdIdx
 	};
-/* 	$.ajax({
+ 	$.ajax({
 		url: '/mc/qna/contents/',
-		type: 'post',
+		type: 'put',
 		data: JSON.stringify(writeData),
 		dataType: 'text',
 		contentType: 'application/json; charset=UTF-8',
 		success: function (data) {
 			if (data === "1") {
 				alert('댓글 수정이 완료되었습니다.');
-				location.href = '/mangh/qna/contents/' + idx;
+				location.reload(true);
 			}
 			else if (data === "0") {
 				alert('댓글 수정에 실패 하였습니다. 관리자에게 문의하세요.');
-				location.href = '/mangh/qna/contents/' + idx;
+				location.reload(true);
 			}
 		}
-	}); */
+	});
 }
 
 //댓글삭제

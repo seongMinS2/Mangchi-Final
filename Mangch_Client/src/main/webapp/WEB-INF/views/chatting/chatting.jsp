@@ -225,7 +225,7 @@
 		});//document.ready 종료
 		
 		//로그인사용자
-		var loginUser = '${loginInfo.nick}';
+		var loginUser = '${loginInfo.mNick}';
 		//현재 보고있는 채팅방(단순히 채팅페이지에 접속이면 -2)
 		var currRoom=-2;
 		//현재 보고있는 채팅방의 상대방
@@ -396,7 +396,7 @@
 		function chkNewMsg(chatList) {
 			
 			console.log('새로운메세지 체크중');
-			var loginInfo = '${loginInfo.nick}';
+			var loginInfo = '${loginInfo.mNick}';
 			$.ajax({
 				url : 'http://localhost:8080/mc-chat/chat',
 				type : 'get',

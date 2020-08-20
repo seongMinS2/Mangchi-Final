@@ -11,7 +11,24 @@
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <%-- <script type="text/javascript" src='<c:url value="/resources/js/kbg.js"/>'></script> --%>
 
+<style type="text/css">
 
+.button_style {
+ opacity: 5;
+ display: none;
+ position: relative;
+ padding: 30px;
+ background-color: #fff;
+}
+ 
+.layer_close {
+ position: absolute;
+ right: 3px;
+ top: 1px;
+ padding: 10px;
+ cursor: pointer;
+}
+</style>
 
 </head>
 
@@ -86,7 +103,7 @@
    height : 500px;
    background-color : #fff;
             display: none;">
-      <span class="b-close">X</span>
+      <span class="b-close" style="display: none;"></span>
       <div class="content" id="innerView" style="height:auto; width:auto;"></div>
    </div>
 
@@ -98,10 +115,17 @@
 <div id="editddd"  class="editdiv"></div>
 
 
-
-<div id="realedit" class="Pstyle">
-<input type="text" class="etext">
-</div>
+<div id="layer_popup" class="button_style">
+ <span class="layer_close">X</span>
+ <form>
+<input type="text" name="guest_idx" id="guest_idx">
+<input  type="text" name="guest_text" id="guest_text" class="guest_text">
+<input  type="text" name="guest_writer" id="guest_writer" class="wr">
+<input type="file" name="photo" id="photo">
+<input type="text" name="oldphoto" id="oldphoto">
+<input type="button" value="수정" onclick="editService();">
+</form>
+ </div>
 
 
 
@@ -182,7 +206,7 @@ function guestPost() {
 	//db에 줄바꿈
 	var str = $('#guest_text').val();
 	str = str.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-
+	
 	
 	var postFormData = new FormData();
 	postFormData.append('guest_writer',bb);
@@ -220,25 +244,37 @@ fileTarget.on('change',function(){
 
 
 /////////////////////수정 팝업펑션
-/* function editService(guest_idx,text) {
+  function editService() {
+	
+	console.log($('.guest_text').val());
+	
+	var editFormData = new FormData();
+	editFormData.append('guest_idx',$('#guest_idx').val());
+	editFormData.append('guest_text',$('.guest_text').val());
+	editFormData.append('oldFile',$('#oldphoto').val());
+	if($('#photo')[0].files[0] !=null){
+		editFormData.append('photo',$('#photo')[0].files[0]); // 파일첨부 코드	
+	}
+	
 	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/edi'+guest_idx ,
+		url:'http://localhost:8080/guest/guest_book/edi' ,
 		type:'POST',
-		data : {
-			guest_idx : guest_idx
-			//guest_text : text
-		}
+		processData : false, // File 전송시 필수 
+		contentType : false, // multipart/form-data 쓰는 코드
+		data : editFormData,
 		success : function (data) {
 			
-			console.log('test');
-			
+		alert('수정이 완료됐습니다');
+		$('#layer_popup').bPopup().close();
+		$('#editddd').bPopup().close();
+			gbList();
 			
 			
 		}// 석세스끝
 		
 	});
 	
-} */
+}  
 
 
 
@@ -256,15 +292,22 @@ function editPopup(guest_idx) {
 				html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
 				html+='<button class="btnz">'+data.guest_idx+'</button>';
 				html+='<button class="btnz editdiv-close">취소</button>';
-			
+				
 			$('#editddd').html(html);
 			
+			
 			$('.editform').click(function () {
-				$('.realedit').bPopup();
-					var text=$('.etext').val();
-					console.log(text);
-					//editService(data.guest_idx,text);
-			})
+				
+
+		
+			console.log(data.guest_writer);
+				$('#guest_idx').val(data.guest_idx);				
+				$('#oldphoto').val(data.guest_photo);
+				$('.wr').val(data.guest_writer);
+				
+				$('#layer_popup').bPopup();
+				
+			});
 			
 			
 			
@@ -668,7 +711,7 @@ function gbList() {
 					
 					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
 					console.log('페이지'+page);
-					if(data<page){
+					if(data+4<page){
 						
 						console.log("끝"+page);
 						$(window).off();

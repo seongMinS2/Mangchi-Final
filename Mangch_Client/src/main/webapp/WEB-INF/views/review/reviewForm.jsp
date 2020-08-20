@@ -15,7 +15,7 @@
 		<table>
 			<tr>
 				<td>리뷰내용</td>
-				<td><textarea id="reviewText"></textarea></td>
+				<td><textarea id="reviewText" required></textarea></td>
 			</tr>
 			<tr>
 				<td>평점</td>
@@ -27,9 +27,7 @@
 						<option id="5" value="5">5</option>
 				</select>
 				
-				<input type="hidden"  id="reqIdx" value="${reqIdx}">
-				<input type="hidden"  id="reqWriter" value="${reqWriter}">
-				<input type="hidden"  id="reqHelper" value="${reqHelper}">
+				<%-- <input type="hidden"  id="reviewIdx" value="${reviewIdx}"> --%>
 				
 				</td>
 			</tr>
@@ -45,25 +43,13 @@
 		//리뷰 등록
 		function reviewSubmit(){
 			
-		 	var receiverChk;
-			
-			if('${loginInfo.mNick}' ==  $('#reqWriter').val()){ //로그인 한 사용자가 요청자 일 떄
-				receiverChk = $('#reqHelper').val(); //리뷰 받는 사람
-			}else if('${loginInfo.mNick}' ==  $('#reqHelper').val()){ //로그인 한 사용자가 수행자 일 떄
-				receiverChk = $('#reqWriter').val(); //리뷰 받는 사람
-			}
-			 
-			
-			console.log('${loginInfo.mNick}');	
 			var reviewInfo = {
-					reqIdx	: $('#reqIdx').val(),
-					receiver : receiverChk, //상대방
-					writer : '${loginInfo.mNick}', //로그인 한 사용자 
+					reviewIdx	: ${reviewIdx},
 					text : $('#reviewText').val(),
-					avg : $('#avg').val()
+					avg : $('#avg').val(),
+					status : ${rstatus}
 			};
 			
-			console.log(reviewInfo);
 			
 			 $.ajax({
 				url : 'http://localhost:8080/rl/review',
