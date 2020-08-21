@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<link rel="stylesheet" href="<c:url value="/resources/css/w3.css"/>">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet"
@@ -226,6 +227,5 @@ button.headSearchBtn{
 			</div>
 	</nav>
 </header>
-<main class="w3-content w3-light-grey" style="height: 1000px">
-<br><br><br>
-<h2 class="w3-indigo w3-padding-64 w3-center-align">이 회색 박스 안에 각자 컨텐츠들 채우시면 됩니당 ㅇㅅㅇ)/</h2>
+<main class="w3-content w3-light-grey">
+
