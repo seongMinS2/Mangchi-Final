@@ -82,7 +82,7 @@
 				<label for="guest_photo"><img src="${pageContext.request.contextPath}/resources/img/photo.png" style="height: 30px; width: 30px;"></label>
 		 <input type="file" name="guest_photo" id="guest_photo" style="display: none;">
 		 <input class="upload-name" value="파일선택"  style="border: 0; outline: 0; font-size: 10px; width:400px;" readonly="readonly">
-		 <input type="button" value="게시" class="cmtsb-post" onclick="guestPost()" style="float: right;">
+		 <input type="submit" value="게시" class="cmtsb" onclick="guestPost()" style="float: right;">
 		 		</div>
 		 </div>
 </div>
@@ -121,7 +121,7 @@
 <input  type="text" name="guest_writer" id="guest_writer" class="wr">
 <input type="file" name="photo" id="photo">
 <input type="text" name="oldphoto" id="oldphoto">
-<input type="button" value="수정" onclick="editService();">
+<input type="submit" value="수정" onclick="editService();">
 </form>
  </div>
 
@@ -231,6 +231,9 @@ function guestPost() {
 		success : function (data) {
 			$('#guest_text').val('');
 			$(".upload-name").val('파일선택');
+			
+			
+			
 			gbList();
 		}
 	});
@@ -254,8 +257,11 @@ fileTarget.on('change',function(){
 	var editFormData = new FormData();
 	editFormData.append('guest_idx',$('#guest_idx').val());
 	editFormData.append('guest_text',$('.guest_text').val());
-
+	console.log(typeof $('#oldphoto').length);
+	
+	if($('#oldphoto').length>1){
 	editFormData.append('oldFile',$('#oldphoto').val());
+	}
 	
 	if($('#photo')[0].files[0] !=null){
 		editFormData.append('photo',$('#photo')[0].files[0]); // 파일첨부 코드	
@@ -274,7 +280,6 @@ fileTarget.on('change',function(){
 		$('#layer_popup').bPopup().close();
 		$('#editddd').bPopup().close();
 		$("#popup").bPopup().close();
-		$('.ditform')[0].reset();
 			gbList();
 			
 			
@@ -576,7 +581,7 @@ function gbList() {
 			    html+='</div>';
 			    html+='<div class="cmtbunki">';
 			    html+='<input type="text" class="cmtwr"  placeholder="    댓글 달기">';
-			    html+='<input type="submit" class="cmtsb" value="등록">';
+			    html+='<input type="submit" class="cmtsb-wr" value="등록">';
 			    html+='<input type="hidden" class="cmtwrtext" value="'+data[i].guest_idx+'">';
 			    html+='</div>';
 			    html+='</div>'; 
@@ -649,7 +654,7 @@ function gbList() {
 				    html+='</div>';
 				    html+='<div class="cmtbunki">';
 				    html+='<input type="text" class="cmtwr"  placeholder="    댓글 달기">';
-				    html+='<input type="submit" class="cmtsb" value="등록">';
+				    html+='<input type="submit" class="cmtsb-wr" value="등록">';
 				    html+='<input type="hidden" class="cmtwrtext" value="'+data[i].guest_idx+'">';
 				    html+='</div>';
 				    html+='</div>';
@@ -664,9 +669,12 @@ function gbList() {
 					
 					
 					
+					$('.cmtsb').click(function () {
+						$('#guest_photo').val('');
+					});	
+			
 				
-				
-			$('.cmtsb').click(function () {
+			$('.cmtsb-wr').click(function () {
 				var a=$(this).next().val();
 				var b=$(this).prev().val();
 				cmtWrite(a,b);
