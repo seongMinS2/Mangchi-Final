@@ -142,7 +142,7 @@ function cmtWrite(guest_idx,text) {
 	var bb=zz.trim();
 $.ajax({
 		
-		url:'http://localhost:8080/guest/guest_book/cmt',
+		url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/cmt',
 		type : 'Post',
 		dataType:'json', 
 		data : {
@@ -169,7 +169,7 @@ function deleteForm(a,b) {
 	if(confirm('정말 삭제하시겠습니까?')){
 		$.ajax({
 			
-			url:'http://localhost:8080/guest/guest_book/deletec',
+			url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/deletec',
 			type : 'DELETE',
 			dataType:'json',
 			data :
@@ -222,7 +222,7 @@ function guestPost() {
 	postFormData.append('photo',$('#guest_photo')[0].files[0]); // 파일첨부 코드	
 	}
 	$.ajax({
-		url : 'http://localhost:8080/guest/guest_book/post',
+		url : 'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/post',
 		type : 'post',
 
 		processData : false, // File 전송시 필수 
@@ -268,7 +268,7 @@ fileTarget.on('change',function(){
 	}
 	
 	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/edi' ,
+		url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/edi' ,
 		type:'POST',
 		processData : false, // File 전송시 필수 
 		contentType : false, // multipart/form-data 쓰는 코드
@@ -295,7 +295,7 @@ fileTarget.on('change',function(){
 ////////////////////// 에디트팝업
 function editPopup(guest_idx) {
 	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+		url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		success : function (data) {
 			
@@ -361,14 +361,14 @@ function editPopup(guest_idx) {
 ///////////////////// 팝업 함수
 function goPopup(guest_idx) {
 	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+		url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		success : function (data) {
 			var html='';
 			if(data.guest_photo !=null){
 				html+='<article class="in_wrap">'
 					html+='<div class="flex">'
-						html+='<div class="in_photo"><img src="http://localhost:8080/guest/upload/'+data.guest_photo+'"></div>'
+						html+='<div class="in_photo"><img src="http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data.guest_photo+'"></div>'
 						html+='<div class="in_body">'
 							html+='<header>'
 								html+='<div class="hd_img"><img src="'+data.member_img+'"></div>';  
@@ -509,7 +509,7 @@ function goPopup(guest_idx) {
 function gbList() {
 	    	
 	$.ajax({
-		url:'http://localhost:8080/guest/guest_book' ,
+		url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book' ,
 		dataType:'json',
 		type:'get',
 		traditional : true,
@@ -539,7 +539,7 @@ function gbList() {
 			    }
 			    html+='</div>'
 			    html+='</header>';
-			    html+='<div class="photo_body"><img src="http://localhost:8080/guest/upload/'+data[i].guest_photo+'"></div>';
+			    html+='<div class="photo_body"><img src="http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data[i].guest_photo+'"></div>';
 			    //html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
@@ -733,7 +733,7 @@ function gbList() {
 			
 			///////////// 게시글 토탈카운트 구하는 에이젝스 실행 
 			$.ajax({
-				url:'http://localhost:8080/guest/guest_book/test',
+				url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/test',
 				type:'GET',
 				contentType: 'application/json; charset=utf-8',
 				data : {
@@ -779,7 +779,7 @@ function gbList() {
 ///////////////////// 좋아요 증감 함수
   function likeup(guest_idx) {
 		$.ajax({
-			url:'http://localhost:8080/guest/guest_book/plus/'+guest_idx,
+			url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/plus/'+guest_idx,
 			type:'PUT',
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
@@ -793,7 +793,7 @@ function gbList() {
 ///////////////////// 좋아요 감소 함수
 	function likedown(guest_idx) {
 		$.ajax({
-			url:'http://localhost:8080/guest/guest_book/mi/'+guest_idx,
+			url:'http://ec2-15-164-169-72.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/mi/'+guest_idx,
 			type:'PUT',
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
