@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib  prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +53,7 @@ td {
 				</div>
 
 				<!-- 요청자 정보 -->
-				<div class="w3-cell" id="mInfo">
+				<%-- <div class="w3-cell" id="mInfo">
 					<h1 id="writer_h1"></h1>
 					<div id="wirterInfo">
 
@@ -71,15 +71,15 @@ td {
 
 
 					</div>
-				</div>
+				</div> --%>
 			</div>
 
 			<!-- 지도 -->
-			<div class="w3-cell-row" id="mapContent">
+			<!-- <div class="w3-cell-row" id="mapContent">
 				<hr>
 				<h1>지도</h1>
 				<div id="map">요청자 위치 지도</div>
-			</div>
+			</div> -->
 
 			<hr>
 
@@ -91,27 +91,25 @@ td {
 
 		</div>
 	</div>
-	
+
 	<div class="w3-modal" id="modal"></div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
-<script>
+	<script>
 
 	
 //매칭 취소 버튼 삭제
 
-<%
-	Cookie[] cookies = request.getCookies();
-	int cancelStatus = 0;
-	for(int i=0;i<cookies.length;i++){
-		if(cookies[i].getName().equals("cancelStatus")){
-			cancelStatus = 1;
-		}
+<%Cookie[] cookies = request.getCookies();
+int cancelStatus = 0;
+for (int i = 0; i < cookies.length; i++) {
+	if (cookies[i].getName().equals("cancelStatus")) {
+		cancelStatus = 1;
 	}
-%>
+}%>
 
-var cancelStatus = <%= cancelStatus %>;
+var cancelStatus = <%=cancelStatus%>;
 //취소 버튼 삭제
 
 //채팅하기 	
@@ -121,6 +119,19 @@ function chat(reqIdx,uNick){
 	if('${loginInfo}' != ''){
 		//채팅하기로 링크 이동 ------------------------		
 		location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
+		
+		/*  var form = $('<form></form>');
+		    form.attr('action', '/mangh/chat');
+		    form.attr('method', 'post');
+		    form.appendTo('body');
+		    var idx = $("<input type='hidden' value="+reqIdx+" name='reqIdx'>"); //게시글 번호
+		    var mNick = $("<input type='hidden' value="+uNick+" name='uNick'>"); //게시글 상태 
+		    form.append(idx);
+		    form.append(mNick);
+		    form.submit();  */
+		
+		
+		
 	}else{
 		alert('로그인 후 이용해주세요.');
 	 location.href="/mangh/member/memberLogin"; 
@@ -132,17 +143,15 @@ function modalClose(){
 	$('#modal').css('display','none');
 }
 
-//매칭 완료 버튼 
+//매칭 상대 정하기
 function complete(){
 	$('#modal').css('display','block');
 	
-	var helper = 'jin1';
-	var writer = '테스트용';
-	
-	/* $.ajax({
- 		url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
+	 $.ajax({
+ 		url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
 		 type : 'get',
-		 success : function(data){ */
+		 success : function(data){ 
+			 
 		 		var html = '<div class="w3-modal-content">';
 				html += '	 <header class="w3-container">';
 				html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
@@ -150,20 +159,20 @@ function complete(){
 				html += ' 	</header>';
 				html += '		<div class="w3-container">';
 				
-				/* if(data.length <= 0 ){
+				 if(data.length <= 0 ){
 					html +='<div>매칭 상대가 없습니다.</div>';
 				}else {
 		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람  
 						html += ' 			<div onclick="updateHelper( \''+data[i].helper+'\', \''+data[i].writer+'\' )">'+data[i].helper+'</div>';
 		 			}
-		 		} */
-				html += ' 			<div onclick="updateHelper(\''+helper+'\', \''+writer+'\') ">'+helper+'</div>';
+		 		} 
+				//html += ' 			<div onclick="updateHelper(\''+helper+'\', \''+writer+'\') ">'+helper+'</div>';
 				html += ' 		</div>';
 		 		html += "</div>";
 					 		
 		 		$('#modal').html(html);
-	/* 	 }
-	 }); */
+	 	 }
+	 }); 
 }
 
 //매칭 완료 데이터 업데이트
@@ -174,7 +183,7 @@ function updateHelper(helper,writer){
 		//매칭 완료 시 쿠키 생성 				
 		$.ajax({
 			
-			url : 'http://localhost:8080/rl/chat/'+${idx},
+			url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/'+${idx},
 			type : 'get',
 			data : {
 				helper : helper,
@@ -207,7 +216,7 @@ function cancel(reqStatus){
 	if(confirm('매칭을 취소하겠습니까?') == true){
 	
 		 $.ajax({
-			 url : 'http://localhost:8080/rl/request/'+ ${idx},
+			 url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+ ${idx},
 			 type : 'PUT',
 			 success : function(data){
 				 alert('매칭이 취소되었습니다.');
@@ -232,7 +241,7 @@ function review(reviewWriter,reviewStatus){
 		 
 		 //상대방 선택 하기 
 		  $.ajax({
-	 		url : 'http://localhost:8080/rl/review/'+ reviewWriter,
+	 		url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
 			 type : 'post',
 			 success : function(data){ 
 				 $('#modal').css('display','block');
@@ -244,9 +253,10 @@ function review(reviewWriter,reviewStatus){
 					html += '		<div class="w3-container">';
 					
 		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람  
-		 				
-						html += ' 			<div onclick="reviewWrite('+data[i].reviewIdx+','+data[i].status+')">'+data[i].receiver+'</div>';
-		 			}
+		 				if(data[i].status == 0){
+							html += ' 			<div onclick="reviewWrite('+data[i].reviewIdx+','+data[i].status+')">'+data[i].receiver+'</div>';
+		 				}
+		 				}
 					html += ' 		</div>';
 			 		html += "</div>";
 						 		
@@ -262,7 +272,6 @@ function review(reviewWriter,reviewStatus){
 
 //리뷰 작성 하기
 function reviewWrite(reviewIdx,rstatus){
-alert(rstatus);
 	  var form = $('<form></form>');
 	    form.attr('action', '/mangh/review/reviewForm');
 	    form.attr('method', 'post');
@@ -271,7 +280,6 @@ alert(rstatus);
 	    var reviewStatus = $("<input type='hidden' value="+rstatus+" name='rstatus'>"); //게시글 상태 
 	    form.append(idx);
 	    form.append(reviewStatus);
-	    alert(reviewStatus);
 	    form.submit(); 
 }
 	 
@@ -280,8 +288,13 @@ alert(rstatus);
 //글 수정
 function reqEdit(reqIdx){
 	
-	location.href="/mangh/request/edit?reqIdx="+reqIdx;
-	
+	var form = $('<form></form>');
+    form.attr('action', '/mangh/request/edit');
+    form.attr('method', 'post');
+    form.appendTo('body');
+    var idx = $("<input type='hidden' value="+reqIdx+" name='reqIdx'>"); //게시글 번호
+    form.append(idx);
+    form.submit(); 
 }
 
 //글 삭제
@@ -291,7 +304,7 @@ function reqDelete(reqIdx){
 	if('${loginInfo}' != ''){
 		if(confirm("정말로 삭제하시겠습니까?") == true){
 			 $.ajax({
-				url : 'http://localhost:8080/rl/request/'+reqIdx,
+				url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+reqIdx,
 				type : 'DELETE',
 				success : function(data) {
 					var message = '';
@@ -319,7 +332,7 @@ $(document).ready(function(){
 	
 	$.ajax({
 		
-		url : 'http://localhost:8080/rl/request/'+${idx},
+		url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
 		type : 'GET',
 		data : {
 			count : ${count},
@@ -406,9 +419,8 @@ $(document).ready(function(){
 					html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
 			}
 			
-			
-			//로그인 한 사용자가 요청자도 수행자도 아닐 때 
-			if('${loginInfo.mNick}' != data.reqHelper && '${loginInfo.mNick}' != data.reqWriter){ 
+			//로그인 한 사용자가 리뷰 권한 ㅣ 없을 때
+			else if('${loginInfo.mNick}' != data.reviewWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
 				} 
@@ -424,7 +436,7 @@ $(document).ready(function(){
 			
 	 		html +='<tr>';
 			html += '<td>';
-			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
+			html += '	<img src="http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
 			html += '</td>';
 			html +='</tr>'; 
 			
