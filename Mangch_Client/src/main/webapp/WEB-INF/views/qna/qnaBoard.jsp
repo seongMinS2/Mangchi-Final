@@ -18,7 +18,7 @@
 	
 <script type="text/javascript">
 $(function(){
-	memberList();
+	qnaboardList();
 });
 </script>
 
@@ -30,7 +30,7 @@ $(function(){
 		<hr>
 		<button onclick="location.href='writeBoard'">글쓰기</button>
 		<hr>
-		<div id="QnABoardList"></div>
+		<div id="QnABoardList" class="w3-center"></div>
 	</div>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
