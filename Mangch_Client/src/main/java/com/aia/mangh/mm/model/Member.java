@@ -39,7 +39,7 @@ public class Member {
 	}
 
 	public Member(String mId, String mPw, String mNick, String mAddr, double mLttd, double mLgtd, String mChk) {
-		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 0, null, null);
+		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 1, null, null);
 	}
 	
 	public Member(String mId, String mNick, String mAddr, double mLttd, double mLgtd,  String kId) {

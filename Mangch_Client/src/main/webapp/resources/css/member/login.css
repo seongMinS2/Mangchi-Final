@@ -47,11 +47,20 @@ table {
 	text-align: right;
 	text-decoration: none;
 	color: #A2A5A6;
-	margin-top: 10%;
-	margin-left: 23%;
+	margin-top: 8%;
+	margin-left:52%;
 	padding: 0;
-	width: 15%;
-
+	width: 20%;
+}
+.signup{
+	display: inline-block;
+	text-align: right;
+	text-decoration: none;
+	color: #A2A5A6;
+	margin-top: 8%;
+	margin-left: 2%;
+	padding: 0;
+	width: 20%;
 }
 
 p {

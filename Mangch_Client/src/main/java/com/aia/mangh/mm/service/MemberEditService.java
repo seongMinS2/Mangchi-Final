@@ -48,8 +48,6 @@ public class MemberEditService {
 
 		dao = template.getMapper(MemberDao.class);
 		
-
-
 		try {
 			System.out.println("try membr: " + member);
 			String oldfile = member.getmImg();
@@ -81,7 +79,7 @@ public class MemberEditService {
 				File oldFile = new File(realPath, oldfile);
 
 				// 파일이 존재하면
-				if (oldFile.exists()) {
+				if (oldFile.exists() && oldfile!="defalult.png") {
 					// 파일을 삭제
 					oldFile.delete();
 				}

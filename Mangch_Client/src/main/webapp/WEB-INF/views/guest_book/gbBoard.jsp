@@ -11,7 +11,24 @@
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <%-- <script type="text/javascript" src='<c:url value="/resources/js/kbg.js"/>'></script> --%>
 
+<style type="text/css">
 
+.button_style {
+ opacity: 5;
+ display: none;
+ position: relative;
+ padding: 30px;
+ background-color: #fff;
+}
+ 
+.layer_close {
+ position: absolute;
+ right: 3px;
+ top: 1px;
+ padding: 10px;
+ cursor: pointer;
+}
+</style>
 
 </head>
 
@@ -21,8 +38,6 @@
 
 
 
- ${loginInfo}
- 
  
  <h3 style="font-weight: bold; text-align: center;">반가워요,${loginInfo.mNick }님!<br>
   ${loginInfo.mNick }님의 근처 동네생활 입니다</h3>
@@ -67,7 +82,7 @@
 				<label for="guest_photo"><img src="${pageContext.request.contextPath}/resources/img/photo.png" style="height: 30px; width: 30px;"></label>
 		 <input type="file" name="guest_photo" id="guest_photo" style="display: none;">
 		 <input class="upload-name" value="파일선택"  style="border: 0; outline: 0; font-size: 10px; width:400px;" readonly="readonly">
-		 <input type="submit" value="게시" class="cmtsb" onclick="guestPost()" style="float: right;">
+		 <input type="button" value="게시" class="cmtsb-post" onclick="guestPost()" style="float: right;">
 		 		</div>
 		 </div>
 </div>
@@ -86,7 +101,7 @@
    height : 500px;
    background-color : #fff;
             display: none;">
-      <span class="b-close">X</span>
+      <span class="b-close" style="display: none;"></span>
       <div class="content" id="innerView" style="height:auto; width:auto;"></div>
    </div>
 
@@ -98,10 +113,17 @@
 <div id="editddd"  class="editdiv"></div>
 
 
-
-<div id="realedit" class="Pstyle">
-<input type="text" class="etext">
-</div>
+<div id="layer_popup" class="button_style">
+ <span class="layer_close">X</span>
+ <form class="ditform" onsubmit="return false;">
+<input type="text" name="guest_idx" id="guest_idx">
+<input  type="text" name="guest_text" id="guest_text" class="guest_text">
+<input  type="text" name="guest_writer" id="guest_writer" class="wr">
+<input type="file" name="photo" id="photo">
+<input type="text" name="oldphoto" id="oldphoto">
+<input type="button" value="수정" onclick="editService();">
+</form>
+ </div>
 
 
 
@@ -143,14 +165,19 @@ $.ajax({
 
 
 //////////////삭제함수
-function deleteForm(guest_idx) {
+function deleteForm(a,b) {
 	if(confirm('정말 삭제하시겠습니까?')){
-		
 		$.ajax({
 			
-			url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+			url:'http://localhost:8080/guest/guest_book/deletec',
 			type : 'DELETE',
+			dataType:'json',
+			data :
+				{
+				guest_idx:a,
+				guest_photo:b},
 			success : function (data) {
+			
 				gbList();
 			}
 		});
@@ -182,7 +209,7 @@ function guestPost() {
 	//db에 줄바꿈
 	var str = $('#guest_text').val();
 	str = str.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-
+	
 	
 	var postFormData = new FormData();
 	postFormData.append('guest_writer',bb);
@@ -220,25 +247,42 @@ fileTarget.on('change',function(){
 
 
 /////////////////////수정 팝업펑션
-/* function editService(guest_idx,text) {
+  function editService() {
+	
+	console.log($('.guest_text').val());
+	
+	var editFormData = new FormData();
+	editFormData.append('guest_idx',$('#guest_idx').val());
+	editFormData.append('guest_text',$('.guest_text').val());
+
+	editFormData.append('oldFile',$('#oldphoto').val());
+	
+	if($('#photo')[0].files[0] !=null){
+		editFormData.append('photo',$('#photo')[0].files[0]); // 파일첨부 코드	
+	}
+	
 	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/edi'+guest_idx ,
+		url:'http://localhost:8080/guest/guest_book/edi' ,
 		type:'POST',
-		data : {
-			guest_idx : guest_idx
-			//guest_text : text
-		}
+		processData : false, // File 전송시 필수 
+		contentType : false, // multipart/form-data 쓰는 코드
+		data : editFormData,
 		success : function (data) {
 			
-			console.log('test');
-			
+		alert('수정이 완료됐습니다');
+		
+		$('#layer_popup').bPopup().close();
+		$('#editddd').bPopup().close();
+		$("#popup").bPopup().close();
+		$('.ditform')[0].reset();
+			gbList();
 			
 			
 		}// 석세스끝
 		
 	});
 	
-} */
+}  
 
 
 
@@ -253,18 +297,36 @@ function editPopup(guest_idx) {
 			var html='';
 			
 				html+='<button class="btnz editform">게시글 수정</button>';
-				html+='<button class="btnz" onclick="deleteForm('+data.guest_idx+')">게시글 삭제</button>';
+				html+='<button class="btnz deleteService" onclick="">게시글 삭제</button>';
 				html+='<button class="btnz">'+data.guest_idx+'</button>';
 				html+='<button class="btnz editdiv-close">취소</button>';
-			
+				
 			$('#editddd').html(html);
 			
-			$('.editform').click(function () {
-				$('.realedit').bPopup();
-					var text=$('.etext').val();
-					console.log(text);
-					//editService(data.guest_idx,text);
+			
+			$('.deleteService').click(function () {
+				
+				var deidx=data.guest_idx;
+				var dephoto=data.guest_photo;
+				
+				console.log(deidx);
+				console.log(dephoto);
+				deleteForm(deidx,dephoto);
 			})
+			
+			
+			$('.editform').click(function () {
+				
+
+		
+			console.log(data.guest_writer);
+				$('#guest_idx').val(data.guest_idx);				
+				$('#oldphoto').val(data.guest_photo);
+				$('.wr').val(data.guest_writer);
+				
+				$('#layer_popup').bPopup();
+				
+			});
 			
 			
 			
@@ -331,7 +393,7 @@ function goPopup(guest_idx) {
 								html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 						    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
 							
-						    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+						    html+='<button class="gomsg"><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 							html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 							html+='<div class="flex dh">'
 							html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
@@ -380,7 +442,7 @@ function goPopup(guest_idx) {
 					html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 			    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
 				
-			    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+			    html+='<button class="gomsg"><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 				html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 				html+='<div class="flex dh">'
 				html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
@@ -409,6 +471,15 @@ function goPopup(guest_idx) {
 				goPopup(guest_idx);
 				goPopup(guest_idx);
 			});
+			
+			
+			$('.gomsg').click(function () {
+				$('.in_cmtwr').focus();
+				$('.in_cmtwr_null').focus();
+			})
+			
+			
+			
 			
 		}// 석세스끝
 		
@@ -668,7 +739,7 @@ function gbList() {
 					
 					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
 					console.log('페이지'+page);
-					if(data<page){
+					if(data+4<page){
 						
 						console.log("끝"+page);
 						$(window).off();
@@ -725,12 +796,7 @@ function gbList() {
 	
 			
 			
-
-
-$(document).ready(function () {
-	
-	gbList();
-	
+//////스크롤기능 
 	$(window).scroll(function() {
 	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
@@ -741,7 +807,15 @@ $(document).ready(function () {
 	    }
 	});
 
-	//gbList();
+
+
+
+
+$(document).ready(function () {
+	
+	gbList();
+	
+
 
 });
 </script>

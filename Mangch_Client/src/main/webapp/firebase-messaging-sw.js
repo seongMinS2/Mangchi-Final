@@ -18,16 +18,11 @@ firebase.initializeApp({
  
 const messaging = firebase.messaging();
 
-//수신자 앱이 포그라운드 상태일 때 메시지 수신
-//messaging.onMessage((payload) => {
-//  console.log('Message received. ', payload);
-//});
-
 
 //수신자 앱이 백그라운드 상태일 때 메시지 수신
 messaging.setBackgroundMessageHandler(function(payload){
  
-    const title = "Hello World";
+    const title = "동네에서 대여하기 :: MANGCHI!";
     const options = {
             body: payload.data.status
     };

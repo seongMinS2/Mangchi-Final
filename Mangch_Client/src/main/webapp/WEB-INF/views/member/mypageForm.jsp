@@ -9,49 +9,14 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/member/mypage.css'/>">
-<!-- <style>
-#modal {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
-}
 
-#modal h2 {
-	margin: 0;
-}
-
-#modal button {
-	display: inline-block;
-	width: 100px;
-	margin-left: calc(100% - 100px - 10px);
-}
-
-#modal .modal_content {
-	width: 300px;
-	margin: 100px auto;
-	padding: 20px 10px;
-	background: #fff;
-	border: 2px solid #666;
-}
-
-#modal .modal_layer {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: -1;
-}
-</style> -->
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 	<div class="w3-container container">
 		<h2>마이페이지</h2>
 		<hr>
-		${loginInfo}
+		<%-- ${loginInfo} --%>
 		<div class="w3-cell-row">
 			<div>
 				<div id="profile-menu" class="active">
@@ -94,10 +59,10 @@
 							<div id="w3-cell"
 								style="width: 70%; margin: 0; display: inline-block;">
 								<form action="<c:url value='/member/memberMypage/edit'/>" method="post" enctype="multipart/form-data">
-									<c:set var="mPic" value="${loginInfo.mPic}" />
+									<c:set var="kId" value="${loginInfo.kId}" />
 									<input type="hidden" name="mId" id="mId"
 										value="${loginInfo.mId}">
-									<c:if test="${mPic eq null}">
+									<c:if test="${kId eq null}">
 										<input type="file" name="mImg" id="mImg">
 									</c:if>
 									<table>

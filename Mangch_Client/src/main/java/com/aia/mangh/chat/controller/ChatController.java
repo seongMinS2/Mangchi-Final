@@ -16,13 +16,15 @@ import com.aia.mangh.mm.model.LoginInfo;
 public class ChatController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String chatPage(SendMsgInfo smi,HttpServletRequest req,Model model) {
-		LoginInfo loginInfo = new LoginInfo();
-		loginInfo.setmNick("테스트용");
-		loginInfo.setmId("gogo@naver.com");
-		//req.getSession().setAttribute("loginInfo", loginInfo);
+//		LoginInfo loginInfo = new LoginInfo();
+//		loginInfo.setmNick(uid);
+////		LoginInfo loginInfo = (LoginInfo)req.getSession().getAttribute("loginInfo");
+//		req.getSession().setAttribute("loginInfo", "");
+//		model.addAttribute("loginUserNick",loginInfo.getmNick());
 		if(smi.getuNick() != null) {
 			model.addAttribute("msgInfo",smi);
 		}
+		System.out.println("채팅요청자 정보 : "+model.containsAttribute("msgInfo"));
 		return "chatting/chatting2";
 	}
 }

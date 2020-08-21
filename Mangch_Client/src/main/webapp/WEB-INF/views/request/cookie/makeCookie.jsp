@@ -7,6 +7,5 @@ cancelCookie.setPath("/");
 response.addCookie(cancelCookie);   
 %> 
 <script>
-	alert('쿠키 생성');
 	location.href="/mangh/request/requestDetail?idx="+${idx}+"&distance="+${distance}+"&count="+${count};
 </script>
