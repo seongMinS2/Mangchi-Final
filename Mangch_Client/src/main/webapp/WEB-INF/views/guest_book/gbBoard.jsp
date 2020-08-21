@@ -38,8 +38,6 @@
 
 
 
- ${loginInfo}
- 
  
  <h3 style="font-weight: bold; text-align: center;">반가워요,${loginInfo.mNick }님!<br>
   ${loginInfo.mNick }님의 근처 동네생활 입니다</h3>
@@ -84,7 +82,7 @@
 				<label for="guest_photo"><img src="${pageContext.request.contextPath}/resources/img/photo.png" style="height: 30px; width: 30px;"></label>
 		 <input type="file" name="guest_photo" id="guest_photo" style="display: none;">
 		 <input class="upload-name" value="파일선택"  style="border: 0; outline: 0; font-size: 10px; width:400px;" readonly="readonly">
-		 <input type="submit" value="게시" class="cmtsb" onclick="guestPost()" style="float: right;">
+		 <input type="button" value="게시" class="cmtsb-post" onclick="guestPost()" style="float: right;">
 		 		</div>
 		 </div>
 </div>
@@ -798,12 +796,7 @@ function gbList() {
 	
 			
 			
-
-
-$(document).ready(function () {
-	
-	gbList();
-	
+//////스크롤기능 
 	$(window).scroll(function() {
 	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
@@ -814,7 +807,15 @@ $(document).ready(function () {
 	    }
 	});
 
-	//gbList();
+
+
+
+
+$(document).ready(function () {
+	
+	gbList();
+	
+
 
 });
 </script>

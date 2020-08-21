@@ -177,6 +177,15 @@
             
         }
         
+        .cmtsb-post{
+        margin-right: 4px;
+            border: 0;
+            outline: 0;
+            color: skyblue;
+            background-color: white;
+        
+        }
+        
           .cmtsb2{
            
             margin-right: 4px;
