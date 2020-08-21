@@ -420,7 +420,7 @@ $(document).ready(function(){
 			}
 			
 			//로그인 한 사용자가 리뷰 권한 ㅣ 없을 때
-			else if('${loginInfo.mNick}' != data.reviewWriter){ 
+			else if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
 				} 

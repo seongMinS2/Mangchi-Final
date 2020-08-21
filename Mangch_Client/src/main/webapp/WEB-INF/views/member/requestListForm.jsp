@@ -82,7 +82,22 @@
 			page = data;
 			list();
 		}
-
+		
+		function detail(reqIdx,calDistance,reqCount){
+			 var form = $('<form></form>');
+			    form.attr('action', '/mangh/request/requestDetail');
+			    form.attr('method', 'post');
+			    form.appendTo('body');
+			    var idx = $("<input type='hidden' value="+reqIdx+" name='idx'>"); //게시글 번호
+			    var distance = $("<input type='hidden' value="+calDistance+" name='distance'>"); //게시글 상태 
+			    var count = $("<input type='hidden' value="+reqCount+" name='count'>"); //게시글 상태 
+			    form.append(idx);
+			    form.append(distance);
+			    form.append(count);
+			    form.submit(); 
+		}
+		
+		
 		var page = 1;
 		// 요청리스트 출력
 		var type = "request";
@@ -113,10 +128,12 @@
 								for (var i = 0; i < data.requestReg.length; i++) {
 									html += '<tr>';
 									html += ' <td>' + (i + data.startRow + 1) + '</td>';
-									html += ' <td> <a href="<c:url value="/request/requestDetail?idx='
+									/* html += ' <td> <a href="<c:url value="/request/requestDetail?idx='
 											+ data.requestReg[i].reqIdx +'&distance='+data.requestReg[i].calDistance+'&count='+data.requestReg[i].reqCount
 											+ '" />" >'
-											+ data.requestReg[i].reqTitle + '</a></td>';
+											+ data.requestReg[i].reqTitle + '</a></td>'; */
+									html += '<td><div onclick="detail('+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'</div></td>';		
+													
 									html += ' <td>' + data.requestReg[i].reqAddr
 											+ '</td>';
 									var status, color;
