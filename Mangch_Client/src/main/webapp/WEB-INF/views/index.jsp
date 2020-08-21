@@ -14,7 +14,7 @@
 
 
 
-안녕하세요
+<h1>메인화면</h1>
 
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 
