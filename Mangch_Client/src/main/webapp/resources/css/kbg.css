@@ -167,6 +167,14 @@
             outline: 0;
             float: left;
         }
+        
+        .cmtsb-wr{
+        margin-right: 4px;
+            border: 0;
+            outline: 0;
+            color: skyblue;
+            background-color: white;
+        }
         .cmtsb{
            
             margin-right: 4px;
