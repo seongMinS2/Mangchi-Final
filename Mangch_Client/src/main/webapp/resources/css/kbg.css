@@ -458,3 +458,7 @@
    background-color : #fff;
             display: none;
         }
+        
+        .gomsg{
+        cursor: pointer;
+        }

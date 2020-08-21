@@ -169,11 +169,9 @@ $.ajax({
 //////////////삭제함수
 function deleteForm(a,b) {
 	if(confirm('정말 삭제하시겠습니까?')){
-		alert(a);
-		alert(b);
 		$.ajax({
 			
-			url:'http://localhost:8080/guest/guest_book/delete',
+			url:'http://localhost:8080/guest/guest_book/deletec',
 			type : 'DELETE',
 			dataType:'json',
 			data :
@@ -309,8 +307,12 @@ function editPopup(guest_idx) {
 			
 			
 			$('.deleteService').click(function () {
+				
 				var deidx=data.guest_idx;
 				var dephoto=data.guest_photo;
+				
+				console.log(deidx);
+				console.log(dephoto);
 				deleteForm(deidx,dephoto);
 			})
 			
@@ -393,7 +395,7 @@ function goPopup(guest_idx) {
 								html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 						    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
 							
-						    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+						    html+='<button class="gomsg"><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 							html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 							html+='<div class="flex dh">'
 							html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
@@ -442,7 +444,7 @@ function goPopup(guest_idx) {
 					html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 			    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
 				
-			    html+='<button><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+			    html+='<button class="gomsg"><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 				html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 				html+='<div class="flex dh">'
 				html+='<div class="in_hits">조회 : '+data.guest_hits+'</div>'
@@ -471,6 +473,15 @@ function goPopup(guest_idx) {
 				goPopup(guest_idx);
 				goPopup(guest_idx);
 			});
+			
+			
+			$('.gomsg').click(function () {
+				$('.in_cmtwr').focus();
+				$('.in_cmtwr_null').focus();
+			})
+			
+			
+			
 			
 		}// 석세스끝
 		
