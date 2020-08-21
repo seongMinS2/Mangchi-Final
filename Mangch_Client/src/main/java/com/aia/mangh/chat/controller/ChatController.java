@@ -24,7 +24,7 @@ public class ChatController {
 		if(smi.getuNick() != null) {
 			model.addAttribute("msgInfo",smi);
 		}
-		System.out.println("채팅요청자 정보 : "+smi.toString());
+		System.out.println("채팅요청자 정보 : "+model.containsAttribute("msgInfo"));
 		return "chatting/chatting2";
 	}
 }

@@ -158,10 +158,10 @@
 		</div>
 	</div>
 	<!-- 확인용 -->
-	<!-- <input type="text" id="currChatRoom" value=""> 
+	<input type="text" id="currChatRoom" value=""> 
 	<input type="text" id="currChatUser" value="">
 	<input type="text" id="chatRoom-reqIdx" value="">
-	<input type="button" id="getConnection"> -->
+	<input type="button" id="getConnection">
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 	
 <script>
@@ -171,7 +171,7 @@ var code = {
 	delRoom : 'delete'
 };
 //로그인사용자
-var loginUser = '${loginUserNick}';
+var loginUser = '${loginInfo.mNick}';
 //현재 보고있는 채팅방(단순히 채팅페이지에 접속이면 -2)
 var currRoom=-2;
 //현재 보고있는 채팅방의 상대방
@@ -462,6 +462,9 @@ function delChatRoom(currRoom){
 			chatList(chkNewMsg);
 			$('.msgArea').empty();
 			$('.receiver').text('메세지를 선택해주세요');
+			currRoom=-2;
+			currUser;
+			chatRoomReqIdx;
 		}
 		
 	});
