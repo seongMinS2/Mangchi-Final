@@ -48,16 +48,135 @@ body, html {
 .w3-bar .w3-button {
 	padding: 16px;
 }
-</style>
-<header>
+fieldset {
+  width: 350px;
+  position: relative;
+  display: inline-block;
+  padding: 0 0 0 50px;
+  background: #fff;
+  border: none;
+  border-radius: 5px;
+}
+input[name=main-search-input],
+button[name=main-search-btn] {
+  position: relative;
+  width: 200px;
+  height: 50px;
+  padding: 0;
+  display: inline-block;
+  float: left;
+}
 
+input[name=main-search-input] {
+  color: #666;
+  width: 250px;
+  z-index: 2;
+  border: 1px solid #664ACC;
+  padding-left:30px;
+}
+input[name=main-search-input]:focus {
+  outline: 0 none;
+}
+input[name=main-search-input]:focus + button[name=main-search-btn] {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
+input[name=main-search-input]:focus + button[name=main-search-btn] .fa {
+  -webkit-transform: translate(0px, 0);
+      -ms-transform: translate(0px, 0);
+          transform: translate(0px, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  color: #fff;
+}
+
+button[name=main-search-btn]{
+  z-index: 1;
+  width: 50px;
+  border: 0 none;
+  background: #664ACC;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;  
+  -webkit-transform: translate(-50px, 0);
+      -ms-transform: translate(-50px, 0);
+          transform: translate(-50px, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
+
+.fa-search {
+  font-size: 1.4rem;
+  color: #664ACC;
+  z-index: 3;
+  top: 25%;
+  -webkit-transform: translate(-240px, 0);
+      -ms-transform: translate(-240px, 0);
+          transform: translate(-240px, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  -webkit-transition: all 0.1s ease-in-out;
+          transition: all 0.1s ease-in-out;
+}
+</style>
+	<!-- 헤드컨테이너 밑에 붙이기 -->
+	<div class="w3-row w3-deep-purple w3-hide-small">
+		<div class="w3-col">
+			<a href="<c:url value="/member/memberReg"/>" class="w3-bar-item w3-button w3-right">회원가입</a> 
+			<a href="<c:url value="/member/memberLogin"/>" class="w3-bar-item w3-button w3-right">로그인</a>
+			<c:if test="${!empty loginInfo }">
+			<a href="<c:url value="/member/memberMypage/mypageForm"/>" class="w3-bar-item w3-button w3-right">마이페이지</a>
+			</c:if>
+		</div>
+	</div>
+<header style="position: sticky; top: 0;">
+	<div class="headContainer w3-row w3-white w3-border-bottom w3-border-deep-purple">
+		<div class="w3-col s6 m3 w3-padding-16 w3-center"> 
+			<a href="<c:url value="/"/>" class="w3-row">
+				<img src="<c:url value="/resources/img/LOGO.png"/>" style="width: 135px;"/>
+			</a>
+		</div>
+		<div class="w3-col m6 w3-hide-small">
+			<div class="w3-center w3-text-deep-purple w3-padding">
+				<b>우리 동네 렌탈서비스</b>
+			</div>
+			<div class="w3-row w3-center" style="height: 75px;"> 
+				<fieldset style="border: 0px">
+					<input type="search" name="main-search-input"/>
+					<button type="submit"  name="main-search-btn"><i class="fa fa-search"></i></button>
+				</fieldset>
+			</div>
+		</div>
+		<div class="w3-col s6 m3 w3-hide-medium w3-hide-large w3-padding">
+			<a href="javascript:void(0)"
+				class="w3-button w3-right w3-margin"
+				onclick="w3_open()"> <i class="fa fa-bars w3-xlarge"></i>
+			</a>
+		</div> 
+	</div>
+	<div class="w3-row">
+		<div style="border-bottom: 2px solid;" class="w3-col w3-center w3-hide-small w3-white w3-border-deep-purple">
+			<a href="<c:url value="/request/requestList"/>"
+				class="w3-bar-item w3-button">요청게시판</a> 
+			<a href="<c:url value="/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
+			<a href="<c:url value="/guest_book/gbBoard"/>"
+				class="w3-bar-item w3-button">동네생활</a> 
+			<a href="<c:url value="/qna/qnaBoard"/>" class="w3-bar-item w3-button">Q&A</a>
+			<a href="<c:url value="/chat"/>" class="w3-bar-item w3-button">채팅</a>
+		</div>
+	</div>
 	<!-- Navbar (sit on top) -->
-	<div class="w3-top">
-		<div class="w3-bar w3-white w3-card" id="myNavbar">
+	<%-- <div class="">
+		<div class="w3-bar w3-grey" id="myNavbar">
 			<a href="#home" class="w3-bar-item w3-button w3-wide">LOGO</a>
 			<!-- Right-sided navbar links -->
-			<div class="w3-center w3-hide-small">
-				<input type="text"><input type="submit" value="검색">
+			<div class="w3-center w3-padding">
+				<fieldset style="border: 0px">
+				<input type="search" name="main-search-input"/>
+				<button type="submit"  name="main-search-btn"><i class="fa fa-search"></i></button>
+				</fieldset>
 			</div>
 
 			<!-- Hide right-floated links on small screens and replace them with a menu icon -->
@@ -67,7 +186,7 @@ body, html {
 				onclick="w3_open()"> <i class="fa fa-bars"></i>
 			</a>
 		</div>
-		<div class="w3-bar w3-white w3-card" id="myNavbar">
+		<div class="w3-bar w3-grey" id="myNavbar">
 			<div class="w3-right w3-hide-small">
 				<a href="<c:url value="/member/memberReg"/>"
 					class="w3-bar-item w3-button">회원가입</a> <a
@@ -86,33 +205,29 @@ body, html {
 				<a href="<c:url value="/chat"/>" class="w3-bar-item w3-button">채팅</a>
 			</div>
 		</div>
-	</div>
-
+	</div> --%>
 	<!-- Sidebar on small screens when clicking the menu icon -->
 	<nav
-		class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large"
-		style="display: none" id="mySidebar">
-		<a href="javascript:void(0)" onclick="w3_close()"
-			class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a> <a
-			href="<c:url value="/member/memberReg"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">회원가입</a> <a
-			href="<c:url value="/member/memberLogin"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">로그인</a>
+		class="w3-sidebar w3-bar-block w3-border-deep-purple w3-rightbar w3-card w3-animate-left w3-hide-medium w3-hide-large"
+		style="display: none; width: 350px;" id="mySidebar">
+		<a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16 w3-hide-medium">Close ×</a> 
+		<a href="<c:url value="/member/memberReg"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16 w3-hide-medium">회원가입</a> 
+		<a href="<c:url value="/member/memberLogin"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16 w3-hide-medium">로그인</a>
 		<c:if test="${!empty loginInfo }">
-			<a href="<c:url value="/member/memberMypage/mypageForm"/>"
-				onclick="w3_close()" class="w3-bar-item w3-button">마이페이지</a>
+			<a href="<c:url value="/member/memberMypage/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16 w3-hide-medium">마이페이지</a>
 		</c:if>
-		<a href="<c:url value="/request/requestList"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">요청게시판</a> <a
-			href="<c:url value="/donateBoard"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">나눔게시판</a> <a
-			href="<c:url value="/guest_book/gbBoard"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">동네생활</a> <a
-			href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">Q&A</a> <a
-			href="<c:url value="/chat"/>" onclick="w3_close()"
-			class="w3-bar-item w3-button">채팅</a> <input type="text"><input
-			type="submit" value="검색">
+		<a href="<c:url value="/request/requestList"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
+		<a href="<c:url value="/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">나눔게시판</a> 
+		<a href="<c:url value="/guest_book/gbBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">동네생활</a> 
+		<a href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">Q&A</a> 
+		<a href="<c:url value="/chat"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">채팅</a>
+			<div class="w3-center w3-left">
+				<fieldset>
+				<input type="search" name="side-search-input"/>
+				<button type="submit" name="side-search-btn"><i class="fa fa-search"></i></button>
+				</fieldset>
+			</div>
 	</nav>
-	<div style="height: 150px;" id="ddd"></div>
+	
 </header>
+<main class="w3-content w3-light-grey" style="height: 1000px">
