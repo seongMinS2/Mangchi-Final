@@ -27,6 +27,11 @@
     padding: 15px;
 }
 
+.contentBox{
+		margin: auto;
+		width: 400px;
+	}
+
 .xi-ellipsis-v{
 	position: absolute;
 }
@@ -35,10 +40,9 @@
 	position: absolute;
 	height: 50px;
 	width: 50px;
-	background-color: red;
 	left:auto;
-	right: 736px;
 	top: 10px;
+	right:5px;
 }
 .comment_coment_area,
 .comment_inbox{

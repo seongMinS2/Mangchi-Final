@@ -13,14 +13,19 @@
 
 
 <style>
-#wriBtn {
-	margin-top: 15px;
+
+#search{
+	width: 65%;
 }
 
+#search_text{
+	 width:90%;
+	margin-right: 15px;
+}
 
 select {
 
-    width: 200px; /* 원하는 너비설정 */
+    width: 50px; /* 원하는 너비설정 */
     border: 1px solid #999;
     border-radius: 0px; /* iOS 둥근모서리 제거 */
     -webkit-appearance: none; /* 네이티브 외형 감추기 */
@@ -28,6 +33,54 @@ select {
     appearance: none;
 }
 
+.jtype{
+float: left;
+padding: 15px 16px;
+margin : 20px;
+}
+
+.pagination li {
+	float: left;
+	padding: 10px 20px;
+}
+
+.pagination li> a {
+    display: block;
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #777;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+
+.pagination {
+  padding: 10px 20px;
+  background: white;
+  border-radius: 50px;
+  box-shadow:
+  0 0.3px 0.6px rgba(0, 0, 0, 0.056),
+  0 0.7px 1.3px rgba(0, 0, 0, 0.081),
+  0 1.3px 2.5px rgba(0, 0, 0, 0.1),
+  0 2.2px 4.5px rgba(0, 0, 0, 0.119),
+  0 4.2px 8.4px rgba(0, 0, 0, 0.144),
+  0 10px 20px rgba(0, 0, 0, 0.2);
+  list-style-type: none;
+  float: left;
+  justify-content: center;
+}
+
+th ,td {
+	text-align: center;	
+}
+
+#pageCon{
+
+	margin: 0 auto;
+	margin-left: 43.2%;
+}
 
 </style>
 
@@ -36,54 +89,53 @@ select {
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
 	<div class="w3-auto">
-		<div class="w3-container" id="panel">
-				<!-- 거리순 -->
-				<c:if test="${loginInfo.mNick !=null}">
-				<select id="ListType" onchange="change()">
-					<option value="distance">거리순</option>
-					<option value="date">최신순</option>
-				</select> 
-				</c:if>
-				</div> 
+		<div class="w3-container w3-margin-bottom">
 				<!-- 검색 타입 -->
-				<div id="type" class="w3-third">
-				<select id="searchType">
-					<option value="title">제목</option>
-					<option value="name">이름</option>
-				</select>
+				<div class="jtype">
+					<select id="searchType">
+						<option value="title">제목</option>
+						<option value="name">이름</option>
+					</select>
+					<!-- 거리순 -->
+					<c:if test="${loginInfo.mNick !=null}">
+					<select id="ListType" onchange="change()">
+						<option value="distance">거리순</option>
+						<option value="date">최신순</option>
+					</select> 
+					</c:if>
 				</div>
-				
 				<!-- 검색어 입력 -->
-				<div id="search" class="w3-third" >
-				<input type="text" id="search_text" placeholder="검색어를 입력하세요" >
+				<div id="search" class="jtype">
+				<input type="text" id="search_text" placeholder="검색어를 입력하세요" >	
 				<input type="button" id="search_btn" onclick="search()" value="검색">
 				</div>
-				
 				<!-- 글쓰기 -->					
-				<div class="w3-blue" class="w3-third">
+				<div class="jtype">
 				 <a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a>
-				</div>	
-				
+				</div>
 		</div>
 			
-		<div class="w3-container" >
+		<div class="w3-container w3-margin-bottom">
 			<!-- 테이블 출력 -->
 			<div class=" w3-margin-bottom" id="list"></div>
 		</div>
-	</div>
+	</div>	
+		<div class="w3-container" id="pageCon">
+			<div class=" w3-margin-bottom" id="page"></div>
+		</div>
 
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 <script>
-	/* 로그인 했을 때 와 안했을 때 위도 경도 */
 
+/* 로그인 했을 때 와 안했을 때 위도 경도 */
 	var mLttd, mLgtd, mRedisu;
 
 	if ('${loginInfo}' != '') {
 		mLttd = '${loginInfo.mLttd}';
 		mLgtd = '${loginInfo.mLgtd}';
-		mRadius = 2; 
+		mRadius = '${loginInfo.mRadius}'; 
 	} else {
 		mLttd = 0;
 		mLgtd = 0;
@@ -120,9 +172,23 @@ select {
 		list();
 	}
 
+	function detail(reqIdx,calDistance,reqCount){
+		 var form = $('<form></form>');
+		    form.attr('action', '/mangh/request/requestDetail');
+		    form.attr('method', 'post');
+		    form.appendTo('body');
+		    var idx = $("<input type='hidden' value="+reqIdx+" name='idx'>"); //게시글 번호
+		    var distance = $("<input type='hidden' value="+calDistance+" name='distance'>"); //게시글 상태 
+		    var count = $("<input type='hidden' value="+reqCount+" name='count'>"); //게시글 상태 
+		    form.append(idx);
+		    form.append(distance);
+		    form.append(count);
+		    form.submit(); 
+	}
+	
 	function list() {
 		$.ajax({
-					url : 'http://localhost:8080/rl/request',
+					url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
 					type : 'GET',
 					data : {
 						mLat : mLttd,
@@ -136,7 +202,7 @@ select {
 					success : function(data) {
 						
 						
-						var button = '<button class="w3-right">글쓰기</button>';
+						var button = '<button>글쓰기</button>';
 						$('#writer_button').html(button);
 
 						var search = '<input type="text" id="search_text" placeholder="검색어를 입력하세요" >';
@@ -162,10 +228,13 @@ select {
 						for (var i = 0; i < data.requestReg.length; i++) {
 							html += '<tr>';
 							html += ' <td>' + (i + data.startRow + 1) + '</td>';
-							html += ' <td> <a href="<c:url value="/request/requestDetail?idx='
+						/* 	 html += ' <td> <a href="<c:url value="/request/requestDetail?idx='
 									+ data.requestReg[i].reqIdx +'&distance='+data.requestReg[i].calDistance+'&count='+data.requestReg[i].reqCount
 									+ '" />" >'
-									+ data.requestReg[i].reqTitle + '</a></td>';
+									+ data.requestReg[i].reqTitle + '</a></td>'; */
+									
+									
+							html += '<td><div onclick="detail('+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'</div></td>';		
 							html += ' <td>' + data.requestReg[i].reqAddr
 									+ '</td>';
 							//회원 로그인 상태 일 때 거리 출력
@@ -204,15 +273,20 @@ select {
 						html += '</table>';
 
 						 if (data.pageTotalCount > 0) {
-							for (var m = 1; m <= data.pageTotalCount; m++) {
-								html += '<a id="listlink" ';
-								html += 'href="#" onclick="listpage(' + m
-										+ ')"';
-								html += ">";
-								html += '[' + m + ']';
-								html += '</a>';
-							}
+							 
+							var page = '<ul class="pagination ">'; 
+									for (var m = 1; m <= data.pageTotalCount; m++) {
+										page +=  '<li class="page-number>';
+										page += '	<a id="listlink" href="#" onclick="listpage(' +m+ ')" >';
+										page +=  m ;
+										page += '	</a>';
+										page += '</li>';
+									}
+									page += '</ul>';
+							
 						} 
+						$('#page').html(page); 
+						 
 						$('#list').html(html);
 
 					}

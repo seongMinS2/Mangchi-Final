@@ -18,6 +18,10 @@ public class SendMsgInfo {
 	public void setuNick(String uNick) {
 		this.uNick = uNick;
 	}
+	@Override
+	public String toString() {
+		return "SendMsgInfo [reqIdx=" + reqIdx + ", uNick=" + uNick + "]";
+	}
 	
 	
 }

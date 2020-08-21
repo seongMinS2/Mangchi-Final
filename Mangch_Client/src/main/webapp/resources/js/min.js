@@ -1,5 +1,15 @@
+var idx = 1;
+
+function pageNum(num){
+	this.idx = idx;
+	console.log(idx);
+	qnaboardList();
+	return false;
+}
+
 //게시판 리스트 출력
-function memberList() {
+function qnaboardList() {
+
 
 	$.ajax({
 		url: '/mc/qna/',
@@ -10,46 +20,59 @@ function memberList() {
 			// $('#QnABoardList').html(JSON.stringify(data));
 
 			var html = '';
-			html += '<div class="w3-table">';
-			html += '	<table>';
-			html += '		<th class="w3-center w3-padding-16">번호</th>';
-			html += '		<th class="w3-padding-16">제목</th>';
-			html += '		<th class="w3-center w3-padding-16">작성자</th>';
-			html += '		<th class="w3-center w3-padding-16">작성일</th>';
-			html += '		<th class="w3-center w3-padding-16">조회</th>';
+			html += '<div class="table-wrap">';
+			html += '	<table class="w3-table">';
+			html += '		<th class="w3-center w3-padding">번호</th>';
+			html += '		<th class="w3-padding">제목</th>';
+			html += '		<th class="w3-center w3-padding">작성자</th>';
+			html += '		<th class="w3-center w3-padding">작성일</th>';
+			html += '		<th class="w3-center w3-padding">조회</th>';
 			//게시글
 			for (var i = 0; i < data.length; i++) {
 				//게시글 부모 컬럼이 0일때(i번째 글)
 				if (data[i].parents === 0) {
 					html += '		<tr>';
-					html += '			<td class="w3-center w3-padding-16">' + data[i].idx + '</td>';
-					html += '			<td class="w3-padding-16"><a href="contents/' + data[i].idx + '">' + data[i].title + '</a></td>';
-					html += '			<td class="w3-center w3-padding-16">' + data[i].memNick + '</td>';
-					html += '			<td class="w3-center w3-padding-16">' + moment(data[i].regdate).format('YY년MM월DD일') + '</td>';
-					html += '			<td class="w3-center w3-padding-16">' + data[i].count + '</td>';
+					html += '			<td class="w3-center w3-padding">' + data[i].idx + '</td>';
+					html += '			<td class="w3-padding"><a href="contents/' + data[i].idx + '">' + data[i].title + '</a></td>';
+					html += '			<td class="w3-center w3-padding">' + data[i].memNick + '</td>';
+					html += '			<td class="w3-center w3-padding">' + moment(data[i].regdate).format('YY년MM월DD일') + '</td>';
+					html += '			<td class="w3-center w3-padding">' + data[i].count + '</td>';
 					html += '		</tr>';
 				}
 				//i번째 글의 자식 글을 찾아 출력
 				for (var j = 0; j < data.length; j++) {
 					if (data[j].parents === data[i].idx) {
 						html += '		<tr>';
-						html += '			<td class="w3-center w3-padding-16">' + data[j].idx + '</td>';
-						html += '			<td class="w3-padding-16"><a href="contents/' + data[j].idx + '">' + data[j].title + '</a></td>';
-						html += '			<td class="w3-center w3-padding-16">' + data[j].memNick + '</td>';
-						html += '			<td class="w3-center w3-padding-16">' + moment(data[j].regdate).format('YY년MM월DD일') + '</td>';
-						html += '			<td class="w3-center w3-padding-16">' + data[j].count + '</td>';
+						html += '			<td class="w3-center w3-padding">' + data[j].idx + '</td>';
+						html += '			<td class="w3-padding"><a href="contents/' + data[j].idx + '">' + data[j].title + '</a></td>';
+						html += '			<td class="w3-center w3-padding">' + data[j].memNick + '</td>';
+						html += '			<td class="w3-center w3-padding">' + moment(data[j].regdate).format('YY년MM월DD일') + '</td>';
+						html += '			<td class="w3-center w3-padding">' + data[j].count + '</td>';
 						html += '		</tr>';
 					}
 				}
 			}
-			html += '	</table>';
+			html += '	</table><br><br>';
+			html += '		<div class="w3-bar w3-small w3-center">';
+			html += '			<a href="#" class="w3-button"><<</a>';
+			html += '			<a href="#" class="w3-button"><</a>';
+			for(var i=1; i<6; i++){
+				html += '			<a href="#" class="w3-button" onclick="return pageNum('+i+')">'+i+'&nbsp;</a>';
+			}
+			html += '			<a href="#" class="w3-button">></a>';
+			html += '			<a href="#" class="w3-button">>></a>';
+			html += '		</div>';
 			html += '</div>';
+			html += '<hr>';
 			$('#QnABoardList').html(html);
 
 		}
 	});
 }
 
+
+
+	
 //게시물 출력 회원
 function contentsList(idx, loginSession) {
 	$.ajax({
@@ -80,7 +103,7 @@ function contentsList(idx, loginSession) {
 					html += '					<div class="comment_Box">';
 					if(loginSession!=null)
 						html += '						<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
-					html += '						<div class="layerMore"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[i].idx + ')">삭제</a></div>';
+					html += '						<div class="layerMore w3-card-2"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[i].idx + ')">삭제</a></div>';
 					html += '						</div>';
 					html += '						<div class="comment_nick_box">' + data.comment[i].writer;
 					html += '						</div>';
@@ -105,7 +128,7 @@ function contentsList(idx, loginSession) {
 						html += '							<textarea class="comment_insert"></textarea>';
 						html += '						</div>';
 						html += '						<div class="comment_submit">';
-						html += '							<button onclick="writeHirachyComment(' + idx +','+ data.comment[i].idx +')">등록</button>';
+						html += '							<button onclick="writeHirachyComment(' + idx +','+ data.comment[i].idx +',this)">등록</button>';
 						html += '						</div>';
 						html += '					</div>';
 						html += '				</div>';
@@ -136,16 +159,16 @@ function contentsList(idx, loginSession) {
 						html += '				<div class="comment_Box w3-row">';
 						if(loginSession!=null)
 						html += '					<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
-						html += '					<div class="layerMore"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[j].idx + ')">삭제</a></div>';
+						html += '					<div class="layerMore w3-card-2"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[j].idx + ')">삭제</a></div>';
 						html += '					</div>';
 						html += '					<div class="comment_nick_box">' + data.comment[i].writer;
 						html += '					</div>';
 						html += '					<div class="comment_textView">대댓글 :' + data.comment[j].contents + '</div>';
 						html += '					<div class="comment_info_box">';
 						html += '						<span class="comment_info_date"> ' + moment(data.comment[j].regdate).format('YYYY.MM.DD, HH:mm') + '</span>';
-						//비회원 답대댓글 toggle button 제한
-						if(loginSession!=null)
-							html += '					<button class="comment_reply_button">답글쓰기</button>';
+						// //비회원 답대댓글 toggle button 제한
+						// if(loginSession!=null)
+						// 	html += '					<button class="comment_reply_button">답글쓰기</button>';
 							html += '				</div>';
 							html += '			</div>';
 							html += '		</div>';
@@ -162,7 +185,7 @@ function contentsList(idx, loginSession) {
 							html += '					</div>';
 							html += '					<div class="comment_submit">';
 															//댓글쓰기 요청
-							html += '						<button onclick="writeHirachyComment(' + idx +','+ data.comment[j].idx +')">등록</button>';
+							html += '						<button onclick="writeHirachyComment(' + idx +','+ data.comment[j].idx +',this)">등록</button>';
 							html += '					</div>';
 							html += '				</div>';
 							html += '			</div>';
@@ -221,6 +244,7 @@ function contentsList(idx, loginSession) {
 			html += '		<a href="#">TOP</a>';
 			html += '	</div>';
 			html += '</div>';
+			html += '<hr>';
 			$('.contentBox').html(html);
 			
 			//답댓글쓰기 숨김
@@ -285,13 +309,13 @@ function qnaWritComment(idx) {
 }
 
 //대댓글쓰기
-function writeHirachyComment(boIdx,idx) {
+function writeHirachyComment(boIdx,idx,locThis) {
 
 	var writeData = {
 		boardIdx: boIdx,
 		parents: idx,
 		writer: $('.commet_nick').text(),
-		contents: $('.comment_insert').val(),
+		contents: $(locThis).parent().prev().children().val()
 	};
 	$.ajax({
 		url: '/mc/qna/contents/hirachy',
@@ -302,11 +326,11 @@ function writeHirachyComment(boIdx,idx) {
 		success: function (data) {
 			if (data === "1") {
 				alert('대댓글 쓰기가 완료되었습니다.');
-				location.href = '/mangh/qna/contents/' + idx;
+				location.reload(true);
 			}
 			else if (data === "0") {
 				alert('대댓글 쓰기가 실패 하였습니다. 관리자에게 문의하세요.');
-				location.href = '/mangh/qna/contents/' + idx;
+				location.reload(true);
 			}
 		}
 	});
@@ -407,7 +431,7 @@ function qnaWriteSubmit(idx) {
 
 	var writeData = {
 		memberNick: $('#qnaWriter').val(),
-		title: $('#qnaTitle').val(),
+		title: '답글: ' + $('#qnaTitle').val(),
 		contents: $('#summernote').val(),
 		pw: $('#qnaPw').val()
 	};
@@ -420,11 +444,11 @@ function qnaWriteSubmit(idx) {
 		contentType: 'application/json; charset=UTF-8',
 		success: function (data) {
 			if (data === "1") {
-				alert('글쓰기가 완료되었습니다.');
+				alert('답글쓰기가 완료되었습니다.');
 				location.href = '/mangh/qna/qnaBoard';
 			}
 			else if (data === "0") {
-				alert('글쓰기가 실패 하였습니다. 관리자에게 문의하세요.');
+				alert('답글쓰기가 실패 하였습니다. 관리자에게 문의하세요.');
 				location.href = '/mangh/qna/qnaBoard';
 			}
 		}
