@@ -76,11 +76,113 @@ messaging.onMessage(function(payload){
             body: payload.notification.body
     };
     var notification = new Notification(title, options);
-    return self.registration.showNotification(notification);
 });
 
 
 
+//다른 사용자가 키워드에 맞는 제목의 글을 올리면 구독 정보 읽어오기
+function newKeyNotice(title){
+	
+	messaging.requestPermission()
+	.then(function() {
+		console.log('알림 허가');
+		return messaging.getToken(); //토큰을 받는 함수를 추가
+		
+	})
+	.then(function(token) {
+	
+		$.ajax({
+			url : 'http://localhost:8080/subscribe/register/'+token,
+			type : 'get',
+			data : {
+				memberNick : $('#loginUser').val(),
+				title : title,
+				token : token
+			},
+			success : function(data){
+				
+				//사이트에 들어와 있을 때 알람 받기
+				messaging.onMessage(function(payload){
+				    console.log('onMessage: ', payload);
+				    const title = "동네에서 대여하기 :: MANGCHI!";
+				    const options = {
+				            body: payload.notification.body
+				    };
+				    var notification = new Notification(title, options);
+				});
+				
+				//수신자 앱이 백그라운드 상태일 때 메시지 수신
+				messaging.setBackgroundMessageHandler(function(payload){
+				 
+				    const title = "동네에서 대여하기 :: MANGCHI!";
+				    const options = {
+				            body: payload.data.status
+				    };
+				 
+				    return self.registration.showNotification(title,options);
+				});
+			}
+			
+		});
+	})
+	.catch(function(err) {
+			console.log('fcm에러 : ', err);
+		})
+	
+}
+
+
+
+//다른 사용자가 새글을 올리면 구독 정보 읽어오기
+function newSubscribe(title){
+	messaging.requestPermission()
+	.then(function() {
+		console.log('알림 허가');
+		return messaging.getToken(); //토큰을 받는 함수를 추가
+		
+	})
+	.then(function(token) {
+	
+		$.ajax({
+			url : 'http://localhost:8080/subscribe/register',
+			type : 'get',
+			data : {
+				memberNick : $('#loginUser').val(),
+				token : token,
+				title : title
+			},
+			success : function(data){
+				//사이트에 들어와 있을 때 알람 받기
+				messaging.onMessage(function(payload){
+				    console.log('onMessage: ', payload);
+				    const title = "동네에서 대여하기 :: MANGCHI!";
+				    const options = {
+				            body: payload.notification.body
+				    };
+				    var notification = new Notification(title, options);
+				});
+				
+				//수신자 앱이 백그라운드 상태일 때 메시지 수신
+				messaging.setBackgroundMessageHandler(function(payload){
+				 
+				    const title = "동네에서 대여하기 :: MANGCHI!";
+				    const options = {
+				            body: payload.data.status
+				    };
+				 
+				    return self.registration.showNotification(title,options);
+				});
+			}
+			
+		});
+	})
+	.catch(function(err) {
+			console.log('fcm에러 : ', err);
+		})
+}
+
+
+//키워드 삭제하기
 function deleteKeyword(idx) {
 	$.ajax({
 		url : 'http://localhost:8080/subscribe/fcmKey/'+idx,
@@ -91,7 +193,7 @@ function deleteKeyword(idx) {
 	});
 }
 
-
+//사용자가 저장한 키워드 리스트
 function noticeList(user){
 	
 	$.ajax({
@@ -117,7 +219,7 @@ function noticeList(user){
 	
 }
 
-
+//키워드를 저장하면 알람 허가 창이 뜨고 토큰과 함께 데이터베이스 저장
 function notificationConfig(){
 	
 	messaging.requestPermission()
@@ -150,7 +252,7 @@ function notificationConfig(){
 	
 }
 
-
+//사용자가 구독을 원하는 키워드 받기
 function noticeForm(){
 	var loginUser=$('#loginUser').val();
 	if(loginUser==null) {
@@ -181,6 +283,7 @@ function noticeForm(){
 	}
 }
 
+//구독 버튼 누르면 알람 허가창 => 사용자 토큰을 데이터베이스에 저장
 function subscribeDonate() {
 	var loginUser=$('#loginUser').val();
 	if(loginUser==null) {

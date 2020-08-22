@@ -254,6 +254,9 @@ function goWrite() {
             	alert('나눔글을 작성하였습니다. 좋은 사람...')
             	location.href=getContextPath()+"/donateBoard";
             	
+            	newSubscribe($('#title').val());	//구독 갱신
+            	newKeyNotice($('#title').val());	//제목 통해서 키워드 읽기
+            	
 			},
 			error : function(){
 				console.log('실패한 글쓰기 정보 : '+regBoard);				
