@@ -418,9 +418,9 @@ function init(){
 	$('#sendBtn').attr('disabled', true);
 	
 	//debug
-/* 	$('#currChatRoom').val(currRoom);
+ 	$('#currChatRoom').val(currRoom);
 	$('#currChatUser').val(currUser);
-	$('#chatRoom-reqIdx').val(chatRoomReqIdx);		 */
+	$('#chatRoom-reqIdx').val(chatRoomReqIdx);
 }
 
 //채팅방 삭제 아이콘 관리
@@ -671,9 +671,9 @@ function chatList(func) {
 				}
 				$('#message').focus();
 				//debug : 클릭 동작확인
-				/* $('#currChatRoom').val(currRoom);
+				$('#currChatRoom').val(currRoom);
 				$('#currChatUser').val(currUser);
-				$('#chatRoom-reqIdx').val(chatRoomReqIdx); */
+				$('#chatRoom-reqIdx').val(chatRoomReqIdx);
 			});
 			func();
 		}

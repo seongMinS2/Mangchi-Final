@@ -122,7 +122,7 @@ function commList(donateIdx) {
 				if(data.commList[i].commParent===0) {
 					list+='<div class="commOrigin" style="overflow:hidden;">';
 					list+='	<p>작성자 : '+data.commList[i].commWriter+'</p>';
-					if(loginUser!=null) {
+					if(loginUser==data.commList[i].commWriter) {
 						list+='	<button class="w3-button w3-theme-l3" style="float:right;" onclick="deleteComm('+data.commList[i].commIdx+')">댓글 삭제</button>';
 					}
 					list+='	<p>'+data.commList[i].commText+'</p>';
@@ -154,7 +154,7 @@ function commList(donateIdx) {
 						list+='<div style="diplay:inline; width:95%; float:right;">';
 						list+='	<p>작성자 : '+data.commList[j].commWriter+'</p>';
 						
-						if(loginUser!=null) {
+						if(loginUser==data.commList[i].commWriter) {
 							list+='	<button class="w3-button w3-theme-l3" style="float:right;" onclick="deleteComm('+data.commList[i].commIdx+')">댓글 삭제</button>'
 						}
 
@@ -253,6 +253,10 @@ function goWrite() {
 			success : function(data) {
             	alert('나눔글을 작성하였습니다. 좋은 사람...')
             	location.href=getContextPath()+"/donateBoard";
+            	
+            	newSubscribe($('#title').val());	//구독 갱신
+            	newKeyNotice($('#title').val());	//제목 통해서 키워드 읽기
+            	
 			},
 			error : function(){
 				console.log('실패한 글쓰기 정보 : '+regBoard);				
