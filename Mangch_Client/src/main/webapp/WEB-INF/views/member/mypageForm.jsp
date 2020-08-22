@@ -110,6 +110,7 @@
 						<hr>
 						<a class="btn btn-default" href="#layer2" id="pw">비밀번호 변경</a> <a
 							class="btn btn-default" href="#layer3" id="del">회원 탈퇴</a>
+							<a href="friend" id="del">공유하기</a>
 					</div>
 				</div>
 			</div>
