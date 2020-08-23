@@ -27,7 +27,12 @@
 			<form>
 				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> 
 				<input type="button" id="searchBar" class="w3-button w3-theme-l3" style="width: 30%;" value="검색">
+				<c:if test="${subscribe==null}">
 				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기" onclick="subscribeDonate()">
+				</c:if>
+				<c:if test="${subscribe!=null}">
+				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe(+${loginInfo.mNick}+)">
+				</c:if>
 				<input type="button" class="w3-button w3-block w3-theme-l1" id="notification" value="키워드 알람 설정"
 				onclick="noticeForm()">
 			</form>
@@ -282,6 +287,25 @@ function noticeForm(){
 		
 	}
 }
+
+//구독 취소 버튼을 누르면 데이터베이스에서 토큰 지우기
+function cancelSubsribe(mNick) {
+	if(confirm('정말로 취소하시겠습니까?')){
+		
+		$.ajax({
+			url : 'http://localhost:8080/subscribe/sub/'+mNick,
+			type : 'delete',
+			success : function(data){
+				alert('언제든 다시 구독할 수 있습니다.');
+				history.go(0);
+			}
+		});
+		
+		
+	}
+}
+
+
 
 //구독 버튼 누르면 알람 허가창 => 사용자 토큰을 데이터베이스에 저장
 function subscribeDonate() {
