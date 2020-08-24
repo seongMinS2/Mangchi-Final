@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 </main>
 <!-- Footer -->
-<footer class="w3-center w3-border-deep-purple w3-topbar w3-padding">
+<footer class="w3-center w3-border-theme w3-topbar w3-padding">
     <a href="#" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
     <div class="w3-xlarge w3-section">
       <i class="fa fa-facebook-official w3-hover-opacity"></i>

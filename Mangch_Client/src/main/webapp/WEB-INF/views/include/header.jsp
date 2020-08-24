@@ -62,7 +62,7 @@ input[name=side-search-input] {
   color: #666;
   width: 200px;
   z-index: 2;
-  border: 1px solid #664ACC;
+  border: 1px solid #3f51b5;
   padding-left:20px;
 }
 
@@ -89,7 +89,7 @@ input[name=main-search-input] {
   color: #666;
   width: 250px;
   z-index: 2;
-  border: 1px solid #664ACC;
+  border: 1px solid #3f51b5;
   padding-left:30px;
 }
 input.headSearchInput:focus {
@@ -115,7 +115,7 @@ button.headSearchBtn{
   z-index: 1;
   width: 49px;
   border: 0 none;
-  background: #664ACC;
+  background: #3f51b5;
   cursor: pointer;
   border-radius: 0 5px 5px 0;  
   -webkit-transform: translate(-50px, 0);
@@ -127,7 +127,7 @@ button.headSearchBtn{
 
 .searchMainIcon {
   font-size: 1.4rem;
-  color: #664ACC;
+  color: #3f51b5;
   z-index: 3;
   top: 25%;
   -webkit-transform: translate(-240px, 0);
@@ -146,7 +146,7 @@ button.headSearchBtn{
 }
 </style>
 <!-- 헤드컨테이너 밑에 붙이기 -->
-<div class="w3-row w3-deep-purple w3-hide-small">
+<div class="w3-row w3-theme w3-hide-small">
 	<div class="w3-content">
 		<div class="w3-col">
 			<a href="<c:url value="/member/memberReg"/>" class="w3-bar-item w3-button w3-right">회원가입</a> 
@@ -158,7 +158,7 @@ button.headSearchBtn{
 	</div>
 </div>
 <header style="position: sticky; top: 0;">
-	<div class="headContainer w3-row w3-white w3-border-bottom w3-border-deep-purple">
+	<div class="headContainer w3-row w3-white w3-border-bottom w3-border-theme">
 		<div class="w3-content">
 			<div class="w3-col s6 m3 w3-padding-16 w3-center"> 
 				<a href="<c:url value="/"/>" class="w3-row">
@@ -166,7 +166,7 @@ button.headSearchBtn{
 				</a>
 			</div>
 			<div class="w3-col m6 w3-hide-small">
-				<div class="w3-center w3-text-deep-purple w3-padding">
+				<div class="w3-center w3-text-theme w3-padding">
 					<b>우리 동네 렌탈서비스</b>
 				</div>
 				<div class="w3-row w3-center" style="height: 75px;"> 
@@ -177,14 +177,14 @@ button.headSearchBtn{
 				</div>
 			</div>
 			<div class="w3-col s6 m3 w3-hide-medium w3-hide-large w3-padding-32 w3-padding-large">
-				<a href="javascript:void(0)" class="w3-button w3-right w3-text-deep-purple" onclick="w3_open()"> 
+				<a href="javascript:void(0)" class="w3-button w3-right w3-text-theme" onclick="w3_open()"> 
 					<i class="fa fa-bars w3-xlarge"></i>
 				</a>
 			</div> 
 		</div>
 	</div>
 	<div class="w3-row">
-		<div style="border-bottom: 2px solid;" class="w3-col w3-center w3-hide-small w3-white w3-border-deep-purple">
+		<div style="border-bottom: 2px solid;" class="w3-col w3-center w3-hide-small w3-white w3-border-theme">
 			<a href="<c:url value="/request/requestList"/>" class="w3-bar-item w3-button">요청게시판</a>
 			<a href="<c:url value="/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
 			<a href="<c:url value="/guest_book/gbBoard"/>" class="w3-bar-item w3-button">동네생활</a> 
@@ -195,10 +195,10 @@ button.headSearchBtn{
 
 	<!-- Sidebar on small screens when clicking the menu icon -->
 	<nav
-		class="w3-sidebar w3-bar-block w3-border-deep-purple w3-rightbar w3-card w3-animate-left w3-hide-medium w3-hide-large"
+		class="w3-sidebar w3-bar-block w3-border-theme w3-rightbar w3-card w3-animate-left w3-hide-medium w3-hide-large"
 		style="display: none; width: 280px;" id="mySidebar">
 		<a href="javascript:void(0)" onclick="w3_close()" 
-			class="w3-bar-item w3-button w3-large w3-deep-purple w3-padding-16 w3-right-align">Close X</a> 
+			class="w3-bar-item w3-button w3-large w3-theme w3-padding-16 w3-right-align">Close X</a> 
 		<a href="<c:url value="/member/memberReg"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">회원가입</a> 
 		<a href="<c:url value="/member/memberLogin"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">로그인</a>
 		<c:if test="${!empty loginInfo }">
