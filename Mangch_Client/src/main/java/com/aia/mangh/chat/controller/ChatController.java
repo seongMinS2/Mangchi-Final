@@ -15,16 +15,16 @@ import com.aia.mangh.mm.model.LoginInfo;
 @RequestMapping("/chat")
 public class ChatController {
 	@RequestMapping(method = RequestMethod.GET)
-	public String chatPage(SendMsgInfo smi,HttpServletRequest req,Model model) {
-//		LoginInfo loginInfo = new LoginInfo();
-//		loginInfo.setmNick(uid);
-////		LoginInfo loginInfo = (LoginInfo)req.getSession().getAttribute("loginInfo");
-//		req.getSession().setAttribute("loginInfo", "");
-//		model.addAttribute("loginUserNick",loginInfo.getmNick());
+	public String chatPage(SendMsgInfo smi,HttpServletRequest req,Model model,@RequestParam("nick")String uid) {
+		LoginInfo loginInfo = new LoginInfo();
+		loginInfo.setmNick(uid);
+//		smi.setReqIdx(1);
+//		smi.setuNick("테스트용");
+//		LoginInfo loginInfo = (LoginInfo)req.getSession().getAttribute("loginInfo");
+		req.getSession().setAttribute("loginInfo", loginInfo);
 		if(smi.getuNick() != null) {
 			model.addAttribute("msgInfo",smi);
 		}
-		System.out.println("채팅요청자 정보 : "+model.containsAttribute("msgInfo"));
-		return "chatting/chatting2";
+		return "chatting/chatting3";
 	}
 }

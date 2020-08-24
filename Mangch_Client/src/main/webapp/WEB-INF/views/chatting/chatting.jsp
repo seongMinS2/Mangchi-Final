@@ -60,7 +60,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/include/header.jsp" />
+	<jsp:include page="/WEB-INF/views/include/kjj-header.jsp" />
 	<div class="w3-container">
 		<div class="w3-row-padding">
 			<div class="w3-col" style="width: 10%">

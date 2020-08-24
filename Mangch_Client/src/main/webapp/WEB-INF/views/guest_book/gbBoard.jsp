@@ -805,25 +805,27 @@ function gbList() {
 			
 			
 //////스크롤기능 
-	$(window).scroll(function() {
-	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
-	    	page=page+4
-	    	
-	        gbList(); 
-	        //console.log(page)
-	    }
-	});
+
 
 
 
 
 
 $(document).ready(function () {
-	
+	alert($(document).height());
+	   alert($(window).height());
 	gbList();
 	
-
+	$(window).scroll(function() {
+	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
+	    	page=page+4
+	    	alert('고고');
+	
+	        gbList(); 
+	        //console.log(page)
+	    }
+	});
 
 });
 </script>

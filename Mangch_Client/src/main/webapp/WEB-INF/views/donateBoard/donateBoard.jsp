@@ -13,7 +13,7 @@
 <script type="text/javascript"
 	src='<c:url value="/resources/js/hong.js"/>'></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/hong.css"/>">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-purple.css">
 <div id="donateWrap">
 	<h3>나눔 게시판</h3>
 	<c:if test="${loginInfo!=null}">
@@ -28,6 +28,7 @@
 				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> 
 				<input type="button" id="searchBar" class="w3-button w3-theme-l3" style="width: 30%;" value="검색">
 				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기" onclick="subscribeDonate()">
+				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe(+${loginInfo.mNick}+)" style="display:none;">
 				<input type="button" class="w3-button w3-block w3-theme-l1" id="notification" value="키워드 알람 설정"
 				onclick="noticeForm()">
 			</form>
@@ -78,6 +79,24 @@ messaging.onMessage(function(payload){
     var notification = new Notification(title, options);
 });
 
+//로그인 한 사용자가 구독자인지 체크
+function checkSubsribe(mNick){
+	
+	$.ajax({
+		url : 'http://localhost:8080/subscribe/sub/'+mNick,
+		type : 'get',
+		success : function(data){
+			if(data>0) {
+				$('#subscribe').css('display', 'none');
+				$('#canselSubscribe').css('display', 'block');
+				
+			} else {
+				$('#subscribe').css('display', 'block');
+				$('#canselSubscribe').css('display', 'none');
+			}
+		}
+	});
+}
 
 
 //다른 사용자가 키워드에 맞는 제목의 글을 올리면 구독 정보 읽어오기
@@ -282,6 +301,25 @@ function noticeForm(){
 		
 	}
 }
+
+//구독 취소 버튼을 누르면 데이터베이스에서 토큰 지우기
+function cancelSubsribe(mNick) {
+	if(confirm('정말로 취소하시겠습니까?')){
+		
+		$.ajax({
+			url : 'http://localhost:8080/subscribe/sub/'+mNick,
+			type : 'delete',
+			success : function(data){
+				alert('언제든 다시 구독할 수 있습니다.');
+				history.go(0);
+			}
+		});
+		
+		
+	}
+}
+
+
 
 //구독 버튼 누르면 알람 허가창 => 사용자 토큰을 데이터베이스에 저장
 function subscribeDonate() {

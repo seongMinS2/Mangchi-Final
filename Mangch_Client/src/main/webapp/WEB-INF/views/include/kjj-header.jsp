@@ -2,10 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="<c:url value="/resources/css/w3.css"/>">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="<c:url value='/resources/css/summernote/summernote-lite.css'/>">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- summernote -->
 <script src="<c:url value='/resources/js/summernote/summernote-lite.js'/>"></script>
 <script src="<c:url value='/resources/js/summernote/lang/summernote-ko-KR.js'/>"></script>
@@ -26,7 +28,9 @@ body, html {
 	height: 100%;
 	line-height: 1.8;
 }
-
+main{
+	height: 85%;
+}
 /* Full height image header */
 .bgimg-1 {
 	background-position: center;
@@ -144,12 +148,12 @@ button.headSearchBtn{
   top: 25%;
 }
 </style>
-<header style="position: sticky; top: 0;">
+<header style="position: sticky; top: 0; z-index: 1">
 	<div class="headContainer w3-row w3-white w3-border-bottom w3-border-deep-purple">
 		<div class="w3-content">
 			<div class="w3-col s6 l3 w3-padding-16 w3-center"> 
 				<a href="<c:url value="/"/>" class="w3-row">
-					<img src="<c:url value="/resources/img/LOGO.png"/>" style="height: 40px;"/>
+					<img src="<c:url value="/resources/img/LOGO-tight.png"/>" style="height: 40px;"/>
 				</a>
 			</div>
 			<div class="w3-col m9 w3-padding-16 w3-hide-small w3-hide-medium w3-center">
@@ -172,7 +176,7 @@ button.headSearchBtn{
 
 	<!-- Sidebar on small screens when clicking the menu icon -->
 	<nav
-		class="w3-sidebar w3-bar-block w3-border-deep-purple w3-rightbar w3-card w3-animate-left w3-hide-medium w3-hide-large"
+		class="w3-sidebar w3-bar-block w3-border-deep-purple w3-rightbar w3-card w3-animate-left w3-hide-large"
 		style="display: none; width: 280px;" id="mySidebar">
 		<a href="javascript:void(0)" onclick="w3_close()" 
 			class="w3-bar-item w3-button w3-large w3-deep-purple w3-padding-16 w3-right-align">Close X</a> 
@@ -194,5 +198,5 @@ button.headSearchBtn{
 			</div>
 	</nav>
 </header>
-<main class="w3-content w3-light-grey">
+<main>
 
