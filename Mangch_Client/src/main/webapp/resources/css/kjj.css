@@ -104,13 +104,13 @@ li:hover{
 }
 
 .chatRoomArea::-webkit-scrollbar-thumb {
-	background-color: #c7b8df;
+	background-color: #22328d;
 	border-radius: 5px;
 	background-clip: padding-box;
 	border: 1px solid transparent;
 }
 .chatRoomArea::-webkit-scrollbar-track {
-	background-color: #7d5abc;
+	background-color: #5f6ec0;
 	border-radius: 5px;
 }
 .msg-area{
@@ -170,7 +170,6 @@ input[name=msg-text]{
 #right-msg{
 	border-radius: 15px 0 15px 15px;
 	color:black;
-	background-color: #dbd2ea;
 }
 .msg-content{
 	height: 100%;

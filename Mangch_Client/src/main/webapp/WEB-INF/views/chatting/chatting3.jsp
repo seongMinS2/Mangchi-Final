@@ -89,16 +89,16 @@
 	<div class="w3-hide-small w3-card" id="ml-screen">
 		<!-- 상단바 -->
 		<div class="w3-row" id="top-bar" style="height: 90px">
-			<div class="w3-col m5 l4 w3-flat-amethyst w3-border-bottom w3-border-white w3-padding-large w3-padding-16">
+			<div class="w3-col m5 l4 w3-theme w3-border-bottom w3-border-white w3-padding-large w3-padding-16">
 				<div class="w3-threequarter">
-					<input type="text" class="w3-deep-purple w3-round-large w3-input w3-animate-input" id="roomSearch" placeholder="닉네임입력...">
+					<input type="text" class="w3-theme w3-round-large w3-input w3-animate-input" id="roomSearch" placeholder="닉네임입력...">
 				</div>
 				<div class="w3-rest w3-center" style="padding-top: 3px;">
 					<i class="fa fa-search w3-large w3-round-large w3-border wr-border-white w3-button" style="padding: 10px;"></i>
 				</div>
 			</div>
 			
-			<div class="w3-col m7 l8 w3-white w3-bottombar w3-border-deep-purple top-bar-receiver">
+			<div class="w3-col m7 l8 w3-white w3-bottombar w3-border-theme top-bar-receiver">
 				<!-- 동적생성할 부분 -->
 				<div class="w3-col l3 w3-center w3-hide-medium w3-padding">
 					<img src="<c:url value="/resources/img/testimg.png"/>" id="chatuser" class="w3-circle"/>
@@ -106,21 +106,21 @@
 				<div class="w3-col m9 l6 w3-padding top-bar-title" style="line-height: 60px;">
 					<b style="font-size: 1.3em; font-weight: bold;">테스트용</b>&nbsp;&nbsp;님과의 대화
 				</div>
-				<div class="w3-col m3 l3 w3-center w3-text-deep-purple">
+				<div class="w3-col m3 l3 w3-center w3-text-theme">
 					<div class="hamburger w3-padding-16">
 						<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 						  <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
 						</svg>
 					</div>
 					<div class="dropdown-content w3-animate-down w3-right w3-card" style="right: 0px;">
-					    <a href="#" class="w3-button w3-col w3-padding-16 w3-text-deep-purple">
+					    <a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme">
 					    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-camera-video-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 						  <path d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z"/>
 						  <path d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 0 0 0 1.393z"/>
 						</svg>
 							<b>영상통화</b>
 					    </a>
-						<a href="#" class="w3-button w3-col w3-padding-16 w3-text-deep-purple">
+						<a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme">
 						<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
  						 <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
 						</svg>
@@ -133,7 +133,7 @@
 		
 		<!-- 내용바-->
 		<div class="w3-row content-area">
-			<div class="w3-col m5 l4 w3-deep-purple chatRoomArea">
+			<div class="w3-col m5 l4 w3-theme chatRoomArea">
 				<ul class="w3-ul">
 					<c:set var="arr" value="<%= new int[]{1,2,3,4,5,6,7,8,9,10,11,12} %>"/>
 					<c:forEach items="${arr}" end="3">
@@ -152,7 +152,7 @@
 			<!-- 채팅메세지구역 -->
 			<div class="w3-col m7 l8 w3-border-left w3-border-white msg-content">
 				<!-- 게시물에대한 정보 -->
-				<div class="w3-row w3-padding w3-border-bottom w3-border-deep-purple info-area">
+				<div class="w3-row w3-padding w3-border-bottom w3-border-theme info-area">
 					<div class="a">작성자 : </div>
 					<div class="a">글제목 : </div>
 					<div class="a">위치 : </div>
@@ -191,7 +191,7 @@
 							<b>euna</b>
 						</div>
 						<div class="w3-row-padding">
-							<div class="w3-col m10 l7 w3-padding w3-right" id="right-msg">
+							<div class="w3-col m10 l7 w3-padding w3-right w3-theme-l4" id="right-msg">
 							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
 							</div>
 							<div class="w3-col m8 l4 w3-right w3-right-align">
@@ -228,9 +228,9 @@
 				</div>
 				
 				<!-- 인풋 버튼 모음 -->
-				<div class="w3-row w3-white input-area w3-border w3-border-deep-purple">
+				<div class="w3-row w3-white input-area w3-border w3-border-theme">
 					<div class="w3-col m2 l1">
-						<button class="w3-button w3-deep-purple" >
+						<button class="w3-button w3-theme" >
 							<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="top:5px;">
 								<path fill-rule="evenodd" d="M14.002 2h-12a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-12-1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
 								<path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V14h-14v-2l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
@@ -242,7 +242,7 @@
 					<input type="text" name="msg-text" placeholder="메세지 입력..."/>
 					</div>					
 					<div class="w3-col m3 l2" >
-						<button class="w3-button w3-deep-purple" >
+						<button class="w3-button w3-theme" >
 						<span>전송</span>
 						<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-cursor" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="top:5px;">
 							<path fill-rule="evenodd" d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/>
@@ -261,14 +261,14 @@
 	<!-- 모달 -->
 	<div id="img-modal" class="w3-modal">
 		<div class="w3-modal-content w3-animate-top" style="width: 50%">
-			<header class="w3-container w3-deep-purple"> 
+			<header class="w3-container w3-theme"> 
 				<span class="w3-button w3-display-topright w3-xlarge closeImgModal">&times;</span>
 				<h3>사진 보내기</h3>
 			</header>
 			<div class="w3-container">
 				<p>사진을 선택하세요</p>
 				<p><input type="file" name="msgPhoto" id="msgPhoto"></p>
-				<p><button class="w3-button w3-round-large w3-deep-purple imgSelect">선택완료</button></p>
+				<p><button class="w3-button w3-round-large w3-theme imgSelect">선택완료</button></p>
 			</div>
 		</div>
 	</div>
@@ -278,7 +278,7 @@
 	
 	<div id="ask-delroom-modal" class="w3-modal">
 		<div class="w3-modal-content w3-animate-top" style="width: 50%">
-			<header class="w3-container w3-deep-purple"> 
+			<header class="w3-container w3-theme"> 
 					<h3>채팅방 삭제</h3>
 			</header>
 			<div class="w3-container">
@@ -286,7 +286,7 @@
   				<h3 class="w3-center">삭제하시겠습니까?</h3>
 				<p class="w3-center">
 				<button class="w3-button w3-xlarge w3-round-large w3-red delRoomYes w3-margin-right">삭제</button>
-				<button class="w3-button w3-xlarge w3-round-large w3-deep-purple delRoomNo w3-margin-left">취소</button>
+				<button class="w3-button w3-xlarge w3-round-large w3-theme delRoomNo w3-margin-left">취소</button>
 				</p>
 			</div>
 		</div>
