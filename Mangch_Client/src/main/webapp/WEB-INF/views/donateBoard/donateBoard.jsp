@@ -27,12 +27,8 @@
 			<form>
 				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> 
 				<input type="button" id="searchBar" class="w3-button w3-theme-l3" style="width: 30%;" value="검색">
-				<c:if test="${subscribe==null}">
 				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기" onclick="subscribeDonate()">
-				</c:if>
-				<c:if test="${subscribe!=null}">
-				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe(+${loginInfo.mNick}+)">
-				</c:if>
+				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe(+${loginInfo.mNick}+)" style="display:none;">
 				<input type="button" class="w3-button w3-block w3-theme-l1" id="notification" value="키워드 알람 설정"
 				onclick="noticeForm()">
 			</form>
@@ -83,6 +79,24 @@ messaging.onMessage(function(payload){
     var notification = new Notification(title, options);
 });
 
+//로그인 한 사용자가 구독자인지 체크
+function checkSubsribe(mNick){
+	
+	$.ajax({
+		url : 'http://localhost:8080/subscribe/sub/'+mNick,
+		type : 'get',
+		success : function(data){
+			if(data>0) {
+				$('#subscribe').css('display', 'none');
+				$('#canselSubscribe').css('display', 'block');
+				
+			} else {
+				$('#subscribe').css('display', 'block');
+				$('#canselSubscribe').css('display', 'none');
+			}
+		}
+	});
+}
 
 
 //다른 사용자가 키워드에 맞는 제목의 글을 올리면 구독 정보 읽어오기
