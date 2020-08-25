@@ -354,6 +354,10 @@ function subscribeDonate() {
 	}
 }
 
+$(document).ready(function(){
+	checkSubsribe($('#loginUser').val());
+});
+
 </script>
 
 </body>
