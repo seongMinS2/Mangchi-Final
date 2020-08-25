@@ -48,7 +48,7 @@
 <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-messaging.js"></script>
 <script>
-
+/* 
 //키등록
 var config = {
     apiKey: "AIzaSyDDYOCHCJe-_sOTVkVo-Hi63oRTE1dVlgs",
@@ -76,7 +76,7 @@ messaging.onMessage(function(payload){
             body: payload.notification.body
     };
     var notification = new Notification(title, options);
-});
+}); */
 
 //로그인 한 사용자가 구독자인지 체크
 function checkSubsribe(mNick){
@@ -360,7 +360,64 @@ function subscribeDonate() {
 	}
 }
 
+const firebaseModule=(function(){
+	async function  init(){
+		if('serviceWorder' in navigator) {
+			window.addEventListener('load', function(){
+				navigator.serviceWorker.register('/firebase-messaging-sw.js')
+					.then(registration => {
+						var firebaseConfig = {
+							apiKey: "AIzaSyDDYOCHCJe-_sOTVkVo-Hi63oRTE1dVlgs",
+    						authDomain: "donataboard-mangchi-project.firebaseapp.com",
+   							databaseURL: "https://donataboard-mangchi-project.firebaseio.com",
+							projectId: "donataboard-mangchi-project",
+							storageBucket: "donataboard-mangchi-project.appspot.com",
+							messagingSenderId: "178872893699",
+							appId: "1:178872893699:web:94f9afe628778e2ad1a936",
+							measurementId: "G-N8HPT4GQ8G"
+						};
+						firebase.initializeApp(firebaseConfig);
+
+						const messaging=firebase.messaging();
+						messaging.requestPermission()
+						.then(function(){
+							return messaging.getToken();
+						})
+						.then(async function(token) {
+							await fetch('/regist', {
+								method : 'post',
+								body : token
+							})
+							messaging.onMessage(payload => {
+								const title=payload.notification.title
+								const option ={
+									body : payload.notification.body
+								}
+								navigator.serviceWorker.ready.then(registration => {
+									registration.showNotification(title, option);
+								})
+							})
+						})
+						.catch(function(err){
+							console.log("Error Occured");
+						})
+					})
+					
+			})
+		}
+	}
+	return {
+		init : function() {
+			init()
+		}
+	}
+})();
+
+
+
+
 $(document).ready(function(){
+	firebaseModule.init()
 	checkSubsribe($('#loginUser').val());
 });
 
