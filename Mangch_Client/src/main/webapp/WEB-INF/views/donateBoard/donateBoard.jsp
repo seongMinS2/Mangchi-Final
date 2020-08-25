@@ -127,6 +127,7 @@ function newKeyNotice(title){
 				            body: payload.notification.body
 				    };
 				    var notification = new Notification(title, options);
+				    
 				});
 				
 				//수신자 앱이 백그라운드 상태일 때 메시지 수신
@@ -344,6 +345,7 @@ function subscribeDonate() {
 				},
 				success : function(data){
 					alert('나눔게시판 구독 알림이 시작됩니다.');
+					history.go(0);
 				}
 			});
 			
