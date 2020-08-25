@@ -384,8 +384,8 @@ const firebaseModule=(function(){
 							return messaging.getToken();
 						})
 						.then(async function(token) {
-							await fetch('/regist', {
-								method : 'post',
+							await fetch('/register', {
+								method : 'get',
 								body : token
 							})
 							messaging.onMessage(payload => {
