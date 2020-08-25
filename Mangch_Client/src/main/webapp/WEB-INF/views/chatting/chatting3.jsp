@@ -86,7 +86,7 @@
 	</div> -->
 	<jsp:include page="/WEB-INF/views/include/kjj-header.jsp" />
 	<!-- 큰화면 중간화면 -->
-	<div class="w3-hide-small w3-card" id="ml-screen">
+	<div class="w3-card" id="ml-screen">
 		<!-- 상단바 -->
 		<div class="w3-row" id="top-bar" style="height: 90px">
 			<div class="w3-col m5 l4 w3-theme w3-border-bottom w3-border-white w3-padding-large w3-padding-16">
@@ -101,11 +101,11 @@
 			
 			<div class="w3-col m7 l8 w3-white w3-bottombar w3-border-theme top-bar-receiver">
 				<!-- 동적생성할 부분 -->
-				<div class="w3-col l3 w3-center w3-hide-medium w3-padding">
-					<img src="<c:url value="/resources/img/testimg.png"/>" id="chatuser" class="w3-circle"/>
+				<div class="w3-col l3 w3-center w3-hide-medium w3-padding" id="chatuserImg">
+					<%-- <img src="<c:url value="/resources/img/testimg.png"/>" id="chatuser" class="w3-circle"/> --%>
 				</div>
 				<div class="w3-col m9 l6 w3-padding top-bar-title" style="line-height: 60px;">
-					<b id="chat-user-nick" style="font-size: 1.3em; font-weight: bold;">테스트용</b>&nbsp;&nbsp;님과의 대화
+					<!-- <b id="chat-user-nick" style="font-size: 1.3em; font-weight: bold;">테스트용</b>&nbsp;&nbsp;님과의 대화 -->
 				</div>
 				<div class="w3-col m3 l3 w3-center w3-text-theme">
 					<div class="hamburger w3-padding-16">
@@ -136,7 +136,7 @@
 		<div class="w3-row content-area">
 			<div class="w3-col m5 l4 w3-theme-l1 chatRoomArea">
 				<ul class="w3-ul" id="chat-room-list">
-					<c:set var="arr" value="<%= new int[]{1,2,3,4,5,6,7,8,9,10,11,12} %>"/>
+					<%-- <c:set var="arr" value="<%= new int[]{1,2,3,4,5,6,7,8,9,10,11,12} %>"/>
 					<c:forEach items="${arr}" end="12">
 					<li class="w3-row" style="border:0">
 						<div class="w3-col m10 l10 w3-padding-small title-chatRoom">
@@ -145,7 +145,7 @@
 						</div>
 						<span class="w3-col m1 l1 w3-badge w3-red" id="badge">8</span>
 					</li>
-					</c:forEach>
+					</c:forEach> --%>
 				</ul>
 			</div>
 			<!-- 채팅메세지구역 -->
@@ -159,71 +159,7 @@
 				
 				<!-- 메세지 출력 부분 -->
 				<div class="w3-row w3-white msg-area">
-					<div class="w3-row w3-padding">
-						<div class="w3-row">
-							<b>테스트용</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l8 w3-padding w3-light-grey" id="left-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row">
-							<b>테스트용</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l8 w3-padding w3-light-grey" id="left-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row w3-right-align">
-							<b>euna</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l7 w3-padding w3-right w3-theme-l4" id="right-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4 w3-right w3-right-align">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row w3-right-align">
-							<b>euna</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l7 w3-padding w3-right w3-theme-l4" id="right-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4 w3-right w3-right-align">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row w3-right-align">
-							<b>euna</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l7 w3-padding w3-right w3-theme-l4" id="right-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4 w3-right w3-right-align">
-								2020-2020
-							</div>
-						</div>
-					</div>						
+										
 				</div>
 				
 				<!-- 인풋 버튼 모음 -->
@@ -298,18 +234,23 @@
 $(document).ready(function(){
 	//전송버튼 비활성화
 	$('.send-msg').attr('disabled', true);
-	//3점클릭
-	evClickDots();
-	//영상통화클릭
-	evClickVideoChat();
-	//채팅방 삭제클릭
-	evClickDelRoom();
 	//이미지선택클릭
 	evClickSelectImg();
 	//메세지전송이벤트
 	evClickMsg();
 	//검색실행이벤트
 	evClickSearch();
+	
+	$('.top-bar-title').html(notChoiceMsg);
+	if(${msgInfo!=null}){
+		currRoom =-1;
+		var reqIdx = Number('${msgInfo.reqIdx}'); 
+		var reqWriter = '${msgInfo.uNick}';
+		insertTopBarReq(reqIdx);
+		insertTopBarTitle(reqWriter);
+		insertTopBarImg(reqWriter);
+		$('#msg-text').focus();
+	}
 });
 //배포한 aws경로
 var aws= 'http://ec2-13-125-249-249.ap-northeast-2.compute.amazonaws.com:8080';
@@ -321,21 +262,9 @@ var uploadPath = '<c:url value="/resources/img/upload/"/>';
 var loginUser= '${loginInfo.mNick}';
 //게시판 타고 들어왔을시 게시글 번호와 게시글 작성자 정보 받음 
 var msgInfo;
-var currRoom=-2;
-var roomReqIdx=null;
-
-if(${msgInfo!=null}){
-	currRoom =-1;
-	var reqIdx = Number('${msgInfo.reqIdx}'); 
-	var reqWriter = '${msgInfo.uNick}';
-	msgInfo={
-			reqIdx:reqIdx,
-			reqWriter:reqWriter
-		};
-}
 
 </script>
-<%-- <script src="<c:url value="/resources/js/kjj/socket.js"/>"></script> --%>
+<script src="<c:url value="/resources/js/kjj/socket.js"/>"></script>
 <script src="<c:url value="/resources/js/kjj/tag.js"/>"></script>
 <script src="<c:url value="/resources/js/kjj/ready.js"/>"></script>
 <script src="<c:url value="/resources/js/kjj/kjj.js"/>"></script>
