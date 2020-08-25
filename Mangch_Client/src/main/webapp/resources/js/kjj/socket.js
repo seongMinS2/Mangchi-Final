@@ -4,7 +4,7 @@ var code = {
     delRoom : 'delete'
 };
 
-var sock = new SockJS('http://localhost:8080/mc-chat/chatting');
+var sock = new SockJS(localhost+'/chatting');
 
 //websocket 서버에 접속하면 실행
 sock.onopen = sendSession;
@@ -18,7 +18,7 @@ function sendSession(){
 	var loginInfo = {
 			code:code.connection,
 			sender:loginUser,
-			uri:uri
+			url:url
 		}
 	sock.send(JSON.stringify(loginInfo));
 }
