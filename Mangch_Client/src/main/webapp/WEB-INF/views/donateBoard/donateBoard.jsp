@@ -27,7 +27,7 @@
 				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> 
 				<input type="button" id="searchBar" class="w3-button w3-theme-l3" style="width: 30%;" value="검색">
 				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기" onclick="subscribeDonate()">
-				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe(+${loginInfo.mNick}+)" style="display:none;">
+				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe('${loginInfo.mNick}')" style="display:none;">
 				<input type="button" class="w3-button w3-block w3-theme-l1" id="notification" value="키워드 알람 설정"
 				onclick="noticeForm()">
 			</form>
@@ -161,6 +161,7 @@ function newSubscribe(title){
 		
 	})
 	.then(function(token) {
+		console.log('구독자 토큰 : '+token);
 	
 		$.ajax({
 			url : 'http://localhost:8080/subscribe/register',
@@ -191,6 +192,9 @@ function newSubscribe(title){
 				 
 				    return self.registration.showNotification(title,options);
 				});
+			},
+			error : function(data) {
+				alert('구독 처리 실패');
 			}
 			
 		});
