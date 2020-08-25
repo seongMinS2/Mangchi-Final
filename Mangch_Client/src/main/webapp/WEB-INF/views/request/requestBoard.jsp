@@ -188,7 +188,8 @@ th ,td {
 	
 	function list() {
 		$.ajax({
-					url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+//					url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+					url : 'http://localhost:8080/rl/request',
 					type : 'GET',
 					data : {
 						mLat : mLttd,
@@ -216,7 +217,7 @@ th ,td {
 						html += '	<th>글 제목</th>';
 						html += '	<th>지역</th>';
 						if ('${loginInfo}' != '') {
-							html += '	<td>거리</td>';
+							html += '	<th>거리</th>';
 						}
 						html += '	<th>상태</th>';
 						html += '	<th>작성자</th>';
