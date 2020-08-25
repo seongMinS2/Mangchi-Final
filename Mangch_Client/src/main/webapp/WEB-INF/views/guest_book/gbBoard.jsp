@@ -504,7 +504,7 @@ function goPopup(guest_idx) {
 
 	    
 	    
-	    var page = 4;
+	    var page = 0;
 ///////////////////// 전체리스트
 function gbList() {
 	    	
@@ -517,12 +517,13 @@ function gbList() {
 			 xx :'${loginInfo.mLttd}',
 			 yy :'${loginInfo.mLgtd}',
 			 member_radius :'${loginInfo.mRadius}',
-			 limit : page
+			 limit : page,
+			 nick : bb
 			
 		 },
 		success : function (data) {
 			var html='';
-			console.log(data[0].guest_likes);
+			console.log(data);
 			for(var i=0; i<data.length; i++){
 				if(data[i].guest_photo !=null){
 				html+='<article class="have_photo">';
@@ -616,14 +617,11 @@ function gbList() {
 				    html+='<section>';
 				    
 				    //아래라이크사진
-				   for(var j=0; j<data[i].guest_likes.length; j++){
-					   console.log(data[i].guest_likes.length);
-					   if(data[i].guest_likes[j].guestlike_nick==bb){
+				    if(data[i].checkLikes==1){
 				    html+='<button class="footers likedownbtn" id="heartno"  onclick="likedown('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
-					   }
-						   
-				    } 
+				    }else{
 				    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+				    } 
 			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			    	
 				    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
@@ -694,8 +692,9 @@ function gbList() {
 					var d =c.children('.dlikes').text();
 					d=Number(d)+1;
 					c.children('.dlikes').text(d);
-					$(this).hide();
-					a.show();
+					//$(this).hide();
+					//a.show();
+					
 				
 					
 					
@@ -710,8 +709,9 @@ function gbList() {
 				
 				c=Number(c)-1;
 				b.children('.dlikes').text(c);
-				$(this).hide();
-				$(this).prev().show();
+				//$(this).hide();
+				//$(this).prev().show();
+				
 		});
 			
 
@@ -782,7 +782,6 @@ function gbList() {
 
 ///////////////////// 좋아요 증감 함수
   function likeup(guest_idx) {
-	alert(bb);
 		$.ajax({
 			url:'http://localhost:8080/guest/guest_book/plus/'+guest_idx,
 			type:'POST',
@@ -790,7 +789,7 @@ function gbList() {
 				 bb ,
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
-				
+				gbList();
 			}
 		});
 	}
@@ -801,10 +800,11 @@ function gbList() {
 	function likedown(guest_idx) {
 		$.ajax({
 			url:'http://localhost:8080/guest/guest_book/mi/'+guest_idx,
-			type:'PUT',
+			type:'DELETE',
+			data:bb,
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
-				
+				gbList();
 			}
 		});
 	} 
@@ -819,13 +819,12 @@ function gbList() {
 
 
 $(document).ready(function () {
-	gbList();
+	gbList(page=5);
 	
 	$(window).scroll(function() {
 	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
 	    	page=page+4
-	    	alert('고고');
 	
 	        gbList(); 
 	        //console.log(page)
