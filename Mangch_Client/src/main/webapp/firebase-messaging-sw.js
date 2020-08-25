@@ -22,7 +22,7 @@ const messaging = firebase.messaging();
 //수신자 앱이 백그라운드 상태일 때 메시지 수신
 messaging.setBackgroundMessageHandler(function(payload){
  
-    const title = "동네에서 대여하기 :: MANGCHI!";
+    const title = payload.notification.title;
     const options = {
             body: payload.data.status
     };

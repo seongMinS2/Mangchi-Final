@@ -385,7 +385,7 @@ const firebaseModule=(function(){
 						})
 						.then(async function(token) {
 							await fetch('/register', {
-								method : 'get',
+								method : 'post',
 								body : token
 							})
 							messaging.onMessage(payload => {
@@ -417,7 +417,9 @@ const firebaseModule=(function(){
 
 
 $(document).ready(function(){
-	firebaseModule.init()
+	if($('#loginUser').val()!=null) {
+		firebaseModule.init()
+	}
 	checkSubsribe($('#loginUser').val());
 });
 
