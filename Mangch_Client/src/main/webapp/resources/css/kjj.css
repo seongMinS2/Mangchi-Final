@@ -174,3 +174,6 @@ input[name=msgText]{
 	height: 100%;
 	padding-bottom: 140px;
 }
+.msgimgtag{
+	width:250px;	
+}

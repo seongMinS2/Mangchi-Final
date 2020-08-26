@@ -1,10 +1,10 @@
 var code = {
     connection:'connection',
     message : 'message',
-    delRoom : 'delete'
+    deleteRoom : 'delete'
 };
 
-var sock = new SockJS(localhost+'/chatting');
+var sock = new SockJS(localhost+'/mc-chat/chatting');
 
 //websocket 서버에 접속하면 실행
 sock.onopen = sendSession;
@@ -18,7 +18,7 @@ function sendSession(){
 	var loginInfo = {
 			code:code.connection,
 			sender:loginUser,
-			url:url
+			uri:uri
 		}
 	sock.send(JSON.stringify(loginInfo));
 }
@@ -26,7 +26,7 @@ function sendSession(){
 //메세지 보내기
 //websocket으로 메시지를 보내겠다.
 function sendMsgToSocket(msgData) {
-	console.log(moment(new Date()).format('YYYY년 MM월 DD일'));
+	//console.log(moment(new Date()).format('YYYY년 MM월 DD일'));
 	var text=null;
 	var img=null;
 	if (msgData.text!=null&&msgData.text.length>0){
@@ -48,6 +48,89 @@ function sendMsgToSocket(msgData) {
 
 //evt 파라미터는 websocket이 보내준 데이터다.
 function onMessage(evt) { //변수 안에 function자체를 넣음.
+	var msg = JSON.parse(evt.data);
+	console.log(msg);
+	var updateLi = $('#chat-room'+msg.roomIdx);
+	if(msg.code=='message'){
+		if(roomIdx==msg.roomIdx){
+			if(msg.sender==loginUser){
+				var html='';
+				html+='<div class="w3-row w3-padding">';
+				html+='    <div class="w3-cell-row w3-right-align">';
+				html+='        <b>'+msg.sender+'</b>';
+				html+='    </div>';
+				html+='    <div class="w3-cell-row">';
+				html+='        <div class="w3-cell w3-padding w3-right w3-theme-l4" id="right-msg">';
+				if(msg.img!=null&&msg.img.length>0){
+				html+='		       <span class="w3-right">';
+				html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
+				html+='            </span>';
+				}else{
+				html+='		       <span class="w3-right">';
+				html+=                  msg.text;
+				html+='            </span>';
+				}
+				html+='        </div>';
+				html+='        <div class="w3-right w3-right-align">';
+				html+=          moment(msg.date).format('a HH:DD');
+				html+='        </div>';
+				html+='    </div>';
+				html+='</div>';
+				$('.msg-area').append(html);
+			}else{
+				var html='';
+				html+='<div class="w3-row w3-padding">';
+				html+='    <div class="w3-cell-row">';
+				html+='        <b>'+msg.sender+'</b>';
+				html+='    </div>';
+				html+='    <div class="w3-cell-row">';
+				html+='        <div class="w3-cell  w3-left w3-padding w3-light-grey" id="left-msg">';
+				if(msg.img!=null&&msg.img.length>0){
+				html+='		       <span>';
+				html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
+				html+='            </span>';
+				}else{
+				html+='		       <span>';
+				html+=                  msg.text;
+				html+='            </span>';
+				}
+				html+='        </div>';
+				html+='        <div class="w3-left w3-left-align">';
+				html+=          moment(msg.date).format('a HH:DD');
+				html+='        </div>';
+				html+='    </div>';
+				html+='</div>';
+				$('.msg-area').append(html);
+			}
+			$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
+		}else{
+			if(updateLi.children('#badge').length){
+				var badge = updateLi.children('#badge');
+				badge.text(Number(badge.text())+1);
+			}else{
+				var html='';
+				html+='<span class="w3-col m1 l1 w3-badge w3-red" id="badge">1</span>';
+				updateLi.append(html);
+			}
+		}
+		updateLi.prependTo('#chat-room-list');
+	}else if(msg.code=='delete'){
+		updateLi.append('<input type="hidden" id="delUser" value="'+msg.sender+'">');
+		updateLi.find('.chat-title').addClass('w3-red');
+		updateLi.find('.chat-title').text('상대방이 채팅방을 떠났습니다');
+		if(roomIdx==msg.roomIdx){
+			delUser=msg.sender;
+			rmClickDelRoom();
+			var html2 ="<div class='w3-cell-row w3-container w3-center'>";
+			html2 +="	<p class='w3-round-xxlarge w3-red'>상대방이 채팅을 종료했습니다.<br> 메세지를 보낼 수 없습니다</p>";
+			html2 +="	<button class='w3-button w3-large w3-round-large w3-red confirm-room-del'>삭제</button>";
+			html2 +="</div>";
+			$('.msg-area').append(html2);
+			evClickDelRoom();
+			$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
+		}
+		updateLi.prependTo('#chat-room-list');
+	}
 
 }
 function onClose(evt) {
