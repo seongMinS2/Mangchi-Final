@@ -54,7 +54,8 @@
 			
 			
 			 $.ajax({
-				url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review',
+				//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review',
+				url : 'http://localhost:8080/rl/review',
 				type : 'post',
 				data : reviewInfo,
 				success : function(data){
