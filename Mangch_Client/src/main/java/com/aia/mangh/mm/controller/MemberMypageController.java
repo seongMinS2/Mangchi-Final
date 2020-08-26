@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aia.mangh.mm.model.EditRequest;
 import com.aia.mangh.mm.model.LoginRequest;
-import com.aia.mangh.mm.service.ChkIdPwService;
+import com.aia.mangh.mm.service.MemberCheckService;
 import com.aia.mangh.mm.service.MemberDeleteService;
-import com.aia.mangh.mm.service.MemberEditPwService;
 import com.aia.mangh.mm.service.MemberEditService;
 import com.aia.mangh.mm.service.MemberListService;
 
@@ -29,10 +28,7 @@ public class MemberMypageController {
 	private MemberEditService editService;
 
 	@Autowired
-	private ChkIdPwService service;
-	
-	@Autowired
-	private MemberEditPwService editPwService;
+	private MemberCheckService checkService;
 	
 	@Autowired
 	private MemberDeleteService deleteService;
@@ -88,15 +84,15 @@ public class MemberMypageController {
 	}
 
 	// PW 체크
-	@RequestMapping(value="/chkmPw", method=RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value="/chkmPw", method=RequestMethod.POST)
 	public int chkmPw(LoginRequest loginRequest) {
 		System.out.println(loginRequest);
-		int result = service.checkIdPw(loginRequest);
+		int result = checkService.ChkIdPw(loginRequest);
 		return result;
 	}
 	
-	// 회원정보 수정(닉네임, 주소, 사진, 거리)
+	// 회원정보 수정(주소, 사진, 거리)
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
 	public String edit(EditRequest editRequest, HttpServletRequest request) {
 		System.out.println("controller : "+editRequest);
@@ -106,19 +102,17 @@ public class MemberMypageController {
 	}
 	
 	// 회원 비밀번호 수정
-	@RequestMapping(value="/editPw", method=RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value="/editPw", method=RequestMethod.POST)
 	public int editPw(String mId, String nPw) {
 		System.out.println("nPw :"+nPw);
-
-		int result = editPwService.editPw(mId, nPw);
-		
+		int result = editService.editPw(mId, nPw);
 		return result;
 	}
 	
 	// 회원 탈퇴
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public int delete(String mId) {
 		System.out.println("delete mId: "+mId);
 		int result = deleteService.delete(mId);

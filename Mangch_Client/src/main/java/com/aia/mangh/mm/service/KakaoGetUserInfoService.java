@@ -41,32 +41,38 @@ public class KakaoGetUserInfoService {
 				result += line;
 			}
 			System.out.println("response body : " + result);
-
 			JsonParser parser = new JsonParser();
 			JsonElement element = parser.parse(result);
 
 			JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 			JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-			
+			JsonObject profile = kakao_account.getAsJsonObject().get("profile").getAsJsonObject();
 			String email = null;
-			
-			if(kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() == "true") {
-				 email = element.getAsJsonObject().get("id").getAsString();;
-			} else if(kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() == "false") {
+
+			// 카카오 이메일 확인
+			if (kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() == "true") {
+				email = element.getAsJsonObject().get("id").getAsString();
+				;
+			} else if (kakao_account.getAsJsonObject().get("email_needs_agreement").getAsString() == "false") {
 				email = kakao_account.getAsJsonObject().get("email").getAsString();
 			}
-			
+
+			// 카카오 프로필 사진 확인
 			String id = element.getAsJsonObject().get("id").getAsString();
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-			String img = properties.getAsJsonObject().get("profile_image").getAsString();
+			String img = null;
 
+			if (profile.getAsJsonObject().get("profile_image_url") == null) {
+				img = "defalult.png";
+			} else {
+				img = profile.getAsJsonObject().get("profile_image_url").getAsString();
+			}
 			userInfo.put("img", img);
 			userInfo.put("id", id);
 			userInfo.put("nickname", nickname);
 			userInfo.put("email", email);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

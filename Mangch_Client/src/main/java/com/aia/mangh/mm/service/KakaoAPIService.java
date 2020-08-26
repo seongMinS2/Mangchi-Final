@@ -11,12 +11,12 @@ import java.net.URL;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @Service
 public class KakaoAPIService {
 
+	// access_Token 얻기
 	public String getAccessToken(String authorize_code) {
 		String access_Token = "";
 		String refresh_Token = "";
@@ -37,6 +37,7 @@ public class KakaoAPIService {
 			sb.append("&client_id=a01763f7f7d5db1bd274b95045628499");
 			sb.append("&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST");
 			sb.append("&code=" + authorize_code);
+			sb.append("&client_secret=G2Tr6U9T6ky2PFd74dtrQcATE17hvWQF");
 			bw.write(sb.toString());
 			bw.flush();
 
@@ -67,152 +68,10 @@ public class KakaoAPIService {
 			br.close();
 			bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return access_Token;
 	}
-
-	// 카카오 로그아웃
-	public void kakaoLogout(String access_Token) {
-		
-		System.out.println("logout token: "+access_Token);
-		String reqURL = "https://kapi.kakao.com/v1/user/logout";
-		try {
-			URL url = new URL(reqURL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-
-			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-			String result = "";
-			String line = "";
-
-			while ((line = br.readLine()) != null) {
-				result += line;
-			}
-			System.out.println(result);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	// 카카오 연결끊기
-	public void kakaoUnlink(String access_Token) {
-		
-		System.out.println("logout token: "+access_Token);
-		String reqURL = "https://kapi.kakao.com/v1/user/unlink";
-		try {
-			URL url = new URL(reqURL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-
-			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-			String result = "";
-			String line = "";
-
-			while ((line = br.readLine()) != null) {
-				result += line;
-			}
-			System.out.println(result);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	// 카카오 프로필 업데이트
-	public String getUpdateProfile(String access_Token) {
-		String reqURL = "https://kapi.kakao.com/v1/api/talk/profile";
-		String mImg = null;
-		try {
-			URL url = new URL(reqURL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-
-			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-			String result = "";
-			String line = "";
-
-			while ((line = br.readLine()) != null) {
-				result += line;
-			}
-
-			JsonParser parser = new JsonParser();
-			JsonElement element = parser.parse(result);
-
-			System.out.println("response body profile: " + result);
-
-			String profile = element.getAsJsonObject().get("profileImageURL").getAsString();
-			System.out.println("json profile: "+profile);
-			
-			mImg = profile;
-			
-			System.out.println("string mImg: "+mImg);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return mImg;
-	}
-	
-	public String getFriend(String access_Token) {
-		System.out.println(access_Token);
-		String reqURL = "https://kapi.kakao.com/v1/api/talk/friends";
-		String kakaofriends = null;
-		try {
-			URL url = new URL(reqURL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-
-			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-			String result = "";
-			String line = "";
-
-			while ((line = br.readLine()) != null) {
-				result += line;
-			}
-
-			JsonParser parser = new JsonParser();
-			JsonElement element = parser.parse(result);
-
-			System.out.println("response body profile: " + result);
-
-			String profile = element.getAsJsonObject().get("profileImageURL").getAsString();
-			System.out.println("json profile: "+profile);
-			
-			kakaofriends = profile;
-			
-			System.out.println("kakao friends: "+kakaofriends);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 
 }

@@ -15,7 +15,7 @@ public class MemberVerifyController {
 	@Autowired
 	private MemberVerifyService verifyService;
 
-	// 메일 재 발송 요청
+	// 메일 발송 요청
 	@ResponseBody
 	@RequestMapping("/MailSend")
 	public String reMailSend(@RequestParam("email") String email) {
@@ -28,6 +28,7 @@ public class MemberVerifyController {
 		return code;
 	}
 
+	// 인증번호 난수 생성
 	public String makeRandom() {
 		String value = "";
 		for (int i = 0; i < 8; i++) {
