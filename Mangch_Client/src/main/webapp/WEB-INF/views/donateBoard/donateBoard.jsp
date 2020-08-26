@@ -27,7 +27,7 @@
 				<input type="text" id="searchKey" name="searchKey" placeholder="닉네임 혹은 제목을 검색하세요" style="width: 60%;"> 
 				<input type="button" id="searchBar" class="w3-button w3-theme-l3" style="width: 30%;" value="검색">
 				<input type="button" class="w3-button w3-block w3-theme-l2" id="subscribe" value="나눔게시판 구독하기" onclick="subscribeDonate()">
-				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe(+${loginInfo.mNick}+)" style="display:none;">
+				<input type="button" class="w3-button w3-block w3-theme-l2" id="canselSubscribe" value="구독 취소" onclick="cancelSubsribe('${loginInfo.mNick}')" style="display:none;">
 				<input type="button" class="w3-button w3-block w3-theme-l1" id="notification" value="키워드 알람 설정"
 				onclick="noticeForm()">
 			</form>
@@ -48,7 +48,7 @@
 <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-messaging.js"></script>
 <script>
-
+/* 
 //키등록
 var config = {
     apiKey: "AIzaSyDDYOCHCJe-_sOTVkVo-Hi63oRTE1dVlgs",
@@ -76,7 +76,23 @@ messaging.onMessage(function(payload){
             body: payload.notification.body
     };
     var notification = new Notification(title, options);
-});
+}); */
+
+var firebaseConfig = {
+		apiKey: "AIzaSyDDYOCHCJe-_sOTVkVo-Hi63oRTE1dVlgs",
+		authDomain: "donataboard-mangchi-project.firebaseapp.com",
+			databaseURL: "https://donataboard-mangchi-project.firebaseio.com",
+		projectId: "donataboard-mangchi-project",
+		storageBucket: "donataboard-mangchi-project.appspot.com",
+		messagingSenderId: "178872893699",
+		appId: "1:178872893699:web:94f9afe628778e2ad1a936",
+		measurementId: "G-N8HPT4GQ8G"
+	};
+
+
+firebase.initializeApp(firebaseConfig);
+
+const messaging=firebase.messaging();
 
 //로그인 한 사용자가 구독자인지 체크
 function checkSubsribe(mNick){
@@ -127,6 +143,7 @@ function newKeyNotice(title){
 				            body: payload.notification.body
 				    };
 				    var notification = new Notification(title, options);
+				    
 				});
 				
 				//수신자 앱이 백그라운드 상태일 때 메시지 수신
@@ -160,6 +177,7 @@ function newSubscribe(title){
 		
 	})
 	.then(function(token) {
+		console.log('구독자 토큰 : '+token);
 	
 		$.ajax({
 			url : 'http://localhost:8080/subscribe/register',
@@ -190,6 +208,9 @@ function newSubscribe(title){
 				 
 				    return self.registration.showNotification(title,options);
 				});
+			},
+			error : function(data) {
+				alert('구독 처리 실패');
 			}
 			
 		});
@@ -344,6 +365,7 @@ function subscribeDonate() {
 				},
 				success : function(data){
 					alert('나눔게시판 구독 알림이 시작됩니다.');
+					history.go(0);
 				}
 			});
 			
@@ -354,7 +376,57 @@ function subscribeDonate() {
 	}
 }
 
+const firebaseModule=(function(){
+	async function  init(){
+		if('serviceWorder' in navigator) {
+			window.addEventListener('load', function(){
+				navigator.serviceWorker.register('/firebase-messaging-sw.js')
+					.then(registration => {
+
+						firebase.initializeApp(firebaseConfig);
+
+						const messaging=firebase.messaging();
+						messaging.requestPermission()
+						.then(function(){
+							return messaging.getToken();
+						})
+						.then(async function(token) {
+							await fetch('/register', {
+								method : 'post',
+								body : token
+							})
+							messaging.onMessage(payload => {
+								const title=payload.notification.title
+								const option ={
+									body : payload.notification.body
+								}
+								navigator.serviceWorker.ready.then(registration => {
+									registration.showNotification(title, option);
+								})
+							})
+						})
+						.catch(function(err){
+							console.log("Error Occured");
+						})
+					})
+					
+			})
+		}
+	}
+	return {
+		init : function() {
+			init();
+		}
+	}
+})();
+
+
+
+
 $(document).ready(function(){
+	if($('#loginUser').val()!=null) {
+		firebaseModule.init()
+	}
 	checkSubsribe($('#loginUser').val());
 });
 

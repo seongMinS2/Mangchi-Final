@@ -5,88 +5,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CHTTING3</title>
-<link rel="stylesheet" href="<c:url value="/resources/css/kjj.css"/>">
 <c:if test="${loginInfo==null}">
 	<script>
 		alert('로그인해야 이용가능합니다');
 		location.href='/mangh/';
 	</script>
 </c:if>
+
 <style>
 
 
 </style>
 
+<link rel="stylesheet" href="<c:url value="/resources/css/kjj.css"/>">
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <body>
-<!-- <div class="w3-container">
-		<div class="w3-row-padding">
-			<div class="w3-col" style="width: 10%">
-				<p></p>
-			</div>
-			<div class="w3-col" style="width: 80%">
-				<div class="w3-row">
-					<h1>채팅</h1>
-				</div>
-				<div class="w3-row">
-					<div class="w3-container w3-third chatRoomArea">
-						<div class="w3-row w3-indigo w3-padding chatlist">
-							<h3>채팅방 목록</h3>
-						</div>
-						<div class="w3-row w3-light-grey chatRoomList">
-							<ul class="w3-ul w3-margin chatRooms">
-								채팅방 목록
-								
-							</ul>
-						</div>
-					</div>
-					<div class="w3-container w3-twothird chatArea">
-						<div class="w3-bar w3-indigo">
-							<div class="w3-bar-item">
-								<h3 class="receiver">
-									누구와의 대화
-									메세지를 선택해주세요
-								</h3>
-							</div>
-							<div class="w3-bar-item w3-right trashIcon">
-								휴지통 아이콘
-							</div>
-							
-						</div>
-						<div class="w3-row w3-light-grey w3-padding msgArea">
-							메세지 목록
-							
-						</div>
-
-						<div class="w3-cell-row w3-padding inputArea">
-							<div class="w3-cell">
-								<button class="w3-button w3-indigo w3-hover-blue w3-round-large imgModalBtn">
-									<i class="fa fa-image"></i>
-								</button>
-							</div>
-							<div class="w3-cell w3-container" style="width: 80%">
-								<input class="w3-input w3-border w3-round-small" type="text" id="message">
-							</div>
-							<div class="w3-cell w3-container">
-								<button class="w3-button w3-blue w3-center" id="sendBtn">
-									전송 <i class="fa fa-plane"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="w3-col" style="width: 10%">
-				<p></p>
-			</div>
-		</div>
-	</div> -->
 	<jsp:include page="/WEB-INF/views/include/kjj-header.jsp" />
 	<!-- 큰화면 중간화면 -->
-	<div class="w3-hide-small w3-card" id="ml-screen">
+	<div class="w3-card" id="ml-screen">
 		<!-- 상단바 -->
 		<div class="w3-row" id="top-bar" style="height: 90px">
 			<div class="w3-col m5 l4 w3-theme w3-border-bottom w3-border-white w3-padding-large w3-padding-16">
@@ -94,17 +34,18 @@
 					<input type="text" class="w3-theme w3-round-large w3-input w3-animate-input" id="roomSearch" placeholder="닉네임입력...">
 				</div>
 				<div class="w3-rest w3-center" style="padding-top: 3px;">
-					<i class="fa fa-search w3-large w3-round-large w3-border wr-border-white w3-button" style="padding: 10px;"></i>
+					<button class="fa fa-search w3-large w3-round-large w3-border wr-border-white w3-button" id="room-search-btn" style="padding: 12px;">
+					</button>
 				</div>
 			</div>
 			
 			<div class="w3-col m7 l8 w3-white w3-bottombar w3-border-theme top-bar-receiver">
 				<!-- 동적생성할 부분 -->
-				<div class="w3-col l3 w3-center w3-hide-medium w3-padding">
-					<img src="<c:url value="/resources/img/testimg.png"/>" id="chatuser" class="w3-circle"/>
+				<div class="w3-col l3 w3-center w3-hide-medium w3-padding" id="chatuserImg">
+					<%-- <img src="<c:url value="/resources/img/testimg.png"/>" id="chatuser" class="w3-circle"/> --%>
 				</div>
 				<div class="w3-col m9 l6 w3-padding top-bar-title" style="line-height: 60px;">
-					<b style="font-size: 1.3em; font-weight: bold;">테스트용</b>&nbsp;&nbsp;님과의 대화
+					<!-- <b id="chat-user-nick" style="font-size: 1.3em; font-weight: bold;">테스트용</b>&nbsp;&nbsp;님과의 대화 -->
 				</div>
 				<div class="w3-col m3 l3 w3-center w3-text-theme">
 					<div class="hamburger w3-padding-16">
@@ -113,14 +54,13 @@
 						</svg>
 					</div>
 					<div class="dropdown-content w3-animate-down w3-right w3-card" style="right: 0px;">
-					    <a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme">
-					    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-camera-video-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-						  <path d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z"/>
-						  <path d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 0 0 0 1.393z"/>
-						</svg>
-							<b>영상통화</b>
+					    <a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme out-room">
+						    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-door-open-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2v13h1V2.5a.5.5 0 0 0-.5-.5H11zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+							</svg>
+							<b>나가기</b>
 					    </a>
-						<a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme">
+						<a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme confirm-room-del">
 						<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
  						 <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
 						</svg>
@@ -133,104 +73,38 @@
 		
 		<!-- 내용바-->
 		<div class="w3-row content-area">
-			<div class="w3-col m5 l4 w3-theme chatRoomArea">
-				<ul class="w3-ul">
-					<c:set var="arr" value="<%= new int[]{1,2,3,4,5,6,7,8,9,10,11,12} %>"/>
-					<c:forEach items="${arr}" end="3">
+			<div class="w3-col m5 l4 w3-theme-l1 chatRoomArea">
+				<ul class="w3-ul" id="chat-room-list">
+					<%-- <c:set var="arr" value="<%= new int[]{1,2,3,4,5,6,7,8,9,10,11,12} %>"/>
+					<c:forEach items="${arr}" end="12">
 					<li class="w3-row" style="border:0">
-						<div class="w3-col w3-hide-medium w3-center w3-padding-small" style="width:88px;">
-							<img src="<c:url value="/resources/img/LOGO-tight.png"/>" id="chatuser" class="w3-circle"/>
-						</div>
-						<div class="w3-col m12 l8 w3-padding-small title-chatRoom">
-							<b class="chat-title">테스트용</b><br>
+						<div class="w3-col m10 l10 w3-padding-small title-chatRoom">
+							<b class="chat-nick">테스트용</b><br>
 							<span>제목 : 망치좀 빌려주실분망치좀 빌려주실분망치좀 빌려주실분망치좀 빌려주실분</span>							
 						</div>
+						<span class="w3-col m1 l1 w3-badge w3-red" id="badge">8</span>
 					</li>
-					</c:forEach>
+					</c:forEach> --%>
 				</ul>
 			</div>
 			<!-- 채팅메세지구역 -->
 			<div class="w3-col m7 l8 w3-border-left w3-border-white msg-content">
 				<!-- 게시물에대한 정보 -->
 				<div class="w3-row w3-padding w3-border-bottom w3-border-theme info-area">
-					<div class="a">작성자 : </div>
-					<div class="a">글제목 : </div>
-					<div class="a">위치 : </div>
+					<div id="req-writer"></div>
+					<div id="req-title"></div>
+					<div id="req-loc"></div>
 				</div>
 				
 				<!-- 메세지 출력 부분 -->
 				<div class="w3-row w3-white msg-area">
-					<div class="w3-row w3-padding">
-						<div class="w3-row">
-							<b>테스트용</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l8 w3-padding w3-light-grey" id="left-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row">
-							<b>테스트용</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l8 w3-padding w3-light-grey" id="left-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row w3-right-align">
-							<b>euna</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l7 w3-padding w3-right w3-theme-l4" id="right-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4 w3-right w3-right-align">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row w3-right-align">
-							<b>euna</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l7 w3-padding w3-right" id="right-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4 w3-right w3-right-align">
-								2020-2020
-							</div>
-						</div>
-					</div>						
-					<div class="w3-row w3-padding">
-						<div class="w3-row w3-right-align">
-							<b>euna</b>
-						</div>
-						<div class="w3-row-padding">
-							<div class="w3-col m10 l7 w3-padding w3-right" id="right-msg">
-							ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-							</div>
-							<div class="w3-col m8 l4 w3-right w3-right-align">
-								2020-2020
-							</div>
-						</div>
-					</div>						
+										
 				</div>
 				
 				<!-- 인풋 버튼 모음 -->
 				<div class="w3-row w3-white input-area w3-border w3-border-theme">
 					<div class="w3-col m2 l1">
-						<button class="w3-button w3-theme" >
+						<button class="w3-button w3-theme img-select-btn" >
 							<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="top:5px;">
 								<path fill-rule="evenodd" d="M14.002 2h-12a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-12-1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
 								<path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V14h-14v-2l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
@@ -239,10 +113,10 @@
 						</button>
 					</div>
 					<div class="w3-col m7 l9" >
-					<input type="text" name="msg-text" placeholder="메세지 입력..."/>
+					<input type="text" name="msgText" placeholder="메세지 입력..." id="msg-text"/>
 					</div>					
 					<div class="w3-col m3 l2" >
-						<button class="w3-button w3-theme" >
+						<button class="w3-button w3-theme send-msg">
 						<span>전송</span>
 						<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-cursor" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="top:5px;">
 							<path fill-rule="evenodd" d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/>
@@ -261,7 +135,7 @@
 	<!-- 모달 -->
 	<div id="img-modal" class="w3-modal">
 		<div class="w3-modal-content w3-animate-top" style="width: 50%">
-			<header class="w3-container w3-theme"> 
+			<header class="w3-container w3-theme">
 				<span class="w3-button w3-display-topright w3-xlarge closeImgModal">&times;</span>
 				<h3>사진 보내기</h3>
 			</header>
@@ -273,7 +147,7 @@
 		</div>
 	</div>
 	<div id="click-img-modal" class="w3-modal" onclick="this.style.display='none'">
- 			<img class="w3-modal-content w3-display-middle" id="clickImg" style="width:50%">
+ 		<img class="w3-modal-content w3-display-middle" id="clickImg" style="width:50%">
 	</div>
 	
 	<div id="ask-delroom-modal" class="w3-modal">
@@ -291,33 +165,49 @@
 			</div>
 		</div>
 	</div>
-	
+	<div id="img-zoom-modal" class="w3-modal w3-animate-zoom" onclick="this.style.display='none'">
+		<img class="w3-modal-content" id="clickImg" src="">
+	</div>
 	<!-- 작은 화면 -->
 	<div class="w3-row "></div>
 	<jsp:include page="/WEB-INF/views/include/kjj-footer.jsp" />
 <script>
+$(document).ready(function(){
+	//전송버튼 비활성화
+	$('.send-msg').attr('disabled', true);
+	//이미지선택클릭
+	evClickSelectImg();
+	//메세지전송이벤트
+	evClickMsg();
+	//검색실행이벤트
+	evClickSearch();
+	
+	$('.top-bar-title').html(notChoiceMsg);
+	if(${msgInfo!=null}){
+		currRoom =-1;
+		var reqIdx = Number('${msgInfo.reqIdx}'); 
+		var reqWriter = '${msgInfo.uNick}';
+		insertTopBarReq(reqIdx);
+		insertTopBarTitle(reqWriter);
+		insertTopBarImg(reqWriter);
+		$('#msg-text').focus();
+	}
+});
 //배포한 aws경로
-var aws= 'http://ec2-13-125-249-249.ap-northeast-2.compute.amazonaws.com:8080/mc-chat/chatting';
+var aws= 'http://ec2-13-125-249-249.ap-northeast-2.compute.amazonaws.com:8080';
+var localhost = 'http://localhost:8080';
 //클라이언트의 uri
 var uri = '${pageContext.request.requestURI}';
+var uploadPath = '<c:url value="/resources/img/upload/"/>';
 //로그인한 사용자
 var loginUser= '${loginInfo.mNick}';
 //게시판 타고 들어왔을시 게시글 번호와 게시글 작성자 정보 받음 
 var msgInfo;
 
-if(${msgInfo!=null}){
-	var reqIdx = Number('${msgInfo.reqIdx}'); 
-	var reqWriter = '${msgInfo.uNick}';
-	msgInfo={
-			reqIdx:reqIdx,
-			reqWriter:reqWriter
-		};
-}
-
 </script>
 <script src="<c:url value="/resources/js/kjj/socket.js"/>"></script>
 <script src="<c:url value="/resources/js/kjj/tag.js"/>"></script>
-<script src="<c:url value="/resources/js/kjj/event.js"/>"></script>
+<script src="<c:url value="/resources/js/kjj/ready.js"/>"></script>
 <script src="<c:url value="/resources/js/kjj/kjj.js"/>"></script>
 <!-- <script>
 var code = {

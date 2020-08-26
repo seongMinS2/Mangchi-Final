@@ -2,7 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="<c:url value="/resources/css/w3.css"/>">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme2.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme3.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme4.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme5.css'/>">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="<c:url value='/resources/css/summernote/summernote-lite.css'/>">
@@ -160,7 +164,7 @@ button.headSearchBtn{
 		</div>
 	</div>
 </div>
-<header style="position: sticky; top: 0;">
+<header style="position: sticky; top: 0; z-index: 1;">
 	<div class="headContainer w3-row w3-white w3-border-bottom w3-border-theme">
 		<div class="w3-content">
 			<div class="w3-col s6 m3 w3-padding-16 w3-center"> 
