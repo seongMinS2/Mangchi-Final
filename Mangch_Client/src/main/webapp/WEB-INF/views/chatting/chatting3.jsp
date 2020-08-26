@@ -24,68 +24,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <body>
-<!-- <div class="w3-container">
-		<div class="w3-row-padding">
-			<div class="w3-col" style="width: 10%">
-				<p></p>
-			</div>
-			<div class="w3-col" style="width: 80%">
-				<div class="w3-row">
-					<h1>채팅</h1>
-				</div>
-				<div class="w3-row">
-					<div class="w3-container w3-third chatRoomArea">
-						<div class="w3-row w3-indigo w3-padding chatlist">
-							<h3>채팅방 목록</h3>
-						</div>
-						<div class="w3-row w3-light-grey chatRoomList">
-							<ul class="w3-ul w3-margin chatRooms">
-								채팅방 목록
-								
-							</ul>
-						</div>
-					</div>
-					<div class="w3-container w3-twothird chatArea">
-						<div class="w3-bar w3-indigo">
-							<div class="w3-bar-item">
-								<h3 class="receiver">
-									누구와의 대화
-									메세지를 선택해주세요
-								</h3>
-							</div>
-							<div class="w3-bar-item w3-right trashIcon">
-								휴지통 아이콘
-							</div>
-							
-						</div>
-						<div class="w3-row w3-light-grey w3-padding msgArea">
-							메세지 목록
-							
-						</div>
-
-						<div class="w3-cell-row w3-padding inputArea">
-							<div class="w3-cell">
-								<button class="w3-button w3-indigo w3-hover-blue w3-round-large imgModalBtn">
-									<i class="fa fa-image"></i>
-								</button>
-							</div>
-							<div class="w3-cell w3-container" style="width: 80%">
-								<input class="w3-input w3-border w3-round-small" type="text" id="message">
-							</div>
-							<div class="w3-cell w3-container">
-								<button class="w3-button w3-blue w3-center" id="sendBtn">
-									전송 <i class="fa fa-plane"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="w3-col" style="width: 10%">
-				<p></p>
-			</div>
-		</div>
-	</div> -->
 	<jsp:include page="/WEB-INF/views/include/kjj-header.jsp" />
 	<!-- 큰화면 중간화면 -->
 	<div class="w3-card" id="ml-screen">
@@ -209,7 +147,7 @@
 		</div>
 	</div>
 	<div id="click-img-modal" class="w3-modal" onclick="this.style.display='none'">
- 			<img class="w3-modal-content w3-display-middle" id="clickImg" style="width:50%">
+ 		<img class="w3-modal-content w3-display-middle" id="clickImg" style="width:50%">
 	</div>
 	
 	<div id="ask-delroom-modal" class="w3-modal">
@@ -227,7 +165,9 @@
 			</div>
 		</div>
 	</div>
-	
+	<div id="img-zoom-modal" class="w3-modal w3-animate-zoom" onclick="this.style.display='none'">
+		<img class="w3-modal-content" id="clickImg" src="">
+	</div>
 	<!-- 작은 화면 -->
 	<div class="w3-row "></div>
 	<jsp:include page="/WEB-INF/views/include/kjj-footer.jsp" />

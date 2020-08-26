@@ -141,6 +141,12 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 		}
 		$updateLi.prependTo('#chat-room-list');
 	}
+	$('.msgimgtag').off();
+	$('.msgimgtag').on('click',function(){
+		console.log($(this).attr('src'));
+		$('#clickImg').attr('src',$(this).attr('src'));
+		$('#img-zoom-modal').show();
+	});
 
 }
 function onClose(evt) {

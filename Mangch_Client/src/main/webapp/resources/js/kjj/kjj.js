@@ -270,6 +270,12 @@ function insertMsgList(roomIdx,delUser){
 		        evClickDelRoom();
             }
             $('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
+            $('.msgimgtag').off();
+	        $('.msgimgtag').on('click',function(){
+				console.log($(this).attr('src'));
+				$('#clickImg').attr('src',$(this).attr('src'));
+				$('#img-zoom-modal').show();
+			});
         }
     });
 }
