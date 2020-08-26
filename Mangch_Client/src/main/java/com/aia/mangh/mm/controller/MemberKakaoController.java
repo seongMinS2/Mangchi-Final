@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aia.mangh.mm.model.RegKakaoRequest;
 import com.aia.mangh.mm.model.kakaoRequest;
-import com.aia.mangh.mm.service.ChkkIdService;
 import com.aia.mangh.mm.service.KakaoAPIService;
 import com.aia.mangh.mm.service.KakaoGetUserInfoService;
+import com.aia.mangh.mm.service.KakaoMemberService;
+import com.aia.mangh.mm.service.MemberCheckService;
 import com.aia.mangh.mm.service.MemberRegKakaoService;
 
 @Controller
@@ -24,16 +25,19 @@ import com.aia.mangh.mm.service.MemberRegKakaoService;
 public class MemberKakaoController {
 
 	@Autowired
-	private ChkkIdService chkkIdService;
+	private MemberCheckService checkService;
 
 	@Autowired
-	private KakaoAPIService kakao;
+	private KakaoAPIService kakaoAPIService;
 
 	@Autowired
 	private KakaoGetUserInfoService kakaoGetUserService;
 
 	@Autowired
-	private MemberRegKakaoService kakaoService;
+	private KakaoMemberService kakaoMemberService;
+
+	@Autowired
+	private MemberRegKakaoService kakaoRegService;
 
 	// 카카오 추가회원가입 폼
 	@RequestMapping("/regkakaoForm")
@@ -43,14 +47,14 @@ public class MemberKakaoController {
 
 	// 카카오 로그인 체크(0 or 1 반환)
 	// 카카오 회원의 프로필 사진 업데이트 체크 >> 프로필 사진 업데이트
-	@RequestMapping("/kakaoId")
 	@ResponseBody
+	@RequestMapping("/kakaoId")
 	public int kakaoId(String mId, String mImg, HttpSession session) {
 
 		int resultCnt = 0;
 		System.out.println("kakaoId >> " + mId);
 		System.out.println("kakaoImg >> " + mImg);
-		resultCnt = chkkIdService.ChkkId(mId, mImg, session);
+		resultCnt = checkService.ChkkId(mId, mImg, session);
 
 		return resultCnt;
 	}
@@ -61,7 +65,7 @@ public class MemberKakaoController {
 
 		System.out.println("kakaoRequest Controller >> " + kakaoRequest);
 
-		model.addAttribute("result", kakaoService.regKakaoMember(kakaoRequest, request));
+		model.addAttribute("result", kakaoRegService.regKakaoMember(kakaoRequest, request));
 
 		return "index";
 	}
@@ -72,7 +76,7 @@ public class MemberKakaoController {
 
 		System.out.println("code : " + code);
 
-		String access_Token = kakao.getAccessToken(code);
+		String access_Token = kakaoAPIService.getAccessToken(code);
 		System.out.println("controller access_token : " + access_Token);
 
 		return login(access_Token, session);
@@ -88,9 +92,9 @@ public class MemberKakaoController {
 		String mNick = (String) userInfo.get("nickname");
 		String mImg = (String) userInfo.get("img");
 
-		mImg = kakao.getUpdateProfile(access_Token);
+		mImg = kakaoMemberService.getUpdateProfile(access_Token);
 
-		int result = chkkIdService.ChkkId(mId, mImg, session);
+		int result = checkService.ChkkId(mId, mImg, session);
 
 		if (result > 0) {
 			System.out.println("result: " + result);
@@ -100,6 +104,7 @@ public class MemberKakaoController {
 		} else if (result == 0) {
 			kakaoRequest kakaoInfo = new kakaoRequest(mId, mNick, mImg, kId, access_Token);
 			session.setAttribute("kakaoInfo", kakaoInfo);
+			System.out.println("kakaoInfo: " + kakaoInfo);
 			session.setAttribute("access_Token", access_Token);
 			return "member/regFormKakao";
 		}
@@ -111,29 +116,29 @@ public class MemberKakaoController {
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
 		if ((String) session.getAttribute("access_Token") != null) {
-			kakao.kakaoLogout((String) session.getAttribute("access_Token"));
+			kakaoMemberService.kakaoLogout((String) session.getAttribute("access_Token"));
+		}
+		session.removeAttribute("kakaoInfo");
+		session.removeAttribute("loginInfo");
+
+		return "index";
+	}
+
+	// 카카오 연결끊기
+	@RequestMapping(value = "/unlink")
+	public String unlink(HttpSession session) {
+		if ((String) session.getAttribute("access_Token") != null) {
+			kakaoMemberService.kakaoUnlink((String) session.getAttribute("access_Token"));
 		}
 		session.removeAttribute("kakaoInfo");
 		session.removeAttribute("loginInfo");
 		return "index";
 	}
 	
-	// 카카오 연결끊기
-	@RequestMapping(value = "/unlink")
-	public String unlink(HttpSession session) {
-		if ((String) session.getAttribute("access_Token") != null) {
-			kakao.kakaoUnlink((String) session.getAttribute("access_Token"));
-		}
-		session.removeAttribute("kakaoInfo");
-		session.removeAttribute("loginInfo");
-		return "index";
-	}
-
-	@RequestMapping("/friend")
-	public String getFriend(HttpSession session) {
+	@RequestMapping("/send")
+	public String sendMessage(HttpSession session) {
 		String access_Token = (String) session.getAttribute("access_Token");
-		System.out.println("accesstoken: " + access_Token);
-		kakao.getFriend(access_Token);
-		return null;
+		System.out.println("send message controller"+access_Token);
+		return kakaoMemberService.sendMessage(access_Token);
 	}
 }

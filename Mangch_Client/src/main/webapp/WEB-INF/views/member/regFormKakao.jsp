@@ -19,36 +19,43 @@
 			<%-- ${kakaoInfo} --%>
 			<br>
 			<div class="imgbox">
-			<img src="${kakaoInfo.mImg}" width=101 height=128> <input
-				type="hidden" name="kImg" id="kImg" value="${kakaoInfo.mImg}"></div>
+				<c:set var="mImg" value="${kakaoInfo.mImg}" />
+				<c:if test="${mImg ne 'defalult.png'}">
+					<img src="${kakaoInfo.mImg}" width=150px height=150px
+						style="border-radius: 100px;">
+				</c:if>
+				<c:if test="${mImg eq 'defalult.png'}">
+					<img src="<c:url value="/resources/img/upload/${kakaoInfo.mImg}"/>"
+						width="150px" height="150px" style="border-radius: 100px;">
+				</c:if>
+				<input type="hidden" name="kImg" id="kImg" value="${kakaoInfo.mImg}">
+			</div>
 			<form action="regkakao" id="kakaoForm" method="post"
 				enctype="multipart/form-data">
 				<input type="hidden" name="kId" id="kId" value="${kakaoInfo.kId}">
 				<input type="hidden" name="mId" id="mId" value="${kakaoInfo.mId}">
-				<!-- <input type="hidden" name="mPw" id="mPw" value=""> -->
 				<table>
 					<tr>
 						<td>닉네임</td>
 						<td><input type="text" name="mNick" id="mNick"
-							value="${kakaoInfo.mNick}"></td>
+							value="${kakaoInfo.mNick}" required></td>
 					</tr>
 					<tr>
 						<td>주소</td>
 						<td><input type="text" name="mAddr" id="mAddr"><input
-							type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"></td>
-						<td><input type="hidden" name="mLttd" id="mLttd"></td>
+							type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" required></td>
+						<td><input type="hidden" name="mLttd" id="mLttd" required></td>
 						<!-- 위도 -->
-						<td><input type="hidden" name="mLgtd" id="mLgtd"></td>
+						<td><input type="hidden" name="mLgtd" id="mLgtd" required></td>
 						<!-- 경도 -->
 					</tr>
 					<tr>
 						<td></td>
-						<td><div id="map"
-								style="width: 300px; height: 300px; margin-top: 10px; display: none"></div></td>
+						<td><div id="map" style="width: 300px; height: 300px; margin-top: 10px; display: none"></div></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><input type="submit" id="button_joinus" value="회원가입"></td>
+						<td><input type="submit" id="button_joinus" value="회원가입" onclick="regkakaoSubmit();"></td>
 					</tr>
 				</table>
 			</form>
@@ -62,39 +69,25 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
 
 	<script>
-		Kakao.init('93566b80fb99a5007a395716fd157aaa');
-
-		//$(document).ready(function(){
-
-		// kakao 데이터 가져오기
-
-		/*         Kakao.API.request({
-		 url: '/v2/user/me',
-		 success: function(res) { */
-		//alert(JSON.stringify(res));
-		//alert(res.id);
-		//alert(res.properties.nickname);
-		//alert(res.properties.profile_image);
-		//alert(res.properties.thumbnail_image);
-		//alert(res.kakao_account.email);
-		/*                 var id = res.id;
-		 var nick = res.properties.nickname;
-		 var img = res.properties.profile_image
-		 var email = res.kakao_account.email;
+	$(document).ready(function(){
 		
-		 $('#kId').attr('value',id);
-		 $('#mNick').attr('value',nick);
-		 $('#Img').attr('src',img);
-		 $('#kImg').attr('value',img);
-		 $('#mId').attr('value',email);
+		$('#mAddr').hide();
 		
+	});
+	
+	function regkakaoSubmit() {
 		
-		 },
-		 fail: function(error) {
-		 alert(JSON.stringify(error));
-		 }
-		 });
-		 }); */
+		if ($('#mAddr').val().length < 1) {
+			document.getElementById('mAddr').focus();
+			alert('주소를 검색해주세요.');
+			$('form').attr('onSubmit', 'return false');
+		} else {
+			$('form').attr('onSubmit', 'return true');
+		}
+		
+	}
+	
+		// Kakao.init('93566b80fb99a5007a395716fd157aaa');
 
 		// ### 주소 검색 ###
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -150,6 +143,7 @@
 					});
 				}
 			}).open();
+			$('#mAddr').show();
 		}
 	</script>
 </body>

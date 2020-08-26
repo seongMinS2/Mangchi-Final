@@ -26,6 +26,7 @@ public class MemberEditService {
 
 	Member member = null;
 
+	// Member 객체 불러오기
 	public Member getMember(String mId) {
 		System.out.println(mId);
 		dao = template.getMapper(MemberDao.class);
@@ -35,6 +36,7 @@ public class MemberEditService {
 		return member;
 	}
 
+	// 회원정보 수정(주소, 사진, 거리)
 	public int editMember(EditRequest editRequest, HttpServletRequest request) {
 		
 		LoginInfo loginInfo = null;
@@ -88,12 +90,9 @@ public class MemberEditService {
 				editRequest2.setmImg(oldfile);
 			}
 
-			System.out.println("dao 들어가기전에 editRequest: " + editRequest2);
 			result = dao.updateByMember(editRequest2);
-			System.out.println("memberrddfdfdfdfdfdrrrr: " + result);
 			
 			member = dao.selectByMember(editRequest2.getmId());
-			System.out.println("memberrrrrr: " + member);
 			loginInfo = member.toLoginInfo();
 
 			System.out.println("loginInfo kakaoedit: "+loginInfo.onString());
@@ -106,5 +105,21 @@ public class MemberEditService {
 		}
 
 		return result;
+	}
+	
+	// 회원 비밀번호 수정
+	public int editPw(String mId, String nPw) {
+
+		dao = template.getMapper(MemberDao.class);
+
+		int resultCnt = 0;
+
+		resultCnt = dao.updateByPw(mId, nPw);
+
+		if (resultCnt > 0) {
+			resultCnt = 1;
+		}
+
+		return resultCnt;
 	}
 }
