@@ -78,6 +78,22 @@ messaging.onMessage(function(payload){
     var notification = new Notification(title, options);
 }); */
 
+var firebaseConfig = {
+		apiKey: "AIzaSyDDYOCHCJe-_sOTVkVo-Hi63oRTE1dVlgs",
+		authDomain: "donataboard-mangchi-project.firebaseapp.com",
+			databaseURL: "https://donataboard-mangchi-project.firebaseio.com",
+		projectId: "donataboard-mangchi-project",
+		storageBucket: "donataboard-mangchi-project.appspot.com",
+		messagingSenderId: "178872893699",
+		appId: "1:178872893699:web:94f9afe628778e2ad1a936",
+		measurementId: "G-N8HPT4GQ8G"
+	};
+
+
+firebase.initializeApp(firebaseConfig);
+
+const messaging=firebase.messaging();
+
 //로그인 한 사용자가 구독자인지 체크
 function checkSubsribe(mNick){
 	
@@ -366,16 +382,7 @@ const firebaseModule=(function(){
 			window.addEventListener('load', function(){
 				navigator.serviceWorker.register('/firebase-messaging-sw.js')
 					.then(registration => {
-						var firebaseConfig = {
-							apiKey: "AIzaSyDDYOCHCJe-_sOTVkVo-Hi63oRTE1dVlgs",
-    						authDomain: "donataboard-mangchi-project.firebaseapp.com",
-   							databaseURL: "https://donataboard-mangchi-project.firebaseio.com",
-							projectId: "donataboard-mangchi-project",
-							storageBucket: "donataboard-mangchi-project.appspot.com",
-							messagingSenderId: "178872893699",
-							appId: "1:178872893699:web:94f9afe628778e2ad1a936",
-							measurementId: "G-N8HPT4GQ8G"
-						};
+
 						firebase.initializeApp(firebaseConfig);
 
 						const messaging=firebase.messaging();
@@ -408,7 +415,7 @@ const firebaseModule=(function(){
 	}
 	return {
 		init : function() {
-			init()
+			init();
 		}
 	}
 })();
