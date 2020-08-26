@@ -2,19 +2,15 @@ function evClickDots(){
     $('.bi-three-dots-vertical').on('click',function(){
 		$(this).parent().next().slideToggle('fast');
 	});
-	$('.video-chat').on('click',function(){
-		console.log('영상통화 버튼 클릭');
+	$('.out-room').on('click',function(){
+		console.log('나가기 버튼 클릭');
+		leaveChatRoom();
 	});
 }
 
 function rmClickDots(){
 	$('.bi-three-dots-vertical').off();
-	$('.video-chat').off();
-}
-function evClickVideoChat(){
-	$('.video-chat').on('click',function(){
-		console.log('영상통화 버튼 클릭');
-	});
+	$('.out-room').off();
 }
 
 function evClickDelRoom(){
@@ -22,7 +18,6 @@ function evClickDelRoom(){
 		$('#ask-delroom-modal').show();
 	});
 	$('.delRoomYes').on('click',function(){
-		console.log('삭제 확인버튼 클릭');
 		$('#ask-delroom-modal').hide();
 		removeRoom(roomIdx);
 	});
@@ -44,7 +39,6 @@ function evClickSelectImg(){
 		$('#img-modal').hide();
 	});
 	$('.imgSelect').on('click',function(){
-		console.log('이미지 선택완료');
 		if(roomIdx>-2 && $('#msgPhoto')[0].files[0]!=null){
 			sendMsg();
 			$('#msgPhoto').val(null);
@@ -57,7 +51,6 @@ function evClickSelectImg(){
 
 function evClickMsg(){
 	$('.send-msg').on('click',function(){
-			console.log('메세지전송 메서드들어옴 ');
 		if (roomIdx > -2 && $('#msg-text').val().length > 0&&delUser==null) {
 			console.log('메세지전송 !!');
 			sendMsg();

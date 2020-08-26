@@ -1,4 +1,4 @@
-@keyframes fadeOut{
+/* @keyframes fadeOut{
     from{
         opacity: 1;
         margin-top: 0px;
@@ -17,7 +17,8 @@
         opacity: 1;
         margin-top: 0px;
     }
-}
+} */
+
 input{outline-style:none;}
 input#roomSearch {
 	border:0;
@@ -176,4 +177,7 @@ input[name=msgText]{
 }
 .msgimgtag{
 	width:250px;	
+}
+.msg-date{
+	padding : 0px 5px;
 }
