@@ -157,7 +157,7 @@ button.headSearchBtn{
 		</div>
 	</div>
 </div>
-<header style="position: sticky; top: 0;">
+<header style="position: sticky; top: 0; z-index: 1;">
 	<div class="headContainer w3-row w3-white w3-border-bottom w3-border-theme">
 		<div class="w3-content">
 			<div class="w3-col s6 m3 w3-padding-16 w3-center"> 
