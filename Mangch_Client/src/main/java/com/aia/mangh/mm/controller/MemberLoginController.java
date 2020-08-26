@@ -27,10 +27,9 @@ public class MemberLoginController {
 	}
 
 	// 로그인
-	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST)
 	public String login(LoginRequest loginRequest, HttpSession session, HttpServletResponse response, Model model) {
-
 		return loginService.loginMember(loginRequest, session, response);
 	}
 

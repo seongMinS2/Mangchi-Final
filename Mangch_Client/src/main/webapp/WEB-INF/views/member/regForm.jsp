@@ -185,12 +185,6 @@
 
 			$('#mId').focusout(function() {
 
-				/* 				 if ($(this).val().length < 1) {
-				 $('#checkmsg').text("아이디는 필수 항목입니다.");
-				 $('#checkmsg').addClass('check_not');
-				 return false;
-				 }   */
-
 				// ### 회원 ID 중복체크 ###
 				$.ajax({
 					url : 'memberReg/chkmId',
@@ -224,12 +218,6 @@
 			});
 
 			$('#mNick').focusout(function() {
-
-				/* 				 if ($(this).val().length < 1) {
-				 $('#checkmsg2').text("닉네임은 필수 항목입니다.");
-				 $('#checkmsg2').addClass('check_not');
-				 return false;
-				 } */
 
 				$.ajax({
 					url : 'memberReg/chkmNick',
@@ -265,12 +253,6 @@
 
 			$('#mPw').focusout(function() {
 
-				/* 				if ($(this).val().length < 1) {
-				 $('#checkmsg3').text("비밀번호는 필수 항목입니다.");
-				 $('#checkmsg3').addClass('check_not');
-				 return false;
-				 } */
-
 			});
 
 			// ### 비밀번호 확인 체크 ###
@@ -283,12 +265,6 @@
 			});
 
 			$('#chkmPw').focusout(function() {
-
-				/* 				if ($(this).val().length < 1) {
-				 $('#checkmsg4').text("비밀번호를 확인해주세요.");
-				 $('#checkmsg4').addClass('check_not');
-				 return false;
-				 } */
 
 			});
 		});

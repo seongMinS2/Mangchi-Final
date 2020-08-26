@@ -2,7 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="<c:url value="/resources/css/w3.css"/>">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme2.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme3.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme4.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/theme5.css'/>">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="<c:url value='/resources/css/summernote/summernote-lite.css'/>">
@@ -150,8 +154,11 @@ button.headSearchBtn{
 	<div class="w3-content">
 		<div class="w3-col">
 			<a href="<c:url value="/member/memberReg"/>" class="w3-bar-item w3-button w3-right">회원가입</a> 
+			<c:if test="${empty loginInfo }">
 			<a href="<c:url value="/member/memberLogin"/>" class="w3-bar-item w3-button w3-right">로그인</a>
+			</c:if>
 			<c:if test="${!empty loginInfo }">
+			<a href="<c:url value="/member/kakao/logout"/>" class="w3-bar-item w3-button w3-right">로그아웃</a>
 			<a href="<c:url value="/member/memberMypage/mypageForm"/>" class="w3-bar-item w3-button w3-right">마이페이지</a>
 			</c:if>
 		</div>
@@ -200,9 +207,12 @@ button.headSearchBtn{
 		<a href="javascript:void(0)" onclick="w3_close()" 
 			class="w3-bar-item w3-button w3-large w3-theme w3-padding-16 w3-right-align">Close X</a> 
 		<a href="<c:url value="/member/memberReg"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">회원가입</a> 
+		<c:if test="${empty loginInfo }">
 		<a href="<c:url value="/member/memberLogin"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">로그인</a>
+		</c:if>
 		<c:if test="${!empty loginInfo }">
 			<a href="<c:url value="/member/memberMypage/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">마이페이지</a>
+			<a href="<c:url value="/member/kakao/logout"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">로그아웃</a>
 		</c:if>
 		<a href="<c:url value="/request/requestList"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
 		<a href="<c:url value="/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">나눔게시판</a> 

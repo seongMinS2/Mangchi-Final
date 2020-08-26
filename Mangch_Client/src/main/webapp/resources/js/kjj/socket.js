@@ -49,16 +49,24 @@ function sendMsgToSocket(msgData) {
 //evt 파라미터는 websocket이 보내준 데이터다.
 function onMessage(evt) { //변수 안에 function자체를 넣음.
 	var msg = JSON.parse(evt.data);
-	console.log(msg);
-	var updateLi = $('#chat-room'+msg.roomIdx);
+	var $updateLi = $('#chat-room'+msg.roomIdx);
+	var $lastDate = $('.msg-area').find('.dateCon').last();
 	if(msg.code=='message'){
+		var html='';
 		if(roomIdx==msg.roomIdx){
+			readMsg(msg.roomIdx);
+			if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')){
+				html +='<div class="w3-cell-row w3-container w3-center last-msg-date">';
+				html +='	<p class="w3-round-xxlarge w3-theme-l5 dateCon">'+moment(msg.date).format('MM월 DD일')+'</p>';
+				html +='</div>';
+			}
 			if(msg.sender==loginUser){
-				var html='';
 				html+='<div class="w3-row w3-padding">';
+				if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')||$('.msg-sender').last().text()!=msg.sender){
 				html+='    <div class="w3-cell-row w3-right-align">';
-				html+='        <b>'+msg.sender+'</b>';
+				html+='        <b class="msg-sender">'+msg.sender+'</b>';
 				html+='    </div>';
+				}
 				html+='    <div class="w3-cell-row">';
 				html+='        <div class="w3-cell w3-padding w3-right w3-theme-l4" id="right-msg">';
 				if(msg.img!=null&&msg.img.length>0){
@@ -80,9 +88,11 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 			}else{
 				var html='';
 				html+='<div class="w3-row w3-padding">';
+				if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')||$('.msg-sender').last().text()!=msg.sender){
 				html+='    <div class="w3-cell-row">';
-				html+='        <b>'+msg.sender+'</b>';
+				html+='        <b class="msg-sender">'+msg.sender+'</b>';
 				html+='    </div>';
+				}
 				html+='    <div class="w3-cell-row">';
 				html+='        <div class="w3-cell  w3-left w3-padding w3-light-grey" id="left-msg">';
 				if(msg.img!=null&&msg.img.length>0){
@@ -104,20 +114,20 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 			}
 			$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
 		}else{
-			if(updateLi.children('#badge').length){
-				var badge = updateLi.children('#badge');
+			if($updateLi.children('#badge').length){
+				var badge = $updateLi.children('#badge');
 				badge.text(Number(badge.text())+1);
 			}else{
 				var html='';
 				html+='<span class="w3-col m1 l1 w3-badge w3-red" id="badge">1</span>';
-				updateLi.append(html);
+				$updateLi.append(html);
 			}
 		}
-		updateLi.prependTo('#chat-room-list');
+		$updateLi.prependTo('#chat-room-list');
 	}else if(msg.code=='delete'){
-		updateLi.append('<input type="hidden" id="delUser" value="'+msg.sender+'">');
-		updateLi.find('.chat-title').addClass('w3-red');
-		updateLi.find('.chat-title').text('상대방이 채팅방을 떠났습니다');
+		$updateLi.append('<input type="hidden" id="delUser" value="'+msg.sender+'">');
+		$updateLi.find('.chat-title').addClass('w3-red');
+		$updateLi.find('.chat-title').text('상대방이 채팅방을 떠났습니다');
 		if(roomIdx==msg.roomIdx){
 			delUser=msg.sender;
 			rmClickDelRoom();
@@ -129,8 +139,14 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 			evClickDelRoom();
 			$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
 		}
-		updateLi.prependTo('#chat-room-list');
+		$updateLi.prependTo('#chat-room-list');
 	}
+	$('.msgimgtag').off();
+	$('.msgimgtag').on('click',function(){
+		console.log($(this).attr('src'));
+		$('#clickImg').attr('src',$(this).attr('src'));
+		$('#img-zoom-modal').show();
+	});
 
 }
 function onClose(evt) {

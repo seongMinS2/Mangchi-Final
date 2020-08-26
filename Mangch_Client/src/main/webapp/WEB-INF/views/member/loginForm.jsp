@@ -38,16 +38,17 @@
 							width="325" />
 					</a></td> -->
 					<td><a id="custom-login-btn"
-						href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a01763f7f7d5db1bd274b95045628499&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST" >
+						href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a01763f7f7d5db1bd274b95045628499&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST">
 							<img
-							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" 
+							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
 							width="325" />
 					</a></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><a class="logout" href="kakao/logout">logout</a><!-- <a class="unlink" href="kakao/unlink">unlink</a> -->
-					<a class="signup" href="<c:url value="/member/memberReg"/>">Sign up</a></td> <!-- <a class="logout" href="javascript:unlinkApp()">unlink</a></td> -->
+					<td><a class="signup"
+						href="<c:url value="/member/memberReg"/>">Sign up</a>
+						<a class="btn btn-default" href="<c:url value='/member/kakao/unlink'/>" id="del">카카오 회원 탈퇴</a></td>
 				</tr>
 			</table>
 		</div>

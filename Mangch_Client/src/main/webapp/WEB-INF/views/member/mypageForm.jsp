@@ -58,7 +58,8 @@
 							</div>
 							<div id="w3-cell"
 								style="width: 70%; margin: 0; display: inline-block;">
-								<form action="<c:url value='/member/memberMypage/edit'/>" method="post" enctype="multipart/form-data">
+								<form action="<c:url value='/member/memberMypage/edit'/>"
+									method="post" enctype="multipart/form-data">
 									<c:set var="kId" value="${loginInfo.kId}" />
 									<input type="hidden" name="mId" id="mId"
 										value="${loginInfo.mId}">
@@ -91,7 +92,8 @@
 										</tr>
 										<tr>
 											<td>거리</td>
-											<td><select name="mRadius" id="mRadius" value="${loginInfo.mRadius}">
+											<td><select name="mRadius" id="mRadius"
+												value="${loginInfo.mRadius}">
 													<option value="1" id="1">1km</option>
 													<option value="2" id="2">2km</option>
 													<option value="3" id="3">3km</option>
@@ -108,9 +110,13 @@
 
 						</div>
 						<hr>
-						<a class="btn btn-default" href="#layer2" id="pw">비밀번호 변경</a> <a
-							class="btn btn-default" href="#layer3" id="del">회원 탈퇴</a>
-							<a href="friend" id="del">공유하기</a>
+						<c:if test="${kId eq null}">
+							<a class="btn btn-default" href="#layer2" id="pw">비밀번호 변경</a>
+							<a class="btn btn-default" href="#layer3" id="del">회원 탈퇴</a>
+						</c:if>
+						
+						<a class="btn btn-default" href="<c:url value='/member/kakao/send'/>" id="send">메세지 전송</a>
+						<!-- <button id="send" onclick="sendMessage();">메세지 전송</button> -->
 					</div>
 				</div>
 			</div>
@@ -192,22 +198,59 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
 	<script>
-	$(document).ready(function(){
-		var mRadius = '${loginInfo.mRadius}';
- 		if(mRadius == 1){
-			$('#1').attr('selected','selected');
-		} else if(mRadius == 2){
-			$('#2').attr('selected','selected');
-		} else if(mRadius == 3){
-			$('#3').attr('selected','selected');
-		} else if(mRadius == 4){
-			$('#4').attr('selected','selected');
-		} 
-		/* $('#mRadius').val().attr('selected','selected'); */
-		/* $('#mRadius option:eq(${loginInfo.mRadius})').attr('selected','selected'); */
-	});
+	
+/* 	Kakao.init('93566b80fb99a5007a395716fd157aaa');
+	function sendMessage(){
+		
+		
+		alert('hi');
+		Kakao.API.request({
+			  url: '/v2/api/talk/memo/default/send',
+			  data: {
+			    template_object: {
+			      object_type: 'feed',
+			      content: {
+			        title: '카카오톡 링크 4.0',
+			        description: '디폴트 템플릿 FEED',
+			        image_url:
+			          'http://mud-kage.kakao.co.kr/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
+			        link: {
+			          web_url: 'https://developers.kakao.com',
+			          mobile_web_url: 'https://developers.kakao.com',
+			        },
+			      },
+			      social: {
+			        like_count: 100,
+			        comment_count: 200,
+			      },
+			      button_title: '바로 확인',
+			    },
+			  },
+			  success: function(response) {
+			    console.log(response);
+			  },
+			  fail: function(error) {
+			    console.log(error);
+			  },
+			});
+	} */
 	
 	
+		$(document).ready(function() {
+			var mRadius = '${loginInfo.mRadius}';
+			if (mRadius == 1) {
+				$('#1').attr('selected', 'selected');
+			} else if (mRadius == 2) {
+				$('#2').attr('selected', 'selected');
+			} else if (mRadius == 3) {
+				$('#3').attr('selected', 'selected');
+			} else if (mRadius == 4) {
+				$('#4').attr('selected', 'selected');
+			}
+			/* $('#mRadius').val().attr('selected','selected'); */
+			/* $('#mRadius option:eq(${loginInfo.mRadius})').attr('selected','selected'); */
+		});
+
 		// checkbox 선택
 		function oneCheckbox(a) {
 			var obj = document.getElementsByName("checkbox");

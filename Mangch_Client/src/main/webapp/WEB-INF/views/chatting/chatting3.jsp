@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CHTTING3</title>
 <c:if test="${loginInfo==null}">
 	<script>
@@ -12,6 +13,7 @@
 		location.href='/mangh/';
 	</script>
 </c:if>
+
 <style>
 
 
@@ -22,68 +24,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <body>
-<!-- <div class="w3-container">
-		<div class="w3-row-padding">
-			<div class="w3-col" style="width: 10%">
-				<p></p>
-			</div>
-			<div class="w3-col" style="width: 80%">
-				<div class="w3-row">
-					<h1>채팅</h1>
-				</div>
-				<div class="w3-row">
-					<div class="w3-container w3-third chatRoomArea">
-						<div class="w3-row w3-indigo w3-padding chatlist">
-							<h3>채팅방 목록</h3>
-						</div>
-						<div class="w3-row w3-light-grey chatRoomList">
-							<ul class="w3-ul w3-margin chatRooms">
-								채팅방 목록
-								
-							</ul>
-						</div>
-					</div>
-					<div class="w3-container w3-twothird chatArea">
-						<div class="w3-bar w3-indigo">
-							<div class="w3-bar-item">
-								<h3 class="receiver">
-									누구와의 대화
-									메세지를 선택해주세요
-								</h3>
-							</div>
-							<div class="w3-bar-item w3-right trashIcon">
-								휴지통 아이콘
-							</div>
-							
-						</div>
-						<div class="w3-row w3-light-grey w3-padding msgArea">
-							메세지 목록
-							
-						</div>
-
-						<div class="w3-cell-row w3-padding inputArea">
-							<div class="w3-cell">
-								<button class="w3-button w3-indigo w3-hover-blue w3-round-large imgModalBtn">
-									<i class="fa fa-image"></i>
-								</button>
-							</div>
-							<div class="w3-cell w3-container" style="width: 80%">
-								<input class="w3-input w3-border w3-round-small" type="text" id="message">
-							</div>
-							<div class="w3-cell w3-container">
-								<button class="w3-button w3-blue w3-center" id="sendBtn">
-									전송 <i class="fa fa-plane"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="w3-col" style="width: 10%">
-				<p></p>
-			</div>
-		</div>
-	</div> -->
 	<jsp:include page="/WEB-INF/views/include/kjj-header.jsp" />
 	<!-- 큰화면 중간화면 -->
 	<div class="w3-card" id="ml-screen">
@@ -114,12 +54,11 @@
 						</svg>
 					</div>
 					<div class="dropdown-content w3-animate-down w3-right w3-card" style="right: 0px;">
-					    <a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme video-chat">
-					    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-camera-video-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-						  <path d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z"/>
-						  <path d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 0 0 0 1.393z"/>
-						</svg>
-							<b>영상통화</b>
+					    <a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme out-room">
+						    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-door-open-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2v13h1V2.5a.5.5 0 0 0-.5-.5H11zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+							</svg>
+							<b>나가기</b>
 					    </a>
 						<a href="#" class="w3-button w3-col w3-padding-16 w3-text-theme confirm-room-del">
 						<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -208,7 +147,7 @@
 		</div>
 	</div>
 	<div id="click-img-modal" class="w3-modal" onclick="this.style.display='none'">
- 			<img class="w3-modal-content w3-display-middle" id="clickImg" style="width:50%">
+ 		<img class="w3-modal-content w3-display-middle" id="clickImg" style="width:50%">
 	</div>
 	
 	<div id="ask-delroom-modal" class="w3-modal">
@@ -226,7 +165,9 @@
 			</div>
 		</div>
 	</div>
-	
+	<div id="img-zoom-modal" class="w3-modal w3-animate-zoom" onclick="this.style.display='none'">
+		<img class="w3-modal-content" id="clickImg" src="">
+	</div>
 	<!-- 작은 화면 -->
 	<div class="w3-row "></div>
 	<jsp:include page="/WEB-INF/views/include/kjj-footer.jsp" />

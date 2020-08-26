@@ -21,6 +21,7 @@ public class MemberRegKakaoService {
 	@Autowired
 	SqlSessionTemplate template;
 	
+	// 카카오 회원가입
 	public int regKakaoMember(RegKakaoRequest kakaoRequest, HttpServletRequest request) {
 		System.out.println("kakaoRequest to kakaoRequest >> " + kakaoRequest);
 		
