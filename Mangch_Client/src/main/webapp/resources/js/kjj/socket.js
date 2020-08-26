@@ -68,7 +68,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='    </div>';
 				}
 				html+='    <div class="w3-cell-row">';
-				html+='        <div class="w3-cell w3-padding w3-right w3-theme-l4" id="right-msg">';
+				html+='        <div class="w3-cell w3-padding w3-right w3-theme4-l3" id="right-msg">';
 				if(msg.img!=null&&msg.img.length>0){
 				html+='		       <span class="w3-right">';
 				html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
@@ -86,7 +86,6 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='</div>';
 				$('.msg-area').append(html);
 			}else{
-				var html='';
 				html+='<div class="w3-row w3-padding">';
 				if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')||$('.msg-sender').last().text()!=msg.sender){
 				html+='    <div class="w3-cell-row">';
@@ -94,7 +93,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='    </div>';
 				}
 				html+='    <div class="w3-cell-row">';
-				html+='        <div class="w3-cell  w3-left w3-padding w3-light-grey" id="left-msg">';
+				html+='        <div class="w3-cell  w3-left w3-padding w3-theme5" id="left-msg">';
 				if(msg.img!=null&&msg.img.length>0){
 				html+='		       <span>';
 				html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
@@ -141,11 +140,10 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 		}
 		$updateLi.prependTo('#chat-room-list');
 	}
-	$('.msgimgtag').off();
 	$('.msgimgtag').on('click',function(){
 		console.log($(this).attr('src'));
-		$('#clickImg').attr('src',$(this).attr('src'));
-		$('#img-zoom-modal').show();
+		$('.clickImg').attr('src',$(this).attr('src'));
+		$('.img-zoom-modal').show();
 	});
 
 }

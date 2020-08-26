@@ -3,7 +3,6 @@ function evClickDots(){
 		$(this).parent().next().slideToggle('fast');
 	});
 	$('.out-room').on('click',function(){
-		console.log('나가기 버튼 클릭');
 		leaveChatRoom();
 	});
 }
@@ -11,6 +10,18 @@ function evClickDots(){
 function rmClickDots(){
 	$('.bi-three-dots-vertical').off();
 	$('.out-room').off();
+}
+
+function evScrollUp(){
+	$('.msg-area').on('mousewheel',function(e){
+		var wheel = e.originalEvent.wheelDelta;
+		var scroll = $('.msg-area').scrollTop();
+		if(wheel>0&&scroll==0&&roomIdx>-1){
+			console.log('맨꼭대기임 ');
+			//새로운 메세지 리스트 가져오는 function
+			insertMsgList(roomIdx,delUser);
+		}
+	});
 }
 
 function evClickDelRoom(){
