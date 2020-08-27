@@ -1,3 +1,6 @@
+//메세지 선택하지 않았을때 상단바에
+var notChoiceMsg ='<div class="w3-padding w3-xlarge">메세지를 선택해주세요</div>';
+
 //채팅방 리스트 출력
 function makeChatRoomList(chkNewMsg){
 	console.log('리스트출력');
@@ -29,7 +32,7 @@ function makeChatRoomList(chkNewMsg){
                 }
             }
             $('#chat-room-list').html(html);
-            evClickChatRoom();
+            $('.chat-room').on('click',evClickChatRoom);
             chkNewMsg();
         }
     });
@@ -80,10 +83,7 @@ function leaveChatRoom(){
     roomUser=null;
     roomIdx=-2;
     roomReqTitle=null;
-    rmClickMsg();
-    rmClickDots();
-    rmClickDelRoom();
-    evClickMsg();
+    $('.bi-three-dots-vertical').off();
 }
 //메세지 전송 
 function sendMsg() {
@@ -129,52 +129,62 @@ var roomIdx=-2;
 var roomReqTitle=null;
 
 function evClickChatRoom(){
-	$('.chat-room').off();
-    $('.chat-room').on('click',function(){
-        //같은방을 눌럿을땐 이벤트가 동작하지 않음
-        console.log("$(this).attr('i')==roomIdx : "+$(this).attr('i')==roomIdx)
-        if($(this).attr('i')!=roomIdx){
-            console.log('클릭');
-            
-            $('li').removeClass('w3-theme');
-            $(this).addClass('w3-theme');
-            $('.dropdown-content').hide();
-            delUser=null;
-            roomReqIdx=null;
-            roomUser=null;
-            roomIdx=-2;
-            roomReqTitle=null;
-            
-            rmClickDelRoom();
-            rmClickDots();
-            
-            $('#req-writer').text('');
-            $('#req-loc').text('');
-            $('#req-title').text('');
-            
-            roomIdx=$(this).attr('i');
-            roomReqIdx = $(this).attr('qi');
-            roomUser = $(this).find('.chat-nick').text();
-            roomReqTitle = $(this).find('.chat-title').text();
-            
-            if($(this).find('#delUser').val() !=null){
-                delUser=$(this).find('#delUser').val();
-            }
-            readMsg(roomIdx);
-            insertTopBarImg(roomUser);
-            insertTopBarReq(roomReqIdx);
-            insertTopBarTitle(roomUser);
-            $('.msg-area').html('');
-            page=0;
-            insertMsgList(roomIdx,delUser);
-            $('#req-title').text(roomReqTitle);
-            $(this).find('#badge').remove();
-            //3점클릭
-            evClickDots();
-            evClickDelRoom();
-            $('#msg-text').focus();
+    //같은방을 눌럿을땐 이벤트가 동작하지 않음
+    console.log("$(this).attr('i')==roomIdx : "+$(this).attr('i')==roomIdx)
+    if($(this).attr('i')!=roomIdx){
+        console.log('클릭');
+        
+        $('li').removeClass('w3-theme');
+        $(this).addClass('w3-theme');
+        $('.dropdown-content').hide();
+        delUser=null;
+        roomReqIdx=null;
+        roomUser=null;
+        roomIdx=-2;
+        roomReqTitle=null;
+        
+        rmClickDots();
+        
+        $('#req-writer').text('');
+        $('#req-loc').text('');
+        $('#req-title').text('');
+        
+        roomIdx=$(this).attr('i');
+        roomReqIdx = $(this).attr('qi');
+        roomUser = $(this).find('.chat-nick').text();
+        roomReqTitle = $(this).find('.chat-title').text();
+        
+        if($(this).find('#delUser').val() !=null){
+            delUser=$(this).find('#delUser').val();
         }
-    });
+        readMsg(roomIdx);
+        insertTopBarImg(roomUser);
+        insertTopBarReq(roomReqIdx);
+        insertTopBarTitle(roomUser);
+        $('.msg-area').html('');
+        page=0;
+        insertMsgList(roomIdx,delUser);
+        $('#req-title').text(roomReqTitle);
+        $(this).find('#badge').remove();
+        //3점클릭
+        $('.bi-three-dots-vertical').on('click',function(){
+            $(this).parent().next().slideToggle('fast');
+        });
+        $('.out-room').on('click',function(){
+            leaveChatRoom();
+        });
+        $('.confirm-room-del').on('click',function(){
+            $('#ask-delroom-modal').show();
+        });
+        $('.delRoomYes').on('click',function(){
+            $('#ask-delroom-modal').hide();
+            removeRoom(roomIdx);
+        });
+        $('.delRoomNo').on('click',function(){
+            $('#ask-delroom-modal').hide();
+        });
+        $('#msg-text').focus();
+    }
 }
     
 function insertTopBarTitle(nick){
@@ -291,16 +301,33 @@ function insertMsgList(roomIdx,delUser){
 
                 //상대가 나간 채팅방이라면 채팅종료 문구 띄우기
                 if(delUser!=null){
-                    rmClickDelRoom();
                     var html2 ="<div class='w3-cell-row w3-container w3-center'>";
                     html2 +="	<p class='w3-round-xxlarge w3-red'>상대방이 채팅을 종료했습니다.<br> 메세지를 보낼 수 없습니다</p>";
                     html2 +="	<button class='w3-button w3-large w3-round-large w3-red confirm-room-del'>삭제</button>";
                     html2 +="</div>";
                     $('.msg-area').append(html2);
-                    evClickDelRoom();
+                    $('.confirm-room-del').on('click',function(){
+                        $('#ask-delroom-modal').show();
+                    });
+                    /* $('.delRoomYes').on('click',function(){
+                        $('#ask-delroom-modal').hide();
+                        removeRoom(roomIdx);
+                    });
+                    $('.delRoomNo').on('click',function(){
+                        $('#ask-delroom-modal').hide();
+                    }); */
                 }
                 
-                upWheel();  
+                var a= true;
+                $('.msg-area').on('mousewheel',function(e){
+                    var wheel = e.originalEvent.wheelDelta;
+                    var scroll = $('.msg-area').scrollTop();
+                    console.log();
+                    if(wheel>0&&scroll==0&&roomIdx>-1&&a==true){
+                        a=false;                        
+                        insertMsgList(roomIdx,delUser);
+                    }
+                });
                 //처음 뽑는 메세지리스트라면 스크롤 맨밑으로 
                 if(page===0){
                     $('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
@@ -312,7 +339,24 @@ function insertMsgList(roomIdx,delUser){
                     $('.clickImg').attr('src',$(this).attr('src'));
                     $('.img-zoom-modal').show();
                 });
-                evMsgClick();
+                $('.message').on('click',function(){
+                    var text = $(this).find('span');
+                    if($(this).attr('id')=='right-msg'){
+                        $('#msg-modal').show();
+                    }
+                    var idx = $(this).closest('.msg-box').attr('i');
+                    $('#msg-del').off();
+                    $('#msg-del').on('click',function(){
+                        delMessage(idx);
+                        text.addClass('w3-text-theme5');
+                        text.text('(삭제된 메세지입니다)');
+                        $('#msg-modal').hide();
+                    });
+                    $('#msg-modal-close').off();
+                    $('#msg-modal-close').on('click',function(){
+                        $('#msg-modal').hide();
+                    });
+                });
             }
             page++;
         }
@@ -328,19 +372,6 @@ function delMessage(idx){
             }
         }
     });
-}
-function upWheel(){
-    $('.msg-area').off();
-    var a= true;
-    $('.msg-area').on('mousewheel',function(e){
-        var wheel = e.originalEvent.wheelDelta;
-        var scroll = $('.msg-area').scrollTop();
-        console.log();
-        if(wheel>0&&scroll==0&&roomIdx>-1&&a==true){
-            a=false;                        
-            insertMsgList(roomIdx,delUser);
-        }
-    });    
 }
 //클릭한 채팅방이 어떤 요청글에대한 채팅인지 정보표시
 function insertTopBarReq(idx){
