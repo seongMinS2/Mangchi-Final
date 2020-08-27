@@ -14,7 +14,7 @@
 <body>
 	<div class="w3-container">
 		<br> <br>
-		<h2>Login</h2>
+		<h2>LOGIN</h2>
 		<div id="loginbox">
 			<table>
 				<tr>
@@ -32,11 +32,6 @@
 				</tr>
 				<tr>
 					<td></td>
-					<!-- <td><a id="custom-login-btn"
-						href="javascript:loginWithKakao()"> <img
-							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
-							width="325" />
-					</a></td> -->
 					<td><a id="custom-login-btn"
 						href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a01763f7f7d5db1bd274b95045628499&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST">
 							<img
@@ -47,12 +42,12 @@
 				<tr>
 					<td></td>
 					<td><a class="signup"
-						href="<c:url value="/member/memberReg"/>">Sign up</a>
-						<a class="btn btn-default" href="<c:url value='/member/kakao/unlink'/>" id="del">카카오 회원 탈퇴</a></td>
+						href="<c:url value="/member/memberReg"/>">Sign up</a></td>
 				</tr>
 			</table>
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 	<script>
 		function hello(){
 			alert('hi');

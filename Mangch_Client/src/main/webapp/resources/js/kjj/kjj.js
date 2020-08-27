@@ -74,12 +74,15 @@ function leaveChatRoom(){
     $('#req-loc').empty();
     $('#req-title').empty();
     $('.dropdown-content').hide();
+    $('li').removeClass('w3-theme');
     delUser=null;
     roomReqIdx=null;
     roomUser=null;
     roomIdx=-2;
     roomReqTitle=null;
     rmClickMsg();
+    rmClickDots();
+    rmClickDelRoom();
     evClickMsg();
 }
 //메세지 전송 
@@ -116,7 +119,8 @@ function sendMsg() {
 			sendMsgToSocket(msgData);
 		}
 	});
-}//
+}
+
 //채팅방 클릭시 이벤트
 var delUser=null;
 var roomReqIdx=null;
@@ -127,45 +131,52 @@ var roomReqTitle=null;
 function evClickChatRoom(){
 	$('.chat-room').off();
     $('.chat-room').on('click',function(){
-    	console.log('클릭');
-    	$('li').removeClass('w3-theme-d1');
-    	$(this).addClass('w3-theme-d1');
-    	$('.dropdown-content').hide();
-    	delUser=null;
-        roomReqIdx=null;
-        roomUser=null;
-        roomIdx=-2;
-        roomReqTitle=null;
-        
-    	rmClickDelRoom();
-		rmClickDots();
-		
-        $('#req-writer').text('');
-        $('#req-loc').text('');
-        $('#req-title').text('');
-        
-        roomIdx=$(this).attr('i');
-        roomReqIdx = $(this).attr('qi');
-        roomUser = $(this).find('.chat-nick').text();
-        roomReqTitle = $(this).find('.chat-title').text();
-
-        if($(this).find('#delUser').val() !=null){
-            delUser=$(this).find('#delUser').val();
+        //같은방을 눌럿을땐 이벤트가 동작하지 않음
+        console.log("$(this).attr('i')==roomIdx : "+$(this).attr('i')==roomIdx)
+        if($(this).attr('i')!=roomIdx){
+            console.log('클릭');
+            
+            $('li').removeClass('w3-theme');
+            $(this).addClass('w3-theme');
+            $('.dropdown-content').hide();
+            delUser=null;
+            roomReqIdx=null;
+            roomUser=null;
+            roomIdx=-2;
+            roomReqTitle=null;
+            
+            rmClickDelRoom();
+            rmClickDots();
+            
+            $('#req-writer').text('');
+            $('#req-loc').text('');
+            $('#req-title').text('');
+            
+            roomIdx=$(this).attr('i');
+            roomReqIdx = $(this).attr('qi');
+            roomUser = $(this).find('.chat-nick').text();
+            roomReqTitle = $(this).find('.chat-title').text();
+            
+            if($(this).find('#delUser').val() !=null){
+                delUser=$(this).find('#delUser').val();
+            }
+            readMsg(roomIdx);
+            insertTopBarImg(roomUser);
+            insertTopBarReq(roomReqIdx);
+            insertTopBarTitle(roomUser);
+            $('.msg-area').html('');
+            page=0;
+            insertMsgList(roomIdx,delUser);
+            $('#req-title').text(roomReqTitle);
+            $(this).find('#badge').remove();
+            //3점클릭
+            evClickDots();
+            evClickDelRoom();
+            $('#msg-text').focus();
         }
-        readMsg(roomIdx);
-        insertTopBarImg(roomUser);
-        insertTopBarReq(roomReqIdx);
-        insertMsgList(roomIdx,delUser);
-        insertTopBarTitle(roomUser);
-        $('#req-title').text(roomReqTitle);
-        $(this).find('#badge').remove();
-    	//3점클릭
-		evClickDots();
-		evClickDelRoom();
-		$('#msg-text').focus();
     });
 }
-
+    
 function insertTopBarTitle(nick){
     var html='<b id="chat-user-nick" style="font-size: 1.3em; font-weight: bold;">'+nick+'</b>&nbsp;&nbsp;님과의 대화';
     $('.top-bar-title').html(html);
@@ -183,103 +194,154 @@ function readMsg(roomIdx){
         }
     });
 }
-
+//스크롤 페이징 처리
+var page = 0;
 //메세지 리스트 출력
 function insertMsgList(roomIdx,delUser){
     console.log(roomIdx);
+    var scHeight='';
     var html='';
+    scHeight=$('.msg-area').prop('scrollHeight');
     $.ajax({
 		url : localhost+'/mc-chat/chat/' + roomIdx,
 		type : 'get',
 		data : {
-			uNick : loginUser
+            uNick : loginUser,
+            page : page
 		},
 		success : function(msgList) {
-            for(var i =0;i<msgList.length;i++){
-                if(msgList[i-1]==null||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD')){
-					html +='<div class="w3-cell-row w3-container w3-center last-msg-date">';
-					html +='	<p class="w3-round-xxlarge w3-theme-l5 dateCon">'+moment(msgList[i].date).format('MM월 DD일')+'</p>';
-					html +='</div>';
-				}
-                if(loginUser!=msgList[i].sender){
-                    html+='<div class="w3-row w3-padding">';
-                    if(i===0){
-                    html+='    <div class="w3-cell-row">';
-                    html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
-                    html+='    </div>';
-                    }else if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD')){
-                    html+='    <div class="w3-cell-row">';
-                    html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
-                    html+='    </div>';
+			console.log(msgList.length);
+            if(msgList.length==0){
+                $('.msg-area').off();
+            }else{
+                for(var i=msgList.length-1;i>=0;i--){
+                    if(i==0){
+                        if(msgList[i].sender == $('.msg-area').find('.msg-sender').first().text()){
+                            $('.msg-area').find('.msg-sender').first().text('');
+                        }
+                        if(moment(msgList[i].date).format('MM월 DD일')==$('.msg-area').find('.dateCon').first().text()){
+                            $('.msg-area').find('.last-msg-date').first().remove();
+                        }
                     }
-                    html+='    <div class="w3-cell-row">';
-                    html+='        <div class="w3-cell w3-left w3-padding w3-light-grey" id="left-msg">';
-                    if(msgList[i].img!=null&&msgList[i].img.length>0){
-                    html+='		       <span>';
-                    html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
-                    html+='            </span>';
+                    if(i===msgList.length-1||(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD'))){
+                        html +='<div class="w3-cell-row w3-container w3-center last-msg-date">';
+                        html +='	<p class="w3-round-xxlarge w3-theme-l5 dateCon">'+moment(msgList[i].date).format('MM월 DD일')+'</p>';
+                        html +='</div>';
+                    }
+                    if(loginUser!=msgList[i].sender){
+                        html+='<div class="w3-row w3-padding msg-box" i="'+msgList[i].idx+'">';
+                        if(i===msgList.length-1){
+                        html+='    <div class="w3-cell-row">';
+                        html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
+                        html+='    </div>';
+                        }else if((i<msgList.length-1&&msgList[i].sender!=msgList[i+1].sender)||(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD'))){
+                        html+='    <div class="w3-cell-row">';
+                        html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
+                        html+='    </div>';
+                        }
+                        html+='    <div class="w3-cell-row">';
+                        html+='        <div class="w3-cell w3-left w3-padding w3-light-grey message" id="left-msg">';
+                        if(msgList[i].img!=null&&msgList[i].img.length>0){
+                        html+='		       <span>';
+                        html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
+                        html+='            </span>';
+                        }else{
+                        html+='		       <span>';
+                        html+=                  msgList[i].text;
+                        html+='            </span>';
+                        }
+                        html+='        </div>';
+                        html+='        <div class="w3-left w3-left-align msg-date">';
+                        html+=          moment(msgList[i].date).format('a HH:MM');
+                        html+='        </div>';
+                        html+='    </div>';
+                        html+='</div>';
                     }else{
-                    html+='		       <span>';
-                    html+=                  msgList[i].text;
-                    html+='            </span>';
+                        html+='<div class="w3-row w3-padding msg-box" i="'+msgList[i].idx+'">';
+                        if(i===msgList.length-1){
+                        html+='    <div class="w3-cell-row w3-right-align">';
+                        html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
+                        html+='    </div>';
+                        }else if((i<msgList.length-1&&msgList[i].sender!=msgList[i+1].sender)||(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD'))){
+                        html+='    <div class="w3-cell-row w3-right-align">';
+                        html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
+                        html+='    </div>';
+                        }
+                        html+='    <div class="w3-cell-row">';
+                        html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg">';
+                        if(msgList[i].img!=null&&msgList[i].img.length>0){
+                        html+='		       <span class="w3-right">';
+                        html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
+                        html+='            </span>';
+                        }else{
+                        html+='		       <span class="w3-right">';
+                        html+=                  msgList[i].text;
+                        html+='            </span>';
+                        }
+                        html+='        </div>';
+                        html+='        <div class="w3-right w3-right-align msg-date">';
+                        html+=          moment(msgList[i].date).format('a HH:MM');
+                        html+='        </div>';
+                        html+='    </div>';
+                        html+='</div>';
                     }
-                    html+='        </div>';
-                    html+='        <div class="w3-left w3-left-align msg-date">';
-                    html+=          moment(msgList[i].date).format('a HH:DD');
-                    html+='        </div>';
-                    html+='    </div>';
-                    html+='</div>';
-                }else{
-                    html+='<div class="w3-row w3-padding">';
-                    if(i===0){
-                    html+='    <div class="w3-cell-row w3-right-align">';
-                    html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
-                    html+='    </div>';
-                    }else if(msgList[i].sender!=msgList[i-1].sender||moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i-1].date).format('YYYYMMDD')){
-                    html+='    <div class="w3-cell-row w3-right-align">';
-                    html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
-                    html+='    </div>';
-                    }
-                    html+='    <div class="w3-cell-row">';
-                    html+='        <div class="w3-cell w3-right w3-padding w3-theme-l4" id="right-msg">';
-                    if(msgList[i].img!=null&&msgList[i].img.length>0){
-                    html+='		       <span class="w3-right">';
-                    html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
-                    html+='            </span>';
-                    }else{
-                    html+='		       <span class="w3-right">';
-                    html+=                  msgList[i].text;
-                    html+='            </span>';
-                    }
-                    html+='        </div>';
-                    html+='        <div class="w3-right w3-right-align msg-date">';
-                    html+=          moment(msgList[i].date).format('a HH:DD');
-                    html+='        </div>';
-                    html+='    </div>';
-                    html+='</div>';
                 }
+                $('.msg-area').prepend(html);
+
+
+                //상대가 나간 채팅방이라면 채팅종료 문구 띄우기
+                if(delUser!=null){
+                    rmClickDelRoom();
+                    var html2 ="<div class='w3-cell-row w3-container w3-center'>";
+                    html2 +="	<p class='w3-round-xxlarge w3-red'>상대방이 채팅을 종료했습니다.<br> 메세지를 보낼 수 없습니다</p>";
+                    html2 +="	<button class='w3-button w3-large w3-round-large w3-red confirm-room-del'>삭제</button>";
+                    html2 +="</div>";
+                    $('.msg-area').append(html2);
+                    evClickDelRoom();
+                }
+                
+                upWheel();  
+                //처음 뽑는 메세지리스트라면 스크롤 맨밑으로 
+                if(page===0){
+                    $('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
+                }else{
+                    $('.msg-area').scrollTop( $('.msg-area').prop('scrollHeight')-scHeight);
+                }
+                $('.msgimgtag').on('click',function(){
+                    console.log($(this).attr('src'));
+                    $('.clickImg').attr('src',$(this).attr('src'));
+                    $('.img-zoom-modal').show();
+                });
+                evMsgClick();
             }
-            $('.msg-area').html(html);
-		    if(delUser!=null){
-		    	rmClickDelRoom();
-		        var html2 ="<div class='w3-cell-row w3-container w3-center'>";
-			    html2 +="	<p class='w3-round-xxlarge w3-red'>상대방이 채팅을 종료했습니다.<br> 메세지를 보낼 수 없습니다</p>";
-			    html2 +="	<button class='w3-button w3-large w3-round-large w3-red confirm-room-del'>삭제</button>";
-			    html2 +="</div>";
-		        $('.msg-area').append(html2);
-		        evClickDelRoom();
-            }
-            $('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
-            $('.msgimgtag').off();
-	        $('.msgimgtag').on('click',function(){
-				console.log($(this).attr('src'));
-				$('#clickImg').attr('src',$(this).attr('src'));
-				$('#img-zoom-modal').show();
-			});
+            page++;
         }
     });
 }
-
+function delMessage(idx){
+    $.ajax({
+        url:localhost+'/mc-chat/chat/msg/'+idx,
+        type:'post',
+        success: function(data){
+            if(data>0){
+                alert('해당 메세지가 삭제되었습니다');
+            }
+        }
+    });
+}
+function upWheel(){
+    $('.msg-area').off();
+    var a= true;
+    $('.msg-area').on('mousewheel',function(e){
+        var wheel = e.originalEvent.wheelDelta;
+        var scroll = $('.msg-area').scrollTop();
+        console.log();
+        if(wheel>0&&scroll==0&&roomIdx>-1&&a==true){
+            a=false;                        
+            insertMsgList(roomIdx,delUser);
+        }
+    });    
+}
 //클릭한 채팅방이 어떤 요청글에대한 채팅인지 정보표시
 function insertTopBarReq(idx){
         $.ajax({

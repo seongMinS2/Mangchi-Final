@@ -20,14 +20,18 @@ function pageNum(num){
 }
 
 //다음페이지 버튼
-function nextPage(){
+function nextPage(endNum){
 	this.idx++;
+	if(idx>endNum)
+		idx=endNum;
 	qnaboardList();
 	return false;
 }
 //이전페이지 버튼
 function prevPage(prevNum){
 	this.idx--;
+	if(idx<=1)
+		idx= 1;
 	qnaboardList();
 	return false;
 }
@@ -104,7 +108,7 @@ function qnaboardList() {
 			for(var i=data.startPage; i<=data.endPage; i++){
 				html += '			<a href="#" class="w3-button" onclick="return pageNum('+i+')">'+i+'&nbsp;</a>';
 			}
-			html += '			<a href="#" class="w3-button" onclick="return nextPage()">></a>';
+			html += '			<a href="#" class="w3-button" onclick="return nextPage('+data.endPage+')">></a>';
 			html += '			<a href="#" class="w3-button">>></a>';
 			html += '		</div>';
 			html += '</div>';

@@ -114,9 +114,10 @@
 							<a class="btn btn-default" href="#layer2" id="pw">비밀번호 변경</a>
 							<a class="btn btn-default" href="#layer3" id="del">회원 탈퇴</a>
 						</c:if>
-						
-						<a class="btn btn-default" href="<c:url value='/member/kakao/send'/>" id="send">메세지 전송</a>
-						<!-- <button id="send" onclick="sendMessage();">메세지 전송</button> -->
+						<c:if test="${kId ne null}">
+							<a class="btn btn-default" href="#layer4" id="delKakao">회원 탈퇴</a>
+
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -192,48 +193,89 @@
 		</div>
 	</div>
 
+	<!-- 카카오 회원 탈퇴 -->
+	<div class="dim-layer3" id="dim3">
+		<div class="dimBg3"></div>
+		<div id="layer4" class="pop-layer3">
+			<div class="pop-container3">
+				<div class="pop-conts3">
+					<!--content //-->
+					<p>정말로 탈퇴하시겠습니까? 탈퇴하시려면 인증번호를 입력해주세요.</p>
+
+					<input type="button" value="전송" onclick="sendCode();">
+					<%-- 					<a class="btn btn-default"
+								href="<c:url value='/member/kakao/send'/>" id="send">인증번호 발송</a> --%>
+					<table>
+						<tr>
+							<td>인증번호 입력</td>
+							<td><input type="text" name="sendCode" id="sendCode"
+								required></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><input type="button" value="입력"
+								onclick="deleteKakaoMember();"></td>
+						</tr>
+					</table>
+
+					<div class="btn-r2">
+						<a href="#" class="btn-layerClose2">닫기</a>
+					</div>
+					<!--// content-->
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 	<script
 		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
 	<script>
+	var verifyCode = null;
 	
-/* 	Kakao.init('93566b80fb99a5007a395716fd157aaa');
-	function sendMessage(){
+	function sendCode(){
+		$.ajax({
+			url: 'send',
+			data: {
+				access_Token: '${access_Token}'
+			},
+			success : function(data){
+				alert('카카오톡으로 인증번호가 발송되었습니다!');
+				verifyCode = data;
+				alert(verifyCode);
+			}
+		});
+	}
+	
+	function deleteKakaoMember(){
+		if($('#sendCode').val() != verifyCode){
+			alert('인증번호가 일치하지않습니다.');
+			return false;
+		}
+		$.ajax({
+			url: 'unlink',
+			type: 'post',
+			data: {
+				access_Token: '${access_Token}',
+				mId: '${loginInfo.mId}'
+			},
+			success: function(data){
+				if(data == "Y"){
+					<%
+					session.removeAttribute("kakaoInfo");
+					session.removeAttribute("loginInfo");
+					%>
+					alert('회원탈퇴가 완료되셨습니다 !');
+					location.href='/mangh';
+				}
+			}
+		});
 		
 		
-		alert('hi');
-		Kakao.API.request({
-			  url: '/v2/api/talk/memo/default/send',
-			  data: {
-			    template_object: {
-			      object_type: 'feed',
-			      content: {
-			        title: '카카오톡 링크 4.0',
-			        description: '디폴트 템플릿 FEED',
-			        image_url:
-			          'http://mud-kage.kakao.co.kr/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
-			        link: {
-			          web_url: 'https://developers.kakao.com',
-			          mobile_web_url: 'https://developers.kakao.com',
-			        },
-			      },
-			      social: {
-			        like_count: 100,
-			        comment_count: 200,
-			      },
-			      button_title: '바로 확인',
-			    },
-			  },
-			  success: function(response) {
-			    console.log(response);
-			  },
-			  fail: function(error) {
-			    console.log(error);
-			  },
-			});
-	} */
+	}
 	
 	
 		$(document).ready(function() {
@@ -247,8 +289,6 @@
 			} else if (mRadius == 4) {
 				$('#4').attr('selected', 'selected');
 			}
-			/* $('#mRadius').val().attr('selected','selected'); */
-			/* $('#mRadius option:eq(${loginInfo.mRadius})').attr('selected','selected'); */
 		});
 
 		// checkbox 선택
@@ -263,6 +303,17 @@
 
 		// 비밀번호 변경
 		function updatePw() {
+			
+			if ($('#nPw').val().length < 1) {
+				document.getElementById('nPw').focus();
+				alert('새 비밀번호를 입력해주세요.');
+				return false;
+			}
+			if ($('#nchkPw').val().length < 1) {
+				document.getElementById('nchkPw').focus();
+				alert('새 비밀번호를 확인해주세요.');
+				return false;
+			}
 
 			var mId = '${loginInfo.mId}';
 			var mPw = $('#mPw').val();
@@ -301,6 +352,7 @@
 						}
 					} else {
 						alert('비밀번호가 일치하지 않습니다.');
+						document.getElementById('mPw').focus();
 					}
 				}
 
@@ -426,6 +478,48 @@
 
 			$('.layer .dimBg2').click(function() {
 				$('.dim-layer2').fadeOut();
+				return false;
+			});
+
+		}
+		
+		/* 카카오 회원탈퇴 */
+		$('#delKakao').click(function() {
+			var $href = $(this).attr('href');
+			layer_popup3($href);
+
+		});
+
+		function layer_popup3(el) {
+			var $el = $(el); //레이어의 id를 $el 변수에 저장
+			var isDim = $el.prev().hasClass('dimBg3'); //dimmed 레이어를 감지하기 위한 boolean 변수
+
+			isDim ? $('.dim-layer3').fadeIn() : $el.fadeIn();
+
+			var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el
+					.outerHeight()), docWidth = $(document).width(), docHeight = $(
+					document).height();
+
+			// 화면의 중앙에 레이어를 띄운다.
+			if ($elHeight < docHeight || $elWidth < docWidth) {
+				$el.css({
+					marginTop : -$elHeight / 2,
+					marginLeft : -$elWidth / 2
+				})
+			} else {
+				$el.css({
+					top : 0,
+					left : 0
+				});
+			}
+
+			$el.find('a.btn-layerClose3').click(function() {
+				isDim ? $('.dim-layer3').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+				return false;
+			});
+
+			$('.layer .dimBg3').click(function() {
+				$('.dim-layer3').fadeOut();
 				return false;
 			});
 

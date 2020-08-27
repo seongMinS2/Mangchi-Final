@@ -49,13 +49,16 @@ function sendMsgToSocket(msgData) {
 //evt 파라미터는 websocket이 보내준 데이터다.
 function onMessage(evt) { //변수 안에 function자체를 넣음.
 	var msg = JSON.parse(evt.data);
+	var $scHeight = $('.msg-area').prop('scrollHeight');
+
 	var $updateLi = $('#chat-room'+msg.roomIdx);
 	var $lastDate = $('.msg-area').find('.dateCon').last();
 	if(msg.code=='message'){
 		var html='';
 		if(roomIdx==msg.roomIdx){
 			readMsg(msg.roomIdx);
-			if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')){
+
+			if($lastDate.text()!=moment(msg.date).format('MM월 DD일')){
 				html +='<div class="w3-cell-row w3-container w3-center last-msg-date">';
 				html +='	<p class="w3-round-xxlarge w3-theme-l5 dateCon">'+moment(msg.date).format('MM월 DD일')+'</p>';
 				html +='</div>';
@@ -68,7 +71,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='    </div>';
 				}
 				html+='    <div class="w3-cell-row">';
-				html+='        <div class="w3-cell w3-padding w3-right w3-theme-l4" id="right-msg">';
+				html+='        <div class="w3-cell w3-padding w3-right w3-theme4-l3" id="right-msg">';
 				if(msg.img!=null&&msg.img.length>0){
 				html+='		       <span class="w3-right">';
 				html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
@@ -80,13 +83,13 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				}
 				html+='        </div>';
 				html+='        <div class="w3-right w3-right-align">';
-				html+=          moment(msg.date).format('a HH:DD');
+				html+=          moment(msg.date).format('a HH:MM');
 				html+='        </div>';
 				html+='    </div>';
 				html+='</div>';
 				$('.msg-area').append(html);
+				$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
 			}else{
-				var html='';
 				html+='<div class="w3-row w3-padding">';
 				if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')||$('.msg-sender').last().text()!=msg.sender){
 				html+='    <div class="w3-cell-row">';
@@ -106,17 +109,27 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				}
 				html+='        </div>';
 				html+='        <div class="w3-left w3-left-align">';
-				html+=          moment(msg.date).format('a HH:DD');
+				html+=          moment(msg.date).format('a HH:MM');
 				html+='        </div>';
 				html+='    </div>';
 				html+='</div>';
 				$('.msg-area').append(html);
+				//스크롤이 맨밑에 있을때만 새로운 메세지에 포커스 
+				var scLoc= $('.msg-area').scrollTop()+parseInt($('.msg-area').height());
+				if(scLoc==$scHeight){
+					$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
+				}
 			}
-			$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
+			// if($('.msg-area').prop('scrollHeight')==$scHeight) {
+			// 	$('.msg-area').scrollTop(2000);
+			// }
 		}else{
+			//채팅방의 뱃지 업데이트
 			if($updateLi.children('#badge').length){
-				var badge = $updateLi.children('#badge');
-				badge.text(Number(badge.text())+1);
+				var $badge = $updateLi.children('#badge');
+				$badge.text(Number($badge.text())+1);
+
+			//뱃지가 없으면 달아주기
 			}else{
 				var html='';
 				html+='<span class="w3-col m1 l1 w3-badge w3-red" id="badge">1</span>';
@@ -124,6 +137,8 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 			}
 		}
 		$updateLi.prependTo('#chat-room-list');
+
+	//상대방이 채팅을 삭제하면 삭제했다는 메세지를 받음
 	}else if(msg.code=='delete'){
 		$updateLi.append('<input type="hidden" id="delUser" value="'+msg.sender+'">');
 		$updateLi.find('.chat-title').addClass('w3-red');
@@ -141,11 +156,10 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 		}
 		$updateLi.prependTo('#chat-room-list');
 	}
-	$('.msgimgtag').off();
 	$('.msgimgtag').on('click',function(){
 		console.log($(this).attr('src'));
-		$('#clickImg').attr('src',$(this).attr('src'));
-		$('#img-zoom-modal').show();
+		$('.clickImg').attr('src',$(this).attr('src'));
+		$('.img-zoom-modal').show();
 	});
 
 }

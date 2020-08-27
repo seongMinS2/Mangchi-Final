@@ -96,9 +96,8 @@
 					<div id="req-loc"></div>
 				</div>
 				
-				<!-- 메세지 출력 부분 -->
 				<div class="w3-row w3-white msg-area">
-										
+					<!-- 메세지 출력 부분 -->
 				</div>
 				
 				<!-- 인풋 버튼 모음 -->
@@ -165,12 +164,23 @@
 			</div>
 		</div>
 	</div>
-	<div id="img-zoom-modal" class="w3-modal w3-animate-zoom" onclick="this.style.display='none'">
-		<img class="w3-modal-content" id="clickImg" src="">
+	<!-- 메세지 클릭시  -->
+	<div id="msg-modal" class="w3-modal">
+		<div class="w3-white w3-modal-content w3-center w3-padding" style="width: 200px;">
+			<button class="w3-button w3-red w3-round w3-center" id="msg-del" style="width: 150px;">메세지 삭제</button>
+			<button class="w3-button w3-theme3-l2 w3-round" id="msg-modal-close" style="width: 150px;">닫기</button>
+		</div>
 	</div>
+	<!-- 이미지 클릭시 확대 -->
+	<div id="img-zoom-modal" class="w3-modal img-zoom-modal w3-center" onclick="this.style.display='none'">
+		<img class="w3-modal-content clickImg" id="clickImg" style="">
+	</div>
+	
+	
 	<!-- 작은 화면 -->
 	<div class="w3-row "></div>
 	<jsp:include page="/WEB-INF/views/include/kjj-footer.jsp" />
+	
 <script>
 $(document).ready(function(){
 	//전송버튼 비활성화
@@ -193,6 +203,7 @@ $(document).ready(function(){
 		$('#msg-text').focus();
 	}
 });
+
 //배포한 aws경로
 var aws= 'http://ec2-13-125-249-249.ap-northeast-2.compute.amazonaws.com:8080';
 var localhost = 'http://localhost:8080';
