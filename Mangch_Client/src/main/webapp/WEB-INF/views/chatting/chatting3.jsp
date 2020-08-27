@@ -96,9 +96,8 @@
 					<div id="req-loc"></div>
 				</div>
 				
-				<!-- 메세지 출력 부분 -->
 				<div class="w3-row w3-white msg-area">
-										
+					<!-- 메세지 출력 부분 -->
 				</div>
 				
 				<!-- 인풋 버튼 모음 -->
@@ -165,8 +164,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="img-zoom-modal" class="w3-modal w3-animate-zoom" onclick="this.style.display='none'">
-		<img class="w3-modal-content" id="clickImg" src="">
+	<div id="img-zoom-modal" class="w3-modal img-zoom-modal w3-center" onclick="this.style.display='none'">
+		<img class="w3-modal-content clickImg" id="clickImg" style="">
 	</div>
 	<!-- 작은 화면 -->
 	<div class="w3-row "></div>
@@ -193,6 +192,7 @@ $(document).ready(function(){
 		$('#msg-text').focus();
 	}
 });
+
 //배포한 aws경로
 var aws= 'http://ec2-13-125-249-249.ap-northeast-2.compute.amazonaws.com:8080';
 var localhost = 'http://localhost:8080';

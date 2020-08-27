@@ -227,5 +227,5 @@ button.headSearchBtn{
 			</div>
 	</nav>
 </header>
-<main class="w3-content w3-light-grey">
+<main>
 

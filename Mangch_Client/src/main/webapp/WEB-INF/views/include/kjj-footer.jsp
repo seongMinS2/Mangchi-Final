@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 </main>
 <!-- Footer -->
-<footer class="w3-center w3-text-deep-purple w3-white w3-border-theme w3-topbar w3-padding">
+<footer class="w3-center w3-text-deep-purple w3-hide-small w3-white w3-border-theme w3-topbar w3-padding">
     <a href="https://www.w3schools.com/w3css/default.asp" class="">
 		<img src="<c:url value="/resources/img/LOGO-tight.png"/>" style="height: 27px"/></a>
 		&nbsp;&nbsp;<span>우리동네 렌탈 서비스</span>

@@ -92,7 +92,7 @@ li{
 	padding: 5px;
 }
 li:hover{
-	background-color:#adb0ef;
+	background-color:#7b95d9;
 	color:black;
 	cursor: pointer; 
 }
@@ -111,7 +111,7 @@ li:hover{
 	border: 1px solid transparent;
 }
 .chatRoomArea::-webkit-scrollbar-track {
-	background-color: #5f6ec0;
+	background-color: #4d7bca;
 	border-radius: 5px;
 }
 .msg-area{

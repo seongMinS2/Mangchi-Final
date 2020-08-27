@@ -105,7 +105,7 @@
       <div class="content" id="innerView" style="height:auto; width:auto;"></div>
    </div>
 
-
+<div id="sessionList"></div>
 
 <div id="guestbookList"></div>
 
@@ -120,7 +120,7 @@
 <input  type="text" name="guest_text" id="guest_text" class="guest_text">
 <input  type="text" name="guest_writer" id="guest_writer" class="wr">
 <input type="file" name="photo" id="photo">
-<input type="text" name="oldphoto" id="oldphoto">
+<input type="text" name="oldphoto" id="oldphoto" class="oldphoto">
 <input type="submit" value="수정" onclick="editService();">
 </form>
  </div>
@@ -137,6 +137,121 @@
 
 var zz =$('#guest_writer').val();
 var bb=zz.trim();
+
+
+// 로그인한 세션값이 글쓴 리스트
+function writerList(bb) {
+	
+
+	
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/loginnick',
+		type : 'GET',
+		dataType:'json',
+		data:{bb:bb},
+		success : function (data) {
+			
+			var html='';
+			for(var i=0; i<data.length; i++){
+				if(data[i].guest_photo !=null){
+				html+='<article class="have_photo">';
+			    html+='<header>';
+			    html+='<input type="hidden" name="guest_idx" class="idx" value="'+data[i].guest_idx+'">';
+			    //아래가 멤버프로필이미지 가져와야함
+			    html+='<div class="hd_img" ><img src="'+data[i].member_img+'"></div>';  
+			    //아래가 멤버닉네임가져와야함
+			    html+='<div class="hd_nick">';
+			    html+=data[i].guest_writer
+			    html+='<span class="addr">'+data[i].guest_addr+'</span>';
+			    html+='</div>'
+			    html+='</header>';
+			    html+='<div class="photo_body"><img src="http://localhost:8080/guest/upload/'+data[i].guest_photo+'"></div>';
+			    //html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
+			    html+='<div class="text_body">';
+			    html+='<section>';
+			    
+			    //아래라이크사진
+			   
+			    
+		    	
+			    html+='</div>'
+			    html+='</section>'; 
+			    
+			    html+='<div class="content">';
+			    html+='<div class="nonerealtext" id="nonerealtext2">'+data[i].guest_text+'<br>';
+			   
+			    html+='</div>';
+			    if(data[i].guest_text.includes('<br/>')){
+			    	html+='<span class="more">더보기</span>';
+			    }
+			    html+='</div>';
+			    html+='<div class="comment">';
+			    if(data[i].guest_comment.length !=0){
+			    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
+			    }
+			    html+='<section>';
+			    html+='</section>';
+			    html+='</div>';
+			    html+='</div>'; 
+			    html+='</article>';
+				} else if(data[i].guest_photo ==null){
+					html+='<article class="none_photo">';
+					
+				    html+='<header>';
+				    html+='<input type="hidden" name="guest_idx" class="idx" value="'+data[i].guest_idx+'">';
+				    html+='<div class="hd_img");"><img src="'+data[i].member_img+'"></div>'; 
+				    html+='<div class="hd_nick">';
+				    html+=data[i].guest_writer
+				    html+='<span class="addr">'+data[i].guest_addr+'</span>';
+				    html+='</div>'
+				    html+='</header>';
+				   
+				    
+				    html+='<div class="null_content">'
+				    html+='<div class="nonerealtext" id="nonerealtext2">'+data[i].guest_text+'</div>'
+				    if(data[i].guest_text.includes('<br/>')){
+				    	html+='<span class="more" style="margin-left:13px; color:gray;">더보기</span>';
+				    }
+				    
+				    
+				    
+				    html+='</div>'
+				    
+				    html+='<div class="text_body">';
+				    html+='<section>';
+				    
+				    //아래라이크사진
+			    	
+				    html+='</div>'
+				    html+='</section>'; 
+				    
+				   	 html+='<section>';
+				   		
+						
+				   		
+					    /* for(var j=0; j<data[i].guest_comment.length; j++){
+					    html+='<div class="cmtnick">'+data[i].guest_comment[j].member_nick+'</div>';
+					    html+='<div class="cmttext">'+data[i].guest_comment[j].comment_text+'</div>';
+					    } */
+					    
+					    
+					   
+				    html+='</section>'; 
+				    html+='</div>';
+				    html+='</div>';
+				    html+='</article>';
+				}
+			
+			} // for문 끝 
+			$('#sessionList').html(html);
+			
+		}		
+	})
+}
+
+
+
+
 //댓글쓰기
 function cmtWrite(guest_idx,text) {
 	
@@ -196,15 +311,12 @@ var r=$('#r').val();
 ////////////////////////글쓰기 함수
 function guestPost() {
 	
-	var zz =$('#guest_writer').val();
-	var bb=zz.trim();
 	
 	var mImg=$('#member_img').val();
 	
-	
+	// ~~구 글자 자르기
 	var maddr=$('#guest_addr').val();
 	var addrbunki=maddr.substr(2,5);
-	
 	
 	//db에 줄바꿈
 	var str = $('#guest_text').val();
@@ -252,21 +364,20 @@ fileTarget.on('change',function(){
 /////////////////////수정 팝업펑션
   function editService() {
 	
-	console.log($('.guest_text').val());
 	
 	var editFormData = new FormData();
 	editFormData.append('guest_idx',$('#guest_idx').val());
 	editFormData.append('guest_text',$('.guest_text').val());
-	console.log(typeof $('#oldphoto').length);
 	
-	if($('#oldphoto').length>1){
+	if($('#oldphoto')!=null){
 	editFormData.append('oldFile',$('#oldphoto').val());
 	}
+	console.log($('#oldphoto').val());
+
 	
 	if($('#photo')[0].files[0] !=null){
 		editFormData.append('photo',$('#photo')[0].files[0]); // 파일첨부 코드	
 	}
-	
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/edi' ,
 		type:'POST',
@@ -274,14 +385,13 @@ fileTarget.on('change',function(){
 		contentType : false, // multipart/form-data 쓰는 코드
 		data : editFormData,
 		success : function (data) {
-			
 		alert('수정이 완료됐습니다');
-		
+			
+			
 		$('#layer_popup').bPopup().close();
 		$('#editddd').bPopup().close();
 		$("#popup").bPopup().close();
 			gbList();
-			
 			
 		}// 석세스끝
 		
@@ -297,6 +407,7 @@ function editPopup(guest_idx) {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
+		data : {nick:bb},
 		success : function (data) {
 			
 			var html='';
@@ -307,6 +418,7 @@ function editPopup(guest_idx) {
 				html+='<button class="btnz editdiv-close">취소</button>';
 				
 			$('#editddd').html(html);
+			
 			
 			
 			$('.deleteService').click(function () {
@@ -321,12 +433,15 @@ function editPopup(guest_idx) {
 			
 			
 			$('.editform').click(function () {
+				$('.ditform')[0].reset();
+				$('#guest_idx').val(data.guest_idx);	
 				
-
-		
-			console.log(data.guest_writer);
-				$('#guest_idx').val(data.guest_idx);				
-				$('#oldphoto').val(data.guest_photo);
+				console.log(data.guest_photo==null)
+				
+				$('.oldphoto').val(data.guest_photo);
+				
+			
+				console.log($('#oldphoto').val());
 				$('.wr').val(data.guest_writer);
 				
 				$('#layer_popup').bPopup();
@@ -363,6 +478,7 @@ function goPopup(guest_idx) {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
+		data: {nick : bb},
 		success : function (data) {
 			var html='';
 			if(data.guest_photo !=null){
@@ -394,10 +510,11 @@ function goPopup(guest_idx) {
 								html+='</div>'
 							html+='</div>'
 							html+='<section class="in_bottom">'
-							
-								html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
-						    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
-							
+								if(data.checkLikes==1){
+								    html+='<button class="footers likedownbtn" id="heartno"  onclick="likedown2('+data.guest_idx+'); likedowncount('+data.guest_idx+'); "><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+								    }else{
+								    html+='<button class="footers likebtn" id="heartok" onclick="likeup2('+data.guest_idx+'); likeupcount('+data.guest_idx+');"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+								    } 
 						    html+='<button class="gomsg"><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 							html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 							html+='<div class="flex dh">'
@@ -443,10 +560,11 @@ function goPopup(guest_idx) {
 					html+='</div>'
 				html+='</div>'
 				html+='<section class="in_bottom">'
-				
-					html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
-			    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data.guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
-				
+					 if(data.checkLikes==1){
+						    html+='<button class="footers likedownbtn" id="heartno"  onclick="likedown2('+data.guest_idx+'); likedowncount('+data.guest_idx+'); "><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+						    }else{
+						    html+='<button class="footers likebtn" id="heartok" onclick="likeup2('+data.guest_idx+'); likeupcount('+data.guest_idx+');"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+						    } 
 			    html+='<button class="gomsg"><img src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 				html+='<div class="likes">좋아요 '+data.guest_like+'개</div>'
 				html+='<div class="flex dh">'
@@ -484,6 +602,13 @@ function goPopup(guest_idx) {
 			})
 			
 			
+			$('.likebtn2').click(function () {
+				
+				
+			});
+			
+			$('.likedownbtn2').click(function () {
+			});
 			
 			
 		}// 석세스끝
@@ -523,14 +648,13 @@ function gbList() {
 		 },
 		success : function (data) {
 			var html='';
-			console.log(data);
 			for(var i=0; i<data.length; i++){
 				if(data[i].guest_photo !=null){
 				html+='<article class="have_photo">';
 			    html+='<header>';
 			    html+='<input type="hidden" name="guest_idx" class="idx" value="'+data[i].guest_idx+'">';
 			    //아래가 멤버프로필이미지 가져와야함
-			    html+='<div class="hd_img"><img src="'+data[i].member_img+'"></div>';  
+			    html+='<div class="hd_img" ><img src="'+data[i].member_img+'"></div>';  
 			    //아래가 멤버닉네임가져와야함
 			    html+='<div class="hd_nick">';
 			    html+=data[i].guest_writer
@@ -546,10 +670,11 @@ function gbList() {
 			    html+='<section>';
 			    
 			    //아래라이크사진
-			   
-			    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
-			    html+='<button class="footers likedownbtn" id="heartno" style="display:none" onclick="likedown('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
-			    
+			    if(data[i].checkLikes==1){
+				    html+='<button class="footers likedownbtn" id="heartno"  onclick="likedown('+data[i].guest_idx+'); likedowncount('+data[i].guest_idx+'); "><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+				    }else{
+				    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+'); likeupcount('+data[i].guest_idx+');"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+				    } 
 		    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 		    	
 			    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
@@ -592,7 +717,7 @@ function gbList() {
 					
 				    html+='<header>';
 				    html+='<input type="hidden" name="guest_idx" class="idx" value="'+data[i].guest_idx+'">';
-				    html+='<div class="hd_img"><img src="'+data[i].member_img+'"></div>'; 
+				    html+='<div class="hd_img");"><img src="'+data[i].member_img+'"></div>'; 
 				    html+='<div class="hd_nick">';
 				    html+=data[i].guest_writer
 				    html+='<span class="addr">'+data[i].guest_addr+'</span>';
@@ -618,9 +743,9 @@ function gbList() {
 				    
 				    //아래라이크사진
 				    if(data[i].checkLikes==1){
-				    html+='<button class="footers likedownbtn" id="heartno"  onclick="likedown('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
+				    html+='<button class="footers likedownbtn" id="heartno"  onclick="likedown('+data[i].guest_idx+'); likedowncount('+data[i].guest_idx+'); "><img id="heart" src="${pageContext.request.contextPath}/resources/img/redheart.png"></button>';
 				    }else{
-				    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+')"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
+				    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+'); likeupcount('+data[i].guest_idx+');"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 				    } 
 			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			    	
@@ -686,12 +811,12 @@ function gbList() {
 			
 			$('.likebtn').click(function () {
 				
-					var a=$(this).next();
+				/* 	var a=$(this).next();
 					var b = a.next();
 					var c = b.next();
 					var d =c.children('.dlikes').text();
 					d=Number(d)+1;
-					c.children('.dlikes').text(d);
+					c.children('.dlikes').text(d); */
 					//$(this).hide();
 					//a.show();
 					
@@ -703,12 +828,12 @@ function gbList() {
 			
 			$('.likedownbtn').click(function () {
 				
-				var a=$(this).next();
+			/* 	var a=$(this).next();
 				var b = a.next();
 				var c = b.children('.dlikes').text();
 				
 				c=Number(c)-1;
-				b.children('.dlikes').text(c);
+				b.children('.dlikes').text(c); */
 				//$(this).hide();
 				//$(this).prev().show();
 				
@@ -733,6 +858,17 @@ function gbList() {
 			
 			
 			var current=$('article').length-1;
+			
+			
+			$('.hd_img').click(function () {
+				writerList(bb);
+			})
+			
+			
+			
+			
+			
+			
 			
 			
 			///////////// 게시글 토탈카운트 구하는 에이젝스 실행 
@@ -775,8 +911,34 @@ function gbList() {
 
 
 
+///////////////////// 좋아요 증감 함수 에디트버전 
+function likeup2(guest_idx) {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/plus/'+guest_idx,
+		type:'POST',
+		data :  
+			 bb ,
+		contentType: 'application/json; charset=utf-8',
+		success : function (data) {
+			goPopup(guest_idx);
+			gbList();
+		}
+	});
+}
 
-
+///////////////////// 좋아요 감소 함수 에디트버전
+function likedown2(guest_idx) {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/mi/'+guest_idx,
+		type:'DELETE',
+		data:bb,
+		contentType: 'application/json; charset=utf-8',
+		success : function (data) {
+			goPopup(guest_idx);
+			gbList();
+		}
+	});
+} 
 
 
 
@@ -810,8 +972,31 @@ function gbList() {
 	} 
 	
 			
+/* -----------------------------------숫자만--------------------------- */
 			
-//////스크롤기능 
+//////////////////// 좋아요 숫자 증가 함수
+function likeupcount(guest_idx) {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/pluscount/'+guest_idx,
+		type:'PUT',
+		contentType: 'application/json; charset=utf-8',
+		success : function (data) {
+			gbList();
+		}
+	});
+}
+
+////////////////////좋아요 숫자 감소 함수
+function likedowncount(guest_idx) {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/micount/'+guest_idx,
+		type:'PUT',
+		contentType: 'application/json; charset=utf-8',
+		success : function (data) {
+			gbList();
+		}
+	});
+}
 
 
 
@@ -819,7 +1004,8 @@ function gbList() {
 
 
 $(document).ready(function () {
-	gbList(page=5);
+	$('main').attr('style','background-color:white !important');
+	gbList(page=4);
 	
 	$(window).scroll(function() {
 	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
