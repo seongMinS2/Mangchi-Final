@@ -199,8 +199,9 @@ var page = 0;
 //메세지 리스트 출력
 function insertMsgList(roomIdx,delUser){
     console.log(roomIdx);
-    var scHeight=$('.msg-area').prop('scrollHeight');
+    var scHeight='';
     var html='';
+    scHeight=$('.msg-area').prop('scrollHeight');
     $.ajax({
 		url : localhost+'/mc-chat/chat/' + roomIdx,
 		type : 'get',
@@ -214,16 +215,21 @@ function insertMsgList(roomIdx,delUser){
                 $('.msg-area').off();
             }else{
                 for(var i=msgList.length-1;i>=0;i--){
-                    if(msgList[0].sender == $('.msg-area').find('.msg-sender').first().text()){
-                        $('.msg-area').find('.msg-sender').first().text('');
+                    if(i==0){
+                        if(msgList[i].sender == $('.msg-area').find('.msg-sender').first().text()){
+                            $('.msg-area').find('.msg-sender').first().text('');
+                        }
+                        if(moment(msgList[i].date).format('MM월 DD일')==$('.msg-area').find('.dateCon').first().text()){
+                            $('.msg-area').find('.last-msg-date').first().remove();
+                        }
                     }
-                    if(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD')){
+                    if(i===msgList.length-1||(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD'))){
                         html +='<div class="w3-cell-row w3-container w3-center last-msg-date">';
                         html +='	<p class="w3-round-xxlarge w3-theme-l5 dateCon">'+moment(msgList[i].date).format('MM월 DD일')+'</p>';
                         html +='</div>';
                     }
                     if(loginUser!=msgList[i].sender){
-                        html+='<div class="w3-row w3-padding">';
+                        html+='<div class="w3-row w3-padding msg-box" i="'+msgList[i].idx+'">';
                         if(i===msgList.length-1){
                         html+='    <div class="w3-cell-row">';
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
@@ -234,7 +240,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='    </div>';
                         }
                         html+='    <div class="w3-cell-row">';
-                        html+='        <div class="w3-cell w3-left w3-padding w3-theme5" id="left-msg">';
+                        html+='        <div class="w3-cell w3-left w3-padding w3-light-grey message" id="left-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span>';
                         html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
@@ -246,12 +252,12 @@ function insertMsgList(roomIdx,delUser){
                         }
                         html+='        </div>';
                         html+='        <div class="w3-left w3-left-align msg-date">';
-                        html+=          moment(msgList[i].date).format('a HH:DD');
+                        html+=          moment(msgList[i].date).format('a HH:MM');
                         html+='        </div>';
                         html+='    </div>';
                         html+='</div>';
                     }else{
-                        html+='<div class="w3-row w3-padding">';
+                        html+='<div class="w3-row w3-padding msg-box" i="'+msgList[i].idx+'">';
                         if(i===msgList.length-1){
                         html+='    <div class="w3-cell-row w3-right-align">';
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
@@ -262,7 +268,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='    </div>';
                         }
                         html+='    <div class="w3-cell-row">';
-                        html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3" id="right-msg">';
+                        html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span class="w3-right">';
                         html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
@@ -274,7 +280,7 @@ function insertMsgList(roomIdx,delUser){
                         }
                         html+='        </div>';
                         html+='        <div class="w3-right w3-right-align msg-date">';
-                        html+=          moment(msgList[i].date).format('a HH:DD');
+                        html+=          moment(msgList[i].date).format('a HH:MM');
                         html+='        </div>';
                         html+='    </div>';
                         html+='</div>';
@@ -306,8 +312,20 @@ function insertMsgList(roomIdx,delUser){
                     $('.clickImg').attr('src',$(this).attr('src'));
                     $('.img-zoom-modal').show();
                 });
+                evMsgClick();
             }
             page++;
+        }
+    });
+}
+function delMessage(idx){
+    $.ajax({
+        url:localhost+'/mc-chat/chat/msg/'+idx,
+        type:'post',
+        success: function(data){
+            if(data>0){
+                alert('해당 메세지가 삭제되었습니다');
+            }
         }
     });
 }

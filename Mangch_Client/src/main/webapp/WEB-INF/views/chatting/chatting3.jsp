@@ -164,12 +164,23 @@
 			</div>
 		</div>
 	</div>
+	<!-- 메세지 클릭시  -->
+	<div id="msg-modal" class="w3-modal">
+		<div class="w3-white w3-modal-content w3-center w3-padding" style="width: 200px;">
+			<button class="w3-button w3-red w3-round w3-center" id="msg-del" style="width: 150px;">메세지 삭제</button>
+			<button class="w3-button w3-theme3-l2 w3-round" id="msg-modal-close" style="width: 150px;">닫기</button>
+		</div>
+	</div>
+	<!-- 이미지 클릭시 확대 -->
 	<div id="img-zoom-modal" class="w3-modal img-zoom-modal w3-center" onclick="this.style.display='none'">
 		<img class="w3-modal-content clickImg" id="clickImg" style="">
 	</div>
+	
+	
 	<!-- 작은 화면 -->
 	<div class="w3-row "></div>
 	<jsp:include page="/WEB-INF/views/include/kjj-footer.jsp" />
+	
 <script>
 $(document).ready(function(){
 	//전송버튼 비활성화

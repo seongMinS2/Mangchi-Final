@@ -181,3 +181,10 @@ input[name=msgText]{
 .msg-date{
 	padding : 0px 5px;
 }
+
+.message:hover{
+	cursor: pointer;
+}
+#msg-modal button{
+	margin: 10px 0;
+}
