@@ -5,10 +5,18 @@ body {
 	padding: 0;
 }
 
+td{
+	padding: 6px;
+}
+
 .memberList {
 	width: 20%;
 	display: block;
 	margin: 0;
+}
+
+.mypageBox{
+	margin-left: 30%;
 }
 
 div.card {
@@ -22,10 +30,36 @@ div.card>ul>li {
 	font-size: 12px;
 }
 
-.haha {
-	width: 50%;
-	display: block;
-	margin: 0;
+#mNick{
+	border-bottom: 2px solid #162D59;
+}
+
+#mAddr{
+	border-bottom: 2px solid #162D59;
+}
+
+select{
+	padding: 9px 0;
+    width: 80%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+#button{
+	background-color: #edc67e;
+	color: white;
+	width: 30%;
+	margin-top: 5%;
+	margin-left: 25%;
+	border-radius: 100px;
+	cursor: pointer;
+}
+#button:hover {
+	background-color: #faeeda;
+}
+
+textarea:focus, input:focus {
+	outline: 0;
 }
 
 #profile-menu {
@@ -93,8 +127,8 @@ div.card>ul>li {
 }
 
 .container {
-	margin-left: 5%;
-	margin-right: 5%;
+	margin-left: 10%;
+	margin-right: 10%;
 	margin-bottom: 5%;
 }
 
@@ -116,19 +150,23 @@ table {
 
 .filebox label {
 	display: inline-block;
-	margin-left: 5%;
-	padding: 10px 20px;
-	color: #999;
 	vertical-align: middle;
-	background-color: #fdfdfd;
+	margin-top: 10px;
 	cursor: pointer;
-	border: 1px solid #ebebeb;
-	border-radius: 5px;
+
+}
+
+input {
+	margin: 5% 5%;
+	border: none;
+	width: 80%;
+	font-size: 1.5em;
+	background: none;
 }
 
 /* named upload */
 .filebox #Img {
-	display: inline-block;
+/* 	display: inline-block;
 	margin: 0;
 	height: 35px;
 	width: 60%;
@@ -137,7 +175,10 @@ table {
 	vertical-align: middle;
 	background-color: #f5f5f5;
 	border: 1px solid #ebebeb;
-	border-radius: 5px;
+	border-radius: 5px; */
+	border-bottom: 2px solid #f5f5f5;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }
 
 /* modal 회원정보 수정*/

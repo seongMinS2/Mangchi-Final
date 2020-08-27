@@ -47,12 +47,7 @@
 			</table>
 		</div>
 	</div>
-	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 	<script>
-		function hello(){
-			alert('hi');
-		}
-	
 	
 		 function loginSubmit() {
 			$.ajax({
