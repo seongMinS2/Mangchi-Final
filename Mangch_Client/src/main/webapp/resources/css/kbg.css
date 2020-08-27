@@ -421,6 +421,19 @@
         
         
         
+        .dotpopup2{
+        display:none; 
+        margin-left:auto;
+        background-color: white; 
+        border: 0; 
+        outline: 0;
+        cursor: pointer;
+        }
+        
+        
+        
+        
+        
         .editdiv{
         
    width : 200px;

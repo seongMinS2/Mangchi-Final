@@ -52,7 +52,7 @@
 
 		<input type="hidden" name="guest_addr" id="guest_addr" value="${loginInfo.mAddr}"> 
 	<div class="postwrap" style="display: block;">
-		<div class="postTitle" style="background-color: #DDD; line-height: 27px; ">
+		<div class="postTitle w3-theme5" style="background-color: #DDD; line-height: 27px; ">
 		<span style="font-weight: bold; margin-left: 3px;">게시물 만들기</span>
 		</div>
 		<div class="postbody" style="height: auto;">
@@ -111,20 +111,37 @@
 
 
 <div id="editddd"  class="editdiv"></div>
+<div id="editcmt"  class="editdiv"></div>
+
 
 
 <div id="layer_popup" class="button_style">
- <span class="layer_close">X</span>
- <form class="ditform" onsubmit="return false;">
-<input type="text" name="guest_idx" id="guest_idx">
-<input  type="text" name="guest_text" id="guest_text" class="guest_text">
-<input  type="text" name="guest_writer" id="guest_writer" class="wr">
-<input type="file" name="photo" id="photo">
-<input type="text" name="oldphoto" id="oldphoto" class="oldphoto">
-<input type="submit" value="수정" onclick="editService();">
+<article class="none_photo">
+    <div class="postwrap" style="display: block;">
+        <div class="postTitle" style="background-color: #DDD; line-height: 27px; ">
+            <span style="font-weight: bold; margin-left: 3px;">게시물 수정하기</span>
+            <span class="layer_close" style="float: right; margin-right: 10px;">X</span>
+        </div>
+            <div class="postbody" style="height: auto;">
+                <div style="width: 100%; display: flex; position: relative; height: 100px; border-bottom: 1px solid #DDD;">
+                    <form class="ditform" onsubmit="return false;">
+                    <input type="text" name="guest_idx" id="guest_idx" style="display:none;">
+                    <textarea rows="100" cols="500"  type="textarea" name="guest_text" id="guest_text" class="edittext" required="required" placeholder="    ${loginInfo.mNick}님, 수정할 텍스트를 입력해주세요"
+                    style="width: 80%; border: 0; outline: 0;  height: 50px; margin-top:33px; overflow: hidden; resize: none;"></textarea>
+                    <input  type="text" name="guest_writer" id="guest_writer" class="wr" style="display:none;">
+                    <input type="text" name="oldphoto" id="oldphoto" class="oldphoto" style="display:none;">
+                </div>
+                <div class="foot" style="padding: 15px;">
+                    <label for="photo"><img src="${pageContext.request.contextPath}/resources/img/photo.png" style="height: 30px; width: 30px;"></label>
+                    <input type="file" name="photo" id="photo" style="display: none;">
+                    <input class="upload-name" value="파일선택"  style="border: 0; outline: 0; font-size: 10px; width:400px;" readonly="readonly">
+                    <input type="submit" value="수정"  onclick="editService()" style="float: right;">
+                </div>
+            </div>
+    </div>
 </form>
- </div>
-
+</article> 
+</div>
 
 
 
@@ -364,10 +381,13 @@ fileTarget.on('change',function(){
 /////////////////////수정 팝업펑션
   function editService() {
 	
+	  var str2 = $('.edittext').val();
+		str2 = str2.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+	
 	
 	var editFormData = new FormData();
 	editFormData.append('guest_idx',$('#guest_idx').val());
-	editFormData.append('guest_text',$('.guest_text').val());
+	editFormData.append('guest_text',str2);
 	
 	if($('#oldphoto')!=null){
 	editFormData.append('oldFile',$('#oldphoto').val());
@@ -466,6 +486,37 @@ function editPopup(guest_idx) {
 
 
 
+	
+	
+	
+	
+function cmtedit() {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+		type:'GET',
+		data : {nick:bb},
+		success : function (data) {
+			
+			var html='';
+			
+				html+='<button class="btnz editform">게시글 수정</button>';
+				html+='<button class="btnz deleteService" onclick="">게시글 삭제</button>';
+				html+='<button class="btnz">'+data.guest_idx+'</button>';
+				html+='<button class="btnz editdiv-close">취소</button>';
+				
+			$('#editcmt').html(html);
+			
+
+			
+		}// 석세스끝
+		
+	});
+	$("#editcmt").bPopup();
+	
+}	
+	
+	
+	
 
 
 
@@ -500,10 +551,16 @@ function goPopup(guest_idx) {
 							html+='<div class="in_nonerealtext">'+data.guest_text
 							html+='<section class="in_bodycmt">'
 								 for(var j=0; j<data.guest_comment.length; j++){
-								    		html+='<div class="flex">';
+								    		html+='<div class="flex mousecmt" id="mousecmt">';
 									    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
 									    html+='<br/>'
 									    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
+									    html+='<div class="cmttext">'+data.guest_comment[j].comment_idx+'</div>';
+									    
+									 if(data.guest_comment[j].member_nick === `${loginInfo.mNick}`){
+									    	html+='<button class="dotpopup2" id="mousecmt" onclick="cmtedit();"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+									    }
+									 
 									    html+='</div>';
 									    }
 							html+='</section>'
@@ -550,10 +607,14 @@ function goPopup(guest_idx) {
 				html+='<div class="in_nonerealtext">'+data.guest_text
 				html+='<section class="in_bodycmt">'
 					 for(var j=0; j<data.guest_comment.length; j++){
-					    		html+='<div class="flex">';
+						 alert(data.guest_comment);
+					    		html+='<div class="flex mousecmt" id="mousecmt">';
 						    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
 						    html+='<br/>'
 						    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
+						  if(data.guest_comment[j].member_nick === `${loginInfo.mNick}`){
+						    	html+='<button class="dotpopup2" id="mousecmt" onclick="editPopup('+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+						    }
 						    html+='</div>';
 						    }
 				html+='</section>'
@@ -586,6 +647,8 @@ function goPopup(guest_idx) {
 			
 			$('#innerView').html(html);
 			
+		
+			
 			
 			$('.cmtsb2').click(function () {
 				var a=$(this).next().val();
@@ -601,15 +664,15 @@ function goPopup(guest_idx) {
 				$('.in_cmtwr_null').focus();
 			})
 			
+			$('.mousecmt').mouseover(function () {
+				var btn=$(this).find('button');
+				btn.show();
+				/* $('.dotpopup2').show(); */
+			})			
 			
-			$('.likebtn2').click(function () {
-				
-				
-			});
-			
-			$('.likedownbtn2').click(function () {
-			});
-			
+			$('.mousecmt').mouseleave(function () {
+				$('.dotpopup2').hide();
+			})	
 			
 		}// 석세스끝
 		
@@ -887,7 +950,7 @@ function gbList() {
 					
 					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
 					console.log('페이지'+page);
-					if(data+4<page){
+					if(data+10<page){
 						
 						console.log("끝"+page);
 						$(window).off();
@@ -1008,7 +1071,7 @@ $(document).ready(function () {
 	gbList(page=4);
 	
 	$(window).scroll(function() {
-	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+		if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
 	    	page=page+4
 	
