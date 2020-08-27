@@ -145,6 +145,22 @@
 </div>
 
 
+<!-- 댓글수정폼 -->
+<div id="realcmtedit" class="Pstyle2">
+<form class="realcmteditform" onsubmit="return false;">
+<input type="text" class="editformtext">
+<input type="submit" class="editformsubmit">
+</form>
+</div>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -379,6 +395,26 @@ fileTarget.on('change',function(){
 });
 
 
+
+function editCmtText() {
+
+	var Form= new FormData();
+	Form.append('comment_text',$('.editformtext').val());
+	
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/cmtedit',
+		type:'PUT',
+		data : form,
+		success : function (data) {
+			alert(data);
+		}
+	})
+	
+}
+
+
+
+
 /////////////////////수정 팝업펑션
   function editService() {
 	
@@ -501,11 +537,18 @@ function cmtedit(comment_idx,guest_idx) {
 		success : function (data) {
 			var html='';
 			
-				html+='<button class="btnz editform">댓글 수정</button>';
+				html+='<button class="btnz edittextform">댓글 수정</button>';
 				html+='<button class="btnz deleteService" onclick="deleteCmt('+data.comment_idx+','+guest_idx+')">댓글 삭제</button>';
 				html+='<button class="btnz editdiv-close2">취소</button>';
 				
 			$('#editcmt').html(html);
+			
+			$('.edittextform').click(function () {
+				$('#realcmtedit').bPopup();
+				
+			})
+			
+			
 			
 			
 			
@@ -537,6 +580,9 @@ function deleteCmt(comment_idx,guest_idx) {
 	});
 	}
 }
+
+
+
 
 
 
