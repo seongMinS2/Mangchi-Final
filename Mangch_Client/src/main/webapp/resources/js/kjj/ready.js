@@ -11,19 +11,27 @@ function rmClickDots(){
 	$('.bi-three-dots-vertical').off();
 	$('.out-room').off();
 }
-
-function evScrollUp(){
-	$('.msg-area').on('mousewheel',function(e){
-		var wheel = e.originalEvent.wheelDelta;
-		var scroll = $('.msg-area').scrollTop();
-		if(wheel>0&&scroll==0&&roomIdx>-1){
-			console.log('맨꼭대기임 ');
-			//새로운 메세지 리스트 가져오는 function
-			insertMsgList(roomIdx,delUser);
+function evMsgClick(){
+	$('.message').off();
+	$('.message').on('click',function(){
+		var text = $(this).find('span');
+		if($(this).attr('id')=='right-msg'){
+			$('#msg-modal').show();
 		}
+		var idx = $(this).closest('.msg-box').attr('i');
+		$('#msg-del').off();
+		$('#msg-del').on('click',function(){
+			delMessage(idx);
+			text.addClass('w3-text-theme5');
+			text.text('(삭제된 메세지입니다)');
+			$('#msg-modal').hide();
+		});
+		$('#msg-modal-close').off();
+		$('#msg-modal-close').on('click',function(){
+			$('#msg-modal').hide();
+		});
 	});
 }
-
 function evClickDelRoom(){
 	$('.confirm-room-del').on('click',function(){
 		$('#ask-delroom-modal').show();
@@ -50,12 +58,18 @@ function evClickSelectImg(){
 		$('#img-modal').hide();
 	});
 	$('.imgSelect').on('click',function(){
-		if(roomIdx>-2 && $('#msgPhoto')[0].files[0]!=null){
+		if(roomIdx>-2 && $('#msgPhoto')[0].files[0]!=null&&delUser==null){
+			console.log('메세지전송 !!');
 			sendMsg();
-			$('#msgPhoto').val(null);
 		}else if($('#msgPhoto')[0].files[0]==null){
-			alert('전송실패');
+			alert('사진을 선택하지 않았어요 ');
+		}else if(delUser!=null){
+			alert('대화 종료한 상대에게는 메세지를 보낼수 없어요');
+		}else if(roomIdx==-2){
+			alert('메세지를 선택해주세요');
 		}
+		$('#msgPhoto').val(null);
+		$('.send-msg').attr('disabled', true);
 		$('#img-modal').hide();
 	});
 }
