@@ -128,7 +128,7 @@ public class KakaoMemberService {
 	}
 
 	// 카카오 메세지보내기
-	public String sendMessage(String access_Token) {
+	public String sendMessage(String access_Token, String code) {
 
 		final String HOST = "https://kapi.kakao.com";
 		
@@ -144,7 +144,7 @@ public class KakaoMemberService {
 		jsonlink.addProperty("mobile_web_url", "https://developers.kakao.com");
 
 		template_object.addProperty("object_type", "text");
-		template_object.addProperty("text", "ㅎㅇㅎㅇㅎㅇ");
+		template_object.addProperty("text", "회원탈퇴 인증번호 >> "+code);
 		template_object.add("link", jsonlink);
 		template_object.addProperty("button_title", "button");
 		 
