@@ -143,8 +143,6 @@ function evClickChatRoom(){
         roomIdx=-2;
         roomReqTitle=null;
         
-        rmClickDots();
-        
         $('#req-writer').text('');
         $('#req-loc').text('');
         $('#req-title').text('');
