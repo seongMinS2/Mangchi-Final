@@ -148,8 +148,10 @@
 <!-- 댓글수정폼 -->
 <div id="realcmtedit" class="Pstyle2">
 <form class="realcmteditform" onsubmit="return false;">
-<input type="text" class="editformtext">
-<input type="submit" class="editformsubmit">
+ <input type="text"  id="comment_idx" style="display:none;">
+  <input type="text"  id="editguest_guest_idx" style="display:none;">
+<input type="text" class="editformtext" >
+<input type="submit" class="editformsubmit" onclick="editCmtText()">
 </form>
 </div>
 
@@ -312,8 +314,7 @@ $.ajax({
 
 
 
-
-//////////////삭제함수
+//////////////게시글삭제함수
 function deleteForm(a,b) {
 	if(confirm('정말 삭제하시겠습니까?')){
 		$.ajax({
@@ -396,21 +397,7 @@ fileTarget.on('change',function(){
 
 
 
-function editCmtText() {
 
-	var Form= new FormData();
-	Form.append('comment_text',$('.editformtext').val());
-	
-	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/cmtedit',
-		type:'PUT',
-		data : form,
-		success : function (data) {
-			alert(data);
-		}
-	})
-	
-}
 
 
 
@@ -539,11 +526,16 @@ function cmtedit(comment_idx,guest_idx) {
 			
 				html+='<button class="btnz edittextform">댓글 수정</button>';
 				html+='<button class="btnz deleteService" onclick="deleteCmt('+data.comment_idx+','+guest_idx+')">댓글 삭제</button>';
+				html+='<button class="btnz editdiv-close2">'+comment_idx+'</button>';
 				html+='<button class="btnz editdiv-close2">취소</button>';
 				
 			$('#editcmt').html(html);
 			
 			$('.edittextform').click(function () {
+				$('.realcmteditform')[0].reset();
+				
+				$('#comment_idx').val(comment_idx);				
+				$('#editguest_guest_idx').val(guest_idx);
 				$('#realcmtedit').bPopup();
 				
 			})
@@ -558,7 +550,34 @@ function cmtedit(comment_idx,guest_idx) {
 	$("#editcmt").bPopup({closeClass:'editdiv-close2'});
 	
 }	
+
+
+
+//댓글수정
+function editCmtText() {
+
 	
+	var idx=$('#editguest_guest_idx').val();
+	
+	var cmtedittext = $('.editformtext').val();
+	var cmteditidx = $('#comment_idx').val();
+	
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/cmtedit',
+		type:'PUT',
+		data : {cmtedittext , cmteditidx},
+		success : function (data) {
+			
+			$('#realcmtedit').bPopup().close();
+			$("#editcmt").bPopup().close();
+			goPopup(idx);
+			
+		}
+	})
+	
+}
+
+
 	
 	
 
@@ -733,13 +752,13 @@ function goPopup(guest_idx) {
 			$('.gomsg').click(function () {
 				$('.in_cmtwr').focus();
 				$('.in_cmtwr_null').focus();
-			})
+			});
 			
 			$('.mousecmt').mouseover(function () {
 				var btn=$(this).find('button');
 				btn.show();
 				/* $('.dotpopup2').show(); */
-			})			
+			});			
 			
 			$('.mousecmt').mouseleave(function () {
 				$('.dotpopup2').hide();
@@ -781,6 +800,9 @@ function gbList() {
 			
 		 },
 		success : function (data) {
+			
+			console.log(data);
+			
 			var html='';
 			for(var i=0; i<data.length; i++){
 				if(data[i].guest_photo !=null){
@@ -1021,7 +1043,7 @@ function gbList() {
 					
 					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
 					console.log('페이지'+page);
-					if(data+10<page){
+					if(data+14<page){
 						
 						console.log("끝"+page);
 						$(window).off();
@@ -1142,7 +1164,7 @@ $(document).ready(function () {
 	gbList(page=4);
 	
 	$(window).scroll(function() {
-		if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height()) {
+		  if(Math.round($(window).scrollTop() + $(window).height()) == $(document).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
 	    	page=page+4
 	
