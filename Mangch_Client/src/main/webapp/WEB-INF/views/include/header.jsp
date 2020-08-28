@@ -206,8 +206,8 @@ button.headSearchBtn{
 		style="display: none; width: 280px;" id="mySidebar">
 		<a href="javascript:void(0)" onclick="w3_close()" 
 			class="w3-bar-item w3-button w3-large w3-theme w3-padding-16 w3-right-align">Close X</a> 
-		<a href="<c:url value="/member/memberReg"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">회원가입</a> 
 		<c:if test="${empty loginInfo }">
+		<a href="<c:url value="/member/memberReg"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">회원가입</a> 
 		<a href="<c:url value="/member/memberLogin"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">로그인</a>
 		</c:if>
 		<c:if test="${!empty loginInfo }">
