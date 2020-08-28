@@ -104,7 +104,10 @@ public class MemberKakaoController {
 		if (result > 0) {
 			System.out.println("result: " + result);
 			session.setAttribute("access_Token", access_Token);
-			return "member/mypageForm";
+			
+			return "redirect:/member/memberMypage/mypageForm";
+			
+			// return "member/mypageForm";
 
 		} else if (result == 0) {
 			kakaoRequest kakaoInfo = new kakaoRequest(mId, mNick, mImg, kId, access_Token);
