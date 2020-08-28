@@ -153,8 +153,8 @@ button.headSearchBtn{
 <div class="w3-row w3-theme w3-hide-small">
 	<div class="w3-content">
 		<div class="w3-col">
-			<a href="<c:url value="/member/memberReg"/>" class="w3-bar-item w3-button w3-right">회원가입</a> 
 			<c:if test="${empty loginInfo }">
+			<a href="<c:url value="/member/memberReg"/>" class="w3-bar-item w3-button w3-right">회원가입</a> 
 			<a href="<c:url value="/member/memberLogin"/>" class="w3-bar-item w3-button w3-right">로그인</a>
 			</c:if>
 			<c:if test="${!empty loginInfo }">
