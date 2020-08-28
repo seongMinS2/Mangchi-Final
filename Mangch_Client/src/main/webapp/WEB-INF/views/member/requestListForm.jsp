@@ -10,10 +10,7 @@
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/member/mypage.css'/>">
 <style>
-	#avg{
-		font-size: 120%;
-	}
-	
+
 .pagination li {
 	float: left;
 		padding: 10px 20px;
@@ -49,7 +46,8 @@
 
 	margin-left: 33.2%;
 }	
-</style>	
+</style>
+
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -113,11 +111,11 @@
 						success : function(data) {
 
 							var html = '';
-							html += '<table class="w3-table w3-border w3-hoverable">';
-							html += '	<tr class="w3-hover-grayscale">';
+							html += '<table style="table-layout: fixed" >';
+							html += '	<tr>';
 							html += '	<th>번호</th>';
 							html += '	<th>글 제목</th>';
-							html += '	<th>지역</th>';
+							//html += '	<th>지역</th>';
 							html += '	<th>상태</th>';
 							html += '	<th>작성자</th>';
 							html += '	<th>조회수</th>';
@@ -128,14 +126,10 @@
 								for (var i = 0; i < data.requestReg.length; i++) {
 									html += '<tr>';
 									html += ' <td>' + (i + data.startRow + 1) + '</td>';
-									/* html += ' <td> <a href="<c:url value="/request/requestDetail?idx='
-											+ data.requestReg[i].reqIdx +'&distance='+data.requestReg[i].calDistance+'&count='+data.requestReg[i].reqCount
-											+ '" />" >'
-											+ data.requestReg[i].reqTitle + '</a></td>'; */
+							
 									html += '<td><div onclick="detail('+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'</div></td>';		
 													
-									html += ' <td>' + data.requestReg[i].reqAddr
-											+ '</td>';
+									//html += ' <td>' + data.requestReg[i].reqAddr+ '</td>';
 									var status, color;
 									if (data.requestReg[i].reqStatus == 0) {
 										status = '대기중';
@@ -156,15 +150,15 @@
 									html += '</tr>';
 								}
 								} else {
-									html +='<tr>';
-									html +='<td></td>';
-									html +='<td></td>';
+								//	html +='<tr>';
+									html += '<td colspan="5">작성된 리뷰가 없습니다.</td>';
+								/* 	html +='<td></td>';
 									html +='<td></td>';
 									html +='<td></td>';
 									html +='<td>작성 된 요청이 없습니다.</td>';
 									html +='<td></td>';
-									html +='<td></td>';
-									html +='</tr>';
+									html +='<td></td>'; */
+								//	html +='</tr>';
 								}
 							html += '</table>';
 							if (data.pageTotalCount > 0) {

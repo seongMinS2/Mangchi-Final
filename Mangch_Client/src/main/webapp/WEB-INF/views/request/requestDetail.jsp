@@ -148,7 +148,8 @@ function complete(){
 	$('#modal').css('display','block');
 	
 	 $.ajax({
- 		url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
+ 		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
+ 		url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
 		 type : 'get',
 		 success : function(data){ 
 			 
@@ -182,20 +183,22 @@ function updateHelper(helper,writer){
 		
 		//매칭 완료 시 쿠키 생성 				
 		$.ajax({
-			
-			url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/'+${idx},
+//			url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/'+${idx},
+			url : 'http://localhost:8080/rl/chat/'+${idx},
 			type : 'get',
 			data : {
 				helper : helper,
 				writer : writer,
 				mNick : '${loginInfo.mNick}',
-				reqIdx : ${idx} //현재 게시글 번호 
 			},
 			success : function(data){
-				alert('매칭이 완료되었습니다.');
-				location.href= "/mangh/makeCookie?idx="+${idx}+"&distance="+${distance}+"&count="+${count};
-				modalClose();
-				//history.go(0); // 새로 고침되면서 취소 버튼 생성되고 리뷰 작성이 가능 해짐 
+				if(data == -1){
+					alert('동일한 매칭 상대입니다. 다른 상대를 선택하세요.');
+				}else if( data == 2){
+					alert('매칭이 완료되었습니다.');
+					location.href= "/mangh/makeCookie?idx="+${idx}+"&distance="+${distance}+"&count="+${count};
+					modalClose();
+				}
 			}
 			
 		});
@@ -216,7 +219,8 @@ function cancel(reqStatus){
 	if(confirm('매칭을 취소하겠습니까?') == true){
 	
 		 $.ajax({
-			 url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+ ${idx},
+//			 url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+ ${idx},
+			 url : 'http://localhost:8080/rl/request/'+ ${idx},
 			 type : 'PUT',
 			 success : function(data){
 				 alert('매칭이 취소되었습니다.');
@@ -241,7 +245,8 @@ function review(reviewWriter,reviewStatus){
 		 
 		 //상대방 선택 하기 
 		  $.ajax({
-	 		url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
+	 		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
+	 		url : 'http://localhost:8080/rl/review/'+ reviewWriter,
 			 type : 'post',
 			 success : function(data){ 
 				 $('#modal').css('display','block');
@@ -304,7 +309,8 @@ function reqDelete(reqIdx){
 	if('${loginInfo}' != ''){
 		if(confirm("정말로 삭제하시겠습니까?") == true){
 			 $.ajax({
-				url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+reqIdx,
+			//	url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+reqIdx,
+				url : 'http://localhost:8080/rl/request/'+reqIdx,
 				type : 'DELETE',
 				success : function(data) {
 					var message = '';
@@ -332,7 +338,8 @@ $(document).ready(function(){
 	
 	$.ajax({
 		
-		url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
+		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
+		url : 'http://localhost:8080/rl/request/'+${idx},
 		type : 'GET',
 		data : {
 			count : ${count},
@@ -355,7 +362,7 @@ $(document).ready(function(){
 			
 			html += '<tr>';
 			html +=	'	<td>요청자위치</td>';
-			html +=	'	<td>'+data.reqAddr+'</td>';
+			html +=	'	<td>'+data.reqAddr.substr(2,5)+'</td>';
 			html += '</tr>';
 			
 			html += '<tr>';
@@ -419,7 +426,7 @@ $(document).ready(function(){
 					html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
 			}
 			
-			//로그인 한 사용자가 리뷰 권한 ㅣ 없을 때
+			//로그인 한 사용자가 리뷰 권한이 없을 때
 			else if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
@@ -434,11 +441,11 @@ $(document).ready(function(){
 			html += '</tr>';
 
 			
-	 		html +='<tr>';
+	 		/* html +='<tr>';
 			html += '<td>';
 			html += '	<img src="http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
 			html += '</td>';
-			html +='</tr>'; 
+			html +='</tr>';  */
 			
 			html +=	'</table>';	
 			
