@@ -11,52 +11,97 @@
 <style>
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+
+<style>
+	#contain{
+		padding: 50px;
+	}
+
+	th {
+		background-color: #f2deb4;
+		width: 20%;
+		text-align: center;
+		
+	}
+	td {
+		padding: 8px;
+	}
+	
+ 	.form_btn{
+		float: right; 
+		text-align: center;
+		padding : 6px 8px;
+		width: 100px;
+		margin: 5px;
+	}
+	 
+	
+	/* 글 제목, 지역 */
+	#reqTitle, #reqAddr{ 
+		width: 100%;
+	}
+	
+	#btn{
+		background-color: #FFD201;
+		border-radius: 5px;
+		border: 1px solid #f7f7f7;
+	}
+	#cancel{
+		border-radius: 5px;
+		border: 1px solid #f7f7f7;
+	}
+	
+	
+</style>
 
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
-	<div class="w3-container">
+	
+	<div class="w3-container" id="contain">
 
 		<c:choose>
 			<c:when test="${! empty loginInfo }">
-				<div>
-					<h1 class="w3-left">게시물 리스트</h1>
-				</div>
 
-				<div class="w3-border">
+			<!-- 	<div class="w3-border" id="write"> -->
+				<div class="w3-content" id="write">
 					<form onsubmit="return false;">
 
-						<table class="w3-table w3-border">
+						<table class="w3-content" >
 							<tr>
-								<td><label>요청 글 제목 </label></td>
-								<td><input type="text" name="reqTitle" id="reqTitle"
-									required></td>
+								<th><label>요청 글 제목 </label></th>
+								<td><input type="text" name="reqTitle" id="reqTitle" ></td>
 							</tr>
 
 							<tr>
-								<td><label> 요청 희망 지역 </label></td>
-								<td><input type="text" name="reqAddr" id="reqAddr"
-									value="${loginInfo.mAddr}" readonly></td>
+								<th><label> 요청 희망 지역 </label></th>
+								<td><input type="text" name="reqAddr" id="reqAddr" value="${loginInfo.mAddr}" readonly></td>
 							</tr>
 							<tr>
-								<td><label>상세내용</label></td>
-								<td><textarea cols="50" rows="10" name="reqContets"
-										id="reqContents" required></textarea></td>
+								<th></th>
+								<td><textarea cols="50" rows="10" name="reqContents" id="summernote"></textarea></td>
 							</tr>
 							<tr>
-								<td><label>이미지 </label></td>
+								<th><label>이미지 </label></th>
 								<td id="img"><input type="file" name="reqImg" id="reqImg"></td>
 							</tr>
-							<tr id="edit">
+							<!-- <tr id="edit">
 								<td></td>
 								<td id="submit"><input type="submit" value="게시물 등록" onclick="regSubmit()" id="submit"></td>
-							</tr>
+							</tr> -->
 						</table>
+						
+						<div id="edit">
+							<span><input type="button"  class="form_btn" id="cancel" onclick="cancelbtn()" value="취소"></span>
+							<span id="submit"><input type="submit" class="form_btn" value="등록" onclick="regSubmit()" id="btn"></span>
+						</div>
 
 					</form>
 				</div>
+				
+				
 			</c:when>
 			<c:when test="${empty loginInfo}">
 				<script>
@@ -71,19 +116,25 @@
 			$.ajax({
 				//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/edit/'+${reqIdx},
 				url : 'http://localhost:8080/rl/request/edit/'+${reqIdx},
-				type: 'GET'
+				type: 'GET',
 				success : function(data){
 					
 					$('#reqTitle').val(data.reqTitle);
 					$('#reqAddr').val( data.reqAddr);
-					$('#reqContents').val( data.reqContents);
+					//$('#reqContents').val( data.reqContents);
+					//$('#summernote').val(data.reqContents);
+				
+				  	// Summernote에 글 내용 추가하는 코드
+					 $("#summernote").summernote('code',  data.reqContents);
+					
+					
 					
 					var img_html='<input type="text" id="oldImg" name="oldImg" value="'+data.reqImg+'" style="display: none;"><br>';
 					$('#img').append(img_html);
 					
-					var html = '<td>';
-					html += ' <input type="submit" value="게시물 수정" onclick="edit();" id="submit">';	
-					html += '</td>';
+					var html = '<span>';
+					html += ' <input type="submit" class="form_btn" value="게시물 수정" onclick="edit();" id="btn">';	
+					html += '</span>';
 					
 					$('#edit').append(html);
 					$('#submit').remove();
@@ -92,31 +143,49 @@
 			});
 			
 			function edit(){
-				var editRequest = new FormData();
-				editRequest.append('reqWriter','${loginInfo.mNick}');
-				editRequest.append('reqTitle', $('#reqTitle').val());
-				editRequest.append('reqContents', $('#reqContents').val());
-				if ($('#reqImg')[0].files[0] != null) {
-					editRequest.append('reqImg', $('#reqImg')[0].files[0]);
+				
+				if($('#reqTitle').val() == ''){
+					alert('제목을 입력해주세요.');
+					$('#reqTitle').focus();
+					$('#reqTitle').scrollIntoView();
+					 return false;
+				}
+				if($('#summernote').summernote('isEmpty')){
+					alert('내용을 입력해주세요.');
+					$('#summernote').summernote('focus',true);
+					$('#summernote').scrollIntoView();
+					return false;	
 				}
 				
-				editRequest.append('oldImg',$('#oldImg').val());
-				
-				 $.ajax({
-					//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${reqIdx},
-					url : 'http://localhost:8080/rl/request/'+${reqIdx},
-					type : 'POST',
-					processData : false,
-					contentType : false,
-					data : editRequest,
-					success : function(data) {
-						if(data != 0){
-						alert('수정되었습니다.');
-						location.href="/mangh/request/requestList";
-						}
+				else{
+					var editRequest = new FormData();
+					editRequest.append('reqWriter','${loginInfo.mNick}');
+					editRequest.append('reqTitle', $('#reqTitle').val());
+					//editRequest.append('reqContents', $('#reqContents').val());
+					editRequest.append('reqContents', $('#summernote').val());
+					if ($('#reqImg')[0].files[0] != null) {
+						editRequest.append('reqImg', $('#reqImg')[0].files[0]);
 					}
-
-				});
+					
+					editRequest.append('oldImg',$('#oldImg').val());
+					
+					 $.ajax({
+						//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${reqIdx},
+						url : 'http://localhost:8080/rl/request/'+${reqIdx},
+						type : 'POST',
+						processData : false,
+						contentType : false,
+						data : editRequest,
+						success : function(data) {
+							if(data != 0){
+							alert('수정되었습니다.');
+							location.href="/mangh/request/requestList";
+							}
+						}
+	
+					});
+					 
+				}
 				 
 			
 			}
@@ -126,7 +195,8 @@
 		</c:if>
 
 
-	</div>
+	 </div>
+	
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
@@ -134,39 +204,62 @@
 	<script>
 	
 		function regSubmit() {
-			var regRequest = new FormData();
-			regRequest.append('reqWriter','${loginInfo.mNick}');
-			regRequest.append('reqTitle', $('#reqTitle').val());
-			regRequest.append('reqAddr', $('#reqAddr').val());
-			regRequest.append('reqContents', $('#reqContents').val());
-			if ($('#reqImg')[0].files[0] != null) {
-				regRequest.append('reqImg', $('#reqImg')[0].files[0]);
+			
+			
+			if($('#reqTitle').val() == ''){
+				alert('제목을 입력해주세요.');
+				$('#reqTitle').focus();
+				$('#reqTitle').scrollIntoView();
+				 return false;
+			}
+			if($('#summernote').summernote('isEmpty')){
+				alert('내용을 입력해주세요.');
+				$('#summernote').summernote('focus',true);
+				$('#summernote').scrollIntoView();
+				return false;	
 			}
 			
-			var lat = '${loginInfo.mLttd}';
-			var lon = '${loginInfo.mLgtd}';
-
-			regRequest.append('reqLatitude', lat);
-			regRequest.append('reqLongitude', lon);
-			
-			$.ajax({
-				//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-				url : 'http://localhost:8080/rl/request',
-				type : 'POST',
-				processData : false,
-				contentType : false,
-				data : regRequest,
-				success : function(data) {
-					if(data != 0){
-					alert('등록되었습니다.');
-					location.href="/mangh/request/requestList";
-					}
+			else {
+				var regRequest = new FormData();
+				regRequest.append('reqWriter','${loginInfo.mNick}');
+				regRequest.append('reqTitle', $('#reqTitle').val());
+				regRequest.append('reqAddr', $('#reqAddr').val());
+				//regRequest.append('reqContents', $('#reqContents').val());
+				regRequest.append('reqContents', $('#summernote').val());
+				if ($('#reqImg')[0].files[0] != null) {
+					regRequest.append('reqImg', $('#reqImg')[0].files[0]);
 				}
-
-			});
-			
-			
+				
+				var lat = '${loginInfo.mLttd}';
+				var lon = '${loginInfo.mLgtd}';
+	
+				regRequest.append('reqLatitude', lat);
+				regRequest.append('reqLongitude', lon);
+				
+				  $.ajax({
+					//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+					url : 'http://localhost:8080/rl/request',
+					type : 'POST',
+					processData : false,
+					contentType : false,
+					data : regRequest,
+					success : function(data) {
+						if(data != 0){
+						alert('등록되었습니다.');
+						location.href="/mangh/request/requestList";
+						}
+					}
+	
+				}); 
+			  
+			}  
+			  
 		}
+		
+		function cancelbtn(){
+			location.href="/mangh/request/requestList";			
+		}
+		
 	</script>
 
 

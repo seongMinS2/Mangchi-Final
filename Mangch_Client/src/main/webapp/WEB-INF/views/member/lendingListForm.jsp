@@ -99,8 +99,7 @@
 		function list() {
 			$
 					.ajax({
-						url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/mypage/'
-								+ '${loginInfo.mNick}',
+						url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/mypage/'+ '${loginInfo.mNick}',
 						type : 'GET',
 						data : {
 							type : type,

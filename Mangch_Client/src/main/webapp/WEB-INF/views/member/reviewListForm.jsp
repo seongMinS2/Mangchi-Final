@@ -143,7 +143,7 @@ th, td{
 							html +='<button onclick="reviewWrite('+status+')">작성 가능 한 리뷰</button>';
 							html +='</div>';
 							
-							html += '<table class="w3-table w3-border w3-hoverable">';
+							html += '<table class="w3-border w3-hoverable">';
 							html += '	<tr class="w3-hover-grayscale">';
 							html += '	<th>번호</th>';
 							html += '	<th>게시글 제목</th>';

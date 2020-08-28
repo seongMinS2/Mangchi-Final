@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+/* 컨테이너 */
+#contain{
+	padding: 30px 0px 20px 0px;
+}
+
+/* 검색 */
+#search{
+	width: 65%;
+}
+
+#search_text{
+	 width:90%;
+	margin-right: 15px;
+}
+
+select {
+
+    width: 50px; /* 원하는 너비설정 */
+    border: 1px solid #999;
+    border-radius: 0px; /* iOS 둥근모서리 제거 */
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.jtype{
+	float: left;
+	margin : 20px;
+}
+
+
+
+
+/* 테이블 설정 */
+table{
+	border-top: 2px solid #333333;
+     border-collapse: collapse; 
+}
+
+th	{
+	text-align: center;
+	width: 5%;
+	padding: 11px 0 10px;
+	border-top : 3px soild #DDD;
+}
+ th, td {
+    border-bottom: 1px solid #c1c1c1;
+ }
+
+.title_td{
+	width: 10%;
+	padding-left: 10px;
+}
+.tab_td{
+	text-align: center;
+	width: 10%;
+}
+
+
+/* 페이징 처리 */
+#page{
+	text-align: center;
+}
+#page_number{
+	margin-right: 25px;
+}
+
+#page_btn{
+	border-radius: 5px;
+	border: 1px solid #f7f7f7;
+    width: 3%; 
+}
+.listlink{
+	background-color: #FFD201;
+ 	border-radius: 5px;
+	border: 1px solid #f7f7f7;
+    width: 3%; 
+}
+

@@ -11,85 +11,13 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
 
-
-<style>
-
-#search{
-	width: 65%;
-}
-
-#search_text{
-	 width:90%;
-	margin-right: 15px;
-}
-
-select {
-
-    width: 50px; /* 원하는 너비설정 */
-    border: 1px solid #999;
-    border-radius: 0px; /* iOS 둥근모서리 제거 */
-    -webkit-appearance: none; /* 네이티브 외형 감추기 */
-    -moz-appearance: none;
-    appearance: none;
-}
-
-.jtype{
-float: left;
-padding: 15px 16px;
-margin : 20px;
-}
-
-.pagination li {
-	float: left;
-	padding: 10px 20px;
-}
-
-.pagination li> a {
-    display: block;
-    line-height: 50px;
-    font-size: 20px;
-    font-weight: 600;
-    text-decoration: none;
-    color: #777;
-    border-radius: 50%;
-    transition: 0.3s;
-}
-
-
-.pagination {
-  padding: 10px 20px;
-  background: white;
-  border-radius: 50px;
-  box-shadow:
-  0 0.3px 0.6px rgba(0, 0, 0, 0.056),
-  0 0.7px 1.3px rgba(0, 0, 0, 0.081),
-  0 1.3px 2.5px rgba(0, 0, 0, 0.1),
-  0 2.2px 4.5px rgba(0, 0, 0, 0.119),
-  0 4.2px 8.4px rgba(0, 0, 0, 0.144),
-  0 10px 20px rgba(0, 0, 0, 0.2);
-  list-style-type: none;
-  float: left;
-  justify-content: center;
-}
-
-th ,td {
-	text-align: center;	
-}
-
-#pageCon{
-
-	margin: 0 auto;
-	margin-left: 43.2%;
-}
-
-</style>
-
+<link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
-	<div class="w3-auto">
-		<div class="w3-container w3-margin-bottom">
+	<div class="w3-container" id="contain">
+		<div class="w3-content w3-margin-bottom">
 				<!-- 검색 타입 -->
 				<div class="jtype">
 					<select id="searchType">
@@ -115,15 +43,15 @@ th ,td {
 				</div>
 		</div>
 			
-		<div class="w3-container w3-margin-bottom">
+		<div class="w3-content w3-margin-bottom">
 			<!-- 테이블 출력 -->
 			<div class=" w3-margin-bottom" id="list"></div>
 		</div>
 	</div>	
-		<div class="w3-container" id="pageCon">
-			<div class=" w3-margin-bottom" id="page"></div>
-		</div>
-
+	
+	<!-- 페이지  -->
+	<div class="w3-content w3-margin-bottom" id="page"></div>
+		
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
@@ -131,7 +59,12 @@ th ,td {
 
 /* 로그인 했을 때 와 안했을 때 위도 경도 */
 	var mLttd, mLgtd, mRedisu;
-
+	var page = 1;
+	var type;
+	var searchText = $('#search_text').val();
+	var searchType = $('#searchType').val(); 
+	
+	//사용자 위도 경도
 	if ('${loginInfo}' != '') {
 		mLttd = '${loginInfo.mLttd}';
 		mLgtd = '${loginInfo.mLgtd}';
@@ -142,31 +75,28 @@ th ,td {
 		mRadius = 0;
 	}
 
-	var page = 1;
-	var type;
-	
+	//회원 . 비회원 첫 화면 출력 할 때 type 설정
 	if('${loginInfo}' == ''){
 		type = 'date';
 	}else {
 		type = 'distance';
 	}
-	
-	var searchText = $('#search_text').val();
-	var searchType = $('#searchType').val(); 
-	
 
-	
+	//리스트 검색
 	function search(){
 		searchText = $('#search_text').val();
 		searchType = $('#searchType').val(); 
+		page = 1;
 		list();
 	}
-
+	
+	//리스트 페이징 처리
 	function listpage(data) {
 		page = data;
 		list();
 	}
-
+	
+	//거리순 & 최신순
 	function change() {
 		type = $('#ListType').val();
 		list();
@@ -184,6 +114,18 @@ th ,td {
 		    form.append(distance);
 		    form.append(count);
 		    form.submit(); 
+	}
+	
+	
+	//이전 페이지
+	function prev(data){
+		page = data - 1;
+		list();
+	}
+	//마지막 페이지
+	function next(data){
+		page = data + 1;
+		list();
 	}
 	
 	function list() {
@@ -211,11 +153,11 @@ th ,td {
 						$('#search').html(search);
 
 						var html = '';
-						html += '<table class="w3-table w3-border w3-hoverable">';
-						html += '	<tr class="w3-hover-grayscale">';
+						html += '<table style="table-layout: fixed" >';
+						html += '	<tr>';
 						html += '	<th>번호</th>';
 						html += '	<th>글 제목</th>';
-						html += '	<th>지역</th>';
+						//html += '	<th>지역</th>';
 						if ('${loginInfo}' != '') {
 							html += '	<th>거리</th>';
 						}
@@ -223,30 +165,28 @@ th ,td {
 						html += '	<th>작성자</th>';
 						html += '	<th>조회수</th>';
 						html += '	<th>등록날짜</th>';
-
 						html += '	</tr>';
+						
 
 						for (var i = 0; i < data.requestReg.length; i++) {
 							html += '<tr>';
-							html += ' <td>' + (i + data.startRow + 1) + '</td>';
-						/* 	 html += ' <td> <a href="<c:url value="/request/requestDetail?idx='
-									+ data.requestReg[i].reqIdx +'&distance='+data.requestReg[i].calDistance+'&count='+data.requestReg[i].reqCount
-									+ '" />" >'
-									+ data.requestReg[i].reqTitle + '</a></td>'; */
+							html += ' <td class="tab_td">' + (i + data.startRow + 1) + '</td>';
 									
 									
-							html += '<td><div onclick="detail('+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'</div></td>';		
-							html += ' <td>' + data.requestReg[i].reqAddr
-									+ '</td>';
+							html += '<td class="title_td"><div onclick="detail('+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'width="4%123123131321311212121212121212121212121212121212</div></td>';		
+							
+							//html += ' <td>' + data.requestReg[i].reqAddr+ '</td>';
+							
+							
 							//회원 로그인 상태 일 때 거리 출력
 							if ('${loginInfo}' != '') {
 							if( data.requestReg[i].calDistance >= 1000){
 								var calDistance = data.requestReg[i].calDistance;
 								calDistance = (Math.round(calDistance/100))/10;
-								html += ' <td>' + calDistance
+								html += ' <td class="tab_td">' + calDistance
 								+ ' km</td>';
 							}else{
-								html += ' <td>' + data.requestReg[i].calDistance+ ' m</td>';
+								html += ' <td class="tab_td">' + data.requestReg[i].calDistance+ ' m</td>';
 							}	
 							
 							}
@@ -260,41 +200,49 @@ th ,td {
 								status = '요청 완료';
 								color = 'gray';
 							}
-							html += '	<td style="color: '+color+'">';
+							html += '	<td class="tab_td" style="color: '+color+'">';
 							html += '		' + status + '';
 							html += '</td>';
-							html += ' <td>' + data.requestReg[i].reqWriter
-									+ '</td>';
-							html += ' <td>' + data.requestReg[i].reqCount
-									+ '</td>';
-							html += ' <td>' + data.requestReg[i].reqDateTime
-									+ '</td>';
+							
+							html += ' <td class="tab_td">' + data.requestReg[i].reqWriter+ '</td>';
+							
+							html += ' <td class="tab_td">' + data.requestReg[i].reqCount+ '</td>';
+							
+							html += ' <td class="tab_td">' + data.requestReg[i].reqDateTime+ '</td>';
+							
 							html += '</tr>';
 						}
 						html += '</table>';
-
+						
+						
 						 if (data.pageTotalCount > 0) {
+							 var paging ='';
 							 
-							var page = '<ul class="pagination ">'; 
-									for (var m = 1; m <= data.pageTotalCount; m++) {
-										page +=  '<li class="page-number>';
-										page += '	<a id="listlink" href="#" onclick="listpage(' +m+ ')" >';
-										page +=  m ;
-										page += '	</a>';
-										page += '</li>';
+								paging += '<span id="page_number"><button id="page_btn" onclick="prev('+page+')"><</button></span>';
+								for (var m = 1; m <= data.pageTotalCount; m++) {
+									paging += '<span id="page_number">';
+									paging += '	<button id="page_btn" ';
+									if(page == m){
+										paging += 'class="listlink"';
 									}
-									page += '</ul>';
-							
+									paging += ' href="#" onclick="listpage('+m+')" value="'+m+'">';
+									paging +=  m ;
+									paging += '	</button>';
+									paging +='</span>';
+								}
+								paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+')">></button></span>';
 						} 
-						$('#page').html(page); 
-						 
-						$('#list').html(html);
-
+						 $('#list').html(html);
+						 $('#page').html(paging);
+						
 					}
 				});
 	}
 	$(document).ready(function() {
+		
 		list();
+		
+		
 	});
 </script>
 

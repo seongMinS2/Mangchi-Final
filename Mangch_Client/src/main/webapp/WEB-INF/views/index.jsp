@@ -8,16 +8,22 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-
-
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
-
-
-
-<h1>메인화면</h1>
-
+<div class="w3-center" id="main-image">
+	<img src="https://i.ibb.co/XFwdjvr/backgroud.jpg" alt="backgroud" border="0" style="width:80%; min-width: 360px">
+</div>
+<div class="w3-content w3-center w3-light-grey">
+	ㅎㅇㅎㅇ
+</div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
-
-
+<script>
+$(document).ready(function(){ 
+    $('#main-image').css('width', $(window).width()); 
+   // $('#main-image').css('height', $(window).height()); 
+    $(window).resize(function() { 
+        $('#main-image').css('width', $(window).width()); 
+    }); 
+});
+</script>
 </body>
 </html>

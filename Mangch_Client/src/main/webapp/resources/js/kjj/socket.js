@@ -145,13 +145,14 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 		$updateLi.find('.chat-title').text('상대방이 채팅방을 떠났습니다');
 		if(roomIdx==msg.roomIdx){
 			delUser=msg.sender;
-			rmClickDelRoom();
 			var html2 ="<div class='w3-cell-row w3-container w3-center'>";
 			html2 +="	<p class='w3-round-xxlarge w3-red'>상대방이 채팅을 종료했습니다.<br> 메세지를 보낼 수 없습니다</p>";
 			html2 +="	<button class='w3-button w3-large w3-round-large w3-red confirm-room-del'>삭제</button>";
 			html2 +="</div>";
 			$('.msg-area').append(html2);
-			evClickDelRoom();
+			$('.confirm-room-del').on('click',function(){
+				$('#ask-delroom-modal').show();
+			});
 			$('.msg-area').scrollTop($('.msg-area')[0].scrollHeight);
 		}
 		$updateLi.prependTo('#chat-room-list');

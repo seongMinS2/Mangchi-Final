@@ -41,9 +41,10 @@
  
  <h3 style="font-weight: bold; text-align: center;">반가워요,${loginInfo.mNick }님!<br>
   ${loginInfo.mNick }님의 근처 동네생활 입니다</h3>
- 
-<article class="none_photo">
 
+
+<!-- 게시글 작성폼 --> 
+<article class="none_photo">
 <div id="postForm" onsubmit="return false;">
 		<input type="hidden" name="guest_writer" id="guest_writer" value=" ${loginInfo.mNick}">	
 		<input type="hidden" name="x" id="x" value="${loginInfo.mLttd}">
@@ -114,7 +115,7 @@
 <div id="editcmt"  class="editdiv"></div>
 
 
-
+<!-- 게시글수정폼 -->
 <div id="layer_popup" class="button_style">
 <article class="none_photo">
     <div class="postwrap" style="display: block;">
@@ -142,6 +143,22 @@
 </form>
 </article> 
 </div>
+
+
+<!-- 댓글수정폼 -->
+<div id="realcmtedit" class="Pstyle2">
+<form class="realcmteditform" onsubmit="return false;">
+<input type="text" class="editformtext">
+<input type="submit" class="editformsubmit">
+</form>
+</div>
+
+
+
+
+
+
+
 
 
 
@@ -378,6 +395,26 @@ fileTarget.on('change',function(){
 });
 
 
+
+function editCmtText() {
+
+	var Form= new FormData();
+	Form.append('comment_text',$('.editformtext').val());
+	
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/cmtedit',
+		type:'PUT',
+		data : form,
+		success : function (data) {
+			alert(data);
+		}
+	})
+	
+}
+
+
+
+
 /////////////////////수정 팝업펑션
   function editService() {
 	
@@ -490,33 +527,67 @@ function editPopup(guest_idx) {
 	
 	
 	
-function cmtedit() {
+	
+////////////// 댓글 에디트폼 	
+function cmtedit(comment_idx,guest_idx) {
+	
 	$.ajax({
-		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
+		url:'http://localhost:8080/guest/guest_book/cmt/'+comment_idx ,
 		type:'GET',
-		data : {nick:bb},
 		success : function (data) {
-			
 			var html='';
 			
-				html+='<button class="btnz editform">게시글 수정</button>';
-				html+='<button class="btnz deleteService" onclick="">게시글 삭제</button>';
-				html+='<button class="btnz">'+data.guest_idx+'</button>';
-				html+='<button class="btnz editdiv-close">취소</button>';
+				html+='<button class="btnz edittextform">댓글 수정</button>';
+				html+='<button class="btnz deleteService" onclick="deleteCmt('+data.comment_idx+','+guest_idx+')">댓글 삭제</button>';
+				html+='<button class="btnz editdiv-close2">취소</button>';
 				
 			$('#editcmt').html(html);
 			
-
+			$('.edittextform').click(function () {
+				$('#realcmtedit').bPopup();
+				
+			})
+			
+			
+			
+			
 			
 		}// 석세스끝
 		
 	});
-	$("#editcmt").bPopup();
+	$("#editcmt").bPopup({closeClass:'editdiv-close2'});
 	
 }	
 	
 	
 	
+
+///////댓글 삭제
+function deleteCmt(comment_idx,guest_idx) {
+	console.log(guest_idx);
+	if(confirm('정말 삭제하시겠습니까?')){
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/delcmt/'+comment_idx,
+		type:'DELETE',
+		success : function (data) {
+			
+			alert("댓글이 삭제됐습니다");
+			$("#editcmt").bPopup().close();
+			goPopup(guest_idx);
+			
+			
+		}
+	});
+	}
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -526,6 +597,7 @@ function cmtedit() {
 
 ///////////////////// 팝업 함수
 function goPopup(guest_idx) {
+	
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
@@ -555,10 +627,9 @@ function goPopup(guest_idx) {
 									    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
 									    html+='<br/>'
 									    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
-									    html+='<div class="cmttext">'+data.guest_comment[j].comment_idx+'</div>';
 									    
 									 if(data.guest_comment[j].member_nick === `${loginInfo.mNick}`){
-									    	html+='<button class="dotpopup2" id="mousecmt" onclick="cmtedit();"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+									    	html+='<button class="dotpopup2" id="mousecmt" onclick="cmtedit('+data.guest_comment[j].comment_idx+','+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
 									    }
 									 
 									    html+='</div>';
@@ -607,16 +678,16 @@ function goPopup(guest_idx) {
 				html+='<div class="in_nonerealtext">'+data.guest_text
 				html+='<section class="in_bodycmt">'
 					 for(var j=0; j<data.guest_comment.length; j++){
-						 alert(data.guest_comment);
-					    		html+='<div class="flex mousecmt" id="mousecmt">';
-						    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
-						    html+='<br/>'
-						    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
-						  if(data.guest_comment[j].member_nick === `${loginInfo.mNick}`){
-						    	html+='<button class="dotpopup2" id="mousecmt" onclick="editPopup('+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+				    		html+='<div class="flex mousecmt" id="mousecmt">';
+					    html+='<div class="cmtnick_in" style="display:block;">'+data.guest_comment[j].member_nick+'</div>';
+					    html+='<br/>'
+					    html+='<div class="cmttext">'+data.guest_comment[j].comment_text+'</div>';
+					    if(data.guest_comment[j].member_nick === `${loginInfo.mNick}`){
+						    	html+='<button class="dotpopup2" id="mousecmt" onclick="cmtedit('+data.guest_comment[j].comment_idx+','+data.guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
 						    }
-						    html+='</div>';
-						    }
+					 
+					    html+='</div>';
+					    }
 				html+='</section>'
 					html+='</div>'
 				html+='</div>'
