@@ -74,6 +74,11 @@ public class MemberMypageController {
 	public String getkeywordSetForm() {
 		return "member/keywordSetForm";
 	}
+	
+	@RequestMapping("/removeSession")
+	public String removeSession() {
+		return "member/removeSession";
+	}
 
 	// 회원 정보 출력
 	@RequestMapping("/mypage/{mIdx}")

@@ -16,18 +16,16 @@
 	<div class="w3-container container">
 		<h2>마이페이지</h2>
 		<hr>
-		<h2>${loginInfo.mId}</h2>
 		<%-- ${loginInfo} --%>
 		<div class="w3-row">
 			<div id="profile-menu" class="w3-col m4 active">
-				<a href="<c:url value='/member/memberMypage/requestListForm'/>">요청
-					리스트</a> <a href="<c:url value='/member/memberMypage/lendingListForm'/>">대여리스트</a>
-				<a href="<c:url value='/member/memberMypage/reviewListForm'/>">나의
-					리뷰</a> <a href="<c:url value='/member/memberMypage/commentListForm'/>">나의
-					댓글</a> <a href="<c:url value='/member/memberMypage/mypageForm'/>">나의
-					정보</a> <a href="<c:url value='/member/memberMypage/distSetForm'/>">거리
-					설정</a> <a href="<c:url value='/member/memberMypage/keywordSetForm'/>">키워드
-					설정</a>
+				<a href="<c:url value='/member/memberMypage/requestListForm'/>">요청리스트</a> 
+				<a href="<c:url value='/member/memberMypage/lendingListForm'/>">대여리스트</a> 
+				<a href="<c:url value='/member/memberMypage/reviewListForm'/>">나의리뷰</a> 
+				<a href="<c:url value='/member/memberMypage/commentListForm'/>">나의댓글</a> 
+				<a href="<c:url value='/member/memberMypage/mypageForm'/>">나의정보</a> 
+				<a href="<c:url value='/member/memberMypage/distSetForm'/>">거리설정</a> 
+				<a href="<c:url value='/member/memberMypage/keywordSetForm'/>">키워드설정</a>
 			</div>
 			<div class="w3-col m8">
 				<div class="mypageBox w3-animate-right">
@@ -35,8 +33,7 @@
 						<c:set var="kId" value="${loginInfo.kId}" />
 
 						<c:if test="${kId eq null}">
-							<img
-								src="<c:url value="/resources/img/upload/${loginInfo.mImg}"/>"
+							<img src="<c:url value="/resources/img/upload/${loginInfo.mImg}"/>"
 								width="150px" height="150px" style="border-radius: 100px;">
 						</c:if>
 						<c:if test="${kId ne null}">
@@ -46,17 +43,14 @@
 
 					</div>
 					<div>
-						<form action="<c:url value='/member/memberMypage/edit'/>"
-							method="post" enctype="multipart/form-data">
+						<form action="<c:url value='/member/memberMypage/edit'/>" method="post" enctype="multipart/form-data">
 							<c:set var="kId" value="${loginInfo.kId}" />
 							<input type="hidden" name="mId" id="mId" value="${loginInfo.mId}">
 							<c:if test="${kId eq null}">
 								<div class="w3-center filebox">
-									<label for="mImg"><img
-										src="<c:url value="/resources/img/camera.png"/>" width="30px"
-										height="30px"></label> 
-										<input type="file" id="mImg" name="mImg">
-									<!-- <input name="Img" id="Img"> -->
+									<label for="mImg">
+									<img src="<c:url value="/resources/img/camera.png"/>" width="30px"
+										height="30px"></label> <input type="file" id="mImg" name="mImg">
 								</div>
 							</c:if>
 							<table>
@@ -67,21 +61,20 @@
 								</tr>
 								<tr>
 									<td>주소</td>
-									<td><input type="text" name="mAddr" id="mAddr"
-										value="${loginInfo.mAddr}" required> <input
-										type="button" id="button" onclick="sample5_execDaumPostcode()"
-										value="주소 검색"></td>
-
+									<td><input type="text" name="mAddr" id="mAddr" value="${loginInfo.mAddr}" required> 
+									<!-- <input type="button" id="button" onclick="sample5_execDaumPostcode()" value="주소 검색"> --></td>
 								</tr>
 								<tr>
 									<td></td>
-									<td><div id="map"
-											style="width: 250px; height: 250px; margin-top: 10px; display: none"></div></td>
+									<td><input type="button" id="button" onclick="sample5_execDaumPostcode()" value="주소 검색"></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><div id="map" style="width: 250px; height: 250px; margin-top: 10px; display: none"></div></td>
 								</tr>
 								<tr>
 									<td>거리</td>
-									<td><select name="mRadius" id="mRadius"
-										value="${loginInfo.mRadius}">
+									<td><select name="mRadius" id="mRadius" value="${loginInfo.mRadius}">
 											<option value="1" id="1">1km</option>
 											<option value="2" id="2">2km</option>
 											<option value="3" id="3">3km</option>
@@ -90,7 +83,7 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td><input type="submit" value="수정 완료"></td>
+									<td><input type="submit" id="editSubmit" value="수정 완료"></td>
 								</tr>
 							</table>
 							<input type="hidden" name="mLttd" id="mLttd"
@@ -105,19 +98,18 @@
 				</div>
 				<div class="footBox w3-animate-right w3-right">
 					<c:if test="${kId eq null}">
-						<a class="btn btn-default" href="#layer2" id="pw">비밀번호 변경</a>
+						<a class="btn btn-default" href="#layer2" id="pw">비밀번호 변경</a>&nbsp;&nbsp;
 						<a class="btn btn-default" href="#layer3" id="del">회원 탈퇴</a>
 					</c:if>
 					<c:if test="${kId ne null}">
 						<a class="btn btn-default" href="#layer4" id="delKakao">회원 탈퇴</a>
-
 					</c:if>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
+<!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■ Modal ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
 	<!-- 비밀번호 변경 -->
 	<div class="dim-layer" id="dim">
 		<div class="dimBg"></div>
@@ -137,19 +129,16 @@
 							</tr>
 							<tr>
 								<td>새 비밀번호 확인</td>
-								<td><input type="password" name="nchkPw" id="nchkPw"
-									required></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><input type="button" value="수정 완료"
-									onclick="updatePw();"></td>
+								<td><input type="password" name="nchkPw" id="nchkPw" required></td>
 							</tr>
 						</table>
-					</form>
 					<div class="btn-r">
-						<a href="#" class="btn-layerClose">닫기</a>
+					<div class="w3-center">
+						<input type="button" class="modalButton" value="수정 완료" onclick="updatePw();">&emsp;&emsp;&emsp;&emsp;
+						<input type="button" class="backButton btn-layerClose" value="취소">
 					</div>
+					</div>
+					</form>
 					<!--// content-->
 				</div>
 			</div>
@@ -163,23 +152,20 @@
 			<div class="pop-container2">
 				<div class="pop-conts2">
 					<!--content //-->
-					<p>정말로 탈퇴하시겠습니까? 탈퇴하시려면 비밀번호를 입력해주세요.</p>
+					<p>정말로 탈퇴하시겠습니까?<br>탈퇴하시려면 비밀번호를 입력해주세요.</p>
 					<form id="deleteForm" action="delete" method="post">
 						<table>
 							<tr>
 								<td>비밀번호 입력</td>
 								<td><input type="password" name="dPw" id="dPw" required></td>
-							</tr>
-
-							<tr>
-								<td></td>
-								<td><input type="button" value="입력"
-									onclick="deleteMember();"></td>
-							</tr>
+							</tr> 
 						</table>
 					</form>
 					<div class="btn-r2">
-						<a href="#" class="btn-layerClose2">닫기</a>
+					<div class="w3-center">
+						<input type="button" class="modalButton" value="완료" onclick="deleteMember();">&emsp;&emsp;&emsp;&emsp;
+						<input type="button" class="backButton btn-layerClose2" value="취소">
+					</div>
 					</div>
 					<!--// content-->
 				</div>
@@ -194,27 +180,20 @@
 			<div class="pop-container3">
 				<div class="pop-conts3">
 					<!--content //-->
-					<p>정말로 탈퇴하시겠습니까? 탈퇴하시려면 인증번호를 입력해주세요.</p>
-
-					<input type="button" value="전송" onclick="sendCode();">
-					<%-- 					<a class="btn btn-default"
-								href="<c:url value='/member/kakao/send'/>" id="send">인증번호 발송</a> --%>
+					<p>정말로 탈퇴하시겠습니까? <br>탈퇴하시려면 인증번호를 입력해주세요.</p>
 					<table>
 						<tr>
 							<td>인증번호 입력</td>
 							<td><input type="text" name="sendCode" id="sendCode"
 								required></td>
 						</tr>
-
-						<tr>
-							<td></td>
-							<td><input type="button" value="입력"
-								onclick="deleteKakaoMember();"></td>
-						</tr>
 					</table>
-
-					<div class="btn-r2">
-						<a href="#" class="btn-layerClose2">닫기</a>
+					<input type="button" id="code" value="인증번호 발송" onclick="sendCode();">
+					<div class="btn-r3">
+					<div class="w3-center">
+						<input type="button" class="modalButton" value="완료" onclick="deleteKakaoMember();">&emsp;&emsp;&emsp;&emsp;
+						<input type="button" class="backButton btn-layerClose3"value="취소">
+					</div>
 					</div>
 					<!--// content-->
 				</div>
@@ -249,23 +228,21 @@
 				alert('인증번호가 일치하지않습니다.');
 				return false;
 			}
-			$
-					.ajax({
-						url : 'unlink',
-						type : 'post',
-						data : {
-							access_Token : '${access_Token}',
-							mId : '${loginInfo.mId}'
-						},
-						success : function(data) {
-							if (data == "Y") {
-<%-- 	<%session.removeAttribute("kakaoInfo");
-session.removeAttribute("loginInfo");%> --%>
-		alert('회원탈퇴가 완료되셨습니다 !');
-								location.href = '/mangh';
-							}
-						}
-					});
+			$.ajax({
+				url : 'unlink',
+				type : 'post',
+				data : {
+					access_Token : '${access_Token}',
+					mId : '${loginInfo.mId}'
+				},
+				success : function(data) {
+					if (data == "Y") {
+						location.href='removeSession';
+						alert('회원탈퇴가 완료되셨습니다 !');
+						
+					}
+				}
+			});
 
 		}
 
@@ -294,8 +271,6 @@ session.removeAttribute("loginInfo");%> --%>
 
 		// 비밀번호 변경
 		function updatePw() {
-			var id = '${loginInfo.mId}';
-			alert(id);
 			if ($('#nPw').val().length < 1) {
 				document.getElementById('nPw').focus();
 				alert('새 비밀번호를 입력해주세요.');
@@ -385,13 +360,13 @@ session.removeAttribute("loginInfo");%> --%>
 					} else {
 						alert('비밀번호가 일치하지 않습니다.');
 						location.href = 'mypageForm';
-
 					}
 				}
 
 			});
 		}
 
+		/* 비밀번호 변경 modal */
 		$('#pw').click(function() {
 			var $href = $(this).attr('href');
 			layer_popup($href);
@@ -421,7 +396,7 @@ session.removeAttribute("loginInfo");%> --%>
 				});
 			}
 
-			$el.find('a.btn-layerClose').click(function() {
+			$el.find('.btn-layerClose').click(function() {
 				isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
 				return false;
 			});
@@ -463,7 +438,7 @@ session.removeAttribute("loginInfo");%> --%>
 				});
 			}
 
-			$el.find('a.btn-layerClose2').click(function() {
+			$el.find('.btn-layerClose2').click(function() {
 				isDim ? $('.dim-layer2').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
 				return false;
 			});
@@ -505,7 +480,7 @@ session.removeAttribute("loginInfo");%> --%>
 				});
 			}
 
-			$el.find('a.btn-layerClose3').click(function() {
+			$el.find('.btn-layerClose3').click(function() {
 				isDim ? $('.dim-layer3').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
 				return false;
 			});

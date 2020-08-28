@@ -40,7 +40,7 @@ public class MemberKakaoController {
 
 	@Autowired
 	private MemberRegKakaoService kakaoRegService;
-	
+
 	@Autowired
 	private MemberDeleteService deleteService;
 
@@ -131,7 +131,7 @@ public class MemberKakaoController {
 
 	// 카카오 회원탈퇴(연결끊기)
 	@ResponseBody
-	@RequestMapping(value="/unlink", method=RequestMethod.POST)
+	@RequestMapping(value = "/unlink", method = RequestMethod.POST)
 	public String unlink(String access_Token, String mId) {
 		if (access_Token != null) {
 			kakaoMemberService.kakaoUnlink((access_Token));
@@ -139,18 +139,18 @@ public class MemberKakaoController {
 		}
 		return "Y";
 	}
-	
+
 	// 회원탈퇴시 인증번호 발송
 	@ResponseBody
 	@RequestMapping("/send")
 	public String sendMessage(HttpSession session) {
 		String access_Token = (String) session.getAttribute("access_Token");
-		System.out.println("send message controller"+access_Token);
+		System.out.println("send message controller" + access_Token);
 		String code = makeRandom();
 		kakaoMemberService.sendMessage(access_Token, code);
 		return code;
 	}
-	
+
 	// 인증번호 난수 생성
 	public String makeRandom() {
 		String value = "";

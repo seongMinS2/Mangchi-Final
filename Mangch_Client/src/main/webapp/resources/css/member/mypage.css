@@ -5,8 +5,9 @@ body {
 	padding: 0;
 }
 
-td{
-	padding: 6px;
+table, tr, td{
+	padding-top: 3%;
+	padding-bottom: 3%;
 }
 
 .memberList {
@@ -30,6 +31,26 @@ div.card>ul>li {
 	font-size: 12px;
 }
 
+.container {
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-bottom: 5%;
+}
+
+table {
+	margin-left: 8%;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+input {
+	margin-left: 3%;
+	border: none;
+	width: 65%;
+	font-size: 1.5em;
+	background: none;
+}
+
 #mNick{
 	border-bottom: 2px solid #162D59;
 }
@@ -38,28 +59,110 @@ div.card>ul>li {
 	border-bottom: 2px solid #162D59;
 }
 
+/* Modal:: 비밀번호 변경 */ 
+#mPw{
+	border: 1px solid #162D59;
+}
+#nPw{
+	border: 1px solid #162D59;
+}
+#nchkPw{
+	border: 1px solid #162D59;
+}
+
+#dPw{
+	border: 1px solid #162D59;
+}
+
+#sendCode{
+	border: 1px solid #162D59;
+}
+
 select{
 	padding: 9px 0;
-    width: 80%;
+    width: 68%;
     border: none;
     border-bottom: 1px solid #ccc;
 }
 
 #button{
+	background-color: #f5b67f;
+	color: white;
+	width: 30%;
+	margin-top: 5%;
+	margin-left: 18%;
+	border-radius: 100px;
+	cursor: pointer;
+}
+
+#button:hover {
+	background-color: #f7c89f;
+}
+
+#editSubmit {
 	background-color: #edc67e;
 	color: white;
 	width: 30%;
 	margin-top: 5%;
-	margin-left: 25%;
+	margin-left: 18%;
 	border-radius: 100px;
 	cursor: pointer;
 }
-#button:hover {
+
+#editSubmit:hover {
 	background-color: #faeeda;
+}
+
+#code{
+	background-color: #f5b67f;
+	color: white;
+	width: 40%;
+	margin-top: 1%;
+	margin-left: 35%;
+	margin-bottom: 8%;
+	border-radius: 100px;
+	cursor: pointer;
+}
+
+#code:hover {
+	background-color: #f7c89f;
+}
+
+.modalButton{
+	background-color: #edc67e;
+	color: white;
+	width: 30%;
+	margin-top: 0;
+	margin-left: 0;
+	border-radius: 100px;
+	cursor: pointer;
+}
+
+.modalButton:hover{
+	background-color: #f4deb4;
+}
+
+.backButton{
+	background-color: #aaaaaa;
+	color: white;
+	width: 30%;
+	margin-top: 0;
+	margin-left: 0;
+	border-radius: 100px;
+	cursor: pointer;
+}
+
+.backButton:hover{
+	background-color: #c2c2c2;
 }
 
 textarea:focus, input:focus {
 	outline: 0;
+}
+
+#pw, #del, #delkakao {
+	color: #797979;
+	font-size: 14px;
 }
 
 #profile-menu {
@@ -126,18 +229,6 @@ textarea:focus, input:focus {
 	background: #f3f3f3
 }
 
-.container {
-	margin-left: 10%;
-	margin-right: 10%;
-	margin-bottom: 5%;
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-
 /* file css */
 .filebox input[type="file"] {
 	position: absolute;
@@ -156,26 +247,8 @@ table {
 
 }
 
-input {
-	margin: 5% 5%;
-	border: none;
-	width: 80%;
-	font-size: 1.5em;
-	background: none;
-}
-
 /* named upload */
 .filebox #Img {
-/* 	display: inline-block;
-	margin: 0;
-	height: 35px;
-	width: 60%;
-	font-size: 18px;
-	padding: 0 10px;
-	vertical-align: middle;
-	background-color: #f5f5f5;
-	border: 1px solid #ebebeb;
-	border-radius: 5px; */
 	border-bottom: 2px solid #f5f5f5;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -183,7 +256,9 @@ input {
 
 /* modal 회원정보 수정*/
 .pop-layer .pop-container {
-	padding: 20px 25px;
+	padding-left: 30px;
+	padding-top: 40px;
+	width: 85%;
 }
 
 .pop-layer p.ctxt {
@@ -193,7 +268,7 @@ input {
 
 .pop-layer .btn-r {
 	width: 100%;
-	margin: 10px 0 20px;
+	margin: 20px 0 10px;
 	padding-top: 10px;
 	border-top: 1px solid #DDD;
 	text-align: right;
@@ -205,7 +280,7 @@ input {
 	top: 50%;
 	left: 50%;
 	width: 500px;
-	height: 360px;
+	height: 300px;
 	background-color: #fff;
 	border: 5px solid #666;
 	z-index: 10;
@@ -237,27 +312,24 @@ input {
 	display: block;
 }
 
-a.btn-layerClose {
+btn-layerClose {
 	display: inline-block;
 	height: 25px;
-	padding: 0 14px 0;
-	margin: 3%;
 	border: 1px solid #304a8a;
-	background-color: #3f5a9d;
+	background-color: #aaaaaa;
 	font-size: 13px;
 	color: #fff;
 	line-height: 25px;
 }
 
-a.btn-layerClose:hover {
-	border: 1px solid #091940;
-	background-color: #1f326a;
+btn-layerClose:hover {
+	background-color: #c2c2c2;
 	color: #fff;
 }
 
 .btn-r {
 	position: absolute;
-	top: 280px;
+	top: 220px;
 	right: 0px;
 }
 
@@ -265,7 +337,9 @@ a.btn-layerClose:hover {
 
 /* modal 회원탈퇴 */
 .pop-layer2 .pop-container2 {
-	padding: 20px 25px;
+	padding-left: 50px;
+	padding-top: 40px;
+	width: 85%;
 }
 
 .pop-layer2 p.ctxt2 {
@@ -275,7 +349,7 @@ a.btn-layerClose:hover {
 
 .pop-layer2 .btn-r2 {
 	width: 100%;
-	margin: 10px 0 20px;
+	margin: 20px 0 10px;
 	padding-top: 10px;
 	border-top: 1px solid #DDD;
 	text-align: right;
@@ -287,7 +361,7 @@ a.btn-layerClose:hover {
 	top: 50%;
 	left: 50%;
 	width: 500px;
-	height: 360px;
+	height: 296px;
 	background-color: #fff;
 	border: 5px solid #666;
 	z-index: 10;
@@ -319,34 +393,34 @@ a.btn-layerClose:hover {
 	display: block;
 }
 
-a.btn-layerClose2 {
+.btn-layerClose2 {
 	display: inline-block;
 	height: 25px;
-	padding: 0 14px 0;
-	margin: 3%;
-	border: 1px solid #304a8a;
-	background-color: #3f5a9d;
+	background-color: #aaaaaa;
 	font-size: 13px;
 	color: #fff;
 	line-height: 25px;
 }
 
-a.btn-layerClose2:hover {
-	border: 1px solid #091940;
-	background-color: #1f326a;
+.btn-layerClose2:hover {
+	background-color: #c2c2c2;
 	color: #fff;
 }
 
 .btn-r2 {
 	position: absolute;
-	top: 280px;
+	top: 220px;
 	right: 0px;
 }
 
 
+
+
 /* modal 카카오 회원탈퇴 */
 .pop-layer3 .pop-container3 {
-	padding: 20px 25px;
+	padding-left: 50px;
+	padding-top: 40px;
+	width: 85%;
 }
 
 .pop-layer3 p.ctxt3 {
@@ -356,7 +430,7 @@ a.btn-layerClose2:hover {
 
 .pop-layer3 .btn-r3 {
 	width: 100%;
-	margin: 10px 0 20px;
+	margin-top: 25px;
 	padding-top: 10px;
 	border-top: 1px solid #DDD;
 	text-align: right;
@@ -368,7 +442,7 @@ a.btn-layerClose2:hover {
 	top: 50%;
 	left: 50%;
 	width: 500px;
-	height: 360px;
+	height: 290px;
 	background-color: #fff;
 	border: 5px solid #666;
 	z-index: 10;
@@ -400,26 +474,22 @@ a.btn-layerClose2:hover {
 	display: block;
 }
 
-a.btn-layerClose3 {
+.btn-layerClose3 {
 	display: inline-block;
 	height: 25px;
-	padding: 0 14px 0;
-	margin: 3%;
-	border: 1px solid #304a8a;
-	background-color: #3f5a9d;
+	background-color: #aaaaaa;
 	font-size: 13px;
 	color: #fff;
 	line-height: 25px;
 }
 
-a.btn-layerClose3:hover {
-	border: 1px solid #091940;
-	background-color: #1f326a;
+.btn-layerClose3:hover {
+	background-color: #c2c2c2;
 	color: #fff;
 }
 
 .btn-r3 {
 	position: absolute;
-	top: 280px;
+	top: 195px;
 	right: 0px;
 }
