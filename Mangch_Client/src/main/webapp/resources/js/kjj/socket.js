@@ -4,7 +4,7 @@ var code = {
     deleteRoom : 'delete'
 };
 
-var sock = new SockJS(localhost+'/mc-chat/chatting');
+var sock = new SockJS(path+'/mc-chat/chatting');
 
 //websocket 서버에 접속하면 실행
 sock.onopen = sendSession;
@@ -74,7 +74,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='        <div class="w3-cell w3-padding w3-right w3-theme4-l3" id="right-msg">';
 				if(msg.img!=null&&msg.img.length>0){
 				html+='		       <span class="w3-right">';
-				html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
+				html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
 				html+='            </span>';
 				}else{
 				html+='		       <span class="w3-right">';
@@ -100,7 +100,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='        <div class="w3-cell  w3-left w3-padding w3-light-grey" id="left-msg">';
 				if(msg.img!=null&&msg.img.length>0){
 				html+='		       <span>';
-				html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
+				html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
 				html+='            </span>';
 				}else{
 				html+='		       <span>';

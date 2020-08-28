@@ -5,7 +5,7 @@ var notChoiceMsg ='<div class="w3-padding w3-xlarge">메세지를 선택해주�
 function makeChatRoomList(chkNewMsg){
 	console.log('리스트출력');
 	$.ajax({
-		url : localhost+'/mc-chat/chat/chatRoom',
+		url : path+'/mc-chat/chat/chatRoom',
 		type : 'get',
 		data : {
 			uNick : loginUser
@@ -40,7 +40,7 @@ function makeChatRoomList(chkNewMsg){
 //채팅방 삭제
 function removeRoom(idx){
 	$.ajax({
-		url : localhost+'/mc-chat/chat/chatRoom',
+		url : path+'/mc-chat/chat/chatRoom',
 		type : 'post',
 		data : {
 			delUser:delUser,
@@ -101,7 +101,7 @@ function sendMsg() {
 		regFormData.append('msgPhoto',$('#msgPhoto')[0].files[0]); //file
     }
 	$.ajax({
-		url : localhost+'/mc-chat/chat',
+		url : path+'/mc-chat/chat',
 		type : 'post',
 		processData: false, // File전송시 필수
 		contentType: false, // false = Multipart/form-data
@@ -195,7 +195,7 @@ function insertTopBarTitle(nick){
 //메세지 읽음 처리
 function readMsg(roomIdx){
     $.ajax({
-        url : localhost+'/mc-chat/chat/msg/' + roomIdx,
+        url : path+'/mc-chat/chat/msg/' + roomIdx,
 		type : 'get',
 		data : {
 			uNick : loginUser
@@ -213,7 +213,7 @@ function insertMsgList(roomIdx,delUser){
     var html='';
     scHeight=$('.msg-area').prop('scrollHeight');
     $.ajax({
-		url : localhost+'/mc-chat/chat/' + roomIdx,
+		url : path+'/mc-chat/chat/' + roomIdx,
 		type : 'get',
 		data : {
             uNick : loginUser,
@@ -253,7 +253,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='        <div class="w3-cell w3-left w3-padding w3-light-grey message" id="left-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span>';
-                        html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
+                        html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
                         html+='            </span>';
                         }else{
                         html+='		       <span>';
@@ -281,7 +281,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span class="w3-right">';
-                        html+='                 <img src="'+localhost+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
+                        html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
                         html+='            </span>';
                         }else{
                         html+='		       <span class="w3-right">';
@@ -364,7 +364,7 @@ function insertMsgList(roomIdx,delUser){
 }
 function delMessage(idx){
     $.ajax({
-        url:localhost+'/mc-chat/chat/msg/'+idx,
+        url:path+'/mc-chat/chat/msg/'+idx,
         type:'post',
         success: function(data){
             if(data>0){
@@ -376,7 +376,7 @@ function delMessage(idx){
 //클릭한 채팅방이 어떤 요청글에대한 채팅인지 정보표시
 function insertTopBarReq(idx){
         $.ajax({
-            url: localhost+'/mc-chat/chat/req',
+            url: path+'/mc-chat/chat/req',
             type: 'get',
             data:{reqIdx:idx},
         success: function(data){
@@ -390,7 +390,7 @@ function insertTopBarReq(idx){
 //채팅 상대방의 이미지 표시
 function insertTopBarImg(nick){
     $.ajax({
-        url: localhost+'/mc-chat/chat/img',
+        url: path+'/mc-chat/chat/img',
         type: 'get',
         data:{nick:nick},
         success: function(data){
@@ -407,7 +407,7 @@ function insertTopBarImg(nick){
 //새로운 메세지 확인
 function chkNewMsg() {
 	$.ajax({
-		url : localhost+'/mc-chat/chat',
+		url : path+'/mc-chat/chat',
 		type : 'get',
 		data : {
 			uNick : loginUser
