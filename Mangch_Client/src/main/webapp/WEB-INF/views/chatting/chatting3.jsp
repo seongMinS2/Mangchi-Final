@@ -31,7 +31,7 @@
 		<div class="w3-row" id="top-bar" style="height: 90px">
 			<div class="w3-col m5 l4 w3-theme w3-border-bottom w3-border-white w3-padding-large w3-padding-16">
 				<div class="w3-threequarter">
-					<input type="text" class="w3-theme w3-round-large w3-input w3-animate-input" id="roomSearch" placeholder="닉네임입력...">
+					<input type="text" class="w3-theme w3-round-large w3-input w3-animate-input" id="roomSearch" placeholder="채팅상대방 닉네임입력...">
 				</div>
 				<div class="w3-rest w3-center" style="padding-top: 3px;">
 					<button class="fa fa-search w3-large w3-round-large w3-border wr-border-white w3-button" id="room-search-btn" style="padding: 12px;">
@@ -192,7 +192,22 @@ $(document).ready(function(){
 		console.log('검색 실행');
 		$('#roomSearch').val('');
 	});
-	$('#roomSearch').on('keypress',function(e){
+	const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+	$('#roomSearch').on('keyup',function(e){
+		var $chatNick =$('.chat-room').find('.chat-nick');
+		var b= $('#chat-room-list');
+		if($(this).val().length>0){
+			for(var i =0;i<$chatNick.length;i++){
+				if(!$chatNick[i].innerText.includes($(this).val())){
+					$($chatNick[i]).parent().parent().hide();
+				}else{
+					$($chatNick[i]).parent().parent().show();
+				}
+			}
+		}else{
+			$($chatNick).parent().parent().show();
+		}
+		
 		if(e.keyCode===13){
 			$('#room-search-btn').trigger('click');
 		}
