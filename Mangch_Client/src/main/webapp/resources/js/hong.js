@@ -375,7 +375,7 @@ function viewBoard(idx){
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
-			view+='        <p><img src="http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.doImg+'" style="width:200px;"></p>';
+			view+='        <p><img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.doImg+'" style="width:200px;"></p>';
 			view+='        <p>'+data.content+'</p>';
 			view+='			<hr>';
 			view+='      </div>';
@@ -451,9 +451,9 @@ function boardList(){
 				};
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
-				html+='		<img src="http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				html+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
-				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
+				html+='		<p class="board_date">'+data.boardList[i].toDate+'</p>';
 				html+='		조회수 <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;">'+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
 				
@@ -508,9 +508,9 @@ function boardSearchList(search){
 				};
 				searchHtml+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				searchHtml+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
-				searchHtml+='		<img src="http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				searchHtml+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				searchHtml+='		<p class="board_title">'+data.boardList[i].title+'</p>';
-				searchHtml+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
+				searchHtml+='		<p class="board_date">'+data.boardList[i].toDate+'</p>';
 				searchHtml+='		조회수 : <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;"> '+data.boardList[i].doViewCnt+'</p>';
 				searchHtml+='</button>';
 				
