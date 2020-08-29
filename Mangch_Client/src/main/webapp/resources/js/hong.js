@@ -16,7 +16,7 @@ function deleteComm(idx){
 
 		if(confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
-			url : "http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/"+idx,
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/"+idx,
 			type : "delete",
 			success : function(data){
 				alert('댓글을 삭제하였습니다.');
@@ -34,7 +34,7 @@ function deleteComm(idx){
 function reply(idx) {
 
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/reply',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/reply',
 		type : 'post',
 		data : {
 			donateIdx : $('.commReplyDonIdx'+idx).val(),
@@ -59,7 +59,7 @@ function reply(idx) {
 function commReg() {
 
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments',
 		type : 'post',
 		data : {
 			donateIdx : $('#commDonIdx').val(),
@@ -103,7 +103,7 @@ function commPageUp(donateIdx, x){
 function commList(donateIdx) {
 	var loginUser=$('#loginUser').val();
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/'+donateIdx,
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/'+donateIdx,
 		type: 'get',
 		data : {
 			'page' : commPage 
@@ -194,7 +194,7 @@ function editBoard(idx) {
 		
 
 		$.ajax({
-			url : "http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
 			data : editBoard,
 			type : "POST",
 			contentType : false,
@@ -217,7 +217,7 @@ function editBoard(idx) {
 function deleteBoard(idx) {
 	if(confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
-			url : "http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
 			type : "delete",
 			success : function(data){
 				alert('나눔글을 삭제하였습니다.');
@@ -248,7 +248,7 @@ function goWrite() {
 		
 
 		$.ajax({
-			url : "http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard",
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard",
 			data : regBoard,
 			type : "POST",
 			contentType : false,
@@ -272,7 +272,7 @@ function editForm(idx) {
 	var loginUser=$('#loginUser').val();
 	
 	$.ajax({
-		url : "http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
+		url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
 		type : 'get',
 		success : function(data){
 			
@@ -346,7 +346,7 @@ function viewBoard(idx){
 	var loginUser=$('#loginUser').val();
 	
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/'+idx,
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/'+idx,
 		type : 'get',
 		success : function(data){
 			var view=''; 
@@ -408,7 +408,7 @@ function viewBoard(idx){
 	});
 	
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/viewCnt/'+idx,
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/viewCnt/'+idx,
 		type : 'get',
 		success : function(data){
 			console.log('조회수 업데이트 처리 1이면 성공 : '+data);
@@ -428,7 +428,7 @@ function boardList(){
 	
 
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard',
 		type : 'get',
 		data : {
 			'page':page,
@@ -483,7 +483,7 @@ function boardSearchList(search){
 	
 	loading=false;
 	$.ajax({
-		url : 'http://ec2-13-125-56-159.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard',
 		type : 'get',
 		data : {
 			'searchKey':search
