@@ -12,11 +12,13 @@ public class ReviewController {
 	@RequestMapping("/review/reviewForm")
 	public String reviewForm(@RequestParam("reviewIdx") int reviewIdx,
 			@RequestParam("rstatus") int rstatus,
+			@RequestParam("receiver") String receiver,
 			Model model) {
 
 		
 		model.addAttribute("reviewIdx", reviewIdx);
 		model.addAttribute("rstatus", rstatus);
+		model.addAttribute("receiver", receiver);
 		return "review/reviewForm";
 	}
 }

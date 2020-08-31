@@ -16,38 +16,40 @@
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
-	<div class="w3-container" id="contain">
-		<div class="w3-content w3-margin-bottom">
-				<!-- 검색 타입 -->
-				<div class="jtype">
-					<select id="searchType">
-						<option value="title">제목</option>
-						<option value="name">이름</option>
-					</select>
-					<!-- 거리순 -->
-					<c:if test="${loginInfo.mNick !=null}">
-					<select id="ListType" onchange="change()">
-						<option value="distance">거리순</option>
-						<option value="date">최신순</option>
-					</select> 
-					</c:if>
-				</div>
-				<!-- 검색어 입력 -->
-				<div id="search" class="jtype">
-				<input type="text" id="search_text" placeholder="검색어를 입력하세요" >	
-				<input type="button" id="search_btn" onclick="search()" value="검색">
-				</div>
-				<!-- 글쓰기 -->					
-				<div class="jtype">
-				 <a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a>
-				</div>
-		</div>
+	<!-- <div class="w3-container" id="contain"> -->
+		<div class="w3-content" id="conBox">
+		
+			<!-- 검색 타입 -->
+			<select id="searchType">
+				<option value="title">제목</option>
+				<option value="name">이름</option>
+			</select>
 			
+			<!-- 거리순 -->
+			<select id="ListType" onchange="change()">
+			<c:if test="${loginInfo.mNick !=null}">
+				<option value="distance">거리순</option>
+			</c:if>
+				<option value="date">최신순</option>
+			</select> 
+			
+			<!-- 검색어 입력 -->
+			<!-- <div id="search" > -->
+			<input type="text" id="search_text" placeholder="검색어를 입력하세요" >	
+			<input type="button" id="search_btn" onclick="search()" value="검색">
+			<!-- </div> -->
+			
+			<!-- 글쓰기 -->					
+			 <a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a>
+			 
+		</div>
+		<!-- </div>	 -->	
+		
 		<div class="w3-content w3-margin-bottom">
 			<!-- 테이블 출력 -->
 			<div class=" w3-margin-bottom" id="list"></div>
 		</div>
-	</div>	
+	
 	
 	<!-- 페이지  -->
 	<div class="w3-content w3-margin-bottom" id="page"></div>
@@ -102,17 +104,19 @@
 		list();
 	}
 
-	function detail(reqIdx,calDistance,reqCount){
+	function detail(reqWriter,reqIdx,calDistance,reqCount){
 		 var form = $('<form></form>');
 		    form.attr('action', '/mangh/request/requestDetail');
 		    form.attr('method', 'post');
 		    form.appendTo('body');
 		    var idx = $("<input type='hidden' value="+reqIdx+" name='idx'>"); //게시글 번호
-		    var distance = $("<input type='hidden' value="+calDistance+" name='distance'>"); //게시글 상태 
+		    var distance = $("<input type='hidden' value="+calDistance+" name='distance'>"); //게시글 거리
 		    var count = $("<input type='hidden' value="+reqCount+" name='count'>"); //게시글 상태 
+		    var rWriter = $("<input type='hidden' value="+reqWriter+" name='writer'>"); //게시글 작성자 
 		    form.append(idx);
 		    form.append(distance);
 		    form.append(count);
+		    form.append(rWriter);
 		    form.submit(); 
 	}
 	
@@ -173,7 +177,7 @@
 							html += ' <td class="tab_td">' + (i + data.startRow + 1) + '</td>';
 									
 									
-							html += '<td class="title_td"><div onclick="detail('+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'width="4%123123131321311212121212121212121212121212121212</div></td>';		
+							html += '<td class="title_td"><div onclick="detail(\''+data.requestReg[i].reqWriter+'\','+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'width="4%123123131321311212121212121212121212121212121212</div></td>';		
 							
 							//html += ' <td>' + data.requestReg[i].reqAddr+ '</td>';
 							

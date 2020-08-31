@@ -12,10 +12,6 @@
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
 
 <style>
-#info {
-	/* border: 3px solid #DDD; */
-	
-}
 
 li {
 	float: left;
@@ -24,54 +20,92 @@ li {
 
 td {
 	padding: 5px;
+	width: 150px;
 }
 
-#detailReq {
-	padding: 5%;
+/* css */
+
+#tbox{
+	padding: 30px 0px 0px 0px;
 }
+
+#title{
+	display:inline;
+}
+
+#chat_Box{
+    display: inline;
+    float: right;
+}
+#chat{
+	height: 50px;
+    width: 107px;
+    text-align: center;
+    background-color: #FFD201;
+    border-radius: 5px;
+    border: 1px solid #f7f7f7;
+}
+#mInfo{
+	margin-left: 30%;
+}
+#mNick{
+	border-left: 2px solid #DDD;
+   padding-left: 16px;
+    font-size: 16px;
+}
+#mImg{
+	width: 58px;
+    height: 58px;
+    border-radius: 50%;
+}
+
+
 </style>
 
 </head>
 <body>
-
+	
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
 
-	<div class="w3-container w3-margin-bottom " id="contents">
-		<h1 class="w3-center" id="title"></h1>
-
-		<div class="w3-border w3-margin-top" id="detailReq">
+		
+		<div class="w3-content" id="tbox">
+			<h1 id="title"></h1>
+			<div id="chat_Box"> </div>
+			<hr>
+		</div>
+		
+			
+	<div class="w3-content w3-margin-bottom" >
+					
 
 			<!-- 1 -->
-			<div class="w3-cell-row" id="info">
+			<div class="w3-cell-row">
 
-
-				<!-- 요청 게시글 상세 정보 -->
-				<div class="w3-cell" id="reqInfo">
-					<h1 id="info_h1"></h1>
-					<div id="reqInfo"></div>
-				</div>
-
-				<!-- 요청자 정보 -->
-				<%-- <div class="w3-cell" id="mInfo">
-					<h1 id="writer_h1"></h1>
-					<div id="wirterInfo">
-
-						<table>
-							<tr>
-								<td>회원 닉네임</td>
-								<td id="mNick"></td>
-							</tr>
-							<tr>
-								<td>회원 평점</td>
-								<td>${loginInfo.mScore}
-								</td>
-							</tr>
-						</table>
-
-
+				
+					<!-- 요청 게시글 상세 정보 -->
+					<div class="w3-cell" id="reqInfo">
+						<h3 id="info_h3"></h3>
+						<div id="reqInfo"></div>
 					</div>
-				</div> --%>
+		
+					<!-- 요청자 정보 -->
+					<div id="mInfo">
+						<!-- <h3 id="writer_h3"></h3> -->
+						<span>
+						<img id="mImg" src="http://localhost:8080/rl/upload/34743447620100_image1.jpg">
+						</span>
+						
+						
+						<h6>요청자 이름</h6>
+						<span id="mNick"></span>
+						
+						
+						<h6>요청자 평점</h6>
+						<span id="mAvg"></span>
+						
+					</div>
+	
 			</div>
 
 			<!-- 지도 -->
@@ -85,11 +119,10 @@ td {
 
 			<!-- 상세내용 -->
 			<div class="w3-cell-row">
-				<h1 id="content_h1">상세 내용</h1>
+				<h3 id="content_h3"></h3>
 				<div id="req_contents"></div>
 			</div>
 
-		</div>
 	</div>
 
 	<div class="w3-modal" id="modal"></div>
@@ -259,7 +292,7 @@ function review(reviewWriter,reviewStatus){
 					
 		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람  
 		 				if(data[i].status == 0){
-							html += ' 			<div onclick="reviewWrite('+data[i].reviewIdx+','+data[i].status+')">'+data[i].receiver+'</div>';
+							html += ' 			<div onclick="reviewWrite('+data[i].reviewIdx+','+data[i].status+',\''+data[i].receiver+'\')">'+data[i].receiver+'</div>';
 		 				}
 		 				}
 					html += ' 		</div>';
@@ -276,15 +309,18 @@ function review(reviewWriter,reviewStatus){
 
 
 //리뷰 작성 하기
-function reviewWrite(reviewIdx,rstatus){
+function reviewWrite(reviewIdx,rstatus,rReceiver){
 	  var form = $('<form></form>');
 	    form.attr('action', '/mangh/review/reviewForm');
 	    form.attr('method', 'post');
 	    form.appendTo('body');
 	    var idx = $("<input type='hidden' value="+reviewIdx+" name='reviewIdx'>"); //게시글 번호
 	    var reviewStatus = $("<input type='hidden' value="+rstatus+" name='rstatus'>"); //게시글 상태 
+	    var reviewReceiver = $("<input type='hidden' value="+rReceiver+" name='receiver'>"); //게시글 받는 사람
 	    form.append(idx);
 	    form.append(reviewStatus);
+	    form.append(reviewReceiver);
+	    
 	    form.submit(); 
 }
 	 
@@ -335,7 +371,6 @@ function reqDelete(reqIdx){
 $(document).ready(function(){
 	
 	
-	
 	$.ajax({
 		
 		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
@@ -343,25 +378,40 @@ $(document).ready(function(){
 		type : 'GET',
 		data : {
 			count : ${count},
-			mNick : '${loginInfo.mNick}'
+			mNick : '${loginInfo.mNick}',
+			writer : '${writer}'
 		},
 		success : function(data){
 			var title=data.reqTitle;
 			$('#title').text(title);
-			$('#info_h1').text('요청 내용 ');
-			$('#writer_h1').text('요청자 정보');
-			$('#content_h1').text('상세내용');
+			$('#info_h3').text('요청 요약' );
+			$('#writer_h3').text('요청자 정보');
+			$('#content_h3').text('요청 상세 내용'); 
+			
 			$('#mNick').text(data.reqWriter); 
+			
+			if(data.avg > 0){
+				for (var i = 1; i <= 5; i++) {
+					if (data.avg <= i) {
+						var avg = '&#11088;';
+						$('#mAvg').append(avg); 
+					}
+				}
+				
+				
+			}else {
+				$('#mAvg').text('평점이 없습니다.');
+			}
 			
 		//요청 게시글 상세 정보
 		var html =	'<table>';
-			html += '<tr>';
+			/* html += '<tr>';
 			html +=	'	<td>요청자</td>';
 			html +=	'<td>'+data.reqWriter+'</td>';
-			html += '</tr>';
+			html += '</tr>'; */
 			
 			html += '<tr>';
-			html +=	'	<td>요청자위치</td>';
+			html +=	'	<td>요청자 위치</td>';
 			html +=	'	<td>'+data.reqAddr.substr(2,5)+'</td>';
 			html += '</tr>';
 			
@@ -374,22 +424,21 @@ $(document).ready(function(){
 			html	+='<td>조회수</td>';
 			html+=	'	<td>'+data.reqCount+'</td>';
 			html += '</tr>';
-			
+			if ('${loginInfo}' != '') {
 			html += '<tr>';
 			html	+='<td>거리</td>';
-			
 			if ('${loginInfo}' != '') {
 				if( ${distance} >= 1000){
 					var calDistance = ${distance};
 					calDistance = (Math.round(calDistance/100))/10;
 					html += ' <td>' + calDistance + ' km</td>';
 				}else{
-					html += '	<td>'+${distance}+'Km</td>';
+					html += '	<td>'+${distance}+'m</td>';
 				}	
 				
 				}
 			html += '</tr>';
-			
+			}
 			var status,color;
 			if(data.reqStatus == 0){
 				status = '대기중';
@@ -427,27 +476,47 @@ $(document).ready(function(){
 			}
 			
 			//로그인 한 사용자가 리뷰 권한이 없을 때
-			else if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
+			/* else if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
+					
 				} 
-			}
-			 //비회원 일 때
-			 else if('${loginInfo}' == ''){		
+			} */
+			  //비회원 일 때
+			/* else if('${loginInfo}' == ''){		
 				if(data.reqStatus == 0){
-					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
+					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>'; 
+					
 				}
-			} 
+			}  */
 			html += '</tr>';
-
-			
 	 		/* html +='<tr>';
 			html += '<td>';
-			html += '	<img src="http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
+			//html += '	<img src="http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
+			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
 			html += '</td>';
-			html +='</tr>';  */
-			
+			html +='</tr>'; */
 			html +=	'</table>';	
+			
+			
+			
+			if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
+				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
+					/* html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>'; */
+					var chatBtn = '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+					$('#chat_Box').html(chatBtn);
+					
+				} 
+			}
+			
+			
+			 //비회원 일 때
+			if('${loginInfo}' == ''){		
+				if(data.reqStatus == 0){
+					var chatBtn = '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+					$('#chat_Box').html(chatBtn);
+				}
+			} 
 			
 			$('#reqInfo').append(html);
 			
