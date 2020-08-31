@@ -164,6 +164,7 @@ function evClickChatRoom(){
         insertMsgList(roomIdx,delUser);
         $('#req-title').text(roomReqTitle);
         $(this).find('#badge').remove();
+        $('.bi-three-dots-vertical').off();
         //3점클릭
         $('.bi-three-dots-vertical').on('click',function(){
             $(this).parent().next().slideToggle('fast');
