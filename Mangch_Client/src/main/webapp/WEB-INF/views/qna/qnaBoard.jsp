@@ -10,6 +10,11 @@
 
 <link rel="stylesheet" href="<c:url value='/resources/css/min.css'/>">
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.js"></script> -->
+<style>
+a {
+ text-decoration:none 
+}
+</style>
 </head>
 
 <body>
@@ -24,11 +29,11 @@
 	<div class="qnaArea">
 		<h1>QnA</h1>
 		<hr class="w3-border-theme w3-topbar">
-		<div class="qna-util-bar ">
-			<button class="w3-button w3-theme" onclick="location.href='writeBoard'">글쓰기</button>
-			<button class="w3-right" id="SearchButton">검색</button>
-			<input type="text" class="w3-right" id="keyword" name="keyword">
-			<select class="w3-right" id="searchType" name="searchType">
+		<div style="height: 42px;" class="qna-util-bar ">
+			<button class="w3-button w3-theme-l1" onclick="location.href='writeBoard'">글쓰기</button>
+			<button class="w3-right w3-button w3-theme-l1" style="height: inherit;" id="SearchButton">검색</button>
+			<input type="text" class="w3-right" style="height: inherit;" id="keyword" name="keyword">
+			<select class="w3-right" style="height: inherit;" id="searchType" name="searchType">
 				<option value="SearchAll">제목+내용</option>
 				<option value="SearchTitle">제목</option>
 				<option value="SearchText">내용</option>

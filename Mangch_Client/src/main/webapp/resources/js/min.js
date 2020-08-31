@@ -1,12 +1,14 @@
 /*============================================================================================================================================================*/
-/*화면 페이징에 필요한 변수 정리*/
+/*전역 변수 정리*/
 
 //페이지 번호(start = 1)
-var idx = 0;
-//화면에 보여질 총 게시글 수
-var countList = 5;
-//화면에 보여질 총 페이지 수
-var countPage = 5;
+var idx = 1;
+
+//검색 텍스트
+var keyword = '';
+
+//검색 타입
+var searchType = '';
 
 /*============================================================================================================================================================*/
 /*페이징 함수들*/
@@ -27,8 +29,9 @@ function nextPage(endNum){
 	qnaboardList();
 	return false;
 }
+
 //이전페이지 버튼
-function prevPage(prevNum){
+function prevPage(){
 	this.idx--;
 	if(idx<=1)
 		idx= 1;
@@ -36,36 +39,33 @@ function prevPage(prevNum){
 	return false;
 }
 
-//다음 페이지 리스트 버튼 -미완
-function nextPageList(nextNum){
-	this.idx = nextNum;
+//마지막 페이지 리스트 버튼
+function endPage(endNum){
+	this.idx = endNum;
 	qnaboardList();
 	return false;
 }
-//이전 페이지 리스트 버튼 -미완
-function prevPageList(prevNum){
-	this.idx = prevNum;
+//첫 페이지 리스트 버튼
+function firstPage(){
+	this.idx = 1;
 	qnaboardList();
 	return false;
 } 
 /*============================================================================================================================================================*/
 
-//검색 버튼 클릭 이벤트
-// $(documnet).on('click','#SearchButton',function(){
-// 	$('#keyword').val();
-// 	$('#searchType').val();
-// });
+
 
 /*============================================================================================================================================================*/
 
 //게시판 리스트 출력
 function qnaboardList() {
+	alert(keyword + searchType);
+
 	$.ajax({
-		url: '/mc/qna/?idx='+idx,
+		url: '/mc/qna/?idx='+idx+'&keyword='+keyword+'&searchType='+searchType,
 		type: 'get',
 		success: function (data) {
 			console.log(JSON.stringify(data));
-
 			// $('#QnABoardList').html(JSON.stringify(data));
 
 			var html = '';
@@ -82,7 +82,7 @@ function qnaboardList() {
 				if (data.boardList[i].parents === 0) {
 					html += '		<tr>';
 					html += '			<td class="w3-center w3-padding">' + data.boardList[i].idx + '</td>';
-					html += '			<td class="w3-padding"><a href="contents/' + data.boardList[i].idx + '">' +data.boardList[i].title + '</a></td>';
+					html += '			<td class="w3-padding w3-border-left w3-border-white w3-hover-border-theme"><a class="qna-board-title" href="contents/' + data.boardList[i].idx + '">' +data.boardList[i].title + '</a></td>';
 					html += '			<td class="w3-center w3-padding">' + data.boardList[i].memNick + '</td>';
 					html += '			<td class="w3-center w3-padding">' + moment(data.boardList[i].regdate).format('YY년MM월DD일') + '</td>';
 					html += '			<td class="w3-center w3-padding">' + data.boardList[i].count + '</td>';
@@ -93,7 +93,7 @@ function qnaboardList() {
 					if (data.boardList[j].parents === data.boardList[i].idx) {
 						html += '		<tr>';
 						html += '			<td class="w3-center w3-padding">' + data.boardList[j].idx + '</td>';
-						html += '			<td class="w3-padding"><a href="contents/' + data.boardList[j].idx + '">' + data.boardList[j].title + '</a></td>';
+						html += '			<td class="w3-padding w3-border-left w3-border-white w3-hover-border-theme"><a href="contents/' + data.boardList[j].idx + '">' + data.boardList[j].title + '</a></td>';
 						html += '			<td class="w3-center w3-padding">' + data.boardList[j].memNick + '</td>';
 						html += '			<td class="w3-center w3-padding">' + moment(data.boardList[j].regdate).format('YY년MM월DD일') + '</td>';
 						html += '			<td class="w3-center w3-padding">' + data.boardList[j].count + '</td>';
@@ -102,18 +102,22 @@ function qnaboardList() {
 				}
 			}
 			html += '	</table><br><br>';
+			//페이징 처리 부분
 			html += '		<div class="w3-bar w3-small w3-center">';
-			html += '			<a href="#" class="w3-button"><<</a>';
+			html += '			<a href="#" class="w3-button" onclick="return firstPage()"><<</a>';
 			html += '			<a href="#" class="w3-button" onclick="return prevPage()"><</a>';
 			for(var i=data.startPage; i<=data.endPage; i++){
 				html += '			<a href="#" class="w3-button" onclick="return pageNum('+i+')">'+i+'&nbsp;</a>';
 			}
 			html += '			<a href="#" class="w3-button" onclick="return nextPage('+data.endPage+')">></a>';
-			html += '			<a href="#" class="w3-button">>></a>';
+			html += '			<a href="#" class="w3-button" onclick="return endPage('+data.endPage+')">>></a>';
 			html += '		</div>';
 			html += '</div>';
 			html += '<hr>';
 			$('#QnABoardList').html(html);
+
+			//마우스hover
+			$('.qna-board-title').addClass('w3-hover-theme5');
 
 		}
 	});
@@ -129,7 +133,6 @@ function contentsList(idx, loginSession) {
 		type: 'get',
 		success: function (data) {
 			console.log(JSON.stringify(data));
-
 			//$('.contentBox').html(JSON.stringify(data));
 
 			var html = '';
@@ -161,7 +164,7 @@ function contentsList(idx, loginSession) {
 					html += '							<span class="comment_info_date"> ' + moment(data.comment[i].regdate).format('YYYY.MM.DD, HH:mm') + ' </span>';
 					//비회원 대댓글 toggle button 제한
 					if(loginSession!=null)
-						html += '						 <button class="comment_reply_button">답글쓰기</button>';
+						html += '						 <button class="comment_reply_button w3-button w3-theme-l1">답글쓰기</button>';
 						html += '					</div>';
 						html += '				</div>';
 						html += '			</div>';
@@ -174,10 +177,10 @@ function contentsList(idx, loginSession) {
 						html += '							<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
 						html += '						</div>';
 						html += '						<div class="comment_inbox_text">';
-						html += '							<textarea class="comment_insert"></textarea>';
+						html += '							<textarea cols="50" class="comment_insert"></textarea>';
 						html += '						</div>';
 						html += '						<div class="comment_submit">';
-						html += '							<button onclick="writeHirachyComment(' + idx +','+ data.comment[i].idx +',this)">등록</button>';
+						html += '							<button class="w3-button w3-theme-l1" onclick="writeHirachyComment(' + idx +','+ data.comment[i].idx +',this)">등록</button>';
 						html += '						</div>';
 						html += '					</div>';
 						html += '				</div>';
@@ -190,11 +193,11 @@ function contentsList(idx, loginSession) {
 						html += '							<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
 						html += '						</div>';
 						html += '						<div class="comment_inbox_text">';
-						html += '						<textarea class="comment_insert">'+data.comment[i].contents+'</textarea>';
+						html += '						<textarea cols="50" class="comment_insert">'+data.comment[i].contents+'</textarea>';
 						html += '						</div>';
 						html += '						<div class="comment_submit">';
-						html += '							<button class="comment_modify_cancel">취소</button>';
-						html += `							<button id="modifySub" onclick="qnaModifyComment(${data.comment[i].idx},this)">등록</button>`;
+						html += '							<button class="comment_modify_cancel w3-button w3-theme-l4">취소</button>';
+						html += `							<button class="w3-button w3-theme-l1" id="modifySub" onclick="qnaModifyComment(${data.comment[i].idx},this)">등록</button>`;
 						html += '						</div>';
 						html += '					</div>';
 						html += '				</div>';
@@ -234,7 +237,7 @@ function contentsList(idx, loginSession) {
 							html += '					</div>';
 							html += '					<div class="comment_submit">';
 															//댓글쓰기 요청
-							html += '						<button onclick="writeHirachyComment(' + idx +','+ data.comment[j].idx +',this)">등록</button>';
+							html += '						<button class="w3-button w3-theme-l1" onclick="writeHirachyComment(' + idx +','+ data.comment[j].idx +',this)">등록</button>';
 							html += '					</div>';
 							html += '				</div>';
 							html += '			</div>';
@@ -247,15 +250,16 @@ function contentsList(idx, loginSession) {
 							html += '						<p class="comment_nick">' + loginSession.mNick + '</p>';
 							html += '					</div>';
 							html += '					<div class="comment_inbox_text">';
-							html += '					<textarea class="comment_insert">'+data.comment[j].contents+'</textarea>';
+							html += '					<textarea cols="50" class="comment_insert">'+data.comment[j].contents+'</textarea>';
 							html += '					</div>';
 							html += '					<div class="comment_submit" id="submit">';
-							html += '						<button class="comment_modify_cancel">취소</button>';
-							html += `						<button id="modifySub" onclick="qnaModifyComment(${data.comment[j].idx},this)">등록</button>`;
+							html += '						<button class="comment_modify_cancel w3-button w3-theme-l4">취소</button>';
+							html += `						<button class="w3-button w3-theme-l1" id="modifySub" onclick="qnaModifyComment(${data.comment[j].idx},this)">등록</button>`;
 							html += '					</div>';
 							html += '				</div>';
 							html += '			</div>';
 							html += '		</div>';
+							
 						}
 
 					}
@@ -269,10 +273,10 @@ function contentsList(idx, loginSession) {
 			html += '									<p class="commet_nick">' + loginSession.mNick + '</p>';
 			html += '								</div>';
 			html += '								<div class="comment_inbox_text">';
-			html += '									<textarea class="comment_insert"></textarea>';
+			html += '									<textarea cols="50" class="comment_insert"></textarea>';
 			html += '								</div>';
 			html += '								<div class="comment_submit">';
-			html += '									<button onclick="qnaWritComment(' + idx + ')">등록</button>';
+			html += '									<button class="w3-button w3-theme-l1" onclick="qnaWritComment(' + idx + ')">등록</button>';
 			html += '								</div>';
 			html += '							</div>';
 			html += '						</div>';
@@ -283,14 +287,14 @@ function contentsList(idx, loginSession) {
 			html += '			<div class="articleBottomBtns">';
 				//로그인 한 회원만 수정/답글이 가능
 				if(loginSession != null){
+					html += '		<a class="w3-button w3-right w3-theme-l4" href="#">TOP</a>';
+					html += '<a class="w3-button w3-right w3-theme-l4" href="/mangh/qna/reply-board/' + idx + '">답글쓰기</a>';
 					//로그인 한 회원과 게시글의 작성자가 같아야 수정이 가능
-					if(loginSession.mNick === data.writer){
-					html += '<a href="/mangh/qna/update-board/' + idx + '">수정하기</a>';
-					}
-					html += '<a href="/mangh/qna/reply-board/' + idx + '">답글쓰기</a>';
-					html += '		<a href="#" onclick="qnaDelete(' + idx + ')">글 삭제</a>';
+					if(loginSession.mNick === data.memNick){
+						html += '		<a class="w3-button w3-right w3-theme-l4" href="#" onclick="qnaDelete(' + idx + ')">글 삭제</a>';
+							html += '<a class="w3-button w3-right w3-theme-l4" href="/mangh/qna/update-board/' + idx + '">수정하기</a>';
+							}
 				}
-			html += '		<a href="#">TOP</a>';
 			html += '	</div>';
 			html += '</div>';
 			html += '<hr>';
@@ -574,6 +578,11 @@ function qnaDelete(idx) {
 }
 
 $(document).ready(() => {
-
+	//검색 버튼 클릭 이벤트
+	$('#SearchButton').on('click',() => {
+		this.keyword = $('#keyword').val();
+		this.searchType = $('#searchType').val();
+		qnaboardList();
+	});
 });
 

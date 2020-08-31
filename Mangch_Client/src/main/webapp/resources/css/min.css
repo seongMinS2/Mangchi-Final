@@ -6,27 +6,30 @@
 		border : 1px solid #DDD;
 		
 	} */
-	.table-wrap{
-		width : 600px;
-		margin: auto;
-	}
-	
-	.w3-table>ul>li {
-		font-size: 12px;
-	}
-	.qnaArea{
-		height: auto;
-		margin: auto;
-    	width: 600px;
+.table-wrap {
+	width: 600px;
+	margin: auto;
+}
 
-	}
-	
+.w3-table>ul>li {
+	font-size: 12px;
+}
 
-	
-	.commentBox{
-		padding-top:200px;
-	}
-	.writeContainer{
-		padding : 10%;
-	}
+.qnaArea {
+	height: auto;
+	margin: auto;
+	width: 600px;
+}
 
+textarea{
+	resize:none;
+	height:100px;
+}
+
+.commentBox {
+	padding-top: 200px;
+}
+
+.writeContainer {
+	padding: 10%;
+}

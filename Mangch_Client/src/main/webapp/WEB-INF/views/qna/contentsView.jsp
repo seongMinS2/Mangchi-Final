@@ -30,6 +30,8 @@
 .contentBox{
 		margin: auto;
 		width: 400px;
+		margin-top: 50px;
+		margin-bottom: 100px;
 	}
 
 .xi-ellipsis-v{
@@ -52,6 +54,10 @@
 .comment_textView,
 .comment_text_box{
 	margin-left:15px;
+}
+
+textarea{
+
 }
 </style>
 </head>
