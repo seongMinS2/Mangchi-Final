@@ -570,6 +570,7 @@ function editCmtText() {
 			
 			$('#realcmtedit').bPopup().close();
 			$("#editcmt").bPopup().close();
+			gbList();
 			goPopup(idx);
 			
 		}
@@ -592,6 +593,7 @@ function deleteCmt(comment_idx,guest_idx) {
 			
 			alert("댓글이 삭제됐습니다");
 			$("#editcmt").bPopup().close();
+			gbList();
 			goPopup(guest_idx);
 			
 			
@@ -801,7 +803,6 @@ function gbList() {
 		 },
 		success : function (data) {
 			
-			console.log(data);
 			
 			var html='';
 			for(var i=0; i<data.length; i++){
@@ -1043,7 +1044,7 @@ function gbList() {
 					
 					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
 					console.log('페이지'+page);
-					if(data+14<page){
+					if(data<page){
 						
 						console.log("끝"+page);
 						$(window).off();
@@ -1164,7 +1165,7 @@ $(document).ready(function () {
 	gbList(page=4);
 	
 	$(window).scroll(function() {
-		  if(Math.round($(window).scrollTop() + $(window).height()) == $(document).height()) {
+		  if($(window).scrollTop() +1 >= $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
 	    	page=page+4
 	
