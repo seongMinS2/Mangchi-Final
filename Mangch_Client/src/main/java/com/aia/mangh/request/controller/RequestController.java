@@ -45,10 +45,13 @@ public class RequestController {
 	//쿠키 생성
 	@RequestMapping("/makeCookie")
 	public String makeCookie(@RequestParam("idx") int idx, @RequestParam("distance") int distance,
-			@RequestParam("count") int count, Model model) {
+			@RequestParam("count") int count,
+			@RequestParam("writer") String writer
+			,Model model) {
 		model.addAttribute("idx", idx);
 		model.addAttribute("distance", distance);
 		model.addAttribute("count", count);
+		model.addAttribute("writer", writer);
 		return "request/cookie/makeCookie";
 	}
 

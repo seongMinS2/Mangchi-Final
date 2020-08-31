@@ -17,43 +17,43 @@
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
 	<!-- <div class="w3-container" id="contain"> -->
-		<div class="w3-content" id="conBox">
-		
-			<!-- 검색 타입 -->
-			<select id="searchType">
-				<option value="title">제목</option>
-				<option value="name">이름</option>
-			</select>
-			
-			<!-- 거리순 -->
-			<select id="ListType" onchange="change()">
+	<div class="w3-content" id="conBox">
+
+		<!-- 검색 타입 -->
+		<select id="searchType">
+			<option value="title">제목</option>
+			<option value="name">이름</option>
+		</select>
+
+		<!-- 거리순 -->
+		<select id="ListType" onchange="change()">
 			<c:if test="${loginInfo.mNick !=null}">
 				<option value="distance">거리순</option>
 			</c:if>
-				<option value="date">최신순</option>
-			</select> 
-			
-			<!-- 검색어 입력 -->
-			<!-- <div id="search" > -->
-			<input type="text" id="search_text" placeholder="검색어를 입력하세요" >	
-			<input type="button" id="search_btn" onclick="search()" value="검색">
-			<!-- </div> -->
-			
-			<!-- 글쓰기 -->					
-			 <a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a>
-			 
-		</div>
-		<!-- </div>	 -->	
-		
-		<div class="w3-content w3-margin-bottom">
-			<!-- 테이블 출력 -->
-			<div class=" w3-margin-bottom" id="list"></div>
-		</div>
-	
-	
+			<option value="date">최신순</option>
+		</select>
+
+		<!-- 검색어 입력 -->
+		<!-- <div id="search" > -->
+		<input type="text" id="search_text" placeholder="검색어를 입력하세요">
+		<input type="button" id="search_btn" onclick="search()" value="검색">
+		<!-- </div> -->
+
+		<!-- 글쓰기 -->
+		<a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a>
+
+	</div>
+	<!-- </div>	 -->
+
+	<div class="w3-content w3-margin-bottom">
+		<!-- 테이블 출력 -->
+		<div class=" w3-margin-bottom" id="list"></div>
+	</div>
+
+
 	<!-- 페이지  -->
 	<div class="w3-content w3-margin-bottom" id="page"></div>
-		
+
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>

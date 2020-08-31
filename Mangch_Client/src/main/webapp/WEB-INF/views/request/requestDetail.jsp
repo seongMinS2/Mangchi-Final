@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,40 +25,109 @@ td {
 
 /* css */
 
-#tbox{
-	padding: 30px 0px 0px 0px;
+ #tbox {
+    padding: 30px 0px 0px 0px;
 }
 
-#title{
-	display:inline;
+#title {
+    display: inline;
 }
 
-#chat_Box{
+#chat_Box {
     display: inline;
     float: right;
 }
-#chat{
-	height: 50px;
+
+/* 채팅하기 버튼 */
+#chat {
+    height: 50px;
     width: 107px;
     text-align: center;
     background-color: #FFD201;
     border-radius: 5px;
     border: 1px solid #f7f7f7;
+    font-weight: bold;
 }
-#mInfo{
-	margin-left: 30%;
+
+/* 채팅 완료 버튼 */
+#chatCom{
+ 	height: 50px;
+    width: 107px;
+    text-align: center;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    border: 1px solid #f7f7f7;
+    font-weight: bold;
 }
-#mNick{
-	border-left: 2px solid #DDD;
-   padding-left: 16px;
+/* 리뷰 작성 버튼 */
+#review{
+    height: 50px;
+    width: 107px;
+    text-align: center;
+    background-color: #FFD201;
+    border-radius: 5px;
+    border: 1px solid #f7f7f7;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* 로그인 상태에서 수정 삭제 */
+.checkBtn{
+     margin-top: 50px;
+     margin-right: 10px;
+     height: 40px;
+     width: 45%;
+     float: left;
+     text-align: center;
+     font-weight: bold;
+     background-color: #FFD201;
+     border-radius: 5px;
+     border: 1px solid #f7f7f7;
+}
+
+
+#infoBox {
+    width: 70%;
+    padding-right: 50px;
+}
+
+
+
+#mInfo {
+    margin-left: 30%;
+}
+
+#mNick,
+#mAvg {
+    border-left: 2px solid #DDD;
+    padding-left: 16px;
     font-size: 16px;
 }
-#mImg{
-	width: 58px;
+
+#mImg {
+    width: 58px;
     height: 58px;
     border-radius: 50%;
 }
 
+#info_h6,
+#content_h6 {
+    font-weight: bold;
+}
+
+
+/* 이미지  */
+#reqImg {
+    max-width: 500px;
+    max-height: 500px;
+    text-align: center;
+}
+
+
+/* 조회수 */
+#reqCount {
+    font-size: 12px;
+}
 
 </style>
 
@@ -84,46 +153,41 @@ td {
 
 				
 					<!-- 요청 게시글 상세 정보 -->
-					<div class="w3-cell" id="reqInfo">
-						<h3 id="info_h3"></h3>
+					<div class="w3-cell" id="infoBox">
+						<h6 id="info_h6"></h6>
 						<div id="reqInfo"></div>
-					</div>
 		
-					<!-- 요청자 정보 -->
-					<div id="mInfo">
+					<hr>
+					<!-- 상세내용 -->
+						<h6 id="content_h6"></h6>
+						  <div id="imgBox"></div>
+						<div id="req_contents"></div>
+						<p id="reqCount">조회수     </p>
+					</div>
+					
+					<!-- 요청자 정보 --> 
+					
+					<div class="w3-cell" id="mInfo">
 						<!-- <h3 id="writer_h3"></h3> -->
 						<span>
 						<img id="mImg" src="http://localhost:8080/rl/upload/34743447620100_image1.jpg">
 						</span>
 						
-						
 						<h6>요청자 이름</h6>
 						<span id="mNick"></span>
-						
-						
 						<h6>요청자 평점</h6>
 						<span id="mAvg"></span>
+						
+						 <!-- 회원 로그인 시 -->
+               			 <div id="infoBtn"></div>
+						
 						
 					</div>
 	
 			</div>
 
-			<!-- 지도 -->
-			<!-- <div class="w3-cell-row" id="mapContent">
-				<hr>
-				<h1>지도</h1>
-				<div id="map">요청자 위치 지도</div>
-			</div> -->
+		</div>
 
-			<hr>
-
-			<!-- 상세내용 -->
-			<div class="w3-cell-row">
-				<h3 id="content_h3"></h3>
-				<div id="req_contents"></div>
-			</div>
-
-	</div>
 
 	<div class="w3-modal" id="modal"></div>
 
@@ -229,7 +293,7 @@ function updateHelper(helper,writer){
 					alert('동일한 매칭 상대입니다. 다른 상대를 선택하세요.');
 				}else if( data == 2){
 					alert('매칭이 완료되었습니다.');
-					location.href= "/mangh/makeCookie?idx="+${idx}+"&distance="+${distance}+"&count="+${count};
+					location.href= "/mangh/makeCookie?idx="+${idx}+"&distance="+${distance}+"&count="+${count}+"&writer="+writer;
 					modalClose();
 				}
 			}
@@ -384,9 +448,9 @@ $(document).ready(function(){
 		success : function(data){
 			var title=data.reqTitle;
 			$('#title').text(title);
-			$('#info_h3').text('요청 요약' );
-			$('#writer_h3').text('요청자 정보');
-			$('#content_h3').text('요청 상세 내용'); 
+			$('#info_h6').text('요청 요약' );
+			/* $('#writer_h3').text('요청자 정보'); */
+			$('#content_h6').text('요청 상세 정보'); 
 			
 			$('#mNick').text(data.reqWriter); 
 			
@@ -397,8 +461,6 @@ $(document).ready(function(){
 						$('#mAvg').append(avg); 
 					}
 				}
-				
-				
 			}else {
 				$('#mAvg').text('평점이 없습니다.');
 			}
@@ -450,7 +512,7 @@ $(document).ready(function(){
 			
 			html += '<tr>';
 			html +='	<td>매칭 상태</td>';
-			html +='	<td style="color: '+color+'">';
+			html +='	<td style="color: '+color+'; font-weight:bold;">';
 			html +='		'+status+'';
 			html += '	</td>';
 				
@@ -460,19 +522,32 @@ $(document).ready(function(){
 				
 				if(data.reqStatus == 1){ // 매칭 완료 상태
 					if(cancelStatus == 1){ //취소 버튼 쿠키가 있을 때 취소 가능
-						html +='	<td><button onclick="cancel('+data.reqStatus+')" id="cancelBtn" >매칭취소</button></td>';
+						var chatBtn = '	<td><button onclick="cancel('+data.reqStatus+')" id="chatCom">매칭취소</button></td>';
+						$('#chat_Box').html(chatBtn);
 					} 
 				} else if(data.reqStatus == 0){ //매칭 전 상태
-					html +='	<td><button onclick="complete()">매칭완료</button></td>';
+					
+					var chatBtn = '<button onclick="complete()" id="chatCom">매칭완료</button>';
+					$('#chat_Box').html(chatBtn);
+//					html +='	<td><button onclick="complete()">매칭완료</button></td>';
+	
 				} 
 				//수정, 삭제
-				html += '	<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
-				html += '	<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>';
+				/* html += '	<td><button onclick="reqEdit('+data.reqIdx+')">수정</button></td>';
+				html += '	<td><button  onclick="reqDelete('+data.reqIdx+')">삭제</button></td>'; */
+				 var infoBtn = '<button onclick="reqEdit('+data.reqIdx+')" class="checkBtn">수정</button>';
+				 infoBtn += '<button onclick="reqDelete('+data.reqIdx+')" class="checkBtn">삭제</button>'; 
+				
+				$('#infoBtn').html(infoBtn);
 			}
 	
 			//로그인 한 회원이 리뷰 작성자 일 때 - 권한 확인 
 			if('${loginInfo.mNick}' == data.reviewWriter){
-					html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
+					//html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
+				
+					var reviewBtn = '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
+					$('#chat_Box').append(reviewBtn);
+			
 			}
 			
 			//로그인 한 사용자가 리뷰 권한이 없을 때
@@ -490,15 +565,13 @@ $(document).ready(function(){
 				}
 			}  */
 			html += '</tr>';
-	 		/* html +='<tr>';
+	 		/*  html +='<tr>';
 			html += '<td>';
 			//html += '	<img src="http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
 			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
 			html += '</td>';
-			html +='</tr>'; */
+			html +='</tr>';  */
 			html +=	'</table>';	
-			
-			
 			
 			if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
@@ -509,7 +582,6 @@ $(document).ready(function(){
 				} 
 			}
 			
-			
 			 //비회원 일 때
 			if('${loginInfo}' == ''){		
 				if(data.reqStatus == 0){
@@ -518,12 +590,19 @@ $(document).ready(function(){
 				}
 			} 
 			
-			$('#reqInfo').append(html);
+			$('#reqInfo').html(html);
 			
 			
 			//요청 게시글 내용 
-			var content = ''+data.reqContents;
-			$('#req_contents').append(content);
+			$('#reqCount').append(data.reqCount);
+			
+			//이미지 넣기
+			var img = '';
+			if(data.reqImg !='defalult.png'){
+				img += '<img id="reqImg" src="http://localhost:8080/rl/upload/'+data.reqImg+'">';
+				$('#imgBox').html(img);
+			} 
+			$('#req_contents').html(data.reqContents);
 			
 			
 		}

@@ -7,5 +7,5 @@ cancelCookie.setPath("/");
 response.addCookie(cancelCookie);   
 %> 
 <script>
-	location.href="/mangh/request/requestDetail?idx="+${idx}+"&distance="+${distance}+"&count="+${count};
+	location.href="/mangh/request/requestDetail?idx="+${idx}+"&distance="+${distance}+"&count="+${count}+"&writer="+'${writer}';
 </script>
