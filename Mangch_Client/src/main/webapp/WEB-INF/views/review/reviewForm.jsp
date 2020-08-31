@@ -49,7 +49,8 @@
 					reviewIdx	: ${reviewIdx},
 					text : $('#reviewText').val(),
 					avg : $('#avg').val(),
-					status : ${rstatus}
+					status : ${rstatus},
+					receiver : '${receiver}'
 			};
 			
 			

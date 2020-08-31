@@ -200,7 +200,6 @@
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 
-	<%-- <script src="${pageContext.request.contextPath}/resources/js/myeong.js"></script> --%>
 	<script>
 	
 		function regSubmit() {

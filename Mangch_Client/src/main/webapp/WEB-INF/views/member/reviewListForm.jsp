@@ -124,8 +124,7 @@ th, td{
 							html +='<div class="avg">';
 							if (data.avg > 1) {
 								html += '<span id="avg">'
-										+ '${loginInfo.mNick}'
-										+ '님 의 평점 &nbsp;&nbsp;</span>';
+										+ '${loginInfo.mNick}'+ '님 의 평점 &nbsp;&nbsp;</span>';
 								for (var i = 1; i <= 5; i++) {
 									if (data.avg <= i) {
 										html += '<span style="font-size:25px;"">&#11088;</span>';
