@@ -13,8 +13,11 @@
 </head>
 <body>
 	<div class="w3-container">
-		<br> <br>
-		<h2>LOGIN</h2>
+		<br><br>
+		<div>
+			<img src="<c:url value='/resources/img/LOGO.png'/>" style="margin-left: 35%; width: 380px; height: 150px;">
+		</div>
+		<!-- <h2>LOGIN</h2> -->
 		<div id="loginbox">
 			<table>
 				<tr>

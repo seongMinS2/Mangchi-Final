@@ -15,7 +15,7 @@
 <body>
 
 	<div class="w3-container">
-		<br> <br>
+		<br><br>
 		<h2>SIGN UP</h2>
 		<form id="regForm" method="post" enctype="multipart/form-data">
 			<table>
