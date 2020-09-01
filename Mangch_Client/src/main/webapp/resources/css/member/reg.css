@@ -9,10 +9,6 @@ html {
 	font-family: 'Montserrat', sans-serif;
 }
 
-body {
-	
-}
-
 table {
 	margin: 0;
 	padding: 0;
@@ -209,11 +205,12 @@ label {
 }
 
 html {
-	background-color: #fffff5;
+	/* background-color: #fffff5 */
+	background-color: white;
 }
 
 form {
-	background-color: #fffff5;
+	background-color: white;
 }
 
 /* file css */

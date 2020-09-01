@@ -9,10 +9,6 @@ html {
 	font-family: 'Montserrat', sans-serif;
 }
 
-body {
-	
-}
-
 table {
 	margin: 0;
 	padding: 0;
@@ -25,20 +21,27 @@ table {
 	margin-left: 5%;
 }
 
-.chkmsg{
+.chkmsg {
 	margin-left: 5%;
 }
 
-#loginbox{
+a {
+	display: block;
+	text-decoration: none;
+	color: #A2A5A6;
+	text-align: center;
+	padding: 20px 0 0;
+}
+
+#loginbox {
 	margin: 5% auto;
 	width: 450px;
 	min-height: 400px;
 	padding: 2.5% 5% 2.5%;
 	border-radius: 2.5%;
-
 }
 
-#custom-login-btn{
+#custom-login-btn {
 	padding: 0.5% 4% 0;
 }
 
@@ -48,11 +51,12 @@ table {
 	text-decoration: none;
 	color: #A2A5A6;
 	margin-top: 8%;
-	margin-left:52%;
+	margin-left: 52%;
 	padding: 0;
 	width: 20%;
 }
-.signup{
+
+.signup {
 	display: inline-block;
 	text-align: right;
 	text-decoration: none;
@@ -63,13 +67,12 @@ table {
 	width: 20%;
 }
 
-p {
+.tdname {
 	font-family: 'Nanum Gothic', sans-serif;
 	font-weight: 400;
 	font-size: 20px;
 	color: #6E6E6E;
 }
-
 
 h2 {
 	font-size: 2em;
@@ -182,9 +185,11 @@ label {
 }
 
 html {
-	background-color: #fffff5;
+	/* background-color: #fffff5; */
+	background-color: white;
 }
 
 form {
-	background-color: #fffff5;
+	/* background-color: #fffff5; */
+	background-color: white;
 }

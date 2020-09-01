@@ -18,11 +18,11 @@
 		<div id="loginbox">
 			<table>
 				<tr>
-					<td><p>아이디</p></td>
+					<td><p class="tdname">아이디</p></td>
 					<td><input type="text" name="mId" id="mId"></td>
 				</tr>
 				<tr>
-					<td><p>비밀번호</p></td>
+					<td><p class="tdname">비밀번호</p></td>
 					<td><input type="password" name="mPw" id="mPw"></td>
 				</tr>
 				<tr>
@@ -47,6 +47,7 @@
 			</table>
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 	<script>
 	
 		 function loginSubmit() {
