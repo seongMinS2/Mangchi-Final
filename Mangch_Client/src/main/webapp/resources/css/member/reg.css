@@ -197,11 +197,13 @@ label {
 }
 
 #submit:hover {
-	background-position: -400px;
+	background-position: -310px;
+	cursor: pointer;
 }
 
 #button:hover {
-	background-position: -400px;
+	background-position: -310px;
+	cursor: pointer;
 }
 
 html {
