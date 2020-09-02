@@ -33,7 +33,7 @@ td {
     display: inline;
 }
 
-#chat_Box {
+#chatBox {
     display: inline;
     float: right;
 }
@@ -129,6 +129,58 @@ td {
     font-size: 12px;
 }
 
+
+/* 모달 창 */
+/* 모달 상자 */
+#comBox{
+    margin-left: 50px;
+    max-width: 800px;
+    text-align: center;
+}
+
+/*모달 제목*/
+#modalTitle {
+    margin: 15px 0px 25px 0px;
+    text-align: center;
+}
+
+/*매칭 상대 박스*/
+#helpBox, #reviewBox {
+    margin: 0px 15px 30px 15px;
+    padding: 20px;
+    width: 180px;
+    border: 3px solid #f2f2f2;
+    border-radius: 15px;
+    display: inline-block;
+}
+/*매칭 상대 선택 버튼*/
+.helperBtn {
+    margin-top: 15px;
+    width: 100%; 
+    height: 35px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #FFD201;
+    border: 1px solid #f7f7f7;
+}
+#mImg {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 0px 0px 15px 5px;
+}
+
+#modalAvg{
+        text-align: center;
+        font-size: 16px;
+}
+
+
+
+
+
+
 </style>
 
 </head>
@@ -140,7 +192,7 @@ td {
 		
 		<div class="w3-content" id="tbox">
 			<h1 id="title"></h1>
-			<div id="chat_Box"> </div>
+			<div id="chatBox"> </div>
 			<hr>
 		</div>
 		
@@ -161,7 +213,7 @@ td {
 					<!-- 상세내용 -->
 						<h6 id="content_h6"></h6>
 						  <div id="imgBox"></div>
-						<div id="req_contents"></div>
+						<div id="reqcontents"></div>
 						<p id="reqCount">조회수     </p>
 					</div>
 					
@@ -235,42 +287,117 @@ function chat(reqIdx,uNick){
 	}
 }
 
+//모달 데이터 출력 
+var page = 1;	
+var type ='';
+
+var writer = '';
+var rstatus = '';
+
+
 //모달 닫기
 function modalClose(){
 	$('#modal').css('display','none');
 }
 
+
+function prev(currentPage){
+	
+	if(currentPage == 1){
+		alert('첫 페이지 입니다.');
+	}else{
+		page = currentPage - 1;
+		if(type == 'comMsg'){
+			complete();
+		} else if(type.eq('reviewMsg')){
+			review(writer,rstatus);
+		}
+	}
+	
+}
+
+function next(currentPage,pageTotalCount){
+	
+	if(page == pageTotalCount){
+		alert('마지막 페이지 입니다.');
+	}else{
+		page = 	currentPage + 1;
+		 if(type == 'comMsg'){
+			complete();
+		}  else if(type == 'reviewMsg'){
+			review(writer,rstatus);
+		} 
+		
+	}
+}
+
+
+
 //매칭 상대 정하기
 function complete(){
-	$('#modal').css('display','block');
 	
+	 type = 'comMsg';
 	 $.ajax({
  		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
  		url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
+ 		data : {
+ 			page : page
+ 		},
 		 type : 'get',
-		 success : function(data){ 
+		 success : function(data){
 			 
-		 		var html = '<div class="w3-modal-content">';
-				html += '	 <header class="w3-container">';
-				html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
-				html += '  		<h2>Modal Header</h2>';
-				html += ' 	</header>';
-				html += '		<div class="w3-container">';
-				
-				 if(data.length <= 0 ){
-					html +='<div>매칭 상대가 없습니다.</div>';
+
+			 if(data.requestChat.length <= 0 ){
+					alert('매칭 상대가 없습니다.');
 				}else {
-		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람  
-						html += ' 			<div onclick="updateHelper( \''+data[i].helper+'\', \''+data[i].writer+'\' )">'+data[i].helper+'</div>';
+					
+				 $('#modal').css('display','block');	
+				
+					var html = '<div class="w3-modal-content">';
+					html += '	 <header class="w3-container">';
+					html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
+					html += '  		<h2 id="modalTitle">매칭 상대선택</h2>';
+					html += ' 	</header>';
+					
+					html +=' <div id="comBox" >';
+//		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람  
+		 			for(var i=0;i<data.requestChat.length;i++){ //채팅을 요청한 사람  
+						/* html += ' 			<div onclick="updateHelper( \''+data[i].helper+'\', \''+data[i].writer+'\' )">'+data[i].helper+'</div>'; */
+						html += '		<div id="helpBox">';
+						html += ' <img id="mImg" src="http://localhost:8080/rl/upload/34743447620100_image1.jpg">'; //회원 이미지 경로 설정 변경하기  -- data[i].data.requestChat.mImg
+						html +='<div id="modalAvg">';
+						if(data.requestChat[i].avg > 0){
+							for (var j = 1; j <= 5; j++) {
+								if (data.requestChat[i].avg <= j) {
+									html +='&#11088;';
+								}
+							}
+							html +='</div>';
+						}else {
+							html += '<div id="modalAvg">평점이 없습니다.</div>';
+						}
+						
+						html += ' 			<button class="helperBtn" onclick="updateHelper( \''+data.requestChat[i].helper+'\', \''+data.requestChat[i].writer+'\' )">'+data.requestChat[i].helper+'</button>';
+						html += ' 		</div>';
 		 			}
+			 		
+		 			
+		 			//슬라이드 처리 
+		 			html +='   <button class="w3-button w3-display-left" onclick="prev('+page+')">&#10094;</button>';
+		 			html +='   <button class="w3-button w3-display-right" onclick="next('+page+','+data.pageTotalCount+')">&#10095;</button>';
+		 			
+		 			html += ' </div>';
+			 		$('#modal').html(html);
 		 		} 
 				//html += ' 			<div onclick="updateHelper(\''+helper+'\', \''+writer+'\') ">'+helper+'</div>';
-				html += ' 		</div>';
-		 		html += "</div>";
 					 		
-		 		$('#modal').html(html);
 	 	 }
-	 }); 
+	 
+			 
+			 
+			 
+			 }); 
+	 
 }
 
 //매칭 완료 데이터 업데이트
@@ -331,11 +458,15 @@ function cancel(reqStatus){
 }
 
 
-
-
 //리뷰 작성 
 function review(reviewWriter,reviewStatus){
 	
+	 type = 'reviewMsg';
+
+	 writer = reviewWriter;
+	 rstatus = reviewStatus;
+	 
+	 
 	 if(reviewStatus == 1){
 		 alert('이미 리뷰가 작성되었습니다.');
 	 }else if(reviewStatus == 0){
@@ -344,24 +475,35 @@ function review(reviewWriter,reviewStatus){
 		  $.ajax({
 	 		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
 	 		url : 'http://localhost:8080/rl/review/'+ reviewWriter,
+	 		data : {
+	 			reqIdx : ${idx},
+	 			page : page
+	 		},
 			 type : 'post',
 			 success : function(data){ 
-				 $('#modal').css('display','block');
+				
+				$('#modal').css('display','block');
 			 		var html = '<div class="w3-modal-content">';
 					html += '	 <header class="w3-container">';
 					html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
-					html += '  		<h2>Modal Header</h2>';
+					html += '  		<h2 id="modalTitle">리뷰 작성 할 상대 선택</h2>';
 					html += ' 	</header>';
-					html += '		<div class="w3-container">';
+					html +=' <div id="comBox" >';
+					for(var i=0;i<data.reviewList.length;i++){ //리뷰 작성 가능 자 
+						/* html += ' 			<div onclick="updateHelper( \''+data[i].helper+'\', \''+data[i].writer+'\' )">'+data[i].helper+'</div>'; */
+						html += '		<div id="reviewBox">';
+						html += ' <img id="mImg" src="http://localhost:8080/rl/upload/34743447620100_image1.jpg">'; //회원 이미지 경로 설정 변경하기  --->  data[i].member.mImg
+						if(data.reviewList[i].status == 0){
+							html += ' 			<button class="helperBtn" onclick="reviewWrite('+data.reviewList[i].reviewIdx+','+data.reviewList[i].status+',\''+data.reviewList[i].receiver+'\')">'+data.reviewList[i].receiver+'</button>';
+		 				}
+						html += ' 		</div>';
+		 			}
 					
-		 			for(var i=0;i<data.length;i++){ //채팅을 요청한 사람  
-		 				if(data[i].status == 0){
-							html += ' 			<div onclick="reviewWrite('+data[i].reviewIdx+','+data[i].status+',\''+data[i].receiver+'\')">'+data[i].receiver+'</div>';
-		 				}
-		 				}
+					//슬라이드 처리 
+		 			html +='   <button class="w3-button w3-display-left" onclick="prev('+page+')">&#10094;</button>';
+		 			html +='   <button class="w3-button w3-display-right" onclick="next('+page+','+data.pageTotalCount+')">&#10095;</button>';
+					
 					html += ' 		</div>';
-			 		html += "</div>";
-						 		
 			 		$('#modal').html(html); 
 			 }
 		 });
@@ -523,12 +665,12 @@ $(document).ready(function(){
 				if(data.reqStatus == 1){ // 매칭 완료 상태
 					if(cancelStatus == 1){ //취소 버튼 쿠키가 있을 때 취소 가능
 						var chatBtn = '	<td><button onclick="cancel('+data.reqStatus+')" id="chatCom">매칭취소</button></td>';
-						$('#chat_Box').html(chatBtn);
+						$('#chatBox').html(chatBtn);
 					} 
 				} else if(data.reqStatus == 0){ //매칭 전 상태
 					
 					var chatBtn = '<button onclick="complete()" id="chatCom">매칭완료</button>';
-					$('#chat_Box').html(chatBtn);
+					$('#chatBox').html(chatBtn);
 //					html +='	<td><button onclick="complete()">매칭완료</button></td>';
 	
 				} 
@@ -546,7 +688,7 @@ $(document).ready(function(){
 					//html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
 				
 					var reviewBtn = '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
-					$('#chat_Box').append(reviewBtn);
+					$('#chatBox').append(reviewBtn);
 			
 			}
 			
@@ -577,7 +719,7 @@ $(document).ready(function(){
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					/* html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>'; */
 					var chatBtn = '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
-					$('#chat_Box').html(chatBtn);
+					$('#chatBox').html(chatBtn);
 					
 				} 
 			}
@@ -586,7 +728,7 @@ $(document).ready(function(){
 			if('${loginInfo}' == ''){		
 				if(data.reqStatus == 0){
 					var chatBtn = '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
-					$('#chat_Box').html(chatBtn);
+					$('#chatBox').html(chatBtn);
 				}
 			} 
 			
@@ -602,7 +744,7 @@ $(document).ready(function(){
 				img += '<img id="reqImg" src="http://localhost:8080/rl/upload/'+data.reqImg+'">';
 				$('#imgBox').html(img);
 			} 
-			$('#req_contents').html(data.reqContents);
+			$('#reqcontents').html(data.reqContents);
 			
 			
 		}

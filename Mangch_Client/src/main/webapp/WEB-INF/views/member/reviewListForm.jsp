@@ -164,12 +164,12 @@ th, td{
 										
 										if(status == 1){
 										html += ' <td>'
-												+ data.reviewList[i].reqList[0].reqTitle
+												+ data.reviewList[i].reqList.reqTitle
 												+ '</td>';
 										}
 										else if(status == 0){				
 											html += ' <td><div onclick="reviewForm('+data.reviewList[i].reviewIdx+','+data.reviewList[i].status+')">'
-											+ data.reviewList[i].reqList[0].reqTitle
+											+ data.reviewList[i].reqList.reqTitle
 											+ '</div></td>';	
 										}
 										html += ' <td>'
