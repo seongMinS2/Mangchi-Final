@@ -34,7 +34,8 @@ a {
 }
 
 #loginbox {
-	margin: 5% auto;
+	margin-top: 3%;
+	margin-left:31%;
 	width: 450px;
 	min-height: 400px;
 	padding: 2.5% 5% 2.5%;
@@ -153,10 +154,10 @@ label {
 
 html {
 	/* background-color: #fffff5; */
-	background-color: #fefdf9;
+	background-color: white;
 }
 
 form {
 	/* background-color: #fffff5; */
-	background-color: #fefdf9;
+	background-color: white;
 }

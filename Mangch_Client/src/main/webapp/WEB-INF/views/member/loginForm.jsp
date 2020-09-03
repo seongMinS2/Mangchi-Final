@@ -15,7 +15,7 @@
 	<div class="w3-container">
 		<br><br>
 		<div>
-			<img src="<c:url value='/resources/img/LOGO.png'/>" style="margin-left: 35%; width: 380px; height: 150px;">
+			<img src="<c:url value='/resources/img/LOGO-large.png'/>" style="margin-left: 38%;">
 		</div>
 		<!-- <h2>LOGIN</h2> -->
 		<div id="loginbox">
