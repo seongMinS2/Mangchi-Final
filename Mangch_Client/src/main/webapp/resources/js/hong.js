@@ -372,6 +372,7 @@ function viewBoard(idx){
 			view+='        작성자 <p style="display:inline;">'+ data.writer+'</p>';
 			view+='<br>';
 			view+='        조회수 <p style="display:inline;" id="ReadViewCnt">'+ data.doViewCnt+'</p>';
+			view+='        <p style="display:inline;" id="ReadViewCnt">'+ data.doDate+'</p>'
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
@@ -453,7 +454,7 @@ function boardList(){
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
 				html+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
-				html+='		<p class="board_date">'+data.boardList[i].toDate+'</p>';
+				html+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
 				html+='		조회수 <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;">'+data.boardList[i].doViewCnt+'</p>';
 				html+='</button>';
 				
@@ -510,7 +511,7 @@ function boardSearchList(search){
 				searchHtml+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
 				searchHtml+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				searchHtml+='		<p class="board_title">'+data.boardList[i].title+'</p>';
-				searchHtml+='		<p class="board_date">'+data.boardList[i].toDate+'</p>';
+				searchHtml+='		<p class="board_date">'+data.boardList[i].doDate+'</p>';
 				searchHtml+='		조회수 : <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;"> '+data.boardList[i].doViewCnt+'</p>';
 				searchHtml+='</button>';
 				
