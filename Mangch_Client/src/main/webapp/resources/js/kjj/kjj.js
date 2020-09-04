@@ -228,13 +228,13 @@ function insertMsgList(roomIdx,delUser){
                         if(msgList[i].sender == $('.msg-area').find('.msg-sender').first().text()){
                             $('.msg-area').find('.msg-sender').first().text('');
                         }
-                        if(moment(msgList[i].date).format('MM월 DD일')==$('.msg-area').find('.dateCon').first().text()){
+                        if(moment(msgList[i].date).subtract(9,'hours').format('MM월 DD일')==$('.msg-area').find('.dateCon').first().text()){
                             $('.msg-area').find('.last-msg-date').first().remove();
                         }
                     }
-                    if(i===msgList.length-1||(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD'))){
+                    if(i===msgList.length-1||(i<msgList.length-1&&moment(msgList[i].date).subtract(9,'hours').format('YYYYMMDD')!=moment(msgList[i+1].date).subtract(9,'hours').format('YYYYMMDD'))){
                         html +='<div class="w3-cell-row w3-container w3-center last-msg-date">';
-                        html +='	<p class="w3-round-xxlarge w3-theme-l5 dateCon">'+moment(msgList[i].date).format('MM월 DD일')+'</p>';
+                        html +='	<p class="w3-round-xxlarge w3-theme-l5 dateCon">'+moment(msgList[i].date).subtract(9,'hours').format('MM월 DD일')+'</p>';
                         html +='</div>';
                     }
                     if(loginUser!=msgList[i].sender){
@@ -243,7 +243,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='    <div class="w3-cell-row">';
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
                         html+='    </div>';
-                        }else if((i<msgList.length-1&&msgList[i].sender!=msgList[i+1].sender)||(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD'))){
+                        }else if((i<msgList.length-1&&msgList[i].sender!=msgList[i+1].sender)||(i<msgList.length-1&&moment(msgList[i].date).subtract(9,'hours').format('YYYYMMDD')!=moment(msgList[i+1].date).subtract(9,'hours').format('YYYYMMDD'))){
                         html+='    <div class="w3-cell-row">';
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
                         html+='    </div>';
@@ -261,7 +261,7 @@ function insertMsgList(roomIdx,delUser){
                         }
                         html+='        </div>';
                         html+='        <div class="w3-left w3-left-align msg-date">';
-                        html+=          moment(msgList[i].date).format('a HH:MM');
+                        html+=          moment(msgList[i].date).subtract(9,'hours').format('a HH:mm');
                         html+='        </div>';
                         html+='    </div>';
                         html+='</div>';
@@ -271,7 +271,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='    <div class="w3-cell-row w3-right-align">';
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
                         html+='    </div>';
-                        }else if((i<msgList.length-1&&msgList[i].sender!=msgList[i+1].sender)||(i<msgList.length-1&&moment(msgList[i].date).format('YYYYMMDD')!=moment(msgList[i+1].date).format('YYYYMMDD'))){
+                        }else if((i<msgList.length-1&&msgList[i].sender!=msgList[i+1].sender)||(i<msgList.length-1&&moment(msgList[i].date).subtract(9,'hours').format('YYYYMMDD')!=moment(msgList[i+1].date).subtract(9,'hours').format('YYYYMMDD'))){
                         html+='    <div class="w3-cell-row w3-right-align">';
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
                         html+='    </div>';
@@ -289,7 +289,7 @@ function insertMsgList(roomIdx,delUser){
                         }
                         html+='        </div>';
                         html+='        <div class="w3-right w3-right-align msg-date">';
-                        html+=          moment(msgList[i].date).format('a HH:MM');
+                        html+=          moment(msgList[i].date).subtract(9,'hours').format('a HH:mm');
                         html+='        </div>';
                         html+='    </div>';
                         html+='</div>';
@@ -393,6 +393,7 @@ function insertTopBarImg(nick){
         type: 'get',
         data:{nick:nick},
         success: function(data){
+            console.log('이미지data: '+data);
             if(!data.includes('http',0)){
                 data = uploadPath+data;
             }

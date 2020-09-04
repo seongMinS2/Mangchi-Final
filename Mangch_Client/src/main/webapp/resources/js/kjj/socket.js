@@ -83,7 +83,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				}
 				html+='        </div>';
 				html+='        <div class="w3-right w3-right-align">';
-				html+=          moment(msg.date).format('a HH:MM');
+				html+=          moment(msg.date).format('a HH:mm');
 				html+='        </div>';
 				html+='    </div>';
 				html+='</div>';
@@ -109,7 +109,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				}
 				html+='        </div>';
 				html+='        <div class="w3-left w3-left-align">';
-				html+=          moment(msg.date).format('a HH:MM');
+				html+=          moment(msg.date).format('a HH:mm');
 				html+='        </div>';
 				html+='    </div>';
 				html+='</div>';
