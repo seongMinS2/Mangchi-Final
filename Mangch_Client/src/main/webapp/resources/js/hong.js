@@ -372,7 +372,7 @@ function viewBoard(idx){
 			view+='        작성자 <p style="display:inline;">'+ data.writer+'</p>';
 			view+='<br>';
 			view+='        조회수 <p style="display:inline;" id="ReadViewCnt">'+ data.doViewCnt+'</p>';
-			view+='        <p style="display:inline;" id="ReadViewCnt">'+ data.doDate+'</p>'
+			view+='        <p>'+ data.doDate+'</p>'
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
