@@ -16,7 +16,7 @@ function deleteComm(idx){
 
 		if(confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
-			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/"+idx,
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/comments/"+idx,
 			type : "delete",
 			success : function(data){
 				alert('댓글을 삭제하였습니다.');
@@ -34,7 +34,7 @@ function deleteComm(idx){
 function reply(idx) {
 
 	$.ajax({
-		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/reply',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/comments/reply',
 		type : 'post',
 		data : {
 			donateIdx : $('.commReplyDonIdx'+idx).val(),
@@ -44,7 +44,7 @@ function reply(idx) {
 			commText : $('.commReplyText'+idx).val(),
 		},
 		success : function(data){
-			alert('대댓글을 작성하였습니다.');
+			alert('댓글을 작성하였습니다.');
 			commList($('#commDonIdx').val());
 			document.getElementById('replayForm'+idx).reset();
 			$('.replyForm'+idx).css('display', 'none');
@@ -59,7 +59,7 @@ function reply(idx) {
 function commReg() {
 
 	$.ajax({
-		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/comments',
 		type : 'post',
 		data : {
 			donateIdx : $('#commDonIdx').val(),
@@ -103,7 +103,7 @@ function commPageUp(donateIdx, x){
 function commList(donateIdx) {
 	var loginUser=$('#loginUser').val();
 	$.ajax({
-		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/comments/'+donateIdx,
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/comments/'+donateIdx,
 		type: 'get',
 		data : {
 			'page' : commPage 
@@ -194,7 +194,7 @@ function editBoard(idx) {
 		
 
 		$.ajax({
-			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/donateBoard/"+idx,
 			data : editBoard,
 			type : "POST",
 			contentType : false,
@@ -217,7 +217,7 @@ function editBoard(idx) {
 function deleteBoard(idx) {
 	if(confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
-			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/donateBoard/"+idx,
 			type : "delete",
 			success : function(data){
 				alert('나눔글을 삭제하였습니다.');
@@ -248,7 +248,7 @@ function goWrite() {
 		
 
 		$.ajax({
-			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard",
+			url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/donateBoard",
 			data : regBoard,
 			type : "POST",
 			contentType : false,
@@ -272,7 +272,7 @@ function editForm(idx) {
 	var loginUser=$('#loginUser').val();
 	
 	$.ajax({
-		url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/"+idx,
+		url : "http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/donateBoard/"+idx,
 		type : 'get',
 		success : function(data){
 			
@@ -346,7 +346,7 @@ function viewBoard(idx){
 	var loginUser=$('#loginUser').val();
 	
 	$.ajax({
-		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard/'+idx,
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/donateBoard/'+idx,
 		type : 'get',
 		success : function(data){
 			var view=''; 
@@ -375,7 +375,7 @@ function viewBoard(idx){
 			view+='			<hr>';
 			view+='      </header>';		
 			view+='      <div class="w3-container">';
-			view+='        <p><img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.doImg+'" style="width:200px;"></p>';
+			view+='        <p><img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/upload/'+data.doImg+'" style="width:200px;"></p>';
 			view+='        <p>'+data.content+'</p>';
 			view+='			<hr>';
 			view+='      </div>';
@@ -408,7 +408,7 @@ function viewBoard(idx){
 	});
 	
 	$.ajax({
-		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/viewCnt/'+idx,
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/viewCnt/'+idx,
 		type : 'get',
 		success : function(data){
 			console.log('조회수 업데이트 처리 1이면 성공 : '+data);
@@ -428,7 +428,7 @@ function boardList(){
 	
 
 	$.ajax({
-		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/donateBoard',
 		type : 'get',
 		data : {
 			'page':page,
@@ -451,7 +451,7 @@ function boardList(){
 				};
 				html+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				html+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
-				html+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				html+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				html+='		<p class="board_title">'+data.boardList[i].title+'</p>';
 				html+='		<p class="board_date">'+data.boardList[i].toDate+'</p>';
 				html+='		조회수 <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;">'+data.boardList[i].doViewCnt+'</p>';
@@ -483,7 +483,7 @@ function boardSearchList(search){
 	
 	loading=false;
 	$.ajax({
-		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/donateBoard',
+		url : 'http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/donateBoard',
 		type : 'get',
 		data : {
 			'searchKey':search
@@ -508,7 +508,7 @@ function boardSearchList(search){
 				};
 				searchHtml+='		<input type="hidden" class="board_loc" value="'+data.boardList[i].doLoc+'">';
 				searchHtml+='		<p class="board_writer"> 작성자 : '+data.boardList[i].writer+'</p>';
-				searchHtml+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donateBoard/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
+				searchHtml+='		<img src="http://ec2-15-164-163-60.ap-northeast-2.compute.amazonaws.com:8080/donate/upload/'+data.boardList[i].doImg+'" style="width: 100%; height:150px;">';
 				searchHtml+='		<p class="board_title">'+data.boardList[i].title+'</p>';
 				searchHtml+='		<p class="board_date">'+data.boardList[i].toDate+'</p>';
 				searchHtml+='		조회수 : <p class="board_viewcnt'+data.boardList[i].donateIdx+'" style="display:inline;"> '+data.boardList[i].doViewCnt+'</p>';
