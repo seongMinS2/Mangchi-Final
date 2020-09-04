@@ -150,8 +150,8 @@
 <form class="realcmteditform" onsubmit="return false;">
  <input type="text"  id="comment_idx" style="display:none;">
   <input type="text"  id="editguest_guest_idx" style="display:none;">
-<input type="text" class="editformtext" >
-<input type="submit" class="editformsubmit" onclick="editCmtText()">
+<input type="text" class="editformtext" placeholder="수정할 댓글을 입력하세요">
+<input type="submit" class="editformsubmit" value="수정"  onclick="editCmtText()">
 </form>
 </div>
 
@@ -488,7 +488,7 @@ function editPopup(guest_idx) {
 				console.log($('#oldphoto').val());
 				$('.wr').val(data.guest_writer);
 				
-				$('#layer_popup').bPopup();
+				$('#layer_popup').bPopup({closeClass:'layer_close'});
 				
 			});
 			
