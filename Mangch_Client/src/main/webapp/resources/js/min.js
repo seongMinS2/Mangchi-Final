@@ -59,7 +59,7 @@ function firstPage(){
 
 //게시판 리스트 출력
 function qnaboardList() {
-	alert(keyword + searchType);
+//	alert(keyword + searchType);
 
 	$.ajax({
 		url: '/mc/qna/?idx='+idx+'&keyword='+keyword+'&searchType='+searchType,
@@ -78,28 +78,13 @@ function qnaboardList() {
 			html += '		<th class="w3-center w3-padding">조회</th>';
 			//게시글
 			for (var i = 0; i < data.boardList.length; i++) {
-				//게시글 부모 컬럼이 0일때(i번째 글)
-				if (data.boardList[i].parents === 0) {
-					html += '		<tr>';
-					html += '			<td class="w3-center w3-padding">' + data.boardList[i].idx + '</td>';
-					html += '			<td class="w3-padding w3-border-left w3-border-white w3-hover-border-theme"><a class="qna-board-title" href="contents/' + data.boardList[i].idx + '">' +data.boardList[i].title + '</a></td>';
-					html += '			<td class="w3-center w3-padding">' + data.boardList[i].memNick + '</td>';
-					html += '			<td class="w3-center w3-padding">' + moment(data.boardList[i].regdate).format('YY년MM월DD일') + '</td>';
-					html += '			<td class="w3-center w3-padding">' + data.boardList[i].count + '</td>';
-					html += '		</tr>';
-				}
-				//i번째 글의 자식 글을 찾아 출력
-				for (var j = 0; j < data.boardList.length; j++) {
-					if (data.boardList[j].parents === data.boardList[i].idx) {
-						html += '		<tr>';
-						html += '			<td class="w3-center w3-padding">' + data.boardList[j].idx + '</td>';
-						html += '			<td class="w3-padding w3-border-left w3-border-white w3-hover-border-theme"><a href="contents/' + data.boardList[j].idx + '">' + data.boardList[j].title + '</a></td>';
-						html += '			<td class="w3-center w3-padding">' + data.boardList[j].memNick + '</td>';
-						html += '			<td class="w3-center w3-padding">' + moment(data.boardList[j].regdate).format('YY년MM월DD일') + '</td>';
-						html += '			<td class="w3-center w3-padding">' + data.boardList[j].count + '</td>';
-						html += '		</tr>';
-					}
-				}
+				html += '		<tr>';
+				html += '			<td class="w3-center w3-padding">' + data.boardList[i].idx + '</td>';
+				html += '			<td class="w3-padding w3-border-left w3-border-white w3-hover-border-theme"><a class="qna-board-title" href="contents/' + data.boardList[i].idx + '">' +data.boardList[i].title + '</a></td>';
+				html += '			<td class="w3-center w3-padding">' + data.boardList[i].memNick + '</td>';
+				html += '			<td class="w3-center w3-padding">' + moment(data.boardList[i].regdate).format('YY년MM월DD일') + '</td>';
+				html += '			<td class="w3-center w3-padding">' + data.boardList[i].count + '</td>';
+				html += '		</tr>';
 			}
 			html += '	</table><br><br>';
 			//페이징 처리 부분
@@ -109,8 +94,8 @@ function qnaboardList() {
 			for(var i=data.startPage; i<=data.endPage; i++){
 				html += '			<a href="#" class="w3-button" onclick="return pageNum('+i+')">'+i+'&nbsp;</a>';
 			}
-			html += '			<a href="#" class="w3-button" onclick="return nextPage('+data.endPage+')">></a>';
-			html += '			<a href="#" class="w3-button" onclick="return endPage('+data.endPage+')">>></a>';
+			html += '			<a href="#" class="w3-button" onclick="return nextPage('+data.totalPage+')">></a>';
+			html += '			<a href="#" class="w3-button" onclick="return endPage('+data.totalPage+')">>></a>';
 			html += '		</div>';
 			html += '</div>';
 			html += '<hr>';
