@@ -118,7 +118,6 @@ div.card>ul>li {
 					<a href="commentListForm">나의 댓글</a> 
 					<a href="mypageForm">나의 정보</a> 
 					<a href="distSetForm">거리 설정</a> 
-					<a href="keywordSetForm">키워드 설정</a>
 				</div>
 			</div>
 			<div class="w3-cell">

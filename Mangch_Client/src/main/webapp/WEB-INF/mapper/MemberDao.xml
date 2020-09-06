@@ -114,5 +114,9 @@
 		select count(*) from
 		Mangchi.member where member_id=#{mId} and member_delete='Y'
 	</select>
+	
+	<insert id="insertVisitor" parameterType="com.aia.mangh.mm.model.VisitCountVO">
+		INSERT INTO Mangchi.visitor(visit_ip,visit_agent)VALUES(#{visit_ip}, #{visit_agent})
+	</insert>
 
 </mapper>

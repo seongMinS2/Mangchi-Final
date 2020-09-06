@@ -5,6 +5,7 @@ import java.util.List;
 import com.aia.mangh.mm.model.EditRequest2;
 import com.aia.mangh.mm.model.LoginRequest;
 import com.aia.mangh.mm.model.Member;
+import com.aia.mangh.mm.model.VisitCountVO;
 
 public interface MemberDao {
 
@@ -49,5 +50,15 @@ public interface MemberDao {
 	
 	// 회원탈퇴 체크
 	public int deleteChk(String mId);
+	
+	// 방문자 수 증가
+	public int insertVisitor(VisitCountVO vo);
+	
+	// 오늘 방문자 수
+	public int selectTodayVisitor();
+	
+	// 전체 방문자 수
+	public int selectAllVisitor();
+	
 
 }

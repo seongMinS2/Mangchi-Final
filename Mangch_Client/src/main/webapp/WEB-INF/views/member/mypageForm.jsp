@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마 이 페 이 지</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/member/mypage.css'/>">
@@ -24,8 +24,7 @@
 				<a href="<c:url value='/member/memberMypage/reviewListForm'/>">나의리뷰</a> 
 				<a href="<c:url value='/member/memberMypage/commentListForm'/>">나의댓글</a> 
 				<a href="<c:url value='/member/memberMypage/mypageForm'/>">나의정보</a> 
-				<a href="<c:url value='/member/memberMypage/distSetForm'/>">거리설정</a> 
-				<a href="<c:url value='/member/memberMypage/keywordSetForm'/>">키워드설정</a>
+				<a href="<c:url value='/member/memberMypage/distSetForm'/>">은아 연습장</a> 
 			</div>
 			<div class="w3-col m8">
 				<div class="mypageBox w3-animate-right">
