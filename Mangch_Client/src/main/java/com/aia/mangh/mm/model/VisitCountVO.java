@@ -15,8 +15,10 @@ public class VisitCountVO {
 		this.visit_time = visit_time;
 		this.visit_agent = visit_agent;
 	}
+	
 	public VisitCountVO() {
 	}
+	
 	public int getVisit_id() {
 		return visit_id;
 	}

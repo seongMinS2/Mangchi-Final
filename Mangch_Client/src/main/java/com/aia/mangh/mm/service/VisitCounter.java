@@ -46,12 +46,19 @@ public class VisitCounter implements HttpSessionListener {
 				.getRequest();
 
 		VisitCountVO vo = new VisitCountVO();
-		System.out.println("ip" + req.getRemoteAddr());
+		System.out.println("ip : " + req.getRemoteAddr());
 		System.out.println("agent" + req.getHeader("User-Agent"));
+		
 		vo.setVisit_ip(req.getRemoteAddr());
 		vo.setVisit_agent(req.getHeader("User-Agent"));// 브라우저 정보
-		System.out.println("vo : " + vo);
+		
+		// 방문자 수 증가
 		dao.insertVisitor(vo);
+		
+		// 전체 방문자 수 
+		int allVisitor = dao.selectAllVisitor();
+		session.setAttribute("allVisitor", allVisitor);
+		System.out.println("allVisitor session: "+allVisitor);
 	}
 
 	public void sessionDestroyed(HttpSessionEvent event) {

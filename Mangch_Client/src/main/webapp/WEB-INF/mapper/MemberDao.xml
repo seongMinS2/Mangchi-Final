@@ -25,9 +25,9 @@
 	<!-- 회원가입 -->
 	<insert id="insertMember"
 		parameterType="com.aia.mangh.mm.model.Member">
-		INSERT INTO Mangchi.member(
+		insert into Mangchi.member(
 		member_id,member_pw,member_nick,member_score,member_latitude,member_longitude,member_addr,member_img,member_check,member_radius,member_kId,member_delete)
-		VALUES(
+		values(
 		#{mId},#{mPw},#{mNick},3.0,#{mLttd},#{mLgtd},#{mAddr},#{mImg},#{mChk},0,
 		#{kId},#{mDel})
 	</insert>
@@ -115,8 +115,14 @@
 		Mangchi.member where member_id=#{mId} and member_delete='Y'
 	</select>
 	
+	<!-- 방문자 수 증가 -->
 	<insert id="insertVisitor" parameterType="com.aia.mangh.mm.model.VisitCountVO">
-		INSERT INTO Mangchi.visitor(visit_ip,visit_agent)VALUES(#{visit_ip}, #{visit_agent})
+		insert into Mangchi.visitor(visit_ip,visit_agent)values(#{visit_ip}, #{visit_agent})
 	</insert>
+	
+	<!-- 전체 방문자 수 -->
+	<select id="selectAllVisitor" resultType="int">
+		select count(*) from Mangchi.visitor
+	</select>
 
 </mapper>

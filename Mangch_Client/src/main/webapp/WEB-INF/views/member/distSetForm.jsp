@@ -32,7 +32,9 @@
 				<div id="Box" style="margin-left: 5%;">
 					<h2>숫자 카운트 애니메이션</h2>
 					<h2 class="number">100</h2>
-
+					<br>
+					<h2>전체 방문자 수</h2>
+					<h1 class="visitor" style="color: #162d59;"><B>${allVisitor}</B></h1>
 				</div>
 			</div>
 		</div>
@@ -46,8 +48,12 @@
 $(function() {
 
 	var cnt = 0;
+	var count = 0;
+	var allVisitor = ${allVisitor};
 	
 	counterFn();
+	
+	counter();
 	
 	function counterFn(){
 		id0 = setInterval(count0Fn, 10);
@@ -61,6 +67,22 @@ $(function() {
 			}
 		}
 	}
+	
+	function counter(){
+		id1 = setInterval(countFn, 100);
+		
+		function countFn(){
+			count++;
+			if(count>allVisitor){
+				clearInterval(id1);
+			} else {
+				$(".visitor").html('<B>'+count+'</B>');
+			}
+		}
+	}
+	
+
+	
 });
 </script>
 </body>
