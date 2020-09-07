@@ -124,5 +124,10 @@
 	<select id="selectAllVisitor" resultType="int">
 		select count(*) from Mangchi.visitor
 	</select>
+	
+	<!-- 오늘 방문자 수 -->
+	<select id="selectTodayVisitor" resultType="int">
+		select count(*) from Mangchi.visitor where DATE_FORMAT(visit_time, "%Y-%m-%d") = CURDATE();	
+	</select>
 
 </mapper>

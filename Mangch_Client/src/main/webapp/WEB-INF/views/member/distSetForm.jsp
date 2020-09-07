@@ -34,7 +34,9 @@
 					<h2 class="number">100</h2>
 					<br>
 					<h2>전체 방문자 수</h2>
-					<h1 class="visitor" style="color: #162d59;"><B>${allVisitor}</B></h1>
+					<h1 class="allVisitor" style="color: #162d59;"><B>${allVisitor}</B></h1>
+					<h2>오늘 방문자 수</h2>
+					<h1 class="todayVisitor" style="color: #162d59;"><B>${todayVisitor}</B></h1>
 				</div>
 			</div>
 		</div>
@@ -48,12 +50,14 @@
 $(function() {
 
 	var cnt = 0;
-	var count = 0;
+	var allCount = 0;
+	var todayCount = 0;
 	var allVisitor = ${allVisitor};
+	var todayVisitor = ${todayVisitor};
 	
 	counterFn();
-	
-	counter();
+	allCounter();
+	todayCounter();
 	
 	function counterFn(){
 		id0 = setInterval(count0Fn, 10);
@@ -68,20 +72,31 @@ $(function() {
 		}
 	}
 	
-	function counter(){
-		id1 = setInterval(countFn, 100);
+	function allCounter(){
+		id1 = setInterval(countFn1, 100);
 		
-		function countFn(){
-			count++;
-			if(count>allVisitor){
+		function countFn1(){
+			allCount++;
+			if(allCount>allVisitor){
 				clearInterval(id1);
 			} else {
-				$(".visitor").html('<B>'+count+'</B>');
+				$(".allVisitor").html('<B>'+allCount+'</B>');
 			}
 		}
 	}
 	
-
+	function todayCounter(){
+		id2 = setInterval(countFn2, 100);
+		
+		function countFn2(){
+			todayCount++;
+			if(todayCount>todayVisitor){
+				clearInterval(id2);
+			} else {
+				$(".todayVisitor").html('<B>'+todayCount+'</B>');
+			}
+		}
+	}
 	
 });
 </script>
