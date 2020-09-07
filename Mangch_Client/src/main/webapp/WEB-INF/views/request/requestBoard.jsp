@@ -12,13 +12,49 @@
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
 
 <link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">
+<style>
+	#backImg{
+		/* background-image: url("/mangh/resources/img/back.jpg"); */
+		background-image: url("https://image.freepik.com/free-vector/couple-reading-goods-reviews-smartphone-line-illustration_241107-200.jpgg");
+	    background-repeat: no-repeat;
+		background-size: 150px, 150px; 
+	}
+	
+	ul{
+		margin: 0;
+		padding: 0;
+	}
+	li{
+		list-style: none;
+	}
+	
+/* #list_Left_Img{
+		width: 150px;
+    	height: 400px;
+	} */
+	 
+	
+	
+</style>
+
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
+	
+	
 
-	<!-- <div class="w3-container" id="contain"> -->
+	<!-- 배경이미지 ? -->
+	<!-- <div id="backImg"> 
+		<h1 style="color: white;">안녕</h1>
+	</div> -->
+	
+	<div class="w3-content">
+		<h3 id="boardTitle">요청 게시판</h3>
+	</div>
+	
 	<div class="w3-content" id="conBox">
-
+		
+		
 		<!-- 검색 타입 -->
 		<select id="searchType">
 			<option value="title">제목</option>
@@ -34,26 +70,40 @@
 		</select>
 
 		<!-- 검색어 입력 -->
-		<!-- <div id="search" > -->
 		<input type="text" id="search_text" placeholder="검색어를 입력하세요">
-		<input type="button" id="search_btn" onclick="search()" value="검색">
-		<!-- </div> -->
+		<input type="button" class="allBtn" id="search_btn" onclick="search()" value="검색">
 
 		<!-- 글쓰기 -->
-		<a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a>
+		<%-- <a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a> --%>
+
 
 	</div>
-	<!-- </div>	 -->
 
-	<div class="w3-content w3-margin-bottom">
-		<!-- 테이블 출력 -->
-		<div class=" w3-margin-bottom" id="list"></div>
+	<div class="w3-content w3-margin-bottom ">
+	
+		<!-- 글쓰기 (왼)-->
+		<div id="writeBox">
+			<ul>
+				<li>
+					<button id="writer_button" onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
+				</li>
+				
+				 <li>
+					<!-- <img src="/mangh/resources/img/back.jpg" id="list_Left_Img"> -->
+				</li> 
+				
+			</ul>
+			
+			
+			</div>
+		<!-- 테이블 출력 (오)-->
+		<div id="list"></div>
 	</div>
 
 
 	<!-- 페이지  -->
-	<div class="w3-content w3-margin-bottom" id="page"></div>
-
+	<div class="w3-content" id="page"></div>
+	
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
@@ -133,6 +183,8 @@
 	}
 	
 	function list() {
+		
+		
 		$.ajax({
 //					url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
 					url : 'http://localhost:8080/rl/request',
@@ -148,9 +200,11 @@
 					},
 					success : function(data) {
 						
+						/* var writeLoc = '/mangh/request/requestWrite';
 						
-						var button = '<button>글쓰기</button>';
-						$('#writer_button').html(button);
+						var button = '<button id="writer_button" onclick="location.href='+writeLoc+'>글쓰기</button>';
+						//$('#writer_button').html(button);
+						$('#writeBtnBox').html(button); */
 
 						var search = '<input type="text" id="search_text" placeholder="검색어를 입력하세요" >';
 						search += '<input type="button" id="search_btn" onclick="search()" value="검색">';
@@ -235,9 +289,13 @@
 									paging +='</span>';
 								}
 								paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+')">></button></span>';
-						} 
-						 $('#list').html(html);
-						 $('#page').html(paging);
+							 $('#page').html(paging);
+							 $('#list').html(html);
+						} else{
+							alert('검색 결과가 없습니다.');
+							page = 1;
+							history.go(0);
+						}
 						
 					}
 				});

@@ -13,10 +13,6 @@
 
 <style>
 
-li {
-	float: left;
-	list-style: none;
-}
 
 td {
 	padding: 5px;
