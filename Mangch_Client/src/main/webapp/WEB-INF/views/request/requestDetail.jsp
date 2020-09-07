@@ -199,7 +199,6 @@ td {
 			<!-- 1 -->
 			<div class="w3-cell-row">
 
-				
 					<!-- 요청 게시글 상세 정보 -->
 					<div class="w3-cell" id="infoBox">
 						<h6 id="info_h6"></h6>
@@ -296,7 +295,7 @@ function modalClose(){
 	$('#modal').css('display','none');
 }
 
-
+//모달 이전
 function prev(currentPage){
 	
 	if(currentPage == 1){
@@ -311,7 +310,7 @@ function prev(currentPage){
 	}
 	
 }
-
+//모달 이후
 function next(currentPage,pageTotalCount){
 	
 	if(page == pageTotalCount){

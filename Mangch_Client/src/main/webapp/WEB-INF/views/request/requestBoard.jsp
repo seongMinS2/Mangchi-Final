@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=69c40691beee2a7bf82c96e2f85f0da8"></script>
+	
+	
 
 <link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">
 <style>
@@ -20,20 +23,16 @@
 		background-size: 150px, 150px; 
 	}
 	
-	ul{
-		margin: 0;
-		padding: 0;
+	#mapBtn{
+	 background: url( "/mangh/resources/img/map.png" ) no-repeat;
+		 border: none;
+        width: 64px;
+        height: 64px;
+        cursor: pointer;
 	}
-	li{
-		list-style: none;
+	#mapBox{
+		text-align: right;
 	}
-	
-/* #list_Left_Img{
-		width: 150px;
-    	height: 400px;
-	} */
-	 
-	
 	
 </style>
 
@@ -52,15 +51,16 @@
 		<h3 id="boardTitle">요청 게시판</h3>
 	</div>
 	
+	
 	<div class="w3-content" id="conBox">
-		
-		
+	
+		<!-- <div id="searchBox"> -->
+		<div class="w3-left">
 		<!-- 검색 타입 -->
 		<select id="searchType">
 			<option value="title">제목</option>
 			<option value="name">이름</option>
 		</select>
-
 		<!-- 거리순 -->
 		<select id="ListType" onchange="change()">
 			<c:if test="${loginInfo.mNick !=null}">
@@ -68,42 +68,56 @@
 			</c:if>
 			<option value="date">최신순</option>
 		</select>
-
 		<!-- 검색어 입력 -->
 		<input type="text" id="search_text" placeholder="검색어를 입력하세요">
 		<input type="button" class="allBtn" id="search_btn" onclick="search()" value="검색">
-
-		<!-- 글쓰기 -->
-		<%-- <a href="<c:url value="/request/requestWrite"/>" id="writer_button"></a> --%>
-
-
+		</div>
+		
+		<!-- <div id="mapBox"> -->
+		<div class="w3-right">
+		<input type="button" id="mapBtn" onclick="map()">
+		</div>
+		
 	</div>
+	
+	
+<!-- 	<div class="w3-content" id="conBox">
+	
+	</div> -->
+	
 
-	<div class="w3-content w3-margin-bottom ">
+	<div class="w3-content">
 	
 		<!-- 글쓰기 (왼)-->
-		<div id="writeBox">
+		<!-- <div id="writeBox">
 			<ul>
 				<li>
 					<button id="writer_button" onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
 				</li>
-				
-				 <li>
-					<!-- <img src="/mangh/resources/img/back.jpg" id="list_Left_Img"> -->
-				</li> 
-				
 			</ul>
-			
-			
-			</div>
+		</div> -->
 		<!-- 테이블 출력 (오)-->
 		<div id="list"></div>
 	</div>
-
-
+	
+	<div class="w3-content" id="conBox">
+		<button id="writer_button" onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
+	</div>
+	
 	<!-- 페이지  -->
 	<div class="w3-content" id="page"></div>
 	
+	<!-- 지도로보기 모달 창 -->
+	<div class="w3-modal" id="mapModal">
+		<div class="w3-modal-content" style="height:600px;">
+			 <header class="w3-container">
+			 <span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>
+			 <h2>지도로보기</h2>
+			 </header>
+			<div class="w3-content" id="map" style="width:60%;height:400px;"></div>
+	
+		</div>
+	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
@@ -111,11 +125,13 @@
 
 /* 로그인 했을 때 와 안했을 때 위도 경도 */
 	var mLttd, mLgtd, mRedisu;
-	var page = 1;
+	var page = 1; //현재 페이지 번호
+	var pageStart = 1; // 페이지 시작 수 
+	var pageEnd = 2; // 페이지 끝 수   
 	var type;
 	var searchText = $('#search_text').val();
 	var searchType = $('#searchType').val(); 
-	
+		
 	//사용자 위도 경도
 	if ('${loginInfo}' != '') {
 		mLttd = '${loginInfo.mLttd}';
@@ -133,6 +149,93 @@
 	}else {
 		type = 'distance';
 	}
+	
+	
+	//지도로 보기
+	//모달 닫기
+	function modalClose(){
+	$('#mapModal').css('display','none');
+	}
+	
+	function map(){
+		
+			
+		
+		$.ajax({
+//			url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+			url : 'http://localhost:8080/rl/request/map/'+mRadius,
+			type : 'GET',
+			data : {
+				mLat : mLttd,
+				mLon : mLgtd,
+			},
+			success : function(data) {		
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+			    mapOption = { 
+//			        center: new kakao.maps.LatLng('${loginInfo.mLttd}', '${loginInfo.mLgtd}'), // 지도의 중심좌표
+					   center: new kakao.maps.LatLng(37.537183, 127.005454), // 회원 로그인 상태에서의 중심 좌표 표시 
+					level: 4 // 지도의 확대 레벨
+			    };	
+
+				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+				$('#mapModal').css('display','block');	
+				map.relayout(); //지도 영역 크기 설정 
+				
+				//var dataList = new Array(); // 동일 주소 배열을 담을 배열
+				
+				var html = '';
+				
+				for(var i=0;i<data.length;i++){
+			
+					//주소가 동일 데이터 출력
+				  //주소가 같을 때 마커를 한개 생성하고
+				   var marker = new kakao.maps.Marker({
+		      		  map: map, // 마커를 표시할 지도
+			       	  position: new kakao.maps.LatLng(data[i].reqLatitude, data[i].reqLongitude)// 마커의 위치
+				    });
+					  
+					  
+					//var reqData = new Array(); //동일 주소 객체를 담을 배열 - 인덱스가 증가 할 때 새로 생성해준다 
+					
+					/* reqData.push(data[i]); */
+
+					html +='<div>'+data[i].reqTitle+'</div>';
+					
+					for(var j=i+1;j<data.length;j++){
+						
+						if(data[i].reqAddr == data[j].reqAddr){
+							//마커에 출력할 데이터	- 출력 할 배열이 필요함					
+							
+							html += '<div>'+data[j].reqTitle+'</div>';
+							
+						    /* reqData.push(data[j]); */
+						    
+						    data.splice(j,1);
+							j--;
+						}
+					} 
+				  /*   dataList.push(reqData); */
+					
+					// 마커에 표시할 인포윈도우를 생성합니다 
+				    var infowindow = new kakao.maps.InfoWindow({
+				        content: html// 인포윈도우에 표시할 내용
+				    });
+					
+				    infowindow.open(map, marker);  
+					 html = '';
+				}
+				map.setCenter(new kakao.maps.LatLng(mLttd, mLgtd));
+				map.relayout(); //지도 영역 크기 설정 
+				
+				
+			}
+		});
+		
+		
+		
+		 
+	}
+	
 
 	//리스트 검색
 	function search(){
@@ -151,7 +254,7 @@
 	//거리순 & 최신순
 	function change() {
 		type = $('#ListType').val();
-		list();
+		list();	
 	}
 
 	function detail(reqWriter,reqIdx,calDistance,reqCount){
@@ -174,17 +277,38 @@
 	//이전 페이지
 	function prev(data){
 		page = data - 1;
-		list();
+		
+		if(page > 1){
+			pageStart = pageStart-2;
+			pageEnd = pageEnd-2;
+		}else{
+			pageStart = 1;
+			pageEnd = 2;
+		}
+		
+		if(page == 0){
+			console.log('현재 페이지 '+page);
+			alert('첫 페이지 입니다.');
+		}else{
+			list();
+		}
 	}
 	//마지막 페이지
-	function next(data){
+	function next(data,totalCnt){
 		page = data + 1;
-		list();
+		
+		if(page > totalCnt){
+			alert('마지막 페이지 입니다.');			
+		}else{
+			if(page > pageEnd){
+				pageStart = pageStart+2;
+				pageEnd = pageEnd+2;
+			}
+			list();
+		}
 	}
 	
 	function list() {
-		
-		
 		$.ajax({
 //					url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
 					url : 'http://localhost:8080/rl/request',
@@ -200,12 +324,6 @@
 					},
 					success : function(data) {
 						
-						/* var writeLoc = '/mangh/request/requestWrite';
-						
-						var button = '<button id="writer_button" onclick="location.href='+writeLoc+'>글쓰기</button>';
-						//$('#writer_button').html(button);
-						$('#writeBtnBox').html(button); */
-
 						var search = '<input type="text" id="search_text" placeholder="검색어를 입력하세요" >';
 						search += '<input type="button" id="search_btn" onclick="search()" value="검색">';
 						$('#search').html(search);
@@ -234,7 +352,6 @@
 							html += '<td class="title_td"><div onclick="detail(\''+data.requestReg[i].reqWriter+'\','+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'width="4%123123131321311212121212121212121212121212121212</div></td>';		
 							
 							//html += ' <td>' + data.requestReg[i].reqAddr+ '</td>';
-							
 							
 							//회원 로그인 상태 일 때 거리 출력
 							if ('${loginInfo}' != '') {
@@ -274,10 +391,12 @@
 						
 						
 						 if (data.pageTotalCount > 0) {
+							
 							 var paging ='';
-							 
+							 	
 								paging += '<span id="page_number"><button id="page_btn" onclick="prev('+page+')"><</button></span>';
-								for (var m = 1; m <= data.pageTotalCount; m++) {
+//								for (var m = 1; m <= data.pageTotalCount; m++) {
+								for (var m = pageStart; m <= pageEnd ; m++) {
 									paging += '<span id="page_number">';
 									paging += '	<button id="page_btn" ';
 									if(page == m){
@@ -288,13 +407,16 @@
 									paging += '	</button>';
 									paging +='</span>';
 								}
-								paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+')">></button></span>';
+								paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+','+data.pageTotalCount+')">></button></span>';
 							 $('#page').html(paging);
 							 $('#list').html(html);
 						} else{
-							alert('검색 결과가 없습니다.');
+							
+							/* alert('검색 결과가 없습니다.');
 							page = 1;
-							history.go(0);
+							history.go(0); */
+							alert('게시글이 없습니다.');
+							
 						}
 						
 					}

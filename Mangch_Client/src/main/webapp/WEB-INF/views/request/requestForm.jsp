@@ -34,6 +34,7 @@
 		padding : 6px 8px;
 		width: 100px;
 		margin: 5px;
+		font-weight: bold;
 	}
 	 
 	
@@ -116,7 +117,7 @@
 			$.ajax({
 				//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/edit/'+${reqIdx},
 				url : 'http://localhost:8080/rl/request/edit/'+${reqIdx},
-				type: 'GET',
+				type: 'post',
 				success : function(data){
 					
 					$('#reqTitle').val(data.reqTitle);
@@ -133,7 +134,7 @@
 					$('#img').append(img_html);
 					
 					var html = '<span>';
-					html += ' <input type="submit" class="form_btn" value="게시물 수정" onclick="edit();" id="btn">';	
+					html += ' <input type="submit" class="form_btn" value="수정" onclick="edit();" id="btn">';	
 					html += '</span>';
 					
 					$('#edit').append(html);
