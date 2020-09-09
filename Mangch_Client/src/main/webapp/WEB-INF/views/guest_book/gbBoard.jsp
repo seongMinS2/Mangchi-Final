@@ -36,6 +36,12 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 
 
+<c:if test="${empty loginInfo}">
+<script type="text/javascript">
+alert('로그인을 해주세요');
+location.href="/mangh/member/memberLogin";
+</script>
+</c:if>
 
 
  
