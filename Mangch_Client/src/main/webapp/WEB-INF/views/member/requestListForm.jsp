@@ -9,43 +9,10 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/member/mypage.css'/>">
+	
+<link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">	
 <style>
-
-.pagination li {
-	float: left;
-		padding: 10px 20px;
-}
-
-.pagination li> a {
-    display: block;
-    line-height: 50px;
-    font-size: 20px;
-    font-weight: 600;
-    text-decoration: none;
-    color: #777;
-    border-radius: 50%;
-    transition: 0.3s;
-}
-
-.pagination {
-  padding: 10px 20px;
-  background: white;
-  border-radius: 50px;
-  box-shadow:
-  0 0.3px 0.6px rgba(0, 0, 0, 0.056),
-  0 0.7px 1.3px rgba(0, 0, 0, 0.081),
-  0 1.3px 2.5px rgba(0, 0, 0, 0.1),
-  0 2.2px 4.5px rgba(0, 0, 0, 0.119),
-  0 4.2px 8.4px rgba(0, 0, 0, 0.144),
-  0 10px 20px rgba(0, 0, 0, 0.2);
-  list-style-type: none;
-  float: left;
-}
-
-#pageCon{
-
-	margin-left: 33.2%;
-}	
+	
 </style>
 
 </head>
@@ -76,9 +43,47 @@
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 	<script>
 		
+		var page = 1;
+		var pageStart = 1; // 페이지 시작 수 
+		var pageEnd = 1; // 페이지 끝 수   
+		
 		function listpage(data) {
 			page = data;
 			list();
+		}
+		
+		//이전 페이지
+		function prev(data){
+			page = data - 1;
+			
+			if(page > 1){
+				pageStart = pageStart-2;
+				pageEnd = pageEnd-2;
+			}else{
+				pageStart = 1;
+				pageEnd = 2;
+			}
+			
+			if(page == 0){
+				console.log('현재 페이지 '+page);
+				alert('첫 페이지 입니다.');
+			}else{
+				list();
+			}
+		}
+		//마지막 페이지
+		function next(data,totalCnt){
+			page = data + 1;
+			
+			if(page > totalCnt){
+				alert('마지막 페이지 입니다.');			
+			}else{
+				if(page > pageEnd){
+					pageStart = pageStart+2;
+					pageEnd = pageEnd+2;
+				}
+				list();
+			}
 		}
 		
 		function detail(reqIdx,calDistance,reqCount){
@@ -96,13 +101,12 @@
 		}
 		
 		
-		var page = 1;
 		// 요청리스트 출력
 		var type = "request";
 
 		function list() {
 			$.ajax({
-						url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/mypage/'+ '${loginInfo.mNick}',
+						url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/mypage/'+ '${loginInfo.mNick}',
 						type : 'GET',
 						data : {
 							type : type,
@@ -161,21 +165,35 @@
 								//	html +='</tr>';
 								}
 							html += '</table>';
-							if (data.pageTotalCount > 0) {
-								var page = '<ul class="pagination" id="pageCon">'; 
-								for (var m = 1; m <= data.pageTotalCount; m++) {
-									page +=  '<li class="page-number>';
-									page += '	<a id="listlink" href="#" onclick="listpage(' +m+ ')" >';
-									page +=  m ;
-									page += '	</a>';
-									page += '</li>';
-								}
-								page += '</ul>';
-						
-							} 
-							$('#page').html(page); 
-
-							$('#requestList').html(html);
+							
+							 if (data.pageTotalCount > 0) {
+								
+								 var paging ='';
+								 	
+									paging += '<span id="page_number"><button id="page_btn" onclick="prev('+page+')"><</button></span>';
+//									for (var m = 1; m <= data.pageTotalCount; m++) {
+									for (var m = pageStart; m <= pageEnd ; m++) {
+										paging += '<span id="page_number">';
+										paging += '	<button id="page_btn" ';
+										if(page == m){
+											paging += 'class="listlink"';
+										}
+										paging += ' href="#" onclick="listpage('+m+')" value="'+m+'">';
+										paging +=  m ;
+										paging += '	</button>';
+										paging +='</span>';
+									}
+									paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+','+data.pageTotalCount+')">></button></span>';
+								 $('#page').html(paging);
+								 $('#requestList').html(html);
+							} else{
+								
+								/* alert('검색 결과가 없습니다.');
+								page = 1;
+								history.go(0); */
+								alert('게시글이 없습니다.');
+								
+							}
 
 						}
 					});
