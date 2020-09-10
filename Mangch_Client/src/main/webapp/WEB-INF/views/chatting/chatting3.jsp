@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CHTTING3</title>
+<title>MANGCH - 우리동네 렌탈</title>
 <c:if test="${loginInfo==null}">
 	<script>
 		alert('로그인해야 이용가능합니다');
@@ -19,7 +19,7 @@
 
 </style>
 
-<link rel="stylesheet" href="<c:url value="/resources/css/kjj.css"/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/kjj.css'/>">
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
@@ -299,7 +299,7 @@ var loginUser= '${loginInfo.mNick}';
 var msgInfo;
 
 </script>
-<script src="<c:url value="/resources/js/kjj/socket.js"/>"></script>
-<script src="<c:url value="/resources/js/kjj/kjj.js"/>"></script>
+<script src="<c:url value='/resources/js/kjj/socket.js'/>"></script>
+<script src="<c:url value='/resources/js/kjj/kjj.js'/>"></script>
 </body>
 </html>
