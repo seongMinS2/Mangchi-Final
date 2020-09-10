@@ -390,7 +390,7 @@ function insertTopBarReq(idx){
 function insertTopBarImg(nick){
     $.ajax({
         url: path+'/mc-chat/chat/img',
-        type: 'get',
+        type: 'post',
         data:{nick:nick},
         success: function(data){
             console.log('이미지data: '+data);
