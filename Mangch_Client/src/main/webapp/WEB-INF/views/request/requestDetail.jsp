@@ -333,8 +333,8 @@ function complete(){
 	
 	 type = 'comMsg';
 	 $.ajax({
- 		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
- 		url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
+ 		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
+ 	//	url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
  		data : {
  			page : page
  		},
@@ -402,8 +402,8 @@ function updateHelper(helper,writer){
 		
 		//매칭 완료 시 쿠키 생성 				
 		$.ajax({
-//			url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/'+${idx},
-			url : 'http://localhost:8080/rl/chat/'+${idx},
+			url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/'+${idx},
+			//url : 'http://localhost:8080/rl/chat/'+${idx},
 			type : 'get',
 			data : {
 				helper : helper,
@@ -468,8 +468,8 @@ function review(reviewWriter,reviewStatus){
 		 
 		 //상대방 선택 하기 
 		  $.ajax({
-	 		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
-	 		url : 'http://localhost:8080/rl/review/'+ reviewWriter,
+	 		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
+	 		//url : 'http://localhost:8080/rl/review/'+ reviewWriter,
 	 		data : {
 	 			reqIdx : ${idx},
 	 			page : page
@@ -546,8 +546,8 @@ function reqDelete(reqIdx){
 	if('${loginInfo}' != ''){
 		if(confirm("정말로 삭제하시겠습니까?") == true){
 			 $.ajax({
-			//	url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+reqIdx,
-				url : 'http://localhost:8080/rl/request/'+reqIdx,
+				url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+reqIdx,
+				//url : 'http://localhost:8080/rl/request/'+reqIdx,
 				type : 'DELETE',
 				success : function(data) {
 					var message = '';
@@ -574,8 +574,8 @@ $(document).ready(function(){
 	
 	$.ajax({
 		
-		//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
-		url : 'http://localhost:8080/rl/request/'+${idx},
+		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
+		//url : 'http://localhost:8080/rl/request/'+${idx},
 		type : 'GET',
 		data : {
 			count : ${count},

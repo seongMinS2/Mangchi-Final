@@ -10,84 +10,87 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=69c40691beee2a7bf82c96e2f85f0da8"></script>
-	
-	
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=69c40691beee2a7bf82c96e2f85f0da8"></script>
+
+
 
 <link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">
 <style>
-	#backImg{
-		/* background-image: url("/mangh/resources/img/back.jpg"); */
-		background-image: url("https://image.freepik.com/free-vector/couple-reading-goods-reviews-smartphone-line-illustration_241107-200.jpgg");
-	    background-repeat: no-repeat;
-		background-size: 150px, 150px; 
-	}
-	
-	#mapBtn{
-	 background: url( "/mangh/resources/img/map.png" ) no-repeat;
-		 border: none;
-        width: 64px;
-        height: 64px;
-        cursor: pointer;
-	}
-	#mapBox{
-		text-align: right;
-	}
-	
+#backImg {
+	/* background-image: url("/mangh/resources/img/back.jpg"); */
+	background-image:
+		url("https://image.freepik.com/free-vector/couple-reading-goods-reviews-smartphone-line-illustration_241107-200.jpgg");
+	background-repeat: no-repeat;
+	background-size: 150px, 150px;
+}
+
+#mapBtn {
+	background: url( "/mangh/resources/img/map.png" ) no-repeat;
+	border: none;
+	width: 64px;
+	height: 64px;
+	cursor: pointer;
+}
+
+#mapBox {
+	text-align: right;
+}
 </style>
 
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
-	
-	
+
+
 
 	<!-- 배경이미지 ? -->
 	<!-- <div id="backImg"> 
 		<h1 style="color: white;">안녕</h1>
 	</div> -->
-	
+
 	<div class="w3-content">
 		<h3 id="boardTitle">요청 게시판</h3>
 	</div>
-	
-	
+
+
 	<div class="w3-content" id="conBox">
-	
+
 		<!-- <div id="searchBox"> -->
 		<div class="w3-left">
-		<!-- 검색 타입 -->
-		<select id="searchType">
-			<option value="title">제목</option>
-			<option value="name">이름</option>
-		</select>
-		<!-- 거리순 -->
-		<select id="ListType" onchange="change()">
-			<c:if test="${loginInfo.mNick !=null}">
-				<option value="distance">거리순</option>
-			</c:if>
-			<option value="date">최신순</option>
-		</select>
-		<!-- 검색어 입력 -->
-		<input type="text" id="search_text" placeholder="검색어를 입력하세요">
-		<input type="button" class="allBtn" id="search_btn" onclick="search()" value="검색">
+			<!-- 검색 타입 -->
+			<select id="searchType">
+				<option value="title">제목</option>
+				<option value="name">이름</option>
+			</select>
+			<!-- 거리순 -->
+			<select id="ListType" onchange="change()">
+				<c:if test="${loginInfo.mNick !=null}">
+					<option value="distance">거리순</option>
+				</c:if>
+				<option value="date">최신순</option>
+			</select>
+			<!-- 검색어 입력 -->
+			<input type="text" id="search_text" placeholder="검색어를 입력하세요">
+			<input type="button" class="allBtn" id="search_btn"
+				onclick="search()" value="검색">
 		</div>
-		
-		<!-- <div id="mapBox"> -->
-		<div class="w3-right">
-		<input type="button" id="mapBtn" onclick="map()">
+
+		<div id="mapBox">
+			<!-- 지도로 보기 버튼 -->
+			<input type="button" id="mapBtn" onclick="map()">
 		</div>
-		
+
 	</div>
-	
-	
-<!-- 	<div class="w3-content" id="conBox">
+
+
+	<!-- 	<div class="w3-content" id="conBox">
 	
 	</div> -->
-	
+
 
 	<div class="w3-content">
-	
+
 		<!-- 글쓰기 (왼)-->
 		<!-- <div id="writeBox">
 			<ul>
@@ -99,23 +102,25 @@
 		<!-- 테이블 출력 (오)-->
 		<div id="list"></div>
 	</div>
-	
+
 	<div class="w3-content" id="conBox">
-		<button id="writer_button" onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
+		<button id="writer_button"
+			onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
 	</div>
-	
+
 	<!-- 페이지  -->
 	<div class="w3-content" id="page"></div>
-	
+
 	<!-- 지도로보기 모달 창 -->
 	<div class="w3-modal" id="mapModal">
-		<div class="w3-modal-content" style="height:600px;">
-			 <header class="w3-container">
-			 <span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>
-			 <h2>지도로보기</h2>
-			 </header>
-			<div class="w3-content" id="map" style="width:60%;height:400px;"></div>
-	
+		<div class="w3-modal-content" style="height: 600px;">
+			<header class="w3-container">
+				<span onclick="modalClose('+')"
+					class="w3-button w3-display-topright">&times;</span>
+				<h2>지도로보기</h2>
+			</header>
+			<div class="w3-content" id="map" style="width: 60%; height: 400px;"></div>
+
 		</div>
 	</div>
 
@@ -162,8 +167,8 @@
 			
 		
 		$.ajax({
-//			url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-			url : 'http://localhost:8080/rl/request/map/'+mRadius,
+			url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/map/'+mRadius,
+			//url : 'http://localhost:8080/rl/request/map/'+mRadius,
 			type : 'GET',
 			data : {
 				mLat : mLttd,
@@ -310,8 +315,8 @@
 	
 	function list() {
 		$.ajax({
-//					url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-					url : 'http://localhost:8080/rl/request',
+					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+	//				url : 'http://localhost:8080/rl/request',
 					type : 'GET',
 					data : {
 						mLat : mLttd,

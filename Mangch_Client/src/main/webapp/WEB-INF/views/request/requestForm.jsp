@@ -115,8 +115,8 @@
 		<c:if test="${reqIdx gt 0}">
 			<script>
 			$.ajax({
-				//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/edit/'+${reqIdx},
-				url : 'http://localhost:8080/rl/request/edit/'+${reqIdx},
+				url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/edit/'+${reqIdx},
+				//url : 'http://localhost:8080/rl/request/edit/'+${reqIdx},
 				type: 'post',
 				success : function(data){
 					
@@ -237,8 +237,8 @@
 				regRequest.append('reqLongitude', lon);
 				
 				  $.ajax({
-					//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-					url : 'http://localhost:8080/rl/request',
+					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+					//url : 'http://localhost:8080/rl/request',
 					type : 'POST',
 					processData : false,
 					contentType : false,
