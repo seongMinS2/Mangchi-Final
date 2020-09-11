@@ -6,17 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-<link rel="stylesheet"
-	href="<c:url value='/resources/css/member/reg.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/member/reg.css'/>">
 
 </head>
 <body>
 
 	<div class="w3-container">
 		<br><br>
-		<h2>SIGN UP</h2>
+		<div>
+			<img onclick="location.href='/mangh'" src="<c:url value='/resources/img/LOGO-large.png'/>" style="margin-left: 38%; cursor: pointer">
+		</div>
+		<!-- <h2>SIGN UP</h2> -->
 		<form id="regForm" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>

@@ -6,23 +6,26 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<link rel="stylesheet"
-	href="<c:url value='/resources/css/member/login.css'/>">
+
+<link rel="stylesheet" href="<c:url value='/resources/css/member/login.css'/>">
+
 </head>
 <body>
+
 	<div class="w3-container">
 		<br><br>
 		<div>
-			<img src="<c:url value='/resources/img/LOGO-large.png'/>" style="margin-left: 38%;">
+			<img onclick="location.href='/mangh'" src="<c:url value='/resources/img/LOGO-large.png'/>" style="margin-left: 38%; cursor: pointer">
 		</div>
 		<!-- <h2>LOGIN</h2> -->
 		<div id="loginbox">
 			<table>
 				<tr>
 					<td><p class="tdname">아이디</p></td>
-					<td><input type="text" name="mId" id="mId"></td>
+					<td><input type="text" name="mId" id="mId" autofocus></td>
 				</tr>
 				<tr>
 					<td><p class="tdname">비밀번호</p></td>
@@ -30,7 +33,7 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="button" id="login" value="로그인"
+					<td><input type="button" id="login" value="로그인" 
 						onclick="loginSubmit();"></td>
 				</tr>
 				<tr>
@@ -51,8 +54,15 @@
 		</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-	<script>
+<script>
 	
+$(document).ready(function(){
+    $('#mId, #mPw').keypress(function (e) {
+     if (e.which == 13){
+    	 loginSubmit();  // 실행할 이벤트
+     }
+ });
+});
 		 function loginSubmit() {
 			$.ajax({
 				url : 'memberLogin',
