@@ -36,6 +36,16 @@ function makeChatRoomList(chkNewMsg){
             chkNewMsg();
         }
     });
+    setTimeout(function(){
+        if(roomIdx==-1){
+            $('.chat-room').each(function(i,item){
+                console.log($(item).attr('qi'));
+                if($(item).attr('qi')==roomReqIdx){
+                    $('.chat-room[qi='+roomReqIdx+']').trigger('click');
+                }
+            });
+        }
+    },200);
 }
 //채팅방 삭제
 function removeRoom(idx){
@@ -117,20 +127,18 @@ function sendMsg() {
 					img : msgData.img
             };
 			sendMsgToSocket(msgData);
-		}
+            if(roomIdx==-1){
+                makeChatRoomList(chkNewMsg);
+                setTimeout(function(){
+                    $('#chat-room-list').children().first().trigger('click');
+                },300);
+            }
+        }
 	});
 }
 
-//채팅방 클릭시 이벤트
-var delUser=null;
-var roomReqIdx=null;
-var roomUser=null;
-var roomIdx=-2;
-var roomReqTitle=null;
-
 function evClickChatRoom(){
     //같은방을 눌럿을땐 이벤트가 동작하지 않음
-    console.log("$(this).attr('i')==roomIdx : "+$(this).attr('i')==roomIdx)
     if($(this).attr('i')!=roomIdx){
         console.log('클릭');
         

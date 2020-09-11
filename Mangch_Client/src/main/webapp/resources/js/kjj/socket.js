@@ -55,6 +55,15 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 	var $lastDate = $('.msg-area').find('.dateCon').last();
 	if(msg.code=='message'){
 		var html='';
+		var chk=0;
+		$('.chat-room').each(function(i,item){
+			if($(item).attr('i')==msg.roomIdx){
+				chk=1;
+			}
+		});
+		if(chk==0){
+			makeChatRoomList(chkNewMsg);
+		}
 		if(roomIdx==msg.roomIdx){
 			readMsg(msg.roomIdx);
 

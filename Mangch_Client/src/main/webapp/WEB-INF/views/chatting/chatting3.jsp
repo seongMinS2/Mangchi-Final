@@ -276,20 +276,26 @@ $(document).ready(function(){
 	});
 	
 	if(${msgInfo!=null}){
-		currRoom =-1;
-		var reqIdx = Number('${msgInfo.reqIdx}'); 
-		var reqWriter = '${msgInfo.uNick}';
-		insertTopBarReq(reqIdx);
-		insertTopBarTitle(reqWriter);
-		insertTopBarImg(reqWriter);
+		roomIdx =-1;
+		roomReqIdx = Number('${msgInfo.reqIdx}'); 
+		roomUser = '${msgInfo.uNick}';
+		insertTopBarReq(roomReqIdx);
+		insertTopBarTitle(roomUser);
+		insertTopBarImg(roomUser);
 		$('#msg-text').focus();
 	}
 });
+//채팅방 클릭시 이벤트
+var delUser=null;
+var roomReqIdx=null;
+var roomUser=null;
+var roomIdx=-2;
+var roomReqTitle=null;
 
 //배포한 aws경로
 var aws= 'http://ec2-13-125-249-249.ap-northeast-2.compute.amazonaws.com:8080';
 var localhost='http://localhost:8080';
-var path = aws;
+var path = localhost;
 //클라이언트의 uri
 var uri = '${pageContext.request.requestURI}';
 var uploadPath = '<c:url value="/resources/img/upload/"/>';
