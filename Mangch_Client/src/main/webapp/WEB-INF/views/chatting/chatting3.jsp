@@ -295,7 +295,7 @@ var roomReqTitle=null;
 //배포한 aws경로
 var aws= 'http://ec2-13-125-249-249.ap-northeast-2.compute.amazonaws.com:8080';
 var localhost='http://localhost:8080';
-var path = localhost;
+var path = aws;
 //클라이언트의 uri
 var uri = '${pageContext.request.requestURI}';
 var uploadPath = '<c:url value="/resources/img/upload/"/>';
