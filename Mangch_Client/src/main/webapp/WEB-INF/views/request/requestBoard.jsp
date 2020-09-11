@@ -17,25 +17,28 @@
 
 <link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">
 <style>
-#backImg {
-	/* background-image: url("/mangh/resources/img/back.jpg"); */
-	background-image:
-		url("https://image.freepik.com/free-vector/couple-reading-goods-reviews-smartphone-line-illustration_241107-200.jpgg");
-	background-repeat: no-repeat;
-	background-size: 150px, 150px;
+
+/* 테이블 설정 */
+table{
+	border-top: 2px solid #333333;
+     border-collapse: collapse; 
 }
 
-#mapBtn {
-	background: url( "/mangh/resources/img/map.png" ) no-repeat;
-	border: none;
-	width: 64px;
-	height: 64px;
-	cursor: pointer;
+th	{
+	text-align: center;
+	width: 5%;
+	padding: 11px 0 10px;
+	border-top : 3px soild #DDD;
 }
+ th, td {
+    border-bottom: 1px solid #c1c1c1;
+ }
+ 
+ td{
+ padding: 11px 0 10px;
+ }
 
-#mapBox {
-	text-align: right;
-}
+
 </style>
 
 </head>
@@ -43,20 +46,13 @@
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 
 
-
-	<!-- 배경이미지 ? -->
-	<!-- <div id="backImg"> 
-		<h1 style="color: white;">안녕</h1>
-	</div> -->
-
 	<div class="w3-content">
 		<h3 id="boardTitle">요청 게시판</h3>
 	</div>
-
-
-	<div class="w3-content" class="conBox">
-
-		<!-- <div id="searchBox"> -->
+	
+	
+	
+	<div class="w3-content" class="searchBox">
 		<div class="w3-left">
 			<!-- 검색 타입 -->
 			<select id="searchType">
@@ -72,40 +68,26 @@
 			</select>
 			<!-- 검색어 입력 -->
 			<input type="text" id="search_text" placeholder="검색어를 입력하세요">
-			<input type="button" class="allBtn" id="search_btn"
-				onclick="search()" value="검색">
+			<input type="button" class="allBtn" id="searchbtn" onclick="search()" value="검색">
 		</div>
 
-		<div id="mapBox">
-			<!-- 지도로 보기 버튼 -->
-			<input type="button" id="mapBtn" onclick="map()">
+		<div class="rightbox">
+		
+			<div class="tooltip">
+				<input type="button" id="mapBtn" onclick="map()">
+				<span class="tooltiptext">지도로 보기</span>
+			</div>		
 		</div>
 
 	</div>
-
-
-	<!-- 	<div class="w3-content" id="conBox">
-	
-	</div> -->
-
-
-	<div class="w3-content">
-
-		<!-- 글쓰기 (왼)-->
-		<!-- <div id="writeBox">
-			<ul>
-				<li>
-					<button id="writer_button" onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
-				</li>
-			</ul>
-		</div> -->
-		<!-- 테이블 출력 (오)-->
+	<!-- 게시글 리스트 -->
+	<div class="w3-content" id="listBox">
 		<div id="list"></div>
 	</div>
 
-	<div class="w3-content conBox" id="writeBtn">
-		<button id="writer_button"
-			onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
+	<!-- 게시글 등록 -->
+	<div class="w3-content rightbox" >
+		<button id="writeBtn" class="allBtn" onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
 	</div>
 
 	<!-- 페이지  -->
@@ -122,7 +104,6 @@
 
 		</div>
 	</div>
-
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 <script>
@@ -194,14 +175,14 @@
 			       	  position: new kakao.maps.LatLng(data[i].reqLatitude, data[i].reqLongitude)// 마커의 위치
 				    });
 					  
-					html +='<div>'+data[i].reqTitle+'</div>';
+					html +='<div class="clickTitle">'+data[i].reqTitle+'</div>';
 					
 					for(var j=i+1;j<data.length;j++){
 						
 						if(data[i].reqAddr == data[j].reqAddr){
 							//마커에 출력할 데이터	- 출력 할 배열이 필요함					
 							
-							html += '<div>'+data[j].reqTitle+'</div>';
+							html += '<div class="clickTitle">'+data[j].reqTitle+'</div>';
 						    data.splice(j,1);
 							j--;
 						}
@@ -315,9 +296,9 @@
 					},
 					success : function(data) {
 						
-						var search = '<input type="text" id="search_text" placeholder="검색어를 입력하세요" >';
+						/* var search = '<input type="text" id="search_text" placeholder="검색어를 입력하세요" >';
 						search += '<input type="button" id="search_btn" onclick="search()" value="검색">';
-						$('#search').html(search);
+						$('#search').html(search); */
 
 						var html = '';
 						html += '<table style="table-layout: fixed" >';
@@ -340,7 +321,7 @@
 							html += ' <td class="tab_td">' + (i + data.startRow + 1) + '</td>';
 									
 									
-							html += '<td class="title_td"><div onclick="detail(\''+data.requestReg[i].reqWriter+'\','+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'width="4%123123131321311212121212121212121212121212121212</div></td>';		
+							html += '<td class="title_td"><div class="clickTitle" onclick="detail(\''+data.requestReg[i].reqWriter+'\','+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'</div></td>';		
 							
 							//html += ' <td>' + data.requestReg[i].reqAddr+ '</td>';
 							
@@ -412,7 +393,14 @@
 							/* alert('검색 결과가 없습니다.');
 							page = 1;
 							history.go(0); */
-							alert('게시글이 없습니다.');
+							
+							
+							html ='<div class="w3-border" id="noBox"">';
+							html +='<h5 id="noList">내 주변에 존재 하는 게시글이 없습니다.</h5><br><h5 id="noList">다른 요청 글을 보시려면 요청 거리을 재설정 해주세요.</h5>';
+							
+							html +='</div>';
+							
+							 $('#list').html(html);
 							
 						}
 						

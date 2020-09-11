@@ -83,14 +83,15 @@ td {
 
 
 #infoBox {
+	padding-top: 15px;
     width: 70%;
-    padding-right: 50px;
 }
 
 
 
 #mInfo {
-    margin-left: 30%;
+    padding-top: 15px;
+    padding-left: 30px;
 }
 
 #mNick,
@@ -168,10 +169,13 @@ td {
 }
 
 #modalAvg{
-        text-align: center;
-        font-size: 16px;
+      text-align: center;
+      font-size: 16px;
 }
 
+#reqInfo{
+    margin-left: 17px;
+}
 
 
 
@@ -200,7 +204,7 @@ td {
 			<div class="w3-cell-row">
 
 					<!-- 요청 게시글 상세 정보 -->
-					<div class="w3-cell" id="infoBox">
+					<div  id="infoBox">
 						<h6 id="info_h6"></h6>
 						<div id="reqInfo"></div>
 		
@@ -209,7 +213,6 @@ td {
 						<h6 id="content_h6"></h6>
 						  <div id="imgBox"></div>
 						<div id="reqcontents"></div>
-						<p id="reqCount">조회수     </p>
 					</div>
 					
 					<!-- 요청자 정보 --> 
@@ -731,8 +734,6 @@ $(document).ready(function(){
 			$('#reqInfo').html(html);
 			
 			
-			//요청 게시글 내용 
-			$('#reqCount').append(data.reqCount);
 			
 			//이미지 넣기
 			var img = '';
@@ -740,6 +741,7 @@ $(document).ready(function(){
 				img += '<img id="reqImg" src="http://localhost:8080/rl/upload/'+data.reqImg+'">';
 				$('#imgBox').html(img);
 			} 
+			//요청 게시글 내용 
 			$('#reqcontents').html(data.reqContents);
 			
 			

@@ -122,8 +122,6 @@
 					
 					$('#reqTitle').val(data.reqTitle);
 					$('#reqAddr').val( data.reqAddr);
-					//$('#reqContents').val( data.reqContents);
-					//$('#summernote').val(data.reqContents);
 				
 				  	// Summernote에 글 내용 추가하는 코드
 					 $("#summernote").summernote('code',  data.reqContents);
