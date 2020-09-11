@@ -7,10 +7,12 @@
 }
 
 /* 검색 */
-#conBox{
-	 text-align: right; 
+.conBox{
 	padding: 15px 0px 15px 0px;
 	height: 80px;
+}
+#writeBtn{
+	text-align: right;
 }
 
 .allBtn{

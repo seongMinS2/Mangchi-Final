@@ -54,7 +54,7 @@
 	</div>
 
 
-	<div class="w3-content" id="conBox">
+	<div class="w3-content" class="conBox">
 
 		<!-- <div id="searchBox"> -->
 		<div class="w3-left">
@@ -103,7 +103,7 @@
 		<div id="list"></div>
 	</div>
 
-	<div class="w3-content" id="conBox">
+	<div class="w3-content conBox" id="writeBtn">
 		<button id="writer_button"
 			onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
 	</div>
@@ -115,8 +115,7 @@
 	<div class="w3-modal" id="mapModal">
 		<div class="w3-modal-content" style="height: 600px;">
 			<header class="w3-container">
-				<span onclick="modalClose('+')"
-					class="w3-button w3-display-topright">&times;</span>
+				<span onclick="modalClose()" class="w3-button w3-display-topright">&times;</span>
 				<h2>지도로보기</h2>
 			</header>
 			<div class="w3-content" id="map" style="width: 60%; height: 400px;"></div>
@@ -130,9 +129,6 @@
 
 /* 로그인 했을 때 와 안했을 때 위도 경도 */
 	var mLttd, mLgtd, mRedisu;
-	var page = 1; //현재 페이지 번호
-	var pageStart = 1; // 페이지 시작 수 
-	var pageEnd = 2; // 페이지 끝 수   
 	var type;
 	var searchText = $('#search_text').val();
 	var searchType = $('#searchType').val(); 
@@ -155,7 +151,6 @@
 		type = 'distance';
 	}
 	
-	
 	//지도로 보기
 	//모달 닫기
 	function modalClose(){
@@ -164,7 +159,11 @@
 	
 	function map(){
 		
-			
+		
+		if('${loginInfo}' == ''){
+			alert('로그인 후 이용해주세요.');
+			 location.href="/mangh/member/memberLogin"; 
+		} else{
 		
 		$.ajax({
 			url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/map/'+mRadius,
@@ -175,21 +174,17 @@
 				mLon : mLgtd,
 			},
 			success : function(data) {		
+				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 			    mapOption = { 
-//			        center: new kakao.maps.LatLng('${loginInfo.mLttd}', '${loginInfo.mLgtd}'), // 지도의 중심좌표
 					   center: new kakao.maps.LatLng(37.537183, 127.005454), // 회원 로그인 상태에서의 중심 좌표 표시 
 					level: 4 // 지도의 확대 레벨
 			    };	
-
 				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 				$('#mapModal').css('display','block');	
 				map.relayout(); //지도 영역 크기 설정 
 				
-				//var dataList = new Array(); // 동일 주소 배열을 담을 배열
-				
 				var html = '';
-				
 				for(var i=0;i<data.length;i++){
 			
 					//주소가 동일 데이터 출력
@@ -199,11 +194,6 @@
 			       	  position: new kakao.maps.LatLng(data[i].reqLatitude, data[i].reqLongitude)// 마커의 위치
 				    });
 					  
-					  
-					//var reqData = new Array(); //동일 주소 객체를 담을 배열 - 인덱스가 증가 할 때 새로 생성해준다 
-					
-					/* reqData.push(data[i]); */
-
 					html +='<div>'+data[i].reqTitle+'</div>';
 					
 					for(var j=i+1;j<data.length;j++){
@@ -212,47 +202,30 @@
 							//마커에 출력할 데이터	- 출력 할 배열이 필요함					
 							
 							html += '<div>'+data[j].reqTitle+'</div>';
-							
-						    /* reqData.push(data[j]); */
-						    
 						    data.splice(j,1);
 							j--;
 						}
 					} 
-				  /*   dataList.push(reqData); */
-					
 					// 마커에 표시할 인포윈도우를 생성합니다 
 				    var infowindow = new kakao.maps.InfoWindow({
 				        content: html// 인포윈도우에 표시할 내용
 				    });
-					
 				    infowindow.open(map, marker);  
 					 html = '';
 				}
 				map.setCenter(new kakao.maps.LatLng(mLttd, mLgtd));
 				map.relayout(); //지도 영역 크기 설정 
-				
-				
 			}
 		});
 		
-		
-		
-		 
+		}
 	}
 	
-
 	//리스트 검색
 	function search(){
 		searchText = $('#search_text').val();
 		searchType = $('#searchType').val(); 
 		page = 1;
-		list();
-	}
-	
-	//리스트 페이징 처리
-	function listpage(data) {
-		page = data;
 		list();
 	}
 	
@@ -279,24 +252,36 @@
 	}
 	
 	
+	//페이지 처리 
+	var page = 1; //현재 페이지 번호
+	var pageStart = 1; // 페이지 시작 수 
+	var pageEnd = pageStart+3; // 페이지 끝 수   
+	
+	//리스트 페이징 처리
+	function listpage(data) {
+		page = data;
+		list();
+	}
+	
 	//이전 페이지
 	function prev(data){
 		page = data - 1;
-		
-		if(page > 1){
-			pageStart = pageStart-2;
-			pageEnd = pageEnd-2;
-		}else{
-			pageStart = 1;
-			pageEnd = 2;
-		}
-		
 		if(page == 0){
 			console.log('현재 페이지 '+page);
 			alert('첫 페이지 입니다.');
+
+			page = 1;
+			pageStart = 1;
+			pageEnd = pageStart+3;
+		
 		}else{
+			if(page < pageStart){
+				pageStart = pageStart-page;
+				pageEnd = page; 
+			}
 			list();
 		}
+		
 	}
 	//마지막 페이지
 	function next(data,totalCnt){
@@ -305,9 +290,10 @@
 		if(page > totalCnt){
 			alert('마지막 페이지 입니다.');			
 		}else{
+			
 			if(page > pageEnd){
-				pageStart = pageStart+2;
-				pageEnd = pageEnd+2;
+				pageStart = page;
+				pageEnd = pageEnd+3;
 			}
 			list();
 		}
@@ -315,8 +301,8 @@
 	
 	function list() {
 		$.ajax({
-					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-	//				url : 'http://localhost:8080/rl/request',
+			//		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+					url : 'http://localhost:8080/rl/request',
 					type : 'GET',
 					data : {
 						mLat : mLttd,
@@ -399,6 +385,12 @@
 							
 							 var paging ='';
 							 	
+							
+							 if(pageEnd > data.pageTotalCount){
+								pageEnd = data.pageTotalCount;
+							} 
+							
+							 
 								paging += '<span id="page_number"><button id="page_btn" onclick="prev('+page+')"><</button></span>';
 //								for (var m = 1; m <= data.pageTotalCount; m++) {
 								for (var m = pageStart; m <= pageEnd ; m++) {

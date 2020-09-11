@@ -350,7 +350,7 @@ function complete(){
 				
 					var html = '<div class="w3-modal-content">';
 					html += '	 <header class="w3-container">';
-					html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
+					html += '  		<span onclick="modalClose()" class="w3-button w3-display-topright">&times;</span>'; 
 					html += '  		<h2 id="modalTitle">매칭 상대선택</h2>';
 					html += ' 	</header>';
 					
@@ -468,8 +468,8 @@ function review(reviewWriter,reviewStatus){
 		 
 		 //상대방 선택 하기 
 		  $.ajax({
-	 		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
-	 		//url : 'http://localhost:8080/rl/review/'+ reviewWriter,
+	 		//url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
+	 		url : 'http://localhost:8080/rl/review/'+ reviewWriter,
 	 		data : {
 	 			reqIdx : ${idx},
 	 			page : page
@@ -480,7 +480,7 @@ function review(reviewWriter,reviewStatus){
 				$('#modal').css('display','block');
 			 		var html = '<div class="w3-modal-content">';
 					html += '	 <header class="w3-container">';
-					html += '  		<span onclick="modalClose('+')" class="w3-button w3-display-topright">&times;</span>'; 
+					html += '  		<span onclick="modalClose()" class="w3-button w3-display-topright">&times;</span>'; 
 					html += '  		<h2 id="modalTitle">리뷰 작성 할 상대 선택</h2>';
 					html += ' 	</header>';
 					html +=' <div id="comBox" >';
@@ -511,6 +511,7 @@ function review(reviewWriter,reviewStatus){
 
 //리뷰 작성 하기
 function reviewWrite(reviewIdx,rstatus,rReceiver){
+	
 	  var form = $('<form></form>');
 	    form.attr('action', '/mangh/review/reviewForm');
 	    form.attr('method', 'post');

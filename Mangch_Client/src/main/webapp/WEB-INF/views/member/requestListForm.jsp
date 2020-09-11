@@ -166,6 +166,8 @@
 								}
 							html += '</table>';
 							
+							pageEnd = data.pageTotalCount;
+							
 							 if (data.pageTotalCount > 0) {
 								
 								 var paging ='';

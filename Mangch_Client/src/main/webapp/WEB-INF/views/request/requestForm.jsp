@@ -43,7 +43,7 @@
 		width: 100%;
 	}
 	
-	#btn{
+	#regBtn{
 		background-color: #FFD201;
 		border-radius: 5px;
 		border: 1px solid #f7f7f7;
@@ -96,7 +96,7 @@
 						
 						<div id="edit">
 							<span><input type="button"  class="form_btn" id="cancel" onclick="cancelbtn()" value="취소"></span>
-							<span id="submit"><input type="submit" class="form_btn" value="등록" onclick="regSubmit()" id="btn"></span>
+							<span id="submit"><input type="submit" class="form_btn" value="등록" onclick="regSubmit()" id="regBtn"></span>
 						</div>
 
 					</form>
