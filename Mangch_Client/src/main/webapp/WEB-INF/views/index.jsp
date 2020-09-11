@@ -27,7 +27,7 @@ h1, p {
 .w3-badge {height:13px;width:13px;padding:0}
 </style>
 
-<div class="w3-content w3-display-container" style="max-width:90%">
+<div class="w3-content w3-display-container" style="max-width:70%">
   <div class="w3-display-container  mySlides"> 
  	<img src="<c:url value='/resources/img/index/home.png'/>" style="width:100%">
 	<div class="w3-display-middle w3-large w3-container w3-padding-16">
