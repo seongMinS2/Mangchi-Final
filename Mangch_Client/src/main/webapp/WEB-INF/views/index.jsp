@@ -11,9 +11,14 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
 <style>
-h1, p {
+h1{
 	font-family: 'Jua', sans-serif;
 	color: black;
+}
+
+p {
+	font-family: 'Jua', sans-serif;
+	color: white;
 }
     	
 .nanum {
@@ -30,21 +35,21 @@ h1, p {
 <div class="w3-content w3-display-container" style="max-width:70%">
   <div class="w3-display-container  mySlides"> 
  	<img src="<c:url value='/resources/img/index/home.png'/>" style="width:100%">
-	<div class="w3-display-middle w3-large w3-container w3-padding-16">
+	<div class="w3-display-left w3-padding-16">
     <h1>당장 필요한 물건이 있는데 <br>사기엔 돈이 아깝다면?</h1>
     <p class="nanum">우리 동네 대여 서비스  M A N G C H !</p>
     </div>
   </div>
   <div class="w3-display-container  mySlides"> 
     <img src="<c:url value='/resources/img/index/home3.jpg'/>" style="width:100%">
-	<div class="w3-display-middle w3-large w3-container w3-padding-16">
+	<div class="w3-display-topright w3-padding-16">
     <h1>집에서 놀고 있는 물건이 있는데 팔기엔 아쉽다면?</h1>
     <p class="nanum">우리 동네 대여 서비스  M A N G C H !</p>  
 	</div>
   </div>
   <div class="w3-display-container  mySlides"> 
     <img src="<c:url value='/resources/img/index/wooden.png'/>" style="width:100%">
-	<div class="w3-display-middle w3-large w3-container w3-padding-16">
+	<div class="w3-display-middle">
 	<h1>우리 동네에 내가 당장 필요한 물건과<br>내 물건이 갑자기 필요해진 사람이 있다?</h1>
 	<p class="nanum">우리 동네 대여 서비스  M A N G C H !</p> 
 	</div>
