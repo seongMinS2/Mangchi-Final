@@ -865,7 +865,7 @@ function goPopup(guest_idx) {
 
 	    
 	    
-	    var page = 0;
+	    var page = 4;
 ///////////////////// 전체리스트
 function gbList() {
 	    	
@@ -1273,15 +1273,19 @@ function counttest() {
 
 $(document).ready(function () {
 	$('main').attr('style','background-color:white !important');
-	gbList(page=4);
+	gbList();
 	counttest();
 	writerList(bb);
 	
 	$(window).scroll(function() {
 		  if($(window).scrollTop() +400 >= $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
-	    	page+=4
+	    if($('#guestbookList').is(":visible")==true){
+		page+=4
+	    }
+	    else if($('#sessionList').is(":visible")==true){
 			limit+=4
+	    }
 	    	writerList(bb);
 	        gbList(); 
 	        //console.log(page)
