@@ -251,6 +251,9 @@ function writerList(bb) {
 			    html+='<div class="hd_nick">';
 			    html+=data[i].guest_writer
 			    html+='<span class="addr">'+data[i].guest_addr+'</span>';
+			    if(data[i].guest_writer === `${loginInfo.mNick}`){
+			    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+			    }
 			    html+='</div>'
 			    html+='</header>';
 			    html+='<div class="photo_body"><img src="http://localhost:8080/guest/upload/'+data[i].guest_photo+'"></div>';
@@ -258,10 +261,9 @@ function writerList(bb) {
 			    html+='<div class="text_body">';
 			    html+='<section>';
 			    
-			    //아래라이크사진
-			   
-			    
 		    	
+		    	
+			    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
 			    html+='</div>'
 			    html+='</section>'; 
 			    
@@ -269,19 +271,11 @@ function writerList(bb) {
 			    html+='<div class="nonerealtext" id="nonerealtext2">'+data[i].guest_text+'<br>';
 			   
 			    html+='</div>';
-			    if(data[i].guest_text.includes('<br/>')){
-			    	html+='<span class="more">더보기</span>';
-			    }
-			    html+='</div>';
-			    html+='<div class="comment">';
-			    if(data[i].guest_comment.length !=0){
-			    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
-			    }
-			    html+='<section>';
-			    html+='</section>';
+			    html+='<button onclick="goPopup('+data[i].guest_idx+')" style="margin-left:12px; margin-bottom:10px; background-color:#162d59; color:white; font-weight:bold; outline:none; border:0; cursor:pointer;">상세보기</button>';
 			    html+='</div>';
 			    html+='</div>'; 
 			    html+='</article>';
+			    
 				} else if(data[i].guest_photo ==null){
 					html+='<article class="none_photo">';
 					
@@ -291,6 +285,9 @@ function writerList(bb) {
 				    html+='<div class="hd_nick">';
 				    html+=data[i].guest_writer
 				    html+='<span class="addr">'+data[i].guest_addr+'</span>';
+				    if(data[i].guest_writer === `${loginInfo.mNick}`){
+				    	html+='<button class="dotpopup" onclick="editPopup('+data[i].guest_idx+');"><img src="${pageContext.request.contextPath}/resources/img/dot.png" style="width:15px;"></button>'
+				    }
 				    html+='</div>'
 				    html+='</header>';
 				   
@@ -308,29 +305,20 @@ function writerList(bb) {
 				    html+='<div class="text_body">';
 				    html+='<section>';
 				    
-				    //아래라이크사진
 			    	
+				    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
 				    html+='</div>'
 				    html+='</section>'; 
+				    html+='<button onclick="goPopup('+data[i].guest_idx+')" style="margin-left:12px; margin-bottom:10px; background-color:#162d59; color:white; font-weight:bold; outline:none; border:0; cursor:pointer;">상세보기</button>';
 				    
-				   	 html+='<section>';
-				   		
-						
-				   		
-					    /* for(var j=0; j<data[i].guest_comment.length; j++){
-					    html+='<div class="cmtnick">'+data[i].guest_comment[j].member_nick+'</div>';
-					    html+='<div class="cmttext">'+data[i].guest_comment[j].comment_text+'</div>';
-					    } */
-					    
-					    
-					   
-				    html+='</section>'; 
+				 
 				    html+='</div>';
 				    html+='</div>';
 				    html+='</article>';
 				}
 			
 			} // for문 끝 
+				
 			$('#sessionList').html(html);
 			
 		}		
@@ -382,7 +370,7 @@ $.ajax({
 		},
 		success : function (data) {
 			gbList();
-			
+			writerList(bb);
 		}
 	});
 	
@@ -407,6 +395,7 @@ function deleteForm(a,b) {
 			success : function (data) {
 			
 				gbList();
+				writerList(bb);
 			}
 		});
 	}
@@ -463,6 +452,7 @@ function guestPost() {
 			
 			
 			gbList();
+			writerList(bb);
 		}
 	});
 }
@@ -517,6 +507,7 @@ fileTarget.on('change',function(){
 		$('#editddd').bPopup().close();
 		$("#popup").bPopup().close();
 			gbList();
+			writerList(bb);
 			
 		}// 석세스끝
 		
@@ -539,7 +530,6 @@ function editPopup(guest_idx) {
 			
 				html+='<button class="btnz editform">게시글 수정</button>';
 				html+='<button class="btnz deleteService" onclick="">게시글 삭제</button>';
-				html+='<button class="btnz">'+data.guest_idx+'</button>';
 				html+='<button class="btnz editdiv-close">취소</button>';
 				
 			$('#editddd').html(html);
@@ -607,7 +597,6 @@ function cmtedit(comment_idx,guest_idx) {
 			
 				html+='<button class="btnz edittextform">댓글 수정</button>';
 				html+='<button class="btnz deleteService" onclick="deleteCmt('+data.comment_idx+','+guest_idx+')">댓글 삭제</button>';
-				html+='<button class="btnz editdiv-close2">'+comment_idx+'</button>';
 				html+='<button class="btnz editdiv-close2">취소</button>';
 				
 			$('#editcmt').html(html);
@@ -652,6 +641,7 @@ function editCmtText() {
 			$('#realcmtedit').bPopup().close();
 			$("#editcmt").bPopup().close();
 			gbList();
+			writerList(bb);
 			goPopup(idx);
 			
 		}
@@ -675,6 +665,7 @@ function deleteCmt(comment_idx,guest_idx) {
 			alert("댓글이 삭제됐습니다");
 			$("#editcmt").bPopup().close();
 			gbList();
+			writerList(bb);
 			goPopup(guest_idx);
 			
 			
@@ -1165,6 +1156,7 @@ function likeup2(guest_idx) {
 		success : function (data) {
 			goPopup(guest_idx);
 			gbList();
+			writerList(bb);
 		}
 	});
 }
@@ -1179,6 +1171,7 @@ function likedown2(guest_idx) {
 		success : function (data) {
 			goPopup(guest_idx);
 			gbList();
+			writerList(bb);
 		}
 	});
 } 
@@ -1195,6 +1188,7 @@ function likedown2(guest_idx) {
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
 				gbList();
+				writerList(bb);
 			}
 		});
 	}
@@ -1210,6 +1204,7 @@ function likedown2(guest_idx) {
 			contentType: 'application/json; charset=utf-8',
 			success : function (data) {
 				gbList();
+				writerList(bb);
 			}
 		});
 	} 
@@ -1225,6 +1220,7 @@ function likeupcount(guest_idx) {
 		contentType: 'application/json; charset=utf-8',
 		success : function (data) {
 			gbList();
+			writerList(bb);
 		}
 	});
 }
@@ -1237,6 +1233,7 @@ function likedowncount(guest_idx) {
 		contentType: 'application/json; charset=utf-8',
 		success : function (data) {
 			gbList();
+			writerList(bb);
 		}
 	});
 }
