@@ -161,7 +161,7 @@ location.href="/mangh/member/memberLogin";
       <div class="content" id="innerView" style="height:auto; width:auto;"></div>
    </div>
 
-<div id="sessionList"></div>
+<div id="sessionList" style="display: none;"></div>
 
 <div id="guestbookList"></div>
 
@@ -229,14 +229,14 @@ location.href="/mangh/member/memberLogin";
 var zz =$('#guest_writer').val();
 var bb=zz.trim();
 
-
+var limit=4;
 // 로그인한 세션값이 글쓴 리스트
 function writerList(bb) {
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/loginnick',
 		type : 'GET',
 		dataType:'json',
-		data:{bb:bb},
+		data:{bb,limit},
 		success : function (data) {
 			
 			var html='';
@@ -332,7 +332,6 @@ function writerList(bb) {
 			
 			} // for문 끝 
 			$('#sessionList').html(html);
-			$('#sessionList').hide();
 			
 		}		
 	})
@@ -1279,10 +1278,11 @@ $(document).ready(function () {
 	writerList(bb);
 	
 	$(window).scroll(function() {
-		  if($(window).scrollTop() +1 >= $(document).height() - $(window).height()) {
+		  if($(window).scrollTop() +400 >= $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
-	    	page=page+4
-	
+	    	page+=4
+			limit+=4
+	    	writerList(bb);
 	        gbList(); 
 	        //console.log(page)
 	    }
