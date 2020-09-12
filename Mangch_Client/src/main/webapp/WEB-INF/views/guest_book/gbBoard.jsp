@@ -13,6 +13,12 @@
 
 <style type="text/css">
 
+.allpost{
+border-top: 3px solid #DDD;
+width: 56px;
+margin-left: 10em;
+}
+
 .button_style {
  opacity: 5;
  display: none;
@@ -44,9 +50,52 @@ location.href="/mangh/member/memberLogin";
 </c:if>
 
 
- 
- <h3 style="font-weight: bold; text-align: center;">반가워요,${loginInfo.mNick }님!<br>
-  ${loginInfo.mNick }님의 근처 동네생활 입니다</h3>
+ <%-- 
+ <h4 style="font-weight: bold; text-align: center;">반가워요,${loginInfo.mNick }님!<br>
+  ${loginInfo.mNick }님의 근처 동네생활 입니다</h4>
+   --%>
+
+<div class="ttwrap" style="width: 514px;  border-bottom:1px solid #DDD; margin: auto;  padding:30px; display: flex; overflow-x:hidden; ">
+	<div class="imgwrap" style="margin-right: 100px;">
+<c:if test="${empty loginInfo.kId}">
+<img   src="${pageContext.request.contextPath}/resources/img/upload/${loginInfo.mImg}" style="border-radius: 100px; width: 150px; height: 150px;">
+</c:if>
+
+<c:if test="${not empty loginInfo.kId}">
+<img   src="${loginInfo.mImg}" style="border-radius: 100px; width: 150px; height: 150px;">
+</c:if>
+	</div>
+	
+	<div class="ttbodywrap" style="display: inline;">
+	
+	<h2 style="font-weight: normal; ">${loginInfo.mNick }</h2>
+	
+	게시물  :<span class="postcount" style="margin-right: 20px; font-weight: bold;"></span>   댓글 : <span class="cmtcount" style="font-weight: bold;"></span>
+	<br>
+	설정 동네 : <span class="hood" style="font-weight: bold;"></span>
+	</div>
+	
+</div>
+
+
+
+
+
+
+<div class="ttwrap" style="width: 514px; margin: auto; margin-bottom: 1em;">
+	<div class="allpost">
+	</div>  
+	<div class="flex">
+		<div style="margin: 0 auto; font-weight: bold; ">
+			<span class="ppost" style="margin-right: 5em; cursor: pointer;">전체게시물</span>  <span class="mypost" style="color: grey; cursor: pointer;">나의게시물</span>   
+		</div>
+	</div>
+</div>
+  
+  
+
+
+
 
 
 <!-- 게시글 작성폼 --> 
@@ -183,9 +232,6 @@ var bb=zz.trim();
 
 // 로그인한 세션값이 글쓴 리스트
 function writerList(bb) {
-	
-
-	
 	$.ajax({
 		url:'http://localhost:8080/guest/guest_book/loginnick',
 		type : 'GET',
@@ -286,10 +332,37 @@ function writerList(bb) {
 			
 			} // for문 끝 
 			$('#sessionList').html(html);
+			$('#sessionList').hide();
 			
 		}		
 	})
 }
+
+$('.ppost').click(function () {
+	$('.allpost').animate({
+		'margin-left':'10em'
+	},'fast')
+	$('#guestbookList').show();
+	$('#sessionList').hide();
+	$('.ppost').css('color','black');
+	$('.mypost').css('color','grey');
+	
+})
+
+$('.mypost').click(function () {
+	$('.allpost').animate({
+		'margin-left':'20.5em'
+	},'fast')
+	$('#sessionList').show();
+	$('#guestbookList').hide();
+	$('.mypost').css('color','black');
+	$('.ppost').css('color','grey');
+});
+
+
+
+
+
 
 
 
@@ -349,15 +422,18 @@ function deleteForm(a,b) {
 var x=$('#x').val();
 var y=$('#y').val();
 var r=$('#r').val();
+
+// 회원동네 ~~구까지 자르기
+var maddr=$('#guest_addr').val();
+var addrbunki=maddr.substr(2,5);
+
 ////////////////////////글쓰기 함수
 function guestPost() {
 	
 	
 	var mImg=$('#member_img').val();
 	
-	// ~~구 글자 자르기
-	var maddr=$('#guest_addr').val();
-	var addrbunki=maddr.substr(2,5);
+	
 	
 	//db에 줄바꿈
 	var str = $('#guest_text').val();
@@ -1023,10 +1099,7 @@ function gbList() {
 			var current=$('article').length-1;
 			
 			
-			$('.hd_img').click(function () {
-				writerList(bb);
-			})
-			
+		
 			
 			
 			
@@ -1035,28 +1108,9 @@ function gbList() {
 			
 			
 			///////////// 게시글 토탈카운트 구하는 에이젝스 실행 
-			$.ajax({
-				url:'http://localhost:8080/guest/guest_book/test',
-				type:'GET',
-				contentType: 'application/json; charset=utf-8',
-				data : {
-					 x :x,
-					 y :y,
-					 r :r
-				},
-				success : function (data) {
 			
-					
-					
-					/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
-					console.log('페이지'+page);
-					if(data<page){
-						
-						console.log("끝"+page);
-						$(window).off();
-					}		 
-				}
-			});
+			total().then(console.log('출력해주는 전체값 : '+data.length));
+			
 		
 			
 			//console.log('페이지':page);
@@ -1071,6 +1125,33 @@ function gbList() {
 	}); // ajax끝 
 	
 }
+
+
+
+
+async function total() {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/test',
+		type:'GET',
+		contentType: 'application/json; charset=utf-8',
+		data : {
+			 x :x,
+			 y :y,
+			 r :r
+		},
+		success : function (data) {
+	
+			
+			
+			/////// 만약 페이지가 토탈카운트보다 많다면 스크롤이벤트종료 
+			if(data<page){
+				
+				$(window).off();
+			}		 
+		}
+	});
+}
+
 
 
 
@@ -1163,12 +1244,39 @@ function likedowncount(guest_idx) {
 
 
 
+//////////////////////타이틀
+function counttest() {
+	$.ajax({
+		url:'http://localhost:8080/guest/guest_book/mycount/',
+		type:'GET',
+		contentType: 'application/json; charset=utf-8',
+		data:{bb},
+		success : function (data) {
+			var html='';
+			html+=data.post;
+			
+			var cmthtml='';
+			cmthtml+=data.cmt;
+			
+			var hoodhtml='';
+			hoodhtml+=addrbunki;
+			
+			$('.postcount').html(html);
+			$('.cmtcount').html(cmthtml);
+			$('.hood').html(hoodhtml);
+		}
+	
+	})
+}
+
 
 
 
 $(document).ready(function () {
 	$('main').attr('style','background-color:white !important');
 	gbList(page=4);
+	counttest();
+	writerList(bb);
 	
 	$(window).scroll(function() {
 		  if($(window).scrollTop() +1 >= $(document).height() - $(window).height()) {
