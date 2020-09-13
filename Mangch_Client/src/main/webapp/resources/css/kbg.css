@@ -354,7 +354,7 @@
             flex-shrink: 1;
             font-size: 11px;
             color: darkgray;
-           
+           margin-left: auto;
             
         }
          .in_date_null{
@@ -362,7 +362,7 @@
             flex-shrink: 1;
             font-size: 11px;
             color: darkgray;
-           margin-left: 220px;
+           margin-left: auto;
             
         }
         
@@ -370,7 +370,6 @@
             font-size: 11px;
             color: darkgray;
             margin-left: 14px;
-            margin-right: 50%;
             
         }
         
