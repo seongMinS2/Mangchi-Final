@@ -229,7 +229,7 @@ location.href="/mangh/member/memberLogin";
 var zz =$('#guest_writer').val();
 var bb=zz.trim();
 
-var limit=4;
+var limit=10;
 // 로그인한 세션값이 글쓴 리스트
 function writerList(bb) {
 	$.ajax({
@@ -1296,13 +1296,13 @@ $(document).ready(function () {
 	writerList(bb);
 	
 	$(window).scroll(function() {
-		  if($(window).scrollTop() +400 >= $(document).height() - $(window).height()) {
+		  if($(window).scrollTop() +200 >= $(document).height() - $(window).height()) {
 	///////// 스크롤 한번갱신때마다 페이지를 +4씩 올려라 
 	    if($('#guestbookList').is(":visible")==true){
 		page+=4
 	    }
 	    else if($('#sessionList').is(":visible")==true){
-			limit+=4
+			limit+=10
 	    }
 	    	writerList(bb);
 	        gbList(); 
