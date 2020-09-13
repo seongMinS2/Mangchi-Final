@@ -36,22 +36,22 @@ p {
   <div class="w3-display-container  mySlides"> 
  	<img src="<c:url value='/resources/img/index/home.png'/>" style="width:100%">
 	<div class="w3-display-left w3-padding-16">
-    <h1>당장 필요한 물건이 있는데 <br>사기엔 돈이 아깝다면?</h1>
-    <p class="nanum">우리 동네 대여 서비스  M A N G C H !</p>
+    <h1 style="font-size: 3vw">당장 필요한 물건이 있는데 <br>사기엔 돈이 아깝다면?</h1>
+    <span  style="font-size: 1.2vw; color: white; font-weight: bold;">우리 동네 대여 서비스  M A N G C H !</span>
     </div>
   </div>
   <div class="w3-display-container  mySlides"> 
     <img src="<c:url value='/resources/img/index/home3.jpg'/>" style="width:100%">
 	<div class="w3-display-topright w3-padding-16">
-    <h1>집에서 놀고 있는 물건이 있는데 팔기엔 아쉽다면?</h1>
-    <p class="nanum">우리 동네 대여 서비스  M A N G C H !</p>  
+    <h1 style="font-size: 3vw">집에서 놀고 있는 물건이 있는데 팔기엔 아쉽다면?</h1>
+    <span style="font-size: 1.2vw; color: white; font-weight: bold;">우리 동네 대여 서비스  M A N G C H !</span>  
 	</div>
   </div>
   <div class="w3-display-container  mySlides"> 
     <img src="<c:url value='/resources/img/index/wooden.png'/>" style="width:100%">
 	<div class="w3-display-middle">
-	<h1>우리 동네에 내가 당장 필요한 물건과<br>내 물건이 갑자기 필요해진 사람이 있다?</h1>
-	<p class="nanum">우리 동네 대여 서비스  M A N G C H !</p> 
+	<h1 style="font-size: 3vw">우리 동네에 내가 당장 필요한 물건과<br>내 물건이 갑자기 필요해진 사람이 있다?</h1>
+	<span  style="font-size: 1.2vw; color: white; font-weight: bold;">우리 동네 대여 서비스  M A N G C H !</span> 
 	</div>
   </div>
   
