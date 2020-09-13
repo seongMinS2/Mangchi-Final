@@ -911,7 +911,7 @@ function gbList() {
 				    }else{
 				    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+'); likeupcount('+data[i].guest_idx+');"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 				    } 
-		    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+		    	html+='<button onclick="goPopup('+data[i].guest_idx+');hitsup('+data[i].guest_idx+');"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 		    	
 			    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
 			    html+='</div>'
@@ -927,7 +927,7 @@ function gbList() {
 			    html+='</div>';
 			    html+='<div class="comment">';
 			    if(data[i].guest_comment.length !=0){
-			    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
+			    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+');hitsup('+data[i].guest_idx+');">댓글 모두보기</button>';
 			    }
 			    html+='<section>';
 			    for(var j=0; j<data[i].guest_comment.length; j++){
@@ -983,7 +983,7 @@ function gbList() {
 				    }else{
 				    html+='<button class="footers likebtn" id="heartok" onclick="likeup('+data[i].guest_idx+'); likeupcount('+data[i].guest_idx+');"><img id="heart" src="${pageContext.request.contextPath}/resources/img/love.png"></button>';
 				    } 
-			    	html+='<button onclick="goPopup('+data[i].guest_idx+')"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
+			    	html+='<button onclick="goPopup('+data[i].guest_idx+');hitsup('+data[i].guest_idx+');"><img id="mmsg" src="${pageContext.request.contextPath}/resources/img/msg.png"></button>';
 			    	
 				    html+='<div class="likes" id="likes">좋아요<span class="dlikes" id="dlikes">'+data[i].guest_like+'</span>개</div>';
 				    html+='</div>'
@@ -991,7 +991,7 @@ function gbList() {
 				    
 				    html+='<div class="comment">';
 				    if(data[i].guest_comment.length !=0){
-					    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+')">댓글 모두보기</button>';
+					    html+='<button class="cmtnum" onclick="goPopup('+data[i].guest_idx+');hitsup('+data[i].guest_idx+');">댓글 모두보기</button>';
 					    }
 				   	 html+='<section>';
 				   		
@@ -1236,6 +1236,20 @@ function likeupcount(guest_idx) {
 function likedowncount(guest_idx) {
 	$.ajax({
 		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/micount/'+guest_idx,
+		type:'PUT',
+		contentType: 'application/json; charset=utf-8',
+		success : function (data) {
+			gbList();
+			writerList(bb);
+		}
+	});
+}
+
+
+///////////////////조회수증감
+function hitsup(guest_idx) {
+	$.ajax({
+		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/hitsup/'+guest_idx,
 		type:'PUT',
 		contentType: 'application/json; charset=utf-8',
 		success : function (data) {
