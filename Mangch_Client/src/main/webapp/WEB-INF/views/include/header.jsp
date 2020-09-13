@@ -190,7 +190,7 @@ button.headSearchBtn{
 			</div> 
 		</div>
 	</div>
-	<div class="w3-row">
+	<div class="w3-row" style="font-weight: bold; color: #2b2b2b">
 		<div style="border-bottom: 2px solid;" class="w3-col w3-center w3-hide-small w3-white w3-border-theme">
 			<a href="<c:url value="/request/requestList"/>" class="w3-bar-item w3-button">요청게시판</a>
 			<a href="<c:url value="/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
