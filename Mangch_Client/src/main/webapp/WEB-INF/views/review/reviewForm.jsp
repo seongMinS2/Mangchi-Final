@@ -225,7 +225,7 @@ td {
 				data : reviewInfo,
 				success : function(data){
 					alert('리뷰가 등록되었습니다.');
-					location.href="/mangh/request/requestList"; 
+					location.href="${pageContext.request.contextPath}/request/requestList"; 
 				}
 			});   
 			

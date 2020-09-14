@@ -1,87 +1,85 @@
 @charset "UTF-8";
 
 /* 게시판 제목 */
-.clickTitle{
+.clickTitle {
 	cursor: pointer;
 }
 
-
 /* 게시판 이름 */
-#boardTitle{
-    margin-top: 35px;
-    font-weight: 600;
-   	margin-bottom: 70px;
+#boardTitle {
+	margin-top: 35px;
+	font-weight: 600;
+	margin-bottom: 70px;
 }
 
 /* 검색 */
-.searchBox{
+.searchBox {
 	padding: 15px 0px 15px 0px;
 	height: 80px;
 }
-#search_text{
-    margin-right: 10px;
-    height: 35px;
-    margin-left: 10px;
-    width: 200px;
+
+#search_text {
+	margin-right: 10px;
+	height: 35px;
+	margin-left: 10px;
+	width: 200px;
 }
+
 select {
-    width: 80px; /* 원하는 너비설정 */
-    border: 1px solid #999;
-    background-position: 100% -93px;
-    height: 35px;
-    text-align-last: center;
-}
-#searchbtn{
-	 height: 40px;
+	width: 80px; /* 원하는 너비설정 */
+	border: 1px solid #999;
+	background-position: 100% -93px;
+	height: 35px;
+	text-align-last: center;
 }
 
-
+#searchbtn {
+	height: 40px;
+}
 
 /* 지도로 보기, 글쓰기 버튼 */
-.rightbox{
+.rightbox {
 	text-align: right;
 }
 
 /* 지도로 보기 툴 팁 */
 .tooltip {
-  position: relative;
-  display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
+	visibility: hidden;
+	width: 120px;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -60px;
+	opacity: 0;
+	transition: opacity 0.3s;
 }
 
 .tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
+	visibility: visible;
+	opacity: 1;
 }
-
-
 
 /* 지도로 보기 버튼 id */
 #mapBtn {
@@ -91,70 +89,164 @@ select {
 	height: 40px;
 	cursor: pointer;
 }
+/* 지도 데이터 출력 */
+.wrap {
+	position: absolute;
+	left: 0;
+	bottom: 40px;
+	width: 288px;
+	height: 160px;
+	margin-left: -144px;
+	text-align: left;
+	overflow: hidden;
+	font-size: 12px;
+	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+	line-height: 1.5;
+	margin-bottom: 5px;
+}
+
+.wrap * {
+	padding: 0;
+	margin: 0;
+}
+
+.wrap .info {
+	width: 286px;
+	height: 160px;
+	border-radius: 5px;
+	border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	overflow: scroll;
+	background: #fff;
+	overflow-x: hidden;
+}
+
+.wrap .info:nth-child(1) {
+	border: 0;
+	box-shadow: 0px 1px 2px #888;
+}
+
+.info .title {
+	border-radius: 5px 5px 0px 0px;
+	padding: 5px 5px 10px 10px;
+	height: 35px;
+	background: #eee;
+	border-bottom: 1px solid #ddd;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	position: sticky;
+	top: 0;
+}
+
+.info .body {
+	overflow: hidden;
+	margin: 10px;
+}
+
+s .info .desc {
+	position: relative;
+	margin: 13px 0 0 90px;
+	height: 75px;
+}
+
+.desc .ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-bottom: 8px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.desc .jibun {
+	font-size: 12px;
+	color: #888;
+	margin-top: -2px;
+	padding-bottom: 8px;
+	font-weight: 600;
+}
+
+#line {
+	padding: 3px;
+}
+
+.maplink {
+	color: #4072cf;
+	font-weight: bold;
+}
+
 /* 버튼 class */
-.allBtn{
+.allBtn {
 	height: 50px;
-    width: 107px;
-    text-align: center;
-    border-radius: 5px;
-    border: 1px solid #f7f7f7;
-    font-weight: bold;
-    cursor: pointer;
+	width: 107px;
+	text-align: center;
+	border-radius: 5px;
+	border: 1px solid #f7f7f7;
+	font-weight: bold;
+	cursor: pointer;
 }
 
-#writeBtn{
-	background-color: #FFD201;  
+#writeBtn {
+	background-color: #FFD201;
 }
-
-
-
-
-
 
 /* 리스트 테이블 */
-.title_td{
+.title_td {
 	width: 20%;
 	padding-left: 10px;
 }
-.tab_td{
+
+.tab_td {
 	text-align: center;
 }
-.addr_td{
+
+.addr_td {
 	width: 10%;
 }
 
-#listBox{
-    margin-top: 15px;
+#listBox {
+	margin-top: 15px;
 	margin-bottom: 30px;
 }
-#noBox{
-padding: 30px;
-}
- #noList{
- 	color: #865e46;
-    font-weight: 600;
-    text-align: center;
- }
 
+#noBox {
+	padding: 30px;
+}
+
+#noList {
+	color: #865e46;
+	font-weight: 600;
+	text-align: center;
+}
 
 /* 페이징 처리 */
-#page{
+#page {
 	text-align: center;
 	margin-bottom: 30px;
 }
-#page_number{
+
+#page_number {
 	margin-right: 25px;
 }
 
-#page_btn{
+#page_btn {
 	border-radius: 5px;
 	border: 1px solid #f7f7f7;
-    width: 3%; 
-}
-.listlink{
-	background-color: #FFD201;
- 	border-radius: 5px;
-	border: 1px solid #f7f7f7;
-    width: 3%; 
+	width: 3%;
 }
 
+.listlink {
+	background-color: #FFD201;
+	border-radius: 5px;
+	border: 1px solid #f7f7f7;
+	width: 3%;
+}
+
+/*============== 마이페이지 ================= */
+#myBox {
+	padding-top: 30px;
+}
+#myList{
+	margin-right: 10%; margin-bottom: 20px;
+}
