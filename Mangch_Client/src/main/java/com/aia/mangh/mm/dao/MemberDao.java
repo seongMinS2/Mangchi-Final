@@ -60,5 +60,10 @@ public interface MemberDao {
 	// 전체 방문자 수
 	public int selectAllVisitor();
 	
-
+	// 전체 요청게시물 수
+	public int selectAllRequest();
+	
+	// 전체 나눔게시물 수
+	public int selectAllDonate();
+	
 }

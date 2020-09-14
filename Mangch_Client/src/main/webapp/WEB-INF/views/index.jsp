@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>우리 동네 대여 서비스 :: M A N G C H !</title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 </head>
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
@@ -30,6 +31,12 @@ p {
 .mySlides {display:none}
 .w3-left, .w3-right, .w3-badge {cursor:pointer}
 .w3-badge {height:13px;width:13px;padding:0}
+
+.indexPic {
+	padding-left: 22%;
+	width: 180px;
+	height: 120px;
+}
 </style>
 
 <div class="w3-content w3-display-container" style="max-width:70%">
@@ -62,10 +69,141 @@ p {
     <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(2)"></span>
     <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
   </div>
+  
 </div>
+
+ <div class="w3-content w3-center w3-container">
+  <div class="w3-row w3-padding">
+  
+  <div class="w3-col m4">
+  <div class="indexPic">
+  	<img src="<c:url value='/resources/img/index/request2.png'/>" style="width:180px; height:120px;">
+  </div>
+  	<p style="color: #162d59; font-size: 25px; margin:0;">총 요청게시물 수</p>
+  	<p class="number" style="color: #162d59; font-size: 45px; margin:0;"><B>${allRequest}</B></p>
+  </div>
+  
+  <div class="w3-col m4">
+  <div class="indexPic">
+  	<img src="<c:url value='/resources/img/index/visitor2.png'/>" style="width:170px; height:110px;">
+  </div>
+  	<p style="color: #162d59; font-size: 25px; margin:0;">총 방문자 수</p>
+  	<p class="number" style="color: #162d59; font-size: 45px; margin:0;"><B>${allVisitor}</B></p>
+  </div>
+  
+  <div class="w3-col m4">
+  <div class="indexPic">
+  	<img src="<c:url value='/resources/img/index/donate2.png'/>" style="width:170px; height:110px;">
+  </div>
+  	<p style="color: #162d59; font-size: 25px; margin:0;">총 나눔게시물 수</p>
+  	<p class="number" style="color: #162d59; font-size: 45px; margin:0;"><B>${allDonate}</B></p>
+  </div>
+  
+  	</div>
+ </div>
 
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 <script>
+
+$(function() {
+	  var count0 = count1 = count2 = 0;
+	  var allVisitor = '${allVisitor}';
+	  var allRequest = '${allRequest}';
+	  var allDonate = '${allDonate}';
+
+	  timeCounter();
+
+	  function timeCounter() {
+
+	    id0 = setInterval(count0Fn, 12.738853);
+
+	    function count0Fn() {
+	      count0++;
+	      if (count0 > allRequest) {
+	        clearInterval(id0);
+	      } else {
+	        $(".number").eq(0).text(count0);
+	      }
+
+	    }
+
+	    id1 = setInterval(count1Fn, 8.13171226);
+
+	    function count1Fn() {
+	      count1++;
+	      if (count1 > allVisitor) {
+	        clearInterval(id1);
+	      } else {
+	        $(".number").eq(1).text(count1);
+	      }
+	    }
+
+	    id2 = setInterval(count2Fn, 15.57142857);
+
+	    function count2Fn() {
+	      count2++;
+	      if (count2 > allDonate) {
+	        clearInterval(id2);
+	      } else {
+	        $(".number").eq(2).text(count2);
+	      }
+	    }
+	  }
+	});
+
+/* $(function() {
+
+	var cnt = 0;
+	var allCount = 0;
+	var todayCount = 0;
+	var allVisitor = ${allVisitor};
+	var todayVisitor = ${todayVisitor};
+	
+	counterFn();
+	allCounter();
+	todayCounter();
+	
+	function counterFn(){
+		id0 = setInterval(count0Fn, 10);
+		
+		function count0Fn(){
+			cnt++;
+			if(cnt>100){
+				clearInterval(id0);
+			} else{
+				$(".number").text(cnt);
+			}
+		}
+	}
+	
+	function allCounter(){
+		id1 = setInterval(countFn1, 10);
+		
+		function countFn1(){
+			allCount++;
+			if(allCount>allVisitor){
+				clearInterval(id1);
+			} else {
+				$(".allVisitor").html('<B>'+allCount+'</B>');
+			}
+		}
+	}
+	
+	function todayCounter(){
+		id2 = setInterval(countFn2, 100);
+		
+		function countFn2(){
+			todayCount++;
+			if(todayCount>todayVisitor){
+				clearInterval(id2);
+			} else {
+				$(".todayVisitor").html('<B>'+todayCount+'</B>');
+			}
+		}
+	}
+	
+}); */
+
 var slideIndex = 1;
 showDivs(slideIndex);
 

@@ -129,5 +129,16 @@
 	<select id="selectTodayVisitor" resultType="int">
 		select count(*) from Mangchi.visitor where DATE_FORMAT(visit_time, "%Y-%m-%d") = CURDATE();	
 	</select>
-
+	
+	<!-- 전체 요청게시물 수 -->
+	<select id="selectAllRequest" resultType="int">
+		select count(*) from Mangchi.request_list
+	</select>
+	
+	<!-- 전체 나눔게시물 수 -->
+	<select id="selectAllDonate" resultType="int">
+		select count(*) from Mangchi.donate_board
+	</select>
+	
+	
 </mapper>

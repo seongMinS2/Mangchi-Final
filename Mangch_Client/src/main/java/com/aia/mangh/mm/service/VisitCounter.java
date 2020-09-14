@@ -64,6 +64,16 @@ public class VisitCounter implements HttpSessionListener {
 		int todayVisitor = dao.selectTodayVisitor();
 		session.setAttribute("todayVisitor", todayVisitor);
 		System.out.println("todayVisitor session: "+todayVisitor);
+		
+		// 전체 요청게시물 수
+		int allRequest = dao.selectAllRequest();
+		session.setAttribute("allRequest", allRequest);
+		System.out.println("allRequest session: "+allRequest);
+		
+		// 전체 나눔게시물 수
+		int allDonate = dao.selectAllDonate();
+		session.setAttribute("allDonate", allDonate);
+		System.out.println("allDonate session: "+allDonate);
 	}
 
 	public void sessionDestroyed(HttpSessionEvent event) {
