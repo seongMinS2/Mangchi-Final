@@ -19,24 +19,139 @@
 <style>
 
 /* 테이블 설정 */
-table{
+table {
 	border-top: 2px solid #333333;
-     border-collapse: collapse; 
+	border-collapse: collapse;
 }
 
-th	{
+th {
 	text-align: center;
 	width: 5%;
 	padding: 11px 0 10px;
-	border-top : 3px soild #DDD;
+	border-top: 3px soild #DDD;
 }
- th, td {
-    border-bottom: 1px solid #c1c1c1;
- }
- 
- td{
- padding: 11px 0 10px;
- }
+
+th, td {
+	border-bottom: 1px solid #c1c1c1;
+}
+
+td {
+	padding: 11px 0 10px;
+}
+
+.wrap {
+	position: absolute;
+	left: 0;
+	bottom: 40px;
+	width: 288px;
+	height: 132px;
+	margin-left: -144px;
+	text-align: left;
+	overflow: hidden;
+	font-size: 12px;
+	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+	line-height: 1.5;
+}
+
+.wrap * {
+	padding: 0;
+	margin: 0;
+}
+
+.wrap .info {
+	width: 286px;
+	height: 120px;
+	border-radius: 5px;
+	border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	overflow: scroll;
+	background: #fff;
+}
+
+.wrap .info:nth-child(1) {
+	border: 0;
+	box-shadow: 0px 1px 2px #888;
+}
+
+.info .title {
+	padding: 5px 0 0 10px;
+	height: 30px;
+	background: #eee;
+	border-bottom: 1px solid #ddd;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.info .close {
+	position: absolute;
+	/* top: 10px;
+            right: 10px;*/
+	color: #888;
+	width: 17px;
+	height: 17px;
+}
+
+.info .close:hover {
+	cursor: pointer;
+}
+
+.info .body {
+	position: relative;
+	overflow: hidden;
+}
+
+s .info .desc {
+	position: relative;
+	margin: 13px 0 0 90px;
+	height: 75px;
+}
+
+.desc .ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.desc .jibun {
+	font-size: 11px;
+	color: #888;
+	margin-top: -2px;
+}
+
+.info .img {
+	position: absolute;
+	top: 6px;
+	left: 5px;
+	width: 73px;
+	height: 71px;
+	border: 1px solid #ddd;
+	color: #888;
+	overflow: hidden;
+}
+
+.info:after {
+	content: '';
+	position: absolute;
+	margin-left: -12px;
+	left: 50%;
+	bottom: 0;
+	width: 22px;
+	height: 12px;
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.info .link {
+	color: #5085BB;
+}
+
+
+
+.info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+
+
+
 
 
 </style>
@@ -49,9 +164,9 @@ th	{
 	<div class="w3-content">
 		<h3 id="boardTitle">요청 게시판</h3>
 	</div>
-	
-	
-	
+
+
+
 	<div class="w3-content" class="searchBox">
 		<div class="w3-left">
 			<!-- 검색 타입 -->
@@ -68,15 +183,16 @@ th	{
 			</select>
 			<!-- 검색어 입력 -->
 			<input type="text" id="search_text" placeholder="검색어를 입력하세요">
-			<input type="button" class="allBtn" id="searchbtn" onclick="search()" value="검색">
+			<input type="button" class="allBtn" id="searchbtn" onclick="search()"
+				value="검색">
 		</div>
 
 		<div class="rightbox">
-		
+
 			<div class="tooltip">
-				<input type="button" id="mapBtn" onclick="map()">
-				<span class="tooltiptext">지도로 보기</span>
-			</div>		
+				<input type="button" id="mapBtn" onclick="map()"> <span
+					class="tooltiptext">지도로 보기</span>
+			</div>
 		</div>
 
 	</div>
@@ -86,8 +202,9 @@ th	{
 	</div>
 
 	<!-- 게시글 등록 -->
-	<div class="w3-content rightbox" >
-		<button id="writeBtn" class="allBtn" onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
+	<div class="w3-content rightbox">
+		<button id="writeBtn" class="allBtn"
+			onclick="location.href='/mangh/request/requestWrite'">요청 등록</button>
 	</div>
 
 	<!-- 페이지  -->
@@ -138,8 +255,21 @@ th	{
 	$('#mapModal').css('display','none');
 	}
 	
+	
+	
+	
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+    mapOption = { 
+		   center: new kakao.maps.LatLng(37.537183, 127.005454), // 회원 로그인 상태에서의 중심 좌표 표시 
+		level: 4 // 지도의 확대 레벨
+    };	
+	
+	var markers = [];
+	var overlaies = [] ;
+	
+	var contents = [];
+	
 	function map(){
-		
 		
 		if('${loginInfo}' == ''){
 			alert('로그인 후 이용해주세요.');
@@ -147,8 +277,8 @@ th	{
 		} else{
 		
 		$.ajax({
-			url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/map/'+mRadius,
-			//url : 'http://localhost:8080/rl/request/map/'+mRadius,
+			//url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/map/'+mRadius,
+			url : 'http://localhost:8080/rl/request/map/'+mRadius,
 			type : 'GET',
 			data : {
 				mLat : mLttd,
@@ -156,51 +286,114 @@ th	{
 			},
 			success : function(data) {		
 				
-				var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-			    mapOption = { 
-					   center: new kakao.maps.LatLng(37.537183, 127.005454), // 회원 로그인 상태에서의 중심 좌표 표시 
-					level: 4 // 지도의 확대 레벨
-			    };	
 				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 				$('#mapModal').css('display','block');	
 				map.relayout(); //지도 영역 크기 설정 
-				
 				var html = '';
 				for(var i=0;i<data.length;i++){
 			
 					//주소가 동일 데이터 출력
 				  //주소가 같을 때 마커를 한개 생성하고
-				   var marker = new kakao.maps.Marker({
+				    marker = new kakao.maps.Marker({
 		      		  map: map, // 마커를 표시할 지도
 			       	  position: new kakao.maps.LatLng(data[i].reqLatitude, data[i].reqLongitude)// 마커의 위치
 				    });
-					  
-					html +='<div class="clickTitle">'+data[i].reqTitle+'</div>';
 					
+				   html +='<div class="wrap">' ;
+				   html += '    <div class="info">' ;
+				   html += '        <div class="title clickTitle">' +data[i].reqAddr+' </div>' ;
+				   html +=  '        <div class="body">' ;
+					
+					//html +=  '            <div class="desc">' ;
+						html +=  '            <div class="desc">' ;
+						html +=  '                <div class="ellipsis clickTitle">'+data[i].reqTitle+'</div>' ;
+						html += '                <div class="jibun ellipsis">'+data[i].reqAddr+'</div>' ;
+						//회원 로그인 상태 일 때 거리 출력
+						if( data[i].calDistance >= 1000){
+							var calDistance = data[i].calDistance;
+							calDistance = (Math.round(calDistance/100))/10;
+							html +='				 <div class="ellipsis">'+calDistance+'km</div>';
+						}else{
+							html +='				 <div class="ellipsis">'+data[i].calDistance+'m</div>';
+						}	
 					for(var j=i+1;j<data.length;j++){
-						
 						if(data[i].reqAddr == data[j].reqAddr){
-							//마커에 출력할 데이터	- 출력 할 배열이 필요함					
+							html +='';
+							html += '                <div class="ellipsis clickTitle">'+data[j].reqTitle+'</div>' ;
+							html += '                <div class="jibun ellipsis">'+data[j].reqAddr+'</div>' ;
+							//회원 로그인 상태 일 때 거리 출력
+							if( data[j].calDistance >= 1000){
+								var calDistance = data[j].calDistance;
+								calDistance = (Math.round(calDistance/100))/10;
+								html +='				 <div class="ellipsis">'+calDistance+'km</div>';
+							}else{
+								html +='				 <div class="ellipsis">'+data[j].calDistance+'m</div>';
+							}	
 							
-							html += '<div class="clickTitle">'+data[j].reqTitle+'</div>';
+							console.log(data[j].reqTitle);
 						    data.splice(j,1);
 							j--;
 						}
-					} 
-					// 마커에 표시할 인포윈도우를 생성합니다 
-				    var infowindow = new kakao.maps.InfoWindow({
-				        content: html// 인포윈도우에 표시할 내용
-				    });
-				    infowindow.open(map, marker);  
-					 html = '';
-				}
+					}
+					 html +='            </div>' ; 
+					 html += '        </div>' ;
+					 html +=   '    </div>' ;
+					 html +=  '</div>';
+					 
+				    
+				    // 커스텀 오버레이 배열에 값을 추가한다.
+				    contents.push(html);
+				    html +='';
+								    
+				    kakao.maps.event.addListener(marker, 'click', openListener(map, marker, contents[i]));
+					 
+				}//for문
+				
 				map.setCenter(new kakao.maps.LatLng(mLttd, mLgtd));
 				map.relayout(); //지도 영역 크기 설정 
-			}
+			}			
 		});
-		
 		}
 	}
+	
+	//오버레이 창 열기
+	function openListener(map, marker, content)
+	{
+		
+		return function(){
+	    	
+			  marker2 = new kakao.maps.Marker({
+	      		  map: map, // 마커를 표시할 지도
+		       	  position: marker.getPosition()// 마커의 위치
+		    });
+			
+	    	  var overlay = new daum.maps.CustomOverlay({
+			        position:marker.getPosition(),
+			        content: content
+		    });
+	    	
+	        overlay.setMap(map);
+	        // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+	        kakao.maps.event.addListener(marker2, 'click', closeListener(map,marker2,overlay));
+	        
+		}
+	}
+	
+	//오버레이 창 닫기 
+	function closeListener(map,marker2,overlay){
+		return function(){
+			marker = new kakao.maps.Marker({
+	      		  map: map, // 마커를 표시할 지도
+		       	  position: marker2.getPosition()// 마커의 위치
+		    });
+			
+			kakao.maps.event.addListener(marker, 'click', openListener(map, marker, overlay));
+				
+			overlay.setMap(null);
+		}
+	}
+	
+	
 	
 	//리스트 검색
 	function search(){
