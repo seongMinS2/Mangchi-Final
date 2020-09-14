@@ -119,6 +119,10 @@ select {
 .tab_td{
 	text-align: center;
 }
+.addr_td{
+	width: 10%;
+}
+
 #listBox{
     margin-top: 15px;
 	margin-bottom: 30px;

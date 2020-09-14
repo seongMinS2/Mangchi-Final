@@ -441,8 +441,8 @@ function cancel(reqStatus){
 	if(confirm('매칭을 취소하겠습니까?') == true){
 	
 		 $.ajax({
-//			 url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+ ${idx},
-			 url : 'http://localhost:8080/rl/request/'+ ${idx},
+			 url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+ ${idx},
+			// url : 'http://localhost:8080/rl/request/'+ ${idx},
 			 type : 'PUT',
 			 success : function(data){
 				 alert('매칭이 취소되었습니다.');
@@ -471,8 +471,8 @@ function review(reviewWriter,reviewStatus){
 		 
 		 //상대방 선택 하기 
 		  $.ajax({
-	 		//url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
-	 		url : 'http://localhost:8080/rl/review/'+ reviewWriter,
+	 		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ reviewWriter,
+	 		//url : 'http://localhost:8080/rl/review/'+ reviewWriter,
 	 		data : {
 	 			reqIdx : ${idx},
 	 			page : page

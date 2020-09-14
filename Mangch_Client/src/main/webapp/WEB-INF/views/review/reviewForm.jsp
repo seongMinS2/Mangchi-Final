@@ -219,8 +219,8 @@ td {
 			
 			
 			   $.ajax({
-				//url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review',
-				url : 'http://localhost:8080/rl/review',
+				url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review',
+				//url : 'http://localhost:8080/rl/review',
 				type : 'post',
 				data : reviewInfo,
 				success : function(data){

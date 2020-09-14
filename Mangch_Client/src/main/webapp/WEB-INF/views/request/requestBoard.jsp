@@ -44,13 +44,14 @@ td {
 	left: 0;
 	bottom: 40px;
 	width: 288px;
-	height: 132px;
+	height: 160px;
 	margin-left: -144px;
 	text-align: left;
 	overflow: hidden;
 	font-size: 12px;
 	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
 	line-height: 1.5;
+	margin-bottom: 5px;
 }
 
 .wrap * {
@@ -60,7 +61,7 @@ td {
 
 .wrap .info {
 	width: 286px;
-	height: 120px;
+	height: 160px;
 	border-radius: 5px;
 	border-bottom: 2px solid #ccc;
 	border-right: 1px solid #ccc;
@@ -74,30 +75,21 @@ td {
 }
 
 .info .title {
-	padding: 5px 0 0 10px;
-	height: 30px;
+	border-radius: 5px 5px 0px 0px;
+	padding: 5px 5px 10px 10px;
+	height: 35px;
 	background: #eee;
 	border-bottom: 1px solid #ddd;
 	font-size: 18px;
 	font-weight: bold;
+	text-align: center;
 }
 
-.info .close {
-	position: absolute;
-	/* top: 10px;
-            right: 10px;*/
-	color: #888;
-	width: 17px;
-	height: 17px;
-}
-
-.info .close:hover {
-	cursor: pointer;
-}
 
 .info .body {
 	position: relative;
 	overflow: hidden;
+	margin: 10px;
 }
 
 s .info .desc {
@@ -110,50 +102,27 @@ s .info .desc {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	padding-bottom: 8px;
+	font-size: 15px;
+	font-weight: bold;
 }
 
 .desc .jibun {
-	font-size: 11px;
+	font-size: 12px;
 	color: #888;
 	margin-top: -2px;
+	padding-bottom: 8px;
+	font-weight: 600;
 }
 
-.info .img {
-	position: absolute;
-	top: 6px;
-	left: 5px;
-	width: 73px;
-	height: 71px;
-	border: 1px solid #ddd;
-	color: #888;
-	overflow: hidden;
+#line {
+	padding: 3px;
 }
 
-.info:after {
-	content: '';
-	position: absolute;
-	margin-left: -12px;
-	left: 50%;
-	bottom: 0;
-	width: 22px;
-	height: 12px;
-	background:
-		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+.maplink {
+	color: #4072cf;
+	font-weight: bold;
 }
-
-.info .link {
-	color: #5085BB;
-}
-
-
-
-.info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
-    .info .close:hover {cursor: pointer;}
-
-
-
-
-
 </style>
 
 </head>
@@ -249,14 +218,9 @@ s .info .desc {
 		type = 'distance';
 	}
 	
-	//지도로 보기
-	//모달 닫기
-	function modalClose(){
-	$('#mapModal').css('display','none');
-	}
 	
-	
-	
+	var contents = [];
+	var mapCon;
 	
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
     mapOption = { 
@@ -264,39 +228,50 @@ s .info .desc {
 		level: 4 // 지도의 확대 레벨
     };	
 	
-	var markers = [];
-	var overlaies = [] ;
 	
-	var contents = [];
+	mapCon = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+	var overlayArr = [];
+	var overlay=null;
+	
+	function modalClose(){
+		$('#mapModal').css('display','none');
+		for(var m=0;m<overlayArr.length ;m++){
+    		overlayArr[m].setMap(null);
+    	}
+	}
+	
 	
 	function map(){
 		
 		if('${loginInfo}' == ''){
+		
 			alert('로그인 후 이용해주세요.');
 			 location.href="/mangh/member/memberLogin"; 
 		} else{
 		
 		$.ajax({
-			//url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/map/'+mRadius,
-			url : 'http://localhost:8080/rl/request/map/'+mRadius,
+			url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/map/'+mRadius,
+			//url : 'http://localhost:8080/rl/request/map/'+mRadius,
 			type : 'GET',
 			data : {
 				mLat : mLttd,
 				mLon : mLgtd,
 			},
 			success : function(data) {		
-				
-				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
 				$('#mapModal').css('display','block');	
-				map.relayout(); //지도 영역 크기 설정 
+				mapCon.relayout(); //지도 영역 크기 설정 
 				var html = '';
 				for(var i=0;i<data.length;i++){
-			
+					
+					
 					//주소가 동일 데이터 출력
 				  //주소가 같을 때 마커를 한개 생성하고
 				    marker = new kakao.maps.Marker({
-		      		  map: map, // 마커를 표시할 지도
-			       	  position: new kakao.maps.LatLng(data[i].reqLatitude, data[i].reqLongitude)// 마커의 위치
+		      		  map: mapCon, // 마커를 표시할 지도
+			       	  position: new kakao.maps.LatLng(data[i].reqLatitude, data[i].reqLongitude),
+			       	  title : i
 				    });
 					
 				   html +='<div class="wrap">' ;
@@ -306,30 +281,29 @@ s .info .desc {
 					
 					//html +=  '            <div class="desc">' ;
 						html +=  '            <div class="desc">' ;
-						html +=  '                <div class="ellipsis clickTitle">'+data[i].reqTitle+'</div>' ;
-						html += '                <div class="jibun ellipsis">'+data[i].reqAddr+'</div>' ;
+						html +=  '                <div class="ellipsis clickTitle"><a href="#" class="maplink" onclick="detail(\''+data[i].reqWriter+'\','+data[i].reqIdx+','+data[i].calDistance+','+data[i].reqCount+')">'+data[i].reqTitle+'</a></div>' ;
 						//회원 로그인 상태 일 때 거리 출력
 						if( data[i].calDistance >= 1000){
 							var calDistance = data[i].calDistance;
 							calDistance = (Math.round(calDistance/100))/10;
-							html +='				 <div class="ellipsis">'+calDistance+'km</div>';
+							html +='				 <div class="jibun ">'+data[i].reqWriter+' · '+calDistance+'km</div>';
 						}else{
-							html +='				 <div class="ellipsis">'+data[i].calDistance+'m</div>';
+							html +='				 <div class="jibun ">'+data[i].reqWriter+' · '+data[i].calDistance+'m</div>';
 						}	
+						html += '<hr id="line">';
 					for(var j=i+1;j<data.length;j++){
 						if(data[i].reqAddr == data[j].reqAddr){
 							html +='';
-							html += '                <div class="ellipsis clickTitle">'+data[j].reqTitle+'</div>' ;
-							html += '                <div class="jibun ellipsis">'+data[j].reqAddr+'</div>' ;
+							html +=  '                <div class="ellipsis clickTitle"><a href="#" class="maplink" onclick="detail(\''+data[j].reqWriter+'\','+data[j].reqIdx+','+data[j].calDistance+','+data[j].reqCount+')">'+data[j].reqTitle+'</a></div>' ;
 							//회원 로그인 상태 일 때 거리 출력
 							if( data[j].calDistance >= 1000){
 								var calDistance = data[j].calDistance;
 								calDistance = (Math.round(calDistance/100))/10;
-								html +='				 <div class="ellipsis">'+calDistance+'km</div>';
+								html +='				 <div class="jibun ellipsis">'+data[j].reqWriter+' · '+calDistance+'km</div>';
 							}else{
-								html +='				 <div class="ellipsis">'+data[j].calDistance+'m</div>';
+								html +='				 <div class="jibun ellipsis">'+data[j].reqWriter+' · '+data[j].calDistance+'m</div>';
 							}	
-							
+							html += '<hr id="line">';
 							console.log(data[j].reqTitle);
 						    data.splice(j,1);
 							j--;
@@ -344,52 +318,70 @@ s .info .desc {
 				    // 커스텀 오버레이 배열에 값을 추가한다.
 				    contents.push(html);
 				    html +='';
-								    
-				    kakao.maps.event.addListener(marker, 'click', openListener(map, marker, contents[i]));
+				    
+				    kakao.maps.event.addListener(marker, 'mouseover', 
+				    		openListener(mapCon, marker, contents[i]));
+				    
+				    
+				    
+				    
+				    
 					 
 				}//for문
 				
-				map.setCenter(new kakao.maps.LatLng(mLttd, mLgtd));
-				map.relayout(); //지도 영역 크기 설정 
+				mapCon.setCenter(new kakao.maps.LatLng(mLttd, mLgtd));
+				mapCon.relayout(); //지도 영역 크기 설정 
 			}			
 		});
 		}
 	}
 	
+	
+	
+	
 	//오버레이 창 열기
 	function openListener(map, marker, content)
 	{
 		
+		
 		return function(){
 	    	
-			  marker2 = new kakao.maps.Marker({
-	      		  map: map, // 마커를 표시할 지도
-		       	  position: marker.getPosition()// 마커의 위치
-		    });
 			
-	    	  var overlay = new daum.maps.CustomOverlay({
+			/* marker2 = new kakao.maps.Marker({
+	      		  map: mapCon, // 마커를 표시할 지도
+		       	  position: marker.getPosition(),// 마커의 위치
+		       	  title : title
+		    });  */
+			
+			
+    	   overlay = new daum.maps.CustomOverlay({
 			        position:marker.getPosition(),
 			        content: content
 		    });
-	    	
+    	   
+    	   overlayArr.push(overlay);
+    	   
+    	   
+    	   console.log(marker.getPosition());
+	    	  
 	        overlay.setMap(map);
-	        // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-	        kakao.maps.event.addListener(marker2, 'click', closeListener(map,marker2,overlay));
 	        
+       		//kakao.maps.event.addListener(marker, 'click', closeListener(map,marker,overlay));
+       		
+	        kakao.maps.event.addListener(marker, 'click', 
+		    		closeListener(mapCon, marker, overlay));
 		}
 	}
 	
 	//오버레이 창 닫기 
-	function closeListener(map,marker2,overlay){
-		return function(){
-			marker = new kakao.maps.Marker({
-	      		  map: map, // 마커를 표시할 지도
-		       	  position: marker2.getPosition()// 마커의 위치
-		    });
+	function closeListener(map,marker,overlay){
 			
-			kakao.maps.event.addListener(marker, 'click', openListener(map, marker, overlay));
-				
+		
+		return function(){
+			
 			overlay.setMap(null);
+			
+			//kakao.maps.event.addListener(marker, 'click', openListener(map, marker, overlay.getContent()));
 		}
 	}
 	
@@ -475,8 +467,8 @@ s .info .desc {
 	
 	function list() {
 		$.ajax({
-			//		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-					url : 'http://localhost:8080/rl/request',
+					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+			//		url : 'http://localhost:8080/rl/request',
 					type : 'GET',
 					data : {
 						mLat : mLttd,
