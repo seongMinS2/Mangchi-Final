@@ -16,7 +16,7 @@ var searchType = '';
 //페이지번호
 function pageNum(num){
 	this.idx = num;
-	console.log('페이지번호 클릭시' + idx);
+	//console.log('페이지번호 클릭시' + idx);
 	qnaboardList();
 	return false;
 }
@@ -55,6 +55,7 @@ function firstPage(){
 
 
 
+
 /*============================================================================================================================================================*/
 
 //게시판 리스트 출력
@@ -62,10 +63,10 @@ function qnaboardList() {
 //	alert(keyword + searchType);
 
 	$.ajax({
-		url: '/mc/qna/?idx='+idx+'&keyword='+keyword+'&searchType='+searchType,
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/?idx='+idx+'&keyword='+keyword+'&searchType='+searchType,
 		type: 'get',
 		success: function (data) {
-			console.log(JSON.stringify(data));
+			//console.log(JSON.stringify(data));
 			// $('#QnABoardList').html(JSON.stringify(data));
 
 			var html = '';
@@ -80,7 +81,10 @@ function qnaboardList() {
 			for (var i = 0; i < data.boardList.length; i++) {
 				html += '		<tr>';
 				html += '			<td class="w3-center w3-padding">' + data.boardList[i].idx + '</td>';
-				html += '			<td class="w3-padding w3-border-left w3-border-white w3-hover-border-theme"><a class="qna-board-title" href="contents/' + data.boardList[i].idx + '">' +data.boardList[i].title + '</a></td>';
+				html += '			<td class="w3-padding w3-border-left w3-border-white w3-hover-border-theme"><a class="qna-board-title" href="#" onclick="return qnaDetailView(' + data.boardList[i].pwCheck + ','+data.boardList[i].idx+')">'+data.boardList[i].title+'</a>';
+				if(data.boardList[i].pwCheck != 0)
+				html += '<span class="w3-right">🔒</span>'
+				html += '</td>';
 				html += '			<td class="w3-center w3-padding">' + data.boardList[i].memNick + '</td>';
 				html += '			<td class="w3-center w3-padding">' + moment(data.boardList[i].regdate).format('YY년MM월DD일') + '</td>';
 				html += '			<td class="w3-center w3-padding">' + data.boardList[i].count + '</td>';
@@ -111,13 +115,13 @@ function qnaboardList() {
 
 /*============================================================================================================================================================*/
 	
-//게시물 출력 회원
+//게시물 출력
 function contentsList(idx, loginSession) {
 	$.ajax({
-		url: '/mc/qna/contents/' + idx,
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/contents/' + idx,
 		type: 'get',
 		success: function (data) {
-			console.log(JSON.stringify(data));
+			//console.log(JSON.stringify(data));
 			//$('.contentBox').html(JSON.stringify(data));
 
 			var html = '';
@@ -138,10 +142,12 @@ function contentsList(idx, loginSession) {
 				if (data.comment[i].parents === 0) {
 					html += '				<div class="comment_area">';
 					html += '					<div class="comment_Box">';
-					if(loginSession!=null)
-					html += '						<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
-					html += '						<div class="layerMore w3-card-2"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[i].idx + ')">삭제</a></div>';
-					html += '						</div>';
+					//자신의 댓글만 수정/삭제 가능
+					if(loginSession!=null && loginSession.mNick === data.comment[i].writer){
+							html += '						<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
+							html += '						<div class="layerMore w3-card-2"><button class="modify_button w3-button w3-theme-l4">수정</button><br><button class="w3-button w3-theme-l4" onclick="commentDelete(' + data.comment[i].idx + ')">삭제</button></div>';
+							html += '						</div>';
+					}
 					html += '						<div class="comment_nick_box">' + data.comment[i].writer;
 					html += '						</div>';
 					html += '						<div class="comment_text_box">' + data.comment[i].contents + '</div>';
@@ -194,10 +200,12 @@ function contentsList(idx, loginSession) {
 					if (data.comment[j].parents === data.comment[i].idx) {
 						html += '			<div class="comment_coment_area">';
 						html += '				<div class="comment_Box w3-row">';
-						if(loginSession!=null)
-						html += '					<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
-						html += '					<div class="layerMore w3-card-2"><a href="#" class="modify_button">수정</a><br><a href="#" onclick="commentDelete(' + data.comment[j].idx + ')">삭제</a></div>';
-						html += '					</div>';
+						//자신의 댓글만 수정/삭제 가능
+						if(loginSession!=null && loginSession.mNick === data.comment[i].writer){
+								html += '					<div class="comment_tool"><i class="xi-ellipsis-v"></i>';
+								html += '					<div class="layerMore w3-card-2"><button class="modify_button w3-button w3-theme-l4">수정</button><br><button class="w3-button w3-theme-l4" onclick="commentDelete(' + data.comment[j].idx + ')">삭제</button></div>';
+								html += '					</div>';
+						}
 						html += '					<div class="comment_nick_box">' + data.comment[i].writer;
 						html += '					</div>';
 						html += '					<div class="comment_textView">대댓글 :' + data.comment[j].contents + '</div>';
@@ -221,7 +229,7 @@ function contentsList(idx, loginSession) {
 							html += '					<textarea class="comment_insert"></textarea>';
 							html += '					</div>';
 							html += '					<div class="comment_submit">';
-															//댓글쓰기 요청
+							//댓글쓰기 요청
 							html += '						<button class="w3-button w3-theme-l1" onclick="writeHirachyComment(' + idx +','+ data.comment[j].idx +',this)">등록</button>';
 							html += '					</div>';
 							html += '				</div>';
@@ -269,12 +277,12 @@ function contentsList(idx, loginSession) {
 			html += '					</div>';
 			html += '				</div>';
 			html += '			</table>';
-			html += '			<div class="articleBottomBtns">';
+			html += '			<div class="articleBottomBtns w3-margin-top">';
 				//로그인 한 회원만 수정/답글이 가능
 				if(loginSession != null){
 					html += '		<a class="w3-button w3-right w3-theme-l4" href="#">TOP</a>';
 					html += '<a class="w3-button w3-right w3-theme-l4" href="/mangh/qna/reply-board/' + idx + '">답글쓰기</a>';
-					//로그인 한 회원과 게시글의 작성자가 같아야 수정이 가능
+					//로그인 한 회원과 게시글의 작성자가 같아야 삭제/수정이 가능
 					if(loginSession.mNick === data.memNick){
 						html += '		<a class="w3-button w3-right w3-theme-l4" href="#" onclick="qnaDelete(' + idx + ')">글 삭제</a>';
 							html += '<a class="w3-button w3-right w3-theme-l4" href="/mangh/qna/update-board/' + idx + '">수정하기</a>';
@@ -320,6 +328,8 @@ function contentsList(idx, loginSession) {
 
 /*============================================================================================================================================================*/
 
+
+
 //댓글쓰기
 function qnaWritComment(idx) {
 
@@ -329,7 +339,7 @@ function qnaWritComment(idx) {
 		contents: $('.comment_insert:last').val(),
 	};
 	$.ajax({
-		url: '/mc/qna/contents/',
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/contents/',
 		type: 'post',
 		data: JSON.stringify(writeData),
 		dataType: 'text',
@@ -357,7 +367,7 @@ function writeHirachyComment(boIdx,idx,locThis) {
 		contents: $(locThis).parent().prev().children().val()
 	};
 	$.ajax({
-		url: '/mc/qna/contents/hirachy',
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/contents/hirachy',
 		type: 'post',
 		data: JSON.stringify(writeData),
 		dataType: 'text',
@@ -377,22 +387,41 @@ function writeHirachyComment(boIdx,idx,locThis) {
 
 //글쓰기
 function qnaWriteBoard() {
-
-	// var regFormData = new FormData();
-	// regFormData.append('memberNick', $('#qnaWriter').val());
-	// regFormData.append('title', $('#qnaTitle').val());
-	// regFormData.append('contents', $('#summernote').val());
-	// regFormData.append('pw', $('#qnaPw').val());
+	
+	var qnaTitle = $('#qnaTitle').val();
+	var qnaWriter = $('#qnaWriter').val();
+	var qnaContent = $('#summernote').val();
+	var qnaPw = $.trim($('#qnaPw').val());
+	var qnaCheck = 0;
+	if (qnaTitle.trim() == ''){
+		alert("제목을 입력해주세요");
+		return false;
+	}
+	if (qnaWriter.trim() == ''){
+		alert("작성자를 입력해주세요");
+		return false;
+	}
+	if (qnaContent.trim() == ''){
+		alert("내용을 입력해주세요");
+		return false;
+	}
+	if (qnaPw == null || qnaPw == ''){
+		qnaCheck = 0;
+	} else {
+		qnaCheck = 1;
+	}
+	
 
 	var writeData = {
-		memberNick: $('#qnaWriter').val(),
-		title: $('#qnaTitle').val(),
-		contents: $('#summernote').val(),
-		pw: $('#qnaPw').val()
+		memberNick: qnaWriter,
+		title: qnaTitle,
+		contents: qnaContent,
+		pw: qnaPw,
+		pwCheck: qnaCheck
 	};
 
 	$.ajax({
-		url: '/mc/qna/',
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/',
 		type: 'post',
 		data: JSON.stringify(writeData),
 		dataType: 'text',
@@ -413,23 +442,41 @@ function qnaWriteBoard() {
 //답글쓰기
 function qnaWriteSubmit(idx) {
 
-	// var regFormData = new FormData();
-	// regFormData.append('memberNick', $('#qnaWriter').val());
-	// regFormData.append('title', $('#qnaTitle').val());
-	// regFormData.append('contents', $('#summernote').val());
-	// regFormData.append('pw', $('#qnaPw').val());
+	var reTitle = $('#qnaTitle').val();
+	var reWriter = $('#qnaWriter').val();
+	var reContent = $('#summernote').val();
+	var rePw = $.trim($('#qnaPw').val());
+	var qnaReCheck = 0;
+	if (reTitle.trim() == ''){
+		alert("제목을 입력해주세요");
+		return false;
+	}
+	if (reWriter.trim() == ''){
+		alert("작성자를 입력해주세요");
+		return false;
+	}
+	if (reContent.trim() == ''){
+		alert("내용을 입력해주세요");
+		return false;
+	}
+	if (rePw == null || rePw == ''){
+		qnaReCheck = 0;
+	} else {
+		qnaReCheck = 1;
+	}
 
-	var writeData = {
-		memberNick: $('#qnaWriter').val(),
-		title: '답글: ' + $('#qnaTitle').val(),
-		contents: $('#summernote').val(),
-		pw: $('#qnaPw').val()
+	var replyWriteData = {
+		memberNick: reWriter,
+		title: 're: ' +reTitle,
+		contents: reContent,
+		pw: rePw,
+		pwCheck:qnaReCheck
 	};
 
 	$.ajax({
-		url: '/mc/qna/reply-board/' + idx,
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/reply-board/' + idx,
 		type: 'post',
-		data: JSON.stringify(writeData),
+		data: JSON.stringify(replyWriteData),
 		dataType: 'text',
 		contentType: 'application/json; charset=UTF-8',
 		success: function (data) {
@@ -447,19 +494,71 @@ function qnaWriteSubmit(idx) {
 
 /*============================================================================================================================================================*/
 
+//비밀글 유무에 따른 게시글 이동
+function qnaDetailView(pwCheck,idx){
+	if(pwCheck === 0){
+		location.href='contents/'+idx;
+	}
+	if(pwCheck === 1){
+		document.getElementById('pwModal').style.display='block';
+		$('#pw-check-button').click(function(){
+			var pwCheckVal = $('#board-pw').val();
+			qnaPwCheck(pwCheckVal, idx);
+			
+		})
+	}
+	
+}
+//비밀글 체크 ajax
+function qnaPwCheck(pw,idx){
+	
+	var pwCheckData={
+		idx: idx,
+		pw: pw
+	};
+	
+	$.ajax({
+		url:'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/contents/pwCheck',
+		type:'POST',
+		data: JSON.stringify(pwCheckData),
+		dataType:'text',
+		contentType: 'application/json; charset=UTF-8',
+		success: function (data) {
+			if(data === '0'){
+				$('#modal-pw-check-message').show();
+				$('#pw-check-button').removeClass('w3-margin-top');
+				$('#pw-check-cansel-button').removeClass('w3-margin-top');
+				$('#board-pw').val('');
+			}
+			if(data === '1'){
+				location.reload(true);
+				location.href='contents/'+idx;
+			}
+		}
+	});
+}
+function pwCheckCansel(){
+	//document.getElementById('pwModal').style.display='none';
+	$('#pwModal').hide();
+	$('#modal-pw-check-message').hide();
+	$('#pw-check-button').addClass('w3-margin-top');
+	$('#pw-check-cansel-button').addClass('w3-margin-top');
+}
+
 //글 수정 페이지 이동
 function qnaModify(idx) {
 	$.ajax({
-		url: '/mc/qna/update-board/' + idx,
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/update-board/' + idx,
 		type: 'GET',
 		success: function (data) {
+	
 			$('#qnaWriter').val(data.memberNick);
 			$('#qnaTitle').val(data.title);
 			$('#qnaPw').val(data.pw);
-			$('#summernote').summernote('insertText', data.contents);
+			$('#summernote').summernote('code',data.contents);
 			$('#qnaTitle').focus();
 
-			//console.log('섬머노트값: ' + $('#summernote').val());
+			//alert('섬머노트값: ' + $('#summernote').val());
 		}
 	});
 }
@@ -475,7 +574,7 @@ function qnaModifySubmit(num) {
 	};
 
 	$.ajax({
-		url: '/mc/qna/update-board/' + num,
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/update-board/' + num,
 		type: 'put',
 		data: JSON.stringify(writeData),
 		dataType: 'text',
@@ -500,7 +599,7 @@ function qnaModifyComment(mdIdx,modify) {
 		idx: mdIdx
 	};
  	$.ajax({
-		url: '/mc/qna/contents/',
+		url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/contents/',
 		type: 'put',
 		data: JSON.stringify(writeData),
 		dataType: 'text',
@@ -527,7 +626,7 @@ function commentDelete(idx) {
 
 	if (deleteData === true) {
 		$.ajax({
-			url: '/mc/qna/contents/' + idx,
+			url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/contents/' + idx,
 			type: 'DELETE',
 			success: function (data) {
 				if (data === 0) {
@@ -549,7 +648,7 @@ function qnaDelete(idx) {
 
 	if (deleteData === true) {
 		$.ajax({
-			url: '/mc/qna/' + idx,
+			url: 'http://ec2-13-125-52-199.ap-northeast-2.compute.amazonaws.com:8080/mc/qna/' + idx,
 			type: 'DELETE',
 			success: function (data) {
 				if (data === 0)
@@ -563,11 +662,29 @@ function qnaDelete(idx) {
 }
 
 $(document).ready(() => {
+	
 	//검색 버튼 클릭 이벤트
 	$('#SearchButton').on('click',() => {
 		this.keyword = $('#keyword').val();
 		this.searchType = $('#searchType').val();
 		qnaboardList();
 	});
+	
+
+	//비밀번호 모달창 외부클릭 닫기 이벤트
+	//Get the modal
+	var pwModal = document.getElementById('pwModal');
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == pwModal) {
+			pwModal.style.display = "none";
+			$('#modal-pw-check-message').hide();
+			$('#pw-check-button').addClass('w3-margin-top');
+			$('#pw-check-cansel-button').addClass('w3-margin-top');
+		}
+	}
+	//모달 비밀번호 체크 메세지 비활성화
+	$("#modal-pw-check-message").hide();
 });
 

@@ -21,15 +21,21 @@
 	width: 600px;
 }
 
-textarea{
-	resize:none;
-	height:100px;
+.writeContainer{
+	margin: auto;
+	width:600px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+
+textarea {
+	resize: none;
+	height: 100px;
+	width: 380px;
 }
 
 .commentBox {
 	padding-top: 200px;
 }
 
-.writeContainer {
-	padding: 10%;
-}
