@@ -615,7 +615,10 @@ $(document).ready(function(){
 			
 			html += '<tr>';
 			html +=	'	<td>요청자 위치</td>';
-			html +=	'	<td>'+data.reqAddr.substr(2,5)+'</td>';
+			
+			var reqAddr = data.reqAddr.replace(/[a-z0-9]|[\[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g,"");
+			
+			html +=	'	<td>'+reqAddr+'</td>';
 			html += '</tr>';
 			
 			html += '<tr>';
