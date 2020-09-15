@@ -40,7 +40,7 @@ margin-left: 10em;
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
-
+<script type="text/javascript" src='<c:url value="/resources/js/jquery.cookie.js"/>'></script>
 
 <c:if test="${empty loginInfo}">
 <script type="text/javascript">
@@ -1245,18 +1245,33 @@ function likedowncount(guest_idx) {
 	});
 }
 
-
+	var newcookies = [];
+	var oldcookies = [];
+	
 ///////////////////조회수증감
 function hitsup(guest_idx) {
-	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/hitsup/'+guest_idx,
-		type:'PUT',
-		contentType: 'application/json; charset=utf-8',
-		success : function (data) {
-			gbList();
-			writerList(bb);
+	
+		
+		if($.cookie().cookie==null || $.cookie().cookie.indexOf(guest_idx)==-1){
+		newcookies.push(guest_idx);
+		$.cookie('cookie',newcookies);
+		
+		 $.ajax({
+				url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/hitsup/'+guest_idx,
+				type:'PUT',
+				contentType: 'application/json; charset=utf-8',
+				success : function (data) {
+				}
+			}); 
+		 
 		}
-	});
+		
+	    
+	    
+	    console.log($.cookie());
+
+	    
+	
 }
 
 
@@ -1294,6 +1309,11 @@ $(document).ready(function () {
 	gbList();
 	counttest();
 	writerList(bb);
+	
+	oldcookies.push($.cookie());
+	$.cookie('cookie',oldcookies[0].cookie);
+	newcookies.push(oldcookies[0].cookie);
+	
 	
 	$(window).scroll(function() {
 		  if($(window).scrollTop() +200 >= $(document).height() - $(window).height()) {
