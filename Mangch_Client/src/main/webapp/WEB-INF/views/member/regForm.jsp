@@ -118,14 +118,10 @@
 
 	</div>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
-
-	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-	<script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script>
 		var emailCode;
 
 		function sendMail() {
