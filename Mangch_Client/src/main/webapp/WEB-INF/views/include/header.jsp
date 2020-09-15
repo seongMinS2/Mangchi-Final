@@ -20,8 +20,15 @@
 <!-- 보겸 자바스크립트 -->
 <script type="text/javascript" src='<c:url value="/resources/js/jquery.bpopup.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/js/readmore.js"/>'></script>
+<!-- 진명 자바스크립트 -->
+<script src="<c:url value='/resources/js/myeong.js'/>"></script>
 <!-- moment() : 날짜 포멧팅 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+
+<script>
+var contextPath = "${pageContext.request.contextPath}";
+</script>
+
 <style>
 body, h1, h2, h3, h4, h5, h6 {
 	font-family: "Raleway", sans-serif
@@ -178,8 +185,8 @@ button.headSearchBtn{
 				</div>
 				<div class="w3-row w3-center" style="height: 75px;"> 
 					<fieldset class="main-field-set">
-						<input type="search" name="main-search-input" class="headSearchInput"/>
-						<button type="submit"  name="main-search-btn" class="headSearchBtn"><i class="fa fa-search searchMainIcon"></i></button>
+						<input type="search" onKeypress="javascript:if(event.keyCode==13) {headerSearch('${loginInfo}','${loginInfo.mLttd}','${loginInfo.mLgtd}','${loginInfo.mRadius}')}" id="headerText" name="main-search-input" class="headSearchInput"/>
+						<button type="submit" onclick="headerSearch('${loginInfo}','${loginInfo.mLttd}','${loginInfo.mLgtd}','${loginInfo.mRadius}')" name="main-search-btn" class="headSearchBtn"><i class="fa fa-search searchMainIcon"></i></button>
 					</fieldset>
 				</div>
 			</div>
@@ -192,7 +199,7 @@ button.headSearchBtn{
 	</div>
 	<div class="w3-row" style="font-weight: bold; color: #2b2b2b">
 		<div style="border-bottom: 2px solid;" class="w3-col w3-center w3-hide-small w3-white w3-border-theme">
-			<a href="<c:url value="/request/requestList"/>" class="w3-bar-item w3-button">요청게시판</a>
+			<a href="<c:url value="/request/requestList?headerCheck=1&text=no"/>" class="w3-bar-item w3-button">요청게시판</a>
 			<a href="<c:url value="/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
 			<a href="<c:url value="/guest_book/gbBoard"/>" class="w3-bar-item w3-button">동네생활</a> 
 			<a href="<c:url value="/qna/qnaBoard"/>" class="w3-bar-item w3-button">Q&A</a>
@@ -214,7 +221,7 @@ button.headSearchBtn{
 			<a href="<c:url value="/member/memberMypage/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">마이페이지</a>
 			<a href="<c:url value="/member/kakao/logout"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">로그아웃</a>
 		</c:if>
-		<a href="<c:url value="/request/requestList"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
+		<a href="<c:url value="/request/requestList?headerCheck=1&text=no"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
 		<a href="<c:url value="/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">나눔게시판</a> 
 		<a href="<c:url value="/guest_book/gbBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">동네생활</a> 
 		<a href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">Q&A</a> 

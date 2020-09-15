@@ -11,10 +11,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript"src="//dapi.kakao.com/v2/maps/sdk.js?appkey=69c40691beee2a7bf82c96e2f85f0da8"></script>
 
-
-
 <link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">
-<script src="<c:url value='/resources/js/myeong.js'/>"></script>
 
 <style>
 
@@ -108,30 +105,45 @@ td {
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 <script>
-
 /* 로그인 했을 때 와 안했을 때 위도 경도 */
-	var mLttd, mLgtd, mRedisu;
-	var type;
-	var searchText = $('#search_text').val();
-	var searchType = $('#searchType').val(); 
-		
+	//var mLttd, mLgtd, mRedisu;
+	//var type;
+	
+	var mLttd, mLgtd, mRadius;	//사용자 위도 경도
+	var type; //거리순, 최신순
+	var searchText = null;  //검색어
+	var searchType = null; //검색 타입
+	
+	
 	//사용자 위도 경도
 	if ('${loginInfo}' != '') {
 		mLttd = '${loginInfo.mLttd}';
 		mLgtd = '${loginInfo.mLgtd}';
 		mRadius = '${loginInfo.mRadius}'; 
+		
 	} else {
 		mLttd = 0;
 		mLgtd = 0;
 		mRadius = 0;
 	}
-
+	
 	//회원 . 비회원 첫 화면 출력 할 때 type 설정
 	if('${loginInfo}' == ''){
 		type = 'date';
 	}else {
 		type = 'distance';
 	}
+
+	if(${headerCheck} == 1){
+		 
+		searchText = $('#search_text').val();
+		searchType = $('#searchType').val(); 
+			
+	}	else if(${headerCheck} == 2 ){
+		searchText = '${text}'; //검색어
+		searchType = 'both'; //헤더 검색 타입
+	}
+	
 	
 	var contents = [];
 	var mapCon;
@@ -142,9 +154,7 @@ td {
 		level: 2 // 지도의 확대 레벨
     };	
 	
-	
 	mapCon = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-	
 	var overlayArr = [];
 	var overlay=null;
 	
@@ -155,11 +165,9 @@ td {
     	}
 	}
 	
-	
 	function map(){
 		
 		if('${loginInfo}' == ''){
-		
 			alert('로그인 후 이용해주세요.');
 			location.href="${pageContext.request.contextPath}/member/memberLogin"; 
 		} else{
@@ -173,7 +181,8 @@ td {
 				mLon : mLgtd,
 			},
 			success : function(data) {		
-
+			
+				
 					$('#mapModal').css('display','block');	
 					mapCon.relayout(); //지도 영역 크기 설정 
 					var html = '';
@@ -232,140 +241,14 @@ td {
 					    kakao.maps.event.addListener(marker, 'mouseover',openListener(mapCon, marker, contents[i]));
 					}//for문
 					mapCon.setCenter(new kakao.maps.LatLng(mLttd, mLgtd));
+					
 					mapCon.relayout(); //지도 영역 크기 설정 
 				}			
 			});
 	 	 }
 	}
-	
-	function list() {
-		$.ajax({
-					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-			//		url : 'http://localhost:8080/rl/request',
-					type : 'GET',
-					data : {
-						mLat : mLttd,
-						mLon : mLgtd,
-						mRadius : mRadius,
-						page : page,
-						type : type,
-						searchText :searchText,
-						searchType : searchType
-					},
-					success : function(data) {
-						
-						var html = '';
-						html += '<table style="table-layout: fixed" >';
-						html += '	<tr>';
-						html += '	<th>번호</th>';
-						html += '	<th>글 제목</th>';
-						//html += '	<th>지역</th>';
-						if ('${loginInfo}' != '') {
-							html += '	<th>거리</th>';
-						}
-						html += '	<th>상태</th>';
-						html += '	<th>작성자</th>';
-						html += '	<th>조회수</th>';
-						html += '	<th>등록날짜</th>';
-						html += '	</tr>';
-						
-
-						for (var i = 0; i < data.requestReg.length; i++) {
-							html += '<tr>';
-							html += ' <td class="tab_td">' + (i + data.startRow + 1) + '</td>';
-									
-									
-							html += '<td class="title_td"><div class="clickTitle" onclick="detail(\''+data.requestReg[i].reqWriter+'\','+data.requestReg[i].reqIdx+','+data.requestReg[i].calDistance+','+data.requestReg[i].reqCount+')">'+data.requestReg[i].reqTitle+'</div></td>';		
-							
-							//html += ' <td>' + data.requestReg[i].reqAddr+ '</td>';
-							
-							//회원 로그인 상태 일 때 거리 출력
-							if ('${loginInfo}' != '') {
-							if( data.requestReg[i].calDistance >= 1000){
-								var calDistance = data.requestReg[i].calDistance;
-								calDistance = (Math.round(calDistance/100))/10;
-								html += ' <td class="tab_td">' + calDistance
-								+ ' km</td>';
-							}else{
-								html += ' <td class="tab_td">' + data.requestReg[i].calDistance+ ' m</td>';
-							}	
-							
-							}
-							
-
-							var status, color;
-							if (data.requestReg[i].reqStatus == 0) {
-								status = '대기중';
-								color = 'red';
-							} else if (data.requestReg[i].reqStatus == 1) {
-								status = '요청 완료';
-								color = 'gray';
-							}
-							html += '	<td class="tab_td" style="color: '+color+'">';
-							html += '		' + status + '';
-							html += '</td>';
-							
-							html += ' <td class="tab_td">' + data.requestReg[i].reqWriter+ '</td>';
-							
-							html += ' <td class="tab_td">' + data.requestReg[i].reqCount+ '</td>';
-							
-							html += ' <td class="tab_td">' + data.requestReg[i].reqDateTime+ '</td>';
-							
-							html += '</tr>';
-						}
-						html += '</table>';
-						
-						
-					 if (data.pageTotalCount > 0) {
-							
-							var paging ='';
-							
-							if(pageEnd > data.pageTotalCount){
-								pageEnd = data.pageTotalCount;
-							 } 
-							 
-							paging += '<span id="page_number"><button id="page_btn" onclick="prev('+page+')"><</button></span>';
-							for (var m = pageStart; m <= pageEnd ; m++) {
-								paging += '<span id="page_number">';
-								paging += '	<button id="page_btn" ';
-								if(page == m){
-									paging += 'class="listlink"';
-								}
-								paging += ' href="#" onclick="listpage('+m+')" value="'+m+'">';
-								paging +=  m ;
-								paging += '	</button>';
-								paging +='</span>';
-							}
-							paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+','+data.pageTotalCount+')">></button></span>';
-		
-							$('#page').html(paging);
-							$('#list').html(html);
-						} else{
-							
-							if(searchText != '' || searchText.length > 0){
-								html ='<div class="w3-border" id="noBox"">';
-								html +='<h5 id="noList">검색결과가 없습니다. 다른 검색어를 입력하세요.</h5>';
-								html +='</div>';
-							} else{
-								
-								html ='<div class="w3-border" id="noBox"">';
-								html +='<h5 id="noList">내 주변에 존재 하는 게시글이 없습니다.</h5><br><h5 id="noList">다른 요청 글을 보시려면 요청 거리을 재설정 해주세요.</h5>';
-								html +='</div>';
-							}
-							
-							$('#page').html('');
-							$('#list').html(html);
-							
-						}
-						
-					}
-				});
-	}
 	$(document).ready(function() {
-		
-		list();
-		
-		
+			list(); 
 	});
 </script>
 

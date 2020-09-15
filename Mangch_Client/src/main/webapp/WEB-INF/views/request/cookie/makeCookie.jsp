@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
 Cookie cancelCookie = new Cookie("cancelStatus", "cancel");    
-cancelCookie.setMaxAge(5);  // 취소 버튼을 없앨 수 있는 시간                          
+cancelCookie.setMaxAge(60*60*3);  // 취소 버튼을 없앨 수 있는 시간                          
 cancelCookie.setPath("/");                                         
 response.addCookie(cancelCookie);   
 %> 

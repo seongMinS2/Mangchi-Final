@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>요청 게시판</title>
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script type="text/javascript"
@@ -564,7 +564,7 @@ function reqDelete(reqIdx){
 						message = "게시물을 삭제 할 수 없습니다.";
 					}
 					alert(message);
-					location.href="${pageContext.request.contextPath}/request/requestList";
+					location.href="${pageContext.request.contextPath}/request/requestList?headerCheck=1&text=no";
 				}
 			 
 				

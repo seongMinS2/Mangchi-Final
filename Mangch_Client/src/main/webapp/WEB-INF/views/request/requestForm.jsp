@@ -6,12 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>요청 게시판 글쓰기</title>
+<title>요청 게시판</title>
 
 <style>
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 
 <style>
 	#contain{
@@ -88,10 +87,6 @@
 								<th><label>이미지 </label></th>
 								<td id="img"><input type="file" name="reqImg" id="reqImg"></td>
 							</tr>
-							<!-- <tr id="edit">
-								<td></td>
-								<td id="submit"><input type="submit" value="게시물 등록" onclick="regSubmit()" id="submit"></td>
-							</tr> -->
 						</table>
 						
 						<div id="edit">
@@ -127,12 +122,11 @@
 					 $("#summernote").summernote('code',  data.reqContents);
 					
 					
-					
 					var img_html='<input type="text" id="oldImg" name="oldImg" value="'+data.reqImg+'" style="display: none;"><br>';
 					$('#img').append(img_html);
 					
 					var html = '<span>';
-					html += ' <input type="submit" class="form_btn" value="수정" onclick="edit();" id="btn">';	
+					html += ' <input type="submit" class="form_btn" value="수정" onclick="edit();" id="regBtn">';	
 					html += '</span>';
 					
 					$('#edit').append(html);
@@ -146,13 +140,12 @@
 				if($('#reqTitle').val() == ''){
 					alert('제목을 입력해주세요.');
 					$('#reqTitle').focus();
-					$('#reqTitle').scrollIntoView();
 					 return false;
 				}
 				if($('#summernote').summernote('isEmpty')){
 					alert('내용을 입력해주세요.');
-					$('#summernote').summernote('focus',true);
-					$('#summernote').scrollIntoView();
+					 $('#reqTitle').focus();
+					$('#summernote').summernote('focus',true); 
 					return false;	
 				}
 				
@@ -169,8 +162,8 @@
 					editRequest.append('oldImg',$('#oldImg').val());
 					
 					 $.ajax({
-						//url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${reqIdx},
-						url : 'http://localhost:8080/rl/request/'+${reqIdx},
+						url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${reqIdx},
+						//url : 'http://localhost:8080/rl/request/'+${reqIdx},
 						type : 'POST',
 						processData : false,
 						contentType : false,
@@ -178,7 +171,7 @@
 						success : function(data) {
 							if(data != 0){
 							alert('수정되었습니다.');
-							location.href="${pageContext.request.contextPath}/request/requestList";
+							location.href="${pageContext.request.contextPath}/request/requestList?headerCheck=1&text=no";
 							}
 						}
 	
@@ -207,17 +200,19 @@
 			if($('#reqTitle').val() == ''){
 				alert('제목을 입력해주세요.');
 				$('#reqTitle').focus();
-				$('#reqTitle').scrollIntoView();
 				 return false;
 			}
 			if($('#summernote').summernote('isEmpty')){
 				alert('내용을 입력해주세요.');
-				$('#summernote').summernote('focus',true);
-				$('#summernote').scrollIntoView();
+				$('#reqTitle').focus();
+				$('#summernote').summernote('focus',true); 
 				return false;	
 			}
 			
 			else {
+				
+				alert('1');
+				
 				var regRequest = new FormData();
 				regRequest.append('reqWriter','${loginInfo.mNick}');
 				regRequest.append('reqTitle', $('#reqTitle').val());
@@ -242,9 +237,10 @@
 					contentType : false,
 					data : regRequest,
 					success : function(data) {
-						if(data != 0){
-						alert('등록되었습니다.');
-						location.href="${pageContext.request.contextPath}/request/requestList";
+						
+						if(data > 0){
+							alert('등록되었습니다.');
+							location.href="${pageContext.request.contextPath}/request/requestList?headerCheck=1&text=no";
 						}
 					}
 	
@@ -255,8 +251,12 @@
 		}
 		
 		function cancelbtn(){
-			location.href="${pageContext.request.contextPath}/request/requestList";			
+			location.href="${pageContext.request.contextPath}/request/requestList?headerCheck=1&text=no";			
 		}
+		
+		$(document).ready(function() {
+			$('#reqTitle').focus();
+		});
 		
 	</script>
 

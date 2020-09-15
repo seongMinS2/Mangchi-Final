@@ -10,7 +10,11 @@ public class RequestController {
 
 	// 요청 게시물 리스트
 	@RequestMapping("/request/requestList")
-	public String requestReg() {
+	public String requestReg(@RequestParam ("headerCheck") int check,
+			@RequestParam ("text") String text
+			,Model model) {
+		model.addAttribute("headerCheck", check);
+		model.addAttribute("text", text);
 		return "request/requestBoard";
 	}
 
