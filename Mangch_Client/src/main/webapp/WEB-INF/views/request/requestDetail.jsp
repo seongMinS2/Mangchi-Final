@@ -265,7 +265,7 @@ function chat(reqIdx,uNick){
 	//로그인 체크
 	if('${loginInfo}' != ''){
 		//채팅하기로 링크 이동 ------------------------		
-		location.href="/mangh/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
+		location.href="${pageContext.request.contextPath}/chat?reqIdx="+reqIdx+"&uNick="+uNick; 
 		
 		/*  var form = $('<form></form>');
 		    form.attr('action', '/mangh/chat');
@@ -281,7 +281,7 @@ function chat(reqIdx,uNick){
 		
 	}else{
 		alert('로그인 후 이용해주세요.');
-	 location.href="/mangh/member/memberLogin"; 
+	 location.href="${pageContext.request.contextPath}/member/memberLogin"; 
 	}
 }
 
@@ -418,7 +418,7 @@ function updateHelper(helper,writer){
 					alert('동일한 매칭 상대입니다. 다른 상대를 선택하세요.');
 				}else if( data == 2){
 					alert('매칭이 완료되었습니다.');
-					location.href= "/mangh/makeCookie?idx="+${idx}+"&distance="+${distance}+"&count="+${count}+"&writer="+writer;
+					location.href= "${pageContext.request.contextPath}/makeCookie?idx="+${idx}+"&distance="+${distance}+"&count="+${count}+"&writer="+writer;
 					modalClose();
 				}
 			}
@@ -441,12 +441,15 @@ function cancel(reqStatus){
 	if(confirm('매칭을 취소하겠습니까?') == true){
 	
 		 $.ajax({
-			 url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+ ${idx},
-			// url : 'http://localhost:8080/rl/request/'+ ${idx},
+		 
+			 url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+ ${idx},
+			 //url : 'http://localhost:8080/rl/request/'+ ${idx},
 			 type : 'PUT',
 			 success : function(data){
-				 alert('매칭이 취소되었습니다.');
-				 history.go(0);
+				 if(data > 0){
+				 	alert('매칭이 취소되었습니다.');
+				 	history.go(0);
+				 }
 			 }
 			 
 		 });	
@@ -561,7 +564,7 @@ function reqDelete(reqIdx){
 						message = "게시물을 삭제 할 수 없습니다.";
 					}
 					alert(message);
-					location.href="/mangh/request/requestList";
+					location.href="${pageContext.request.contextPath}/request/requestList";
 				}
 			 
 				
@@ -666,7 +669,7 @@ $(document).ready(function(){
 				
 				if(data.reqStatus == 1){ // 매칭 완료 상태
 					if(cancelStatus == 1){ //취소 버튼 쿠키가 있을 때 취소 가능
-						var chatBtn = '	<td><button onclick="cancel('+data.reqStatus+')" id="chatCom">매칭취소</button></td>';
+						var chatBtn = '	<button onclick="cancel('+data.reqStatus+')" id="chatCom">매칭취소</button>';
 						$('#chatBox').html(chatBtn);
 					} 
 				} else if(data.reqStatus == 0){ //매칭 전 상태

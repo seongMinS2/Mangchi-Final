@@ -107,7 +107,7 @@
 			<c:when test="${empty loginInfo}">
 				<script>
 					alert('로그인 후 이용해주세요');
-					location.href = "/mangh/member/memberLogin";
+					location.href = "${pageContext.request.contextPath}/member/memberLogin";
 				</script>
 			</c:when>
 		</c:choose>
@@ -178,7 +178,7 @@
 						success : function(data) {
 							if(data != 0){
 							alert('수정되었습니다.');
-							location.href="/mangh/request/requestList";
+							location.href="${pageContext.request.contextPath}/request/requestList";
 							}
 						}
 	
@@ -244,7 +244,7 @@
 					success : function(data) {
 						if(data != 0){
 						alert('등록되었습니다.');
-						location.href="/mangh/request/requestList";
+						location.href="${pageContext.request.contextPath}/request/requestList";
 						}
 					}
 	
@@ -255,7 +255,7 @@
 		}
 		
 		function cancelbtn(){
-			location.href="/mangh/request/requestList";			
+			location.href="${pageContext.request.contextPath}/request/requestList";			
 		}
 		
 	</script>

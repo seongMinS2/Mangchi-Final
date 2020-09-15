@@ -7,50 +7,35 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<link rel="stylesheet"
-	href="<c:url value='/resources/css/member/mypage.css'/>">
+<script src="<c:url value='/resources/js/myeong.js'/>"></script>
+<link rel="stylesheet" href="<c:url value='/resources/css/member/mypage.css'/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/jin.css"/>">	
 <style>
 #avg {
 	font-size: 120%;
 }
 .avg{
 	text-align: center;
+	margin-bottom: 15px;
+	
 }
 
-.pagination li {
-	float: left;
-	padding: 10px 20px;
+.rtab{
+	width: 100%;
+    margin-left: 8%;
 }
 
-.pagination li>a {
-	display: block;
-	line-height: 50px;
-	font-size: 20px;
-	font-weight: 600;
-	text-decoration: none;
-	color: #777;
-	border-radius: 50%;
-	transition: 0.3s;
+.reBtn{
+	color: #dadada;
+    font-size: large;
+    font-weight: bold;
 }
-
-.pagination {
-	padding: 10px 20px;
-	background: white;
-	border-radius: 50px;
-	box-shadow: 0 0.3px 0.6px rgba(0, 0, 0, 0.056), 0 0.7px 1.3px
-		rgba(0, 0, 0, 0.081), 0 1.3px 2.5px rgba(0, 0, 0, 0.1), 0 2.2px 4.5px
-		rgba(0, 0, 0, 0.119), 0 4.2px 8.4px rgba(0, 0, 0, 0.144), 0 10px 20px
-		rgba(0, 0, 0, 0.2);
-	list-style-type: none;
-	float: left;
-}
-
-#pageCon {
-	margin-left: 33.2%;
+.changeBtn{
+	color:black;
 }
 
 .rtab button{
- background-color: inherit;
+  background-color: inherit;
   float: left;
   border: none;
   outline: none;
@@ -59,10 +44,27 @@
   transition: 0.3s;
   font-size: 17px;
   width: 50%;
+  margin-bottom: 20px;
 }
 
-th, td{
+table {
+	border-top: 2px solid #333333;
+	border-collapse: collapse;
+}
+
+th {
 	text-align: center;
+	width: 5%;
+	padding: 11px 0 10px;
+	border-top: 3px soild #DDD;
+}
+
+th, td {
+	border-bottom: 1px solid #c1c1c1;
+}
+
+td {
+	padding: 11px 0 10px;
 }
 
 
@@ -78,7 +80,8 @@ th, td{
 		<hr>
 
 		<div class="w3-cell-row">
-			<div class="w3-cell" style="width: 25%">
+			<!-- <div class="w3-cell" style="width: 25%"> -->
+			<div style="width: 25%">
 				<div id="profile-menu" class="active">
 					<a href="requestListForm">요청 리스트</a> <a href="lendingListForm">대여리스트</a>
 					<a href="reviewListForm">나의 리뷰</a> <a href="commentListForm">나의
@@ -86,8 +89,8 @@ th, td{
 					<a href="keywordSetForm">키워드 설정</a>
 				</div>
 			</div>
-			<div class="w3-cell" style="width: 75%">
-				<div id="reviewList" style="margin-right: 10%"></div>
+			<div class="w3-cell"  id="myBox" style="width: 75%">
+				<div id="myList"></div>
 				<div id="page"></div>
 			</div>
 		</div>
@@ -111,9 +114,8 @@ th, td{
 		// 요청리스트 출력
 		function list(status) {
 			$.ajax({
-						/* url : 'http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'
-								+ '${loginInfo.mNick}', */
-						url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
+						url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ '${loginInfo.mNick}', 
+						//url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
 						type : 'GET',
 						data : {
 							page : page
@@ -121,6 +123,7 @@ th, td{
 						success : function(data) {
 							var html = '';
 							
+							html +='<div class="rtab">';
 							html +='<div class="avg">';
 							if (data.avg > 1) {
 								html += '<span id="avg">'
@@ -137,13 +140,26 @@ th, td{
 							
 							html +='</div>';
 							
-							html +='<div class="rtab">';
-							html +=' <button onclick="reviewRead('+status+')">작성 한 리뷰</button>';
-							html +='<button onclick="reviewWrite('+status+')">작성 가능 한 리뷰</button>';
+							html +='<button class="reBtn ';
+							if(status == 1){
+								html +='changeBtn"';
+							} 
+							html +='"';
+							html +='onclick="reviewRead('+status+')">작성 한 리뷰</button>';
+							
+							html +='<button class="reBtn ';
+							if(status == 0){
+								html +='changeBtn"';
+							}
+							
+							
+							html +='"';
+							html += 'onclick="reviewWrite('+status+')">작성 가능 한 리뷰</button>';
+							
 							html +='</div>';
 							
-							html += '<table class="w3-border w3-hoverable">';
-							html += '	<tr class="w3-hover-grayscale">';
+							html += '<table >';
+							html += '	<tr>';
 							html += '	<th>번호</th>';
 							html += '	<th>게시글 제목</th>';
 							html += '	<th>상대방</th>';
@@ -154,32 +170,24 @@ th, td{
 							html += '	</tr>';
 							
 							var j = 0;
-							if (data.reviewList.length > 0) {
 								for (var i = 0; i < data.reviewList.length; i++) {
 									
 									if(data.reviewList[i].status == status){
 										html += '<tr>';
-										html += ' <td>' + (j + 1) + '</td>';
-										
+										html += ' <td class="tab_td">' + (j + 1) + '</td>';
 										
 										if(status == 1){
-										html += ' <td>'
-												+ data.reviewList[i].reqList.reqTitle
-												+ '</td>';
+										html += ' <td class="tab_td">'+ data.reviewList[i].reqList.reqTitle+ '</td>';
 										}
 										else if(status == 0){				
-											html += ' <td><div onclick="reviewForm('+data.reviewList[i].reviewIdx+','+data.reviewList[i].status+')">'
+											html += ' <td class="title_td"><div class="clickTitle" onclick="reviewForm('+data.reviewList[i].reviewIdx+','+data.reviewList[i].status+',\''+data.reviewList[i].receiver+'\')">'
 											+ data.reviewList[i].reqList.reqTitle
 											+ '</div></td>';	
 										}
-										html += ' <td>'
-												+ data.reviewList[i].receiver
-												+ '</td>';
-										html += ' <td>' + data.reviewList[i].writer
-												+ '</td>';
+										html += ' <td class="tab_td">'+ data.reviewList[i].receiver+ '</td>';
+										html += ' <td class="tab_td">' + data.reviewList[i].writer+ '</td>';
 										if(status == 1){		
-											html += ' <td>' + data.reviewList[i].text
-													+ '</td>';
+											html += ' <td class="tab_td">' + data.reviewList[i].text+ '</td>';
 										}
 										html += '</tr>';
 										j++;
@@ -187,68 +195,71 @@ th, td{
 									
 								}
 
-							} else {
-								
-								if(status == 1){
-									html += '<td colspan="5">작성된 리뷰가 없습니다.</td>';
-								}else {
-									html += '<td colspan="4">작성된 리뷰가 없습니다.</td>';
-
-								}
-								
-								/* html += '<td></td>';
-								html += '<td>작성된 리뷰가 없습니다.</td>';
-								html += '<td></td>';
-								html += '<td></td>';
- */
-							}
 							html += '</table>';
-							if (data.pageTotalCount > 0) {
-
-								var page = '<ul class="pagination" id="pageCon">';
-								for (var m = 1; m <= data.pageTotalCount; m++) {
-									page += '<li class="page-number>';
-									page += '	<a id="listlink" href="#" onclick="listpage('
-											+ m + ')" >';
-									page += m;
-									page += '	</a>';
-									page += '</li>';
-								}
-								page += '</ul>';
-
+							 if (data.pageTotalCount > 0) {
+									
+								 var paging ='';
+								 	
+								 if(pageEnd > data.pageTotalCount){
+										pageEnd = data.pageTotalCount;
+									} 
+								 
+									paging += '<span id="page_number"><button id="page_btn" onclick="prev('+page+')"><</button></span>';
+									for (var m = pageStart; m <= pageEnd ; m++) {
+										paging += '<span id="page_number">';
+										paging += '	<button id="page_btn" ';
+										if(page == m){
+											paging += 'class="listlink"';
+										}
+										paging += ' href="#" onclick="listpage('+m+')" value="'+m+'">';
+										paging +=  m ;
+										paging += '	</button>';
+										paging +='</span>';
+									}
+									paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+','+data.pageTotalCount+')">></button></span>';
+								 $('#page').html(paging);
+								 $('#myList').html(html);
+								 
+							}else{
+								
+								html ='<div class="w3-border" id="noBox"">';
+								html +='<h5 id="noList">작성 할 수 있는 리뷰가 없습니다.</h5>';
+								html +='</div>';
+							
+								$('#page').html('');
+								$('#myList').html(html);
+								$('#myList').css('margin-right','0px');
 							}
-							$('#page').html(page);
-
-							$('#reviewList').html(html);
+							 
 
 						}
 					});
 
 		}
 	
-		
 		function reviewRead(status){
+//			$('#rCom').addClass('reBtn');
 			status=1;
-			list(status);
+			list(status); 
 		}
 		
 		function reviewWrite(status){
 			status = 0;
 			list(status);
+			$('#rICom').addClass('reBtn');
 		}
 		
-		function reviewForm(reviewIdx,rstatus){
-			alert(reviewIdx);
-			alert(rstatus);
-			
+		function reviewForm(reviewIdx,rstatus,receiver){
 			var form = $('<form></form>');
 		    form.attr('action', '/mangh/review/reviewForm');
 		    form.attr('method', 'post');
 		    form.appendTo('body');
 		    var idx = $("<input type='hidden' value="+reviewIdx+" name='reviewIdx'>"); //게시글 번호
 		    var status = $("<input type='hidden' value="+rstatus+" name='rstatus'>"); //게시글 번호
+		    var reviewReceiver = $("<input type='hidden' value="+receiver+" name='receiver'>"); //게시글 번호
 		    form.append(idx);
 		    form.append(status);
+		    form.append(reviewReceiver);
 		    form.submit(); 
 			
 		}
