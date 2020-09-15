@@ -83,7 +83,7 @@ select {
 
 /* 지도로 보기 버튼 id */
 #mapBtn {
-	background: url( "/mangh/resources/img/map.png" ) no-repeat;
+	background: url( "${pageContext.request.contextPath}/resources/img/map.png" ) no-repeat;
 	border: none;
 	width: 40px;
 	height: 40px;

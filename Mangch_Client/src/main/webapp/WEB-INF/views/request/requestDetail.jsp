@@ -744,7 +744,7 @@ $(document).ready(function(){
 			//이미지 넣기
 			var img = '';
 			if(data.reqImg !='defalult.png'){
-				img += '<img id="reqImg" src="http://localhost:8080/rl/upload/'+data.reqImg+'">';
+				img += '<img id="reqImg" src="http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/upload/'+data.reqImg+'">';
 				$('#imgBox').html(img);
 			} 
 			//요청 게시글 내용 
