@@ -416,6 +416,11 @@ var r=$('#r').val();
 var maddr=$('#guest_addr').val();
 var addrbunki=maddr.substr(2,5);
 
+var kiladd=$('#guest_addr').val().split(' ');
+//var length=kiladd.length-2;
+//var realadd=kiladd.slice(length);
+var realadd=kiladd.splice(-2,1);
+
 ////////////////////////글쓰기 함수
 function guestPost() {
 	
@@ -435,7 +440,7 @@ function guestPost() {
 	postFormData.append('x',x);
 	postFormData.append('y',y);
 	postFormData.append('member_img',mImg);
-	postFormData.append('guest_addr',addrbunki);
+	postFormData.append('guest_addr',realadd);
 	if($('#guest_photo')[0].files[0] !=null){
 	postFormData.append('photo',$('#guest_photo')[0].files[0]); // 파일첨부 코드	
 	}
@@ -1254,7 +1259,7 @@ function hitsup(guest_idx) {
 		
 		if($.cookie().cookie==null || $.cookie().cookie.indexOf(guest_idx)==-1){
 		newcookies.push(guest_idx);
-		$.cookie('cookie',newcookies);
+		$.cookie('cookie',newcookies, { expires: 30 / 1440, path: '/' });
 		
 		 $.ajax({
 				url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/hitsup/'+guest_idx,

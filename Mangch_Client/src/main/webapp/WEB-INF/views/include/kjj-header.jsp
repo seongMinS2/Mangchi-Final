@@ -74,7 +74,7 @@ input[name=side-search-input] {
 }
 
 fieldset.main-field-set {
-  width: 350px;
+  width: 450px;
   position: relative;
   display: inline-block;
   padding: 0 0 0 50px;
@@ -94,9 +94,9 @@ button[name=main-search-btn] {
 
 input[name=main-search-input] {
   color: #666;
-  width: 250px;
+  width: 350px;
   z-index: 2;
-  border: 1px solid #664ACC;
+  border: 2px solid #664ACC;
   padding-left:30px;
 }
 input.headSearchInput:focus {
@@ -137,9 +137,9 @@ button.headSearchBtn{
   color: #664ACC;
   z-index: 3;
   top: 25%;
-  -webkit-transform: translate(-240px, 0);
-      -ms-transform: translate(-240px, 0);
-          transform: translate(-240px, 0);
+  -webkit-transform: translate(-340px, 0);
+      -ms-transform: translate(-340px, 0);
+          transform: translate(-340px, 0);
   -webkit-transition-duration: 0.3s;
           transition-duration: 0.3s;
   -webkit-transition: all 0.1s ease-in-out;
@@ -161,7 +161,7 @@ button.headSearchBtn{
 				</a>
 			</div>
 			<div class="w3-col m9 w3-padding-16 w3-hide-small w3-hide-medium w3-center">
-				<a href="<c:url value="/request/requestList"/>" class="w3-bar-item w3-button">요청게시판</a>
+				<a href="<c:url value="/request/requestList?headerCheck=1&text=no"/>" class="w3-bar-item w3-button">요청게시판</a>
 				<a href="<c:url value="/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
 				<a href="<c:url value="/guest_book/gbBoard"/>" class="w3-bar-item w3-button">동네생활</a> 
 				<a href="<c:url value="/qna/qnaBoard"/>" class="w3-bar-item w3-button">Q&A</a>
@@ -189,7 +189,7 @@ button.headSearchBtn{
 		<c:if test="${!empty loginInfo }">
 			<a href="<c:url value="/member/memberMypage/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">마이페이지</a>
 		</c:if>
-		<a href="<c:url value="/request/requestList"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
+		<a href="<c:url value="/request/requestList?headerCheck=1&text=no"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
 		<a href="<c:url value="/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">나눔게시판</a> 
 		<a href="<c:url value="/guest_book/gbBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">동네생활</a> 
 		<a href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">Q&A</a> 
