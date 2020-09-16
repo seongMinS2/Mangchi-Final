@@ -211,8 +211,6 @@
 			
 			else {
 				
-				alert('1');
-				
 				var regRequest = new FormData();
 				regRequest.append('reqWriter','${loginInfo.mNick}');
 				regRequest.append('reqTitle', $('#reqTitle').val());
