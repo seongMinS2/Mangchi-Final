@@ -176,7 +176,7 @@ button.headSearchBtn{
 		<div class="w3-content">
 			<div class="w3-col s6 m3 w3-padding-16 w3-center"> 
 				<a href="<c:url value="/"/>" class="w3-row">
-					<img src="<c:url value="/resources/img/LOGO.png"/>" style="width: 145px;"/>
+					<img src="<c:url value="/resources/img/LOGO.png"/>" style="width: 180px;"/>
 				</a>
 			</div>
 			<div class="w3-col m6 w3-hide-small">
