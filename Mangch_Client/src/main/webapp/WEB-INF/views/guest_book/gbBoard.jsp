@@ -371,6 +371,7 @@ $.ajax({
 		success : function (data) {
 			gbList();
 			writerList(bb);
+			counttest()
 		}
 	});
 	
@@ -397,6 +398,7 @@ function deleteForm(a,b) {
 			
 				gbList();
 				writerList(bb);
+				counttest()
 			}
 		});
 	}
@@ -459,6 +461,7 @@ function guestPost() {
 			
 			gbList();
 			writerList(bb);
+			counttest()
 		}
 	});
 }
@@ -679,7 +682,7 @@ function deleteCmt(comment_idx,guest_idx) {
 			gbList();
 			writerList(bb);
 			goPopup(guest_idx);
-			
+			counttest()
 			
 		}
 	});

@@ -709,15 +709,6 @@ $(document).ready(function(){
 				$('#infoBtn').html(infoBtn);
 			}
 	
-			//로그인 한 회원이 리뷰 작성자 일 때 - 권한 확인 
-			if('${loginInfo.mNick}' == data.reviewWriter){
-					//html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
-				
-					var reviewBtn = '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
-					$('#chatBox').append(reviewBtn);
-			
-			}
-			
 			//로그인 한 사용자가 리뷰 권한이 없을 때
 			/* else if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
@@ -741,14 +732,29 @@ $(document).ready(function(){
 			html +='</tr>';  */
 			html +=	'</table>';	
 			
-			if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
+			var btn='';
+			
+//			if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
+			if( '${loginInfo.mNick}' != data.reqWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					/* html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>'; */
 					var chatBtn = '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+					btn += '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
 					$('#chatBox').html(chatBtn);
 					
 				} 
 			}
+			
+			
+			//로그인 한 회원이 리뷰 작성자 일 때 - 권한 확인 
+			if('${loginInfo.mNick}' == data.reviewWriter){
+					//html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
+					var reviewBtn = '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
+					btn += '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
+					$('#chatBox').html(reviewBtn);
+			}
+			
+			$('#chatBox').html(btn);
 			
 			 //비회원 일 때
 			if('${loginInfo}' == ''){		
