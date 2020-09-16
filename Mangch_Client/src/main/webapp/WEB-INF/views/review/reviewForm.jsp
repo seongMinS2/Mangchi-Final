@@ -26,7 +26,7 @@
 	.star-input>.input>input:checked+label {
 	display: inline-block;
 	vertical-align: middle;
-	background: url('/mangh/resources/img/star.png') no-repeat;
+	background: url('${pageContext.request.contextPath}/resources/img/star.png') no-repeat;
 }
 
 .star-input {

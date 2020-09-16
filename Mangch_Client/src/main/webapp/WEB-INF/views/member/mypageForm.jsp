@@ -19,12 +19,14 @@
 		<%-- ${loginInfo} --%>
 		<div class="w3-row">
 			<div id="profile-menu" class="w3-col m4 active">
-				<a href="<c:url value='/member/memberMypage/requestListForm'/>">요청리스트</a> 
-				<a href="<c:url value='/member/memberMypage/lendingListForm'/>">대여리스트</a> 
-				<a href="<c:url value='/member/memberMypage/reviewListForm'/>">나의리뷰</a> 
-				<a href="<c:url value='/member/memberMypage/commentListForm'/>">나의댓글</a> 
-				<a href="<c:url value='/member/memberMypage/mypageForm'/>">나의정보</a> 
-				<a href="<c:url value='/member/memberMypage/distSetForm'/>">은아 연습장</a> 
+<%-- 				<a href="<c:url value='/member/memberMypage/requestListForm'/>">요청내역</a> 
+				<a href="<c:url value='/member/memberMypage/lendingListForm'/>">대여내역</a> 
+				<a href="<c:url value='/member/memberMypage/reviewListForm'/>">나의 리뷰</a> 
+				<a href="<c:url value='/member/memberMypage/mypageForm'/>">나의 정보</a>  --%>
+					<a href="requestListForm">요청내역</a> 
+					<a href="lendingListForm">대여내역</a>
+					<a href="reviewListForm">나의 리뷰</a> 
+					<a href="mypageForm">나의 정보</a> 
 			</div>
 			<div class="w3-col m8">
 				<div class="mypageBox w3-animate-right">
@@ -75,9 +77,9 @@
 									<td>거리</td>
 									<td><select name="mRadius" id="mRadius" value="${loginInfo.mRadius}">
 											<option value="1" id="1">1km</option>
-											<option value="2" id="2">2km</option>
 											<option value="3" id="3">3km</option>
-											<option value="4" id="4">4km</option>
+											<option value="5" id="5">5km</option>
+											<option value="10" id="10">10km</option>
 									</select></td>
 								</tr>
 								<tr>
@@ -201,351 +203,352 @@
 	</div>
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
-	<script>
-		var verifyCode = null;
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df58cedd8eb92f5d263aef4923099171&libraries=services"></script>
+<script>
 
-		function sendCode() {
-			$.ajax({
-				url : 'send',
-				data : {
-					access_Token : '${access_Token}'
-				},
-				success : function(data) {
-					alert('카카오톡으로 인증번호가 발송되었습니다!');
-					verifyCode = data;
-					alert(verifyCode);
-				}
-			});
-		}
-
-		function deleteKakaoMember() {
-			if ($('#sendCode').val() != verifyCode) {
-				alert('인증번호가 일치하지않습니다.');
-				return false;
+	// 회원탈퇴 :: 카카오 나에게 메세지보내기
+	var verifyCode = null;
+	function sendCode() {
+		$.ajax({
+			url : 'send',
+			data : {
+				access_Token : '${access_Token}'
+			},
+			success : function(data) {
+				alert('카카오톡으로 인증번호가 발송되었습니다!');
+				verifyCode = data;
+				alert(verifyCode);
 			}
-			$.ajax({
-				url : 'unlink',
-				type : 'post',
-				data : {
-					access_Token : '${access_Token}',
-					mId : '${loginInfo.mId}'
-				},
-				success : function(data) {
-					if (data == "Y") {
-						location.href='removeSession';
-						alert('회원탈퇴가 완료되셨습니다 !');
-						
-					}
-				}
-			});
+		});
+	}
 
+	// 카카오 회원탈퇴
+	function deleteKakaoMember() {
+		if ($('#sendCode').val() != verifyCode) {
+			alert('인증번호가 일치하지않습니다.');
+			return false;
 		}
+		$.ajax({
+			url : 'unlink',
+			type : 'post',
+			data : {
+				access_Token : '${access_Token}',
+				mId : '${loginInfo.mId}'
+			},
+			success : function(data) {
+				if (data == "Y") {
+					location.href = 'removeSession';
+					alert('회원탈퇴가 완료되셨습니다 !');
 
-		$(document).ready(function() {
-			var mRadius = '${loginInfo.mRadius}';
-			if (mRadius == 1) {
-				$('#1').attr('selected', 'selected');
-			} else if (mRadius == 2) {
-				$('#2').attr('selected', 'selected');
-			} else if (mRadius == 3) {
-				$('#3').attr('selected', 'selected');
-			} else if (mRadius == 4) {
-				$('#4').attr('selected', 'selected');
+				}
 			}
 		});
 
-		// checkbox 선택
-		function oneCheckbox(a) {
-			var obj = document.getElementsByName("checkbox");
-			for (var i = 0; i < obj.length; i++) {
-				if (obj[i] != a) {
-					obj[i].checked = false;
-				}
+	}
+
+	$(document).ready(function() {
+		var mRadius = '${loginInfo.mRadius}';
+		if (mRadius == 1) {
+			$('#1').attr('selected', 'selected');
+		} else if (mRadius == 3) {
+			$('#3').attr('selected', 'selected');
+		} else if (mRadius == 5) {
+			$('#5').attr('selected', 'selected');
+		} else if (mRadius == 10) {
+			$('#10').attr('selected', 'selected');
+		}
+		
+		var editMSG = "<c:out value="${editMSG}" />";
+	    if('${editMSG}' != ""){
+	    	location.href='/mangh/member/memberMypage/mypageForm';
+	        alert('${editMSG}');
+	    }
+	});
+
+	// checkbox 선택
+	function oneCheckbox(a) {
+		var obj = document.getElementsByName("checkbox");
+		for (var i = 0; i < obj.length; i++) {
+			if (obj[i] != a) {
+				obj[i].checked = false;
 			}
 		}
+	}
 
-		// 비밀번호 변경
-		function updatePw() {
-			if ($('#nPw').val().length < 1) {
-				document.getElementById('nPw').focus();
-				alert('새 비밀번호를 입력해주세요.');
-				return false;
-			}
-			if ($('#nchkPw').val().length < 1) {
-				document.getElementById('nchkPw').focus();
-				alert('새 비밀번호를 확인해주세요.');
-				return false;
-			}
+	// 비밀번호 변경
+	function updatePw() {
+		if ($('#nPw').val().length < 1) {
+			document.getElementById('nPw').focus();
+			alert('새 비밀번호를 입력해주세요.');
+			return false;
+		}
+		if ($('#nchkPw').val().length < 1) {
+			document.getElementById('nchkPw').focus();
+			alert('새 비밀번호를 확인해주세요.');
+			return false;
+		}
 
-			var mId = '${loginInfo.mId}';
-			var mPw = $('#mPw').val();
-			var nPw = $('#nPw').val();
-			var nchkPw = $('#nchkPw').val();
+		var mId = '${loginInfo.mId}';
+		var mPw = $('#mPw').val();
+		var nPw = $('#nPw').val();
+		var nchkPw = $('#nchkPw').val();
 
-			$.ajax({
-				url : 'chkmPw',
-				type : 'post',
-				data : {
-					mId : mId,
-					mPw : mPw
-				},
-				success : function(data) {
-					if (data == 1) {
-						if (nPw != nchkPw) {
-							alert('새 비밀번호가 일치하지 않습니다.');
-							location.href = 'mypageForm';
-						} else {
-							$.ajax({
-								url : 'editPw',
-								type : 'post',
-								data : {
-									mId : mId,
-									nPw : nPw
-								},
-								success : function(data) {
-									if (data == 1) {
-										alert('비밀번호가 변경되었습니다.');
-									} else {
-										alert('비밀번호 변경이 실패하였습니다.');
-									}
-									location.href = 'mypageForm';
-								}
-							});
-						}
+		$.ajax({
+			url : 'chkmPw',
+			type : 'post',
+			data : {
+				mId : mId,
+				mPw : mPw
+			},
+			success : function(data) {
+				if (data == 1) {
+					if (nPw != nchkPw) {
+						alert('새 비밀번호가 일치하지 않습니다.');
+						location.href = 'mypageForm';
 					} else {
-						alert('비밀번호가 일치하지 않습니다.');
-						document.getElementById('mPw').focus();
-					}
-				}
-
-			});
-		}
-
-		// 회원 탈퇴
-		function deleteMember() {
-			var mId = '${loginInfo.mId}';
-			var mPw = $('#dPw').val();
-
-			$.ajax({
-				url : 'chkmPw',
-				type : 'post',
-				data : {
-					mId : mId,
-					mPw : mPw
-				},
-				success : function(data) {
-					if (data == 1) {
-
 						$.ajax({
-							url : 'delete',
+							url : 'editPw',
 							type : 'post',
 							data : {
-								mId : mId
+								mId : mId,
+								nPw : nPw
 							},
 							success : function(data) {
 								if (data == 1) {
-									alert('회원탈퇴에 성공하였습니다.');
+									alert('비밀번호가 변경되었습니다.');
 								} else {
-									alert('회원탈퇴에 실패하였습니다.');
+									alert('비밀번호 변경이 실패하였습니다.');
 								}
 								location.href = 'mypageForm';
 							}
 						});
-
-					} else {
-						alert('비밀번호가 일치하지 않습니다.');
-						location.href = 'mypageForm';
 					}
+				} else {
+					alert('비밀번호가 일치하지 않습니다.');
+					document.getElementById('mPw').focus();
 				}
-
-			});
-		}
-
-		/* 비밀번호 변경 modal */
-		$('#pw').click(function() {
-			var $href = $(this).attr('href');
-			layer_popup($href);
-
-		});
-
-		function layer_popup(el) {
-			var $el = $(el); //레이어의 id를 $el 변수에 저장
-			var isDim = $el.prev().hasClass('dimBg'); //dimmed 레이어를 감지하기 위한 boolean 변수
-
-			isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
-
-			var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el
-					.outerHeight()), docWidth = $(document).width(), docHeight = $(
-					document).height();
-
-			// 화면의 중앙에 레이어를 띄운다.
-			if ($elHeight < docHeight || $elWidth < docWidth) {
-				$el.css({
-					marginTop : -$elHeight / 2,
-					marginLeft : -$elWidth / 2
-				})
-			} else {
-				$el.css({
-					top : 0,
-					left : 0
-				});
 			}
 
-			$el.find('.btn-layerClose').click(function() {
-				isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-				return false;
-			});
-
-			$('.layer .dimBg').click(function() {
-				$('.dim-layer').fadeOut();
-				return false;
-			});
-
-		}
-
-		/* 회원탈퇴 */
-		$('#del').click(function() {
-			var $href = $(this).attr('href');
-			layer_popup2($href);
-
 		});
+	}
 
-		function layer_popup2(el) {
-			var $el = $(el); //레이어의 id를 $el 변수에 저장
-			var isDim = $el.prev().hasClass('dimBg2'); //dimmed 레이어를 감지하기 위한 boolean 변수
+	// 회원 탈퇴
+	function deleteMember() {
+		var mId = '${loginInfo.mId}';
+		var mPw = $('#dPw').val();
 
-			isDim ? $('.dim-layer2').fadeIn() : $el.fadeIn();
+		$.ajax({
+			url : 'chkmPw',
+			type : 'post',
+			data : {
+				mId : mId,
+				mPw : mPw
+			},
+			success : function(data) {
+				if (data == 1) {
 
-			var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el
-					.outerHeight()), docWidth = $(document).width(), docHeight = $(
-					document).height();
-
-			// 화면의 중앙에 레이어를 띄운다.
-			if ($elHeight < docHeight || $elWidth < docWidth) {
-				$el.css({
-					marginTop : -$elHeight / 2,
-					marginLeft : -$elWidth / 2
-				})
-			} else {
-				$el.css({
-					top : 0,
-					left : 0
-				});
-			}
-
-			$el.find('.btn-layerClose2').click(function() {
-				isDim ? $('.dim-layer2').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-				return false;
-			});
-
-			$('.layer .dimBg2').click(function() {
-				$('.dim-layer2').fadeOut();
-				return false;
-			});
-
-		}
-
-		/* 카카오 회원탈퇴 */
-		$('#delKakao').click(function() {
-			var $href = $(this).attr('href');
-			layer_popup3($href);
-
-		});
-
-		function layer_popup3(el) {
-			var $el = $(el); //레이어의 id를 $el 변수에 저장
-			var isDim = $el.prev().hasClass('dimBg3'); //dimmed 레이어를 감지하기 위한 boolean 변수
-
-			isDim ? $('.dim-layer3').fadeIn() : $el.fadeIn();
-
-			var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el
-					.outerHeight()), docWidth = $(document).width(), docHeight = $(
-					document).height();
-
-			// 화면의 중앙에 레이어를 띄운다.
-			if ($elHeight < docHeight || $elWidth < docWidth) {
-				$el.css({
-					marginTop : -$elHeight / 2,
-					marginLeft : -$elWidth / 2
-				})
-			} else {
-				$el.css({
-					top : 0,
-					left : 0
-				});
-			}
-
-			$el.find('.btn-layerClose3').click(function() {
-				isDim ? $('.dim-layer3').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-				return false;
-			});
-
-			$('.layer .dimBg3').click(function() {
-				$('.dim-layer3').fadeOut();
-				return false;
-			});
-
-		}
-
-		// ### 주소 검색 ###
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-		mapOption = {
-			center : new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-			level : 5
-		// 지도의 확대 레벨
-		};
-
-		//지도를 미리 생성
-		var map = new daum.maps.Map(mapContainer, mapOption);
-		//주소-좌표 변환 객체를 생성
-		var geocoder = new daum.maps.services.Geocoder();
-		//마커를 미리 생성
-		var marker = new daum.maps.Marker({
-			position : new daum.maps.LatLng(37.537187, 127.005476),
-			map : map
-		});
-
-		function sample5_execDaumPostcode() {
-			new daum.Postcode({
-				oncomplete : function(data) {
-					var addr = data.address; // 최종 주소 변수
-
-					// 주소 정보를 해당 필드에 넣는다.
-					document.getElementById("mAddr").value = addr;
-					// 주소로 상세 정보를 검색
-					geocoder.addressSearch(data.address, function(results,
-							status) {
-						// 정상적으로 검색이 완료됐으면
-						if (status === daum.maps.services.Status.OK) {
-
-							var result = results[0]; //첫번째 결과의 값을 활용
-
-							// 해당 주소에 대한 좌표를 받아서
-							var coords = new daum.maps.LatLng(result.y,
-									result.x);
-							$('#lat').attr('value', result.y);
-							$('#longi').attr('value', result.x);
-
-							// 해당 주소의 좌표를 input에 보내준다.
-							document.getElementById("mLttd").value = result.y;
-							document.getElementById("mLgtd").value = result.x;
-
-							// 지도를 보여준다.
-							mapContainer.style.display = "block";
-							map.relayout();
-							// 지도 중심을 변경한다.
-							map.setCenter(coords);
-							// 마커를 결과값으로 받은 위치로 옮긴다.
-							marker.setPosition(coords)
+					$.ajax({
+						url : 'delete',
+						type : 'post',
+						data : {
+							mId : mId
+						},
+						success : function(data) {
+							if (data == 1) {
+								alert('회원탈퇴가 완료되었습니다.');
+							} else {
+								alert('회원탈퇴에 실패하였습니다.');
+							}
+							location.href = 'mypageForm';
 						}
 					});
+
+				} else {
+					alert('비밀번호가 일치하지 않습니다.');
+					location.href = 'mypageForm';
 				}
-			}).open();
+			}
+
+		});
+	}
+
+	// 비밀번호 변경 modal 
+	$('#pw').click(function() {
+		var $href = $(this).attr('href');
+		layer_popup($href);
+
+	});
+
+	function layer_popup(el) {
+		var $el = $(el); //레이어의 id를 $el 변수에 저장
+		var isDim = $el.prev().hasClass('dimBg'); //dimmed 레이어를 감지하기 위한 boolean 변수
+
+		isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+		var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el.outerHeight()), docWidth = $(
+				document).width(), docHeight = $(document).height();
+
+		// 화면의 중앙에 레이어를 띄운다.
+		if ($elHeight < docHeight || $elWidth < docWidth) {
+			$el.css({
+				marginTop : -$elHeight / 2,
+				marginLeft : -$elWidth / 2
+			})
+		} else {
+			$el.css({
+				top : 0,
+				left : 0
+			});
 		}
-	</script>
+
+		$el.find('.btn-layerClose').click(function() {
+			isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+			return false;
+		});
+
+		$('.layer .dimBg').click(function() {
+			$('.dim-layer').fadeOut();
+			return false;
+		});
+
+	}
+
+	// 회원탈퇴 
+	$('#del').click(function() {
+		var $href = $(this).attr('href');
+		layer_popup2($href);
+
+	});
+
+	function layer_popup2(el) {
+		var $el = $(el); //레이어의 id를 $el 변수에 저장
+		var isDim = $el.prev().hasClass('dimBg2'); //dimmed 레이어를 감지하기 위한 boolean 변수
+
+		isDim ? $('.dim-layer2').fadeIn() : $el.fadeIn();
+
+		var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el.outerHeight()), docWidth = $(
+				document).width(), docHeight = $(document).height();
+
+		// 화면의 중앙에 레이어를 띄운다.
+		if ($elHeight < docHeight || $elWidth < docWidth) {
+			$el.css({
+				marginTop : -$elHeight / 2,
+				marginLeft : -$elWidth / 2
+			})
+		} else {
+			$el.css({
+				top : 0,
+				left : 0
+			});
+		}
+
+		$el.find('.btn-layerClose2').click(function() {
+			isDim ? $('.dim-layer2').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+			return false;
+		});
+
+		$('.layer .dimBg2').click(function() {
+			$('.dim-layer2').fadeOut();
+			return false;
+		});
+
+	}
+
+	// ### 카카오 회원탈퇴  ###
+	$('#delKakao').click(function() {
+		var $href = $(this).attr('href');
+		layer_popup3($href);
+
+	});
+
+	function layer_popup3(el) {
+		var $el = $(el); //레이어의 id를 $el 변수에 저장
+		var isDim = $el.prev().hasClass('dimBg3'); //dimmed 레이어를 감지하기 위한 boolean 변수
+
+		isDim ? $('.dim-layer3').fadeIn() : $el.fadeIn();
+
+		var $elWidth = ~~($el.outerWidth()), $elHeight = ~~($el.outerHeight()), docWidth = $(
+				document).width(), docHeight = $(document).height();
+
+		// 화면의 중앙에 레이어를 띄운다.
+		if ($elHeight < docHeight || $elWidth < docWidth) {
+			$el.css({
+				marginTop : -$elHeight / 2,
+				marginLeft : -$elWidth / 2
+			})
+		} else {
+			$el.css({
+				top : 0,
+				left : 0
+			});
+		}
+
+		$el.find('.btn-layerClose3').click(function() {
+			isDim ? $('.dim-layer3').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+			return false;
+		});
+
+		$('.layer .dimBg3').click(function() {
+			$('.dim-layer3').fadeOut();
+			return false;
+		});
+
+	}
+
+	// ### 주소 검색 ###
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+	mapOption = {
+		center : new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+		level : 5
+	// 지도의 확대 레벨
+	};
+
+	//지도를 미리 생성
+	var map = new daum.maps.Map(mapContainer, mapOption);
+	//주소-좌표 변환 객체를 생성
+	var geocoder = new daum.maps.services.Geocoder();
+	//마커를 미리 생성
+	var marker = new daum.maps.Marker({
+		position : new daum.maps.LatLng(37.537187, 127.005476),
+		map : map
+	});
+
+	function sample5_execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				var addr = data.address; // 최종 주소 변수
+
+				// 주소 정보를 해당 필드에 넣는다.
+				document.getElementById("mAddr").value = addr;
+				// 주소로 상세 정보를 검색
+				geocoder.addressSearch(data.address, function(results, status) {
+					// 정상적으로 검색이 완료됐으면
+					if (status === daum.maps.services.Status.OK) {
+
+						var result = results[0]; //첫번째 결과의 값을 활용
+
+						// 해당 주소에 대한 좌표를 받아서
+						var coords = new daum.maps.LatLng(result.y, result.x);
+						$('#lat').attr('value', result.y);
+						$('#longi').attr('value', result.x);
+
+						// 해당 주소의 좌표를 input에 보내준다.
+						document.getElementById("mLttd").value = result.y;
+						document.getElementById("mLgtd").value = result.x;
+
+						// 지도를 보여준다.
+						mapContainer.style.display = "block";
+						map.relayout();
+						// 지도 중심을 변경한다.
+						map.setCenter(coords);
+						// 마커를 결과값으로 받은 위치로 옮긴다.
+						marker.setPosition(coords)
+					}
+				});
+			}
+		}).open();
+	}
+</script>
 </body>
 </html>

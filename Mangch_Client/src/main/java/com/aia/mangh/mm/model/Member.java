@@ -21,7 +21,6 @@ public class Member {
 
 	public Member(int mIdx, String mId, String mPw, String mNick, float mScore, Date mRegdate, String mAddr,
 			double mLttd, double mLgtd, String mImg, String mChk, int mRadius, String kId, String mDel) {
-		super();
 		this.mIdx = mIdx;
 		this.mId = mId;
 		this.mPw = mPw;
@@ -39,11 +38,11 @@ public class Member {
 	}
 
 	public Member(String mId, String mPw, String mNick, String mAddr, double mLttd, double mLgtd, String mChk) {
-		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 1, null, null);
+		this(0, mId, mPw, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, mChk, 3, null, null);
 	}
 	
 	public Member(String mId, String mNick, String mAddr, double mLttd, double mLgtd,  String kId) {
-		this(0, mId, null, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, null,1 , kId, null);
+		this(0, mId, null, mNick, 2.5f, null, mAddr, mLttd, mLgtd, null, null, 3, kId, null);
 	}
 
 	public LoginInfo toLoginInfo() {
