@@ -1259,7 +1259,7 @@ function hitsup(guest_idx) {
 		
 		if($.cookie().cookie==null || $.cookie().cookie.indexOf(guest_idx)==-1){
 		newcookies.push(guest_idx);
-		$.cookie('cookie',newcookies);
+		$.cookie('cookie',newcookies, { expires: 30 / 1440, path: '/' });
 		
 		 $.ajax({
 				url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/hitsup/'+guest_idx,
