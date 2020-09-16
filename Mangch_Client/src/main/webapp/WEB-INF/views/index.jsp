@@ -11,10 +11,18 @@
 </head>
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+    <link rel='stylesheet' href='<c:url value="/resources/assets/dist/css/bootstrap.css"/>'>
 <style>
 h1{
 	font-family: 'Jua', sans-serif;
 	color: black;
+}
+
+.bd-placeholder-img{
+border: 3px solid #DDD;
 }
 
 p {
@@ -72,8 +80,8 @@ p {
   
 </div>
 
- <div class="w3-content w3-center w3-container">
-  <div class="w3-row w3-padding">
+ <div class="w3-content w3-center w3-container" style="margin-bottom: 3%;">
+  <div class="w3-row w3-padding" style="margin-top: 5%;">
   
   <div class="w3-col m4">
   <div class="indexPic">
@@ -100,6 +108,99 @@ p {
   </div>
   	</div>
  </div>
+ 
+ 
+
+  <div class="container marketing">
+
+    
+
+
+    <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h1 class="featurette-heading">간편한 회원가입, 로그인 </h1>
+        <h5> <span class="text-muted"> >> BOTH! << </span></h5>
+        <p class="lead" style="color: black; font: bold;">주요 포탈 API를 활용하여 클릭 한번에 회원가입부터 로그인까지 가능하도록 하였습니다.</p>
+      </div>
+      <div class="col-md-5">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/로그인.PNG'/>" style="width: 500px; height: 500px;" >
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h1 class="featurette-heading"> 요청 게시판에 대여요청 올리기 </h1>
+        <h5> <span class="text-muted">당장 망치가 필요한데 한번 쓰려고 사기에는 아까워! << </span></h5>
+        <p class="lead" style="color: black; font: bold;"> 당장 급한 물건이 있을 때 내 위치와 함께 필요한 물품을 게시하여 내 주위 사람들에게 도움을 청할 수 있습니다. </p>
+      </div>
+      <div class="col-md-5">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/테스트.jpg'/>" style="width: 500px; height: 500px;">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h1 class="featurette-heading">나눔 게시판에 나눔글 올리기</h1>
+        <h5> <span class="text-muted"> >> 집에 물건은 남아돌고 처리하긴 힘들고.... </span></h5>
+        <p class="lead" style="color: black; font: bold;">집에 사용하지 않아 처리하기 힘든 물품들을 여러 사람들에게 나누어 줄 수 있습니다.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+       <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/나눔게시판.PNG'/>" style="width: 500px; height: 500px;" >
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h1 class="featurette-heading">근처 이웃들과 소통하는 동네생활</h1>
+        <h5> <span class="text-muted"> 동네 사람들과 소통하고 싶다면? << </span></h5>
+        <p class="lead" style="color: black; font: bold;">내가 설정한 동네 반경에 따라 동네 사람들과 소통을 할 수 있는 공간입니다.</p>
+      </div>
+      <div class="col-md-5">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/동네생활.PNG'/>" style="width: 500px; height: 500px;">
+      </div>
+    </div>
+    
+	<hr class="featurette-divider">
+    
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h1 class="featurette-heading"> 모르는게 있을때는 Q&A </h1>
+        <h5><span class="text-muted">>> 사이트를 이용하다 모르는게 생겼어요!  </span></h5>
+        <p class="lead" style="color: black; font: bold;">사이트 이용시 모르는게 생겼을시 도움을 요청할수 있는 게시판입니다 비밀글로 안전보장!.</p>
+      </div>
+      <div class="col-md-5">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/qna.PNG'/>" style="width: 500px; height: 500px;" >
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+    
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h1 class="featurette-heading">상대방과 실시간 채팅 서비스 </h1>
+        <h5><span class="text-muted"> 상대방과 어떻게 거래할까요? << </span></h5>
+        <p class="lead" style="color: black; font: bold;"> 빌려주는사람, 요청하는사람 서로 실시간 채팅을하며 협의 해보세요!</p>
+      </div>
+      <div class="col-md-5">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/채팅수정.jpg'/>" style="width: 500px; height: 500px;">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+    <!-- /END THE FEATURETTES -->
+
+  </div><!-- /.container -->
+
 
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 <script>
