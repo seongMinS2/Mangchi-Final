@@ -161,7 +161,7 @@ button.headSearchBtn{
 				</a>
 			</div>
 			<div class="w3-col m9 w3-padding-16 w3-hide-small w3-hide-medium w3-center">
-				<a href="<c:url value="/request/requestList"/>" class="w3-bar-item w3-button">요청게시판</a>
+				<a href="<c:url value="/request/requestList?headerCheck=1&text=no"/>" class="w3-bar-item w3-button">요청게시판</a>
 				<a href="<c:url value="/donateBoard"/>" class="w3-bar-item w3-button">나눔게시판</a>
 				<a href="<c:url value="/guest_book/gbBoard"/>" class="w3-bar-item w3-button">동네생활</a> 
 				<a href="<c:url value="/qna/qnaBoard"/>" class="w3-bar-item w3-button">Q&A</a>
@@ -189,7 +189,7 @@ button.headSearchBtn{
 		<c:if test="${!empty loginInfo }">
 			<a href="<c:url value="/member/memberMypage/mypageForm"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">마이페이지</a>
 		</c:if>
-		<a href="<c:url value="/request/requestList"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
+		<a href="<c:url value="/request/requestList?headerCheck=1&text=no"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">요청게시판</a> 
 		<a href="<c:url value="/donateBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">나눔게시판</a> 
 		<a href="<c:url value="/guest_book/gbBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">동네생활</a> 
 		<a href="<c:url value="/qna/qnaBoard"/>" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">Q&A</a> 
