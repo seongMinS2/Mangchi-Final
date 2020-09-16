@@ -17,7 +17,7 @@
 	<div class="w3-container">
 		<br><br>
 		<div>
-			<img onclick="location.href='/mangh'" src="<c:url value='/resources/img/LOGO-large.png'/>" style="margin-left: 38%; cursor: pointer">
+			<img onclick="location.href='/mangh'" src="<c:url value='/resources/img/LOGO-large.png'/>" style="margin-left: 33%; cursor: pointer">
 		</div>
 		<!-- <h2>SIGN UP</h2> -->
 		<form id="regForm" method="post" enctype="multipart/form-data">
