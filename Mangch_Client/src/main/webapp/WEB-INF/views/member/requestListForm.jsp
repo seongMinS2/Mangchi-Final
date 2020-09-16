@@ -45,13 +45,10 @@ td {
 			<!-- <div class="w3-cell" style="width: 25%"> -->
 			<div style="width: 25%">
 				<div id="profile-menu" class="active">
-					<a href="requestListForm">요청 리스트</a> 
-					<a href="lendingListForm">대여리스트</a>
+					<a href="requestListForm">요청내역</a> 
+					<a href="lendingListForm">대여내역</a>
 					<a href="reviewListForm">나의 리뷰</a> 
-					<a href="commentListForm">나의 댓글</a> 
 					<a href="mypageForm">나의 정보</a> 
-					<a href="distSetForm">거리 설정</a>
-					<a href="keywordSetForm">키워드 설정</a>
 				</div>
 			</div>
 			<div class="w3-cell" id="myBox" style="width: 75%">

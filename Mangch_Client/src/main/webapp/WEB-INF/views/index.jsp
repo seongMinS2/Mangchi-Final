@@ -98,7 +98,6 @@ p {
   	<p style="color: #162d59; font-size: 25px; margin:0;">총 나눔게시물 수</p>
   	<p class="number" style="color: #162d59; font-size: 45px; margin:0;"><B>${allDonate}</B></p>
   </div>
-  
   	</div>
  </div>
 
@@ -106,6 +105,16 @@ p {
 <script>
 
 $(function() {
+
+    if('${regMSG}' != ""){
+    	location.href='/mangh';
+        alert('${regMSG}');
+    }
+    if('${logoutMSG}' != ""){
+        location.href='/mangh';
+        alert('${logoutMSG}');
+    }
+	
 	  var count0 = count1 = count2 = 0;
 	  var allVisitor = '${allVisitor}';
 	  var allRequest = '${allRequest}';

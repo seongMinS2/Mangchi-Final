@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.aia.mangh.mm.model.RegKakaoRequest;
 import com.aia.mangh.mm.model.kakaoRequest;
@@ -122,14 +123,19 @@ public class MemberKakaoController {
 
 	// 카카오 로그아웃 + 로그아웃
 	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
+	
+	public ModelAndView logout(HttpSession session, Model model) {
 		if ((String) session.getAttribute("access_Token") != null) {
 			kakaoMemberService.kakaoLogout((String) session.getAttribute("access_Token"));
 		}
+
+		ModelAndView modelAndView = new ModelAndView("index");
+		modelAndView.addObject("logoutMSG", "로그아웃되었습니다.");
+		
 		session.removeAttribute("kakaoInfo");
 		session.removeAttribute("loginInfo");
 
-		return "index";
+		return modelAndView;
 	}
 
 	// 카카오 회원탈퇴(연결끊기)

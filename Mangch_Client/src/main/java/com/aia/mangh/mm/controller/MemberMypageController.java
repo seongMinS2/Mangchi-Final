@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.aia.mangh.mm.model.EditRequest;
 import com.aia.mangh.mm.model.LoginRequest;
@@ -99,11 +100,15 @@ public class MemberMypageController {
 	
 	// 회원정보 수정(주소, 사진, 거리)
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
-	public String edit(EditRequest editRequest, HttpServletRequest request) {
+	public ModelAndView edit(EditRequest editRequest, HttpServletRequest request) {
 		System.out.println("controller : "+editRequest);
 		int result = editService.editMember(editRequest, request);
 		System.out.println("결 과 : "+result);
-		return "/member/mypageForm";
+		
+		ModelAndView modelAndView = new ModelAndView("/member/mypageForm");
+		modelAndView.addObject("editMSG", "수정이 완료되었습니다.");
+		
+		return modelAndView;
 	}
 	
 	// 회원 비밀번호 수정

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.aia.mangh.mm.model.RegRequest;
 import com.aia.mangh.mm.service.MemberCheckService;
@@ -31,10 +32,16 @@ public class MemberRegController {
 
 	// 회원가입
 	@RequestMapping(method = RequestMethod.POST)
-	public String reg(RegRequest regRequest, HttpServletRequest request, Model model) {
+	public ModelAndView reg(RegRequest regRequest, HttpServletRequest request, Model model) {
+		
 		System.out.println("regRequest Controller >> " + regRequest);
-		model.addAttribute("result", regService.regMember(regRequest, request));
-		return "index";
+		regService.regMember(regRequest, request);
+		
+		ModelAndView modelAndView = new ModelAndView("index");
+		
+		modelAndView.addObject("regMSG", "회원가입이 완료되었습니다! 로그인후 이용해주세요.");
+
+		return modelAndView;
 	}
 
 	// 회원 ID 중복체크
