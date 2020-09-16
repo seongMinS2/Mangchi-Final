@@ -74,7 +74,7 @@ input[name=side-search-input] {
 }
 
 fieldset.main-field-set {
-  width: 350px;
+  width: 450px;
   position: relative;
   display: inline-block;
   padding: 0 0 0 50px;
@@ -94,9 +94,9 @@ button[name=main-search-btn] {
 
 input[name=main-search-input] {
   color: #666;
-  width: 250px;
+  width: 350px;
   z-index: 2;
-  border: 1px solid #664ACC;
+  border: 2px solid #664ACC;
   padding-left:30px;
 }
 input.headSearchInput:focus {
@@ -137,9 +137,9 @@ button.headSearchBtn{
   color: #664ACC;
   z-index: 3;
   top: 25%;
-  -webkit-transform: translate(-240px, 0);
-      -ms-transform: translate(-240px, 0);
-          transform: translate(-240px, 0);
+  -webkit-transform: translate(-340px, 0);
+      -ms-transform: translate(-340px, 0);
+          transform: translate(-340px, 0);
   -webkit-transition-duration: 0.3s;
           transition-duration: 0.3s;
   -webkit-transition: all 0.1s ease-in-out;
