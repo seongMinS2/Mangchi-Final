@@ -35,8 +35,8 @@ public class KakaoAPIService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=a01763f7f7d5db1bd274b95045628499");
-			// sb.append("&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST");
-			sb.append("&redirect_uri=http://ec2-54-180-115-119.ap-northeast-2.compute.amazonaws.com:8080/mangh/member/kakao/kakaoREST");
+			sb.append("&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST");
+			//sb.append("&redirect_uri=http://ec2-54-180-115-119.ap-northeast-2.compute.amazonaws.com:8080/mangh/member/kakao/kakaoREST");
 			sb.append("&code=" + authorize_code);
 			sb.append("&client_secret=G2Tr6U9T6ky2PFd74dtrQcATE17hvWQF");
 			bw.write(sb.toString());
