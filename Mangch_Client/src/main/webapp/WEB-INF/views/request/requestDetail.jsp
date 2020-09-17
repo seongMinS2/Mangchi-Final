@@ -16,7 +16,7 @@
 
 td {
 	padding: 5px;
-	width: 150px;
+    width: 200px;
 }
 
 /* css */
@@ -81,6 +81,7 @@ height: 50px;
     border: 1px solid #f7f7f7;
     font-weight: bold;
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 /* 로그인 상태에서 수정 삭제 */
@@ -235,8 +236,7 @@ height: 50px;
 					
 					<div class="w3-cell" id="mInfo">
 						<!-- <h3 id="writer_h3"></h3> -->
-						<span>
-						<img id="mImg" src="http://localhost:8080/rl/upload/34743447620100_image1.jpg">
+						<span id="memImg">
 						</span>
 						
 						<h6>요청자 이름</h6>
@@ -274,6 +274,10 @@ for (int i = 0; i < cookies.length; i++) {
 
 var cancelStatus = <%=cancelStatus%>;
 //취소 버튼 삭제
+
+
+
+console.log('${loginInfo.kId}');
 
 //채팅하기 	
 function chat(reqIdx,uNick){
@@ -346,15 +350,18 @@ function next(currentPage,pageTotalCount){
 	}
 }
 
-
+var btn ='';
 
 //매칭 상대 정하기
 function complete(){
 	
 	 type = 'comMsg';
+	 
+	 console.log(type.subString(1,4));
+	 
 	 $.ajax({
- 		//url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
- 		url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
+ 		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/chat/complete/'+ ${idx},
+ 	//	url : 'http://localhost:8080/rl/chat/complete/'+ ${idx},
  		data : {
  			page : page
  		},
@@ -364,26 +371,33 @@ function complete(){
 			
 			 
 			 if(data.requestChat.length > 0 ){
-				 var chatBtn = '<button id="chatCom">매칭 선택</button>';
-				$('#chatBox').html(chatBtn);
+				 //var chatBtn = '<button id="chatCom">매칭 선택</button>';
+				 btn += '<button id="chatCom">매칭 선택</button>';
+				 $('#chatBox').html(btn);
 		 	 }
 			
 				
 				var html = '<div class="w3-modal-content">';
 				html += '	 <header class="w3-container">';
 				html += '  		<span onclick="modalClose()" class="w3-button w3-display-topright">&times;</span>'; 
-				html += '  		<h2 id="modalTitle">매칭 상대선택</h2>';
+				html += '  		<h2 id="modalTitle">매칭 상대 선택</h2>';
 				html += ' 	</header>';
 				
 				html +=' <div id="comBox" >';
 	 			for(var i=0;i<data.requestChat.length;i++){ //채팅을 요청한 사람  
 					/* html += ' 			<div onclick="updateHelper( \''+data[i].helper+'\', \''+data[i].writer+'\' )">'+data[i].helper+'</div>'; */
 					html += '		<div id="helpBox">';
-					html += ' <img id="mImg" src="http://localhost:8080/rl/upload/34743447620100_image1.jpg">'; //회원 이미지 경로 설정 변경하기  -- data[i].data.requestChat.mImg
+					
+					 if(data.requestChat[i].mImg.substring(0,4) =='http'){ //카카오 로그인
+						 html += ' <img id="mImg" src="'+data.requestChat[i].mImg+'">'; //회원 이미지 경로 설정 변경하기  -- data.requestChat[i].mImg;	
+					}else { //카카카오 로그인 아닐 때
+						html += ' <img id="mImg" src="${pageContext.request.contextPath}/resources/img/'+data.requestChat[i].mImg+'">'; //회원 이미지 경로 설정 변경하기  -- data.requestChat[i].mImg
+					} 
+					
 					html +='<div id="modalAvg">';
 					if(data.requestChat[i].avg > 0){
-						for (var j = 1; j <= 5; j++) {
-							if (data.requestChat[i].avg <= j) {
+						for (var j = 0; j < 5; j++) {
+							if (data.requestChat[i].avg > j) {
 								html +='&#11088;';
 							}
 						}
@@ -477,6 +491,8 @@ function cancel(reqStatus){
 		 });	
 	}	 
 	
+	
+	
 	}
 }
 
@@ -514,12 +530,18 @@ function review(reviewWriter,reviewStatus){
 					html +=' <div id="comBox" >';
 					for(var i=0;i<data.reviewList.length;i++){ //리뷰 작성 가능 자 
 						/* html += ' 			<div onclick="updateHelper( \''+data[i].helper+'\', \''+data[i].writer+'\' )">'+data[i].helper+'</div>'; */
-						html += '		<div id="reviewBox">';
-						html += ' <img id="mImg" src="http://localhost:8080/rl/upload/34743447620100_image1.jpg">'; //회원 이미지 경로 설정 변경하기  --->  data[i].member.mImg
 						if(data.reviewList[i].status == 0){
-							html += ' 			<button class="helperBtn" onclick="reviewWrite('+data.reviewList[i].reviewIdx+','+data.reviewList[i].status+',\''+data.reviewList[i].receiver+'\')">'+data.reviewList[i].receiver+'</button>';
-		 				}
+						html += '		<div id="reviewBox">';
+						
+						 if(data.reviewList[i].member.mImg.substring(0,4) =='http'){ //카카오 로그인
+							 html += ' <img id="mImg" src="'+data.reviewList[i].member.mImg+'">'; 
+						 }else { //카카카오 로그인 아닐 때
+							html += ' <img id="mImg" src="${pageContext.request.contextPath}/resources/img/'+data.reviewList[i].member.mImg+'">'; //회원 이미지 경로 설정 변경하기  --->  data[i].member.mImg
+						} 
+						
+						html += ' 			<button class="helperBtn" onclick="reviewWrite('+data.reviewList[i].reviewIdx+','+data.reviewList[i].status+',\''+data.reviewList[i].receiver+'\')">'+data.reviewList[i].receiver+'</button>';
 						html += ' 		</div>';
+		 				}
 		 			}
 					
 					//슬라이드 처리 
@@ -540,7 +562,7 @@ function review(reviewWriter,reviewStatus){
 //리뷰 작성 하기
 function reviewWrite(reviewIdx,rstatus,rReceiver){
 	
-	  var form = $('<form></form>');
+	 var form = $('<form></form>');
 	    form.attr('action', '/mangh/review/reviewForm');
 	    form.attr('method', 'post');
 	    form.appendTo('body');
@@ -551,7 +573,7 @@ function reviewWrite(reviewIdx,rstatus,rReceiver){
 	    form.append(reviewStatus);
 	    form.append(reviewReceiver);
 	    
-	    form.submit(); 
+	    form.submit();  
 }
 	 
 	 
@@ -600,13 +622,10 @@ function reqDelete(reqIdx){
 
 $(document).ready(function(){
 	
-	
-	
-	
 	$.ajax({
 		
-		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
-		//url : 'http://localhost:8080/rl/request/'+${idx},
+		//url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request/'+${idx},
+		url : 'http://localhost:8080/rl/request/'+${idx},
 		type : 'GET',
 		data : {
 			count : ${count},
@@ -620,7 +639,19 @@ $(document).ready(function(){
 			/* $('#writer_h3').text('요청자 정보'); */
 			$('#content_h6').text('요청 상세 정보'); 
 			
-			$('#mNick').text(data.reqWriter); 
+			$('#mNick').text(data.reqWriter);
+			
+			var memberImg = '';
+			console.log(data.mImg);
+			
+			 if(data.mImg.substring(0,4) =='http'){ //카카오 로그인
+				 memberImg += '<img id="mImg" src="'+data.mImg+'">';	
+			}else { //카카카오 로그인 아닐 때
+				 memberImg += '<img id="mImg" src="${pageContext.request.contextPath}/resources/img/'+data.mImg+'">';
+			} 
+			
+			
+			$('#memImg').html(memberImg);
 			
 			if(data.avg > 0){
 				for (var i = 1; i <= 5; i++) {
@@ -688,11 +719,14 @@ $(document).ready(function(){
 			html += '	</td>';
 				
 			
+			
+			
 			//로그인 한 사용자가 요청자 일 때 
 			if('${loginInfo.mNick}' == data.reqWriter){
 				if(data.reqStatus == 1){ // 매칭 완료 상태
 					if(cancelStatus == 1){ //취소 버튼 쿠키가 있을 때 취소 가능
-						var chatBtn = '	<button onclick="cancel('+data.reqStatus+')" id="chatCan">매칭취소</button>';
+						//var chatBtn = '	<button onclick="cancel('+data.reqStatus+')" id="chatCan">매칭취소</button>';
+						btn += '	<button onclick="cancel('+data.reqStatus+')" id="chatCan">매칭취소</button>';
 						$('#chatBox').html(chatBtn);
 					} 
 				} else if(data.reqStatus == 0){ //매칭 전 상태
@@ -709,38 +743,17 @@ $(document).ready(function(){
 				$('#infoBtn').html(infoBtn);
 			}
 	
-			//로그인 한 사용자가 리뷰 권한이 없을 때
-			/* else if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
-				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
-					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>';
-					
-				} 
-			} */
-			  //비회원 일 때
-			/* else if('${loginInfo}' == ''){		
-				if(data.reqStatus == 0){
-					html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>'; 
-					
-				}
-			}  */
 			html += '</tr>';
-	 		/*  html +='<tr>';
-			html += '<td>';
-			//html += '	<img src="http://ec2-15-164-228-147.ap-northeast-2.compute.amazonaws.com:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
-			html += '	<img src="http://localhost:8080/rl/upload/'+data.reqImg+'" style="width: 50%"> ';
-			html += '</td>';
-			html +='</tr>';  */
 			html +=	'</table>';	
 			
-			var btn='';
 			
 //			if('${loginInfo.mNick}' != data.reviewWriter && '${loginInfo.mNick}' != data.reqWriter){ 
 			if( '${loginInfo.mNick}' != data.reqWriter){ 
 				if(data.reqStatus == 0){ //매칭 완료 상태가 아닐 때 	
 					/* html +='	<td><button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button></td>'; */
-					var chatBtn = '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
+					//var chatBtn = '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
 					btn += '<button onclick="chat('+data.reqIdx+',\''+data.reqWriter +' \')" id="chat">매칭하기</button>';
-					$('#chatBox').html(chatBtn);
+					//$('#chatBox').html(chatBtn);
 					
 				} 
 			}
@@ -749,12 +762,12 @@ $(document).ready(function(){
 			//로그인 한 회원이 리뷰 작성자 일 때 - 권한 확인 
 			if('${loginInfo.mNick}' == data.reviewWriter){
 					//html += '	<td><button onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button></td>';
-					var reviewBtn = '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
+					//var reviewBtn = '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
 					btn += '<button id="review" onclick="review(\''+data.reviewWriter+'\','+data.reviewStatus+')">리뷰작성</button>';
-					$('#chatBox').html(reviewBtn);
+					//$('#chatBox').html(reviewBtn);
 			}
 			
-			$('#chatBox').html(btn);
+			$('#chatBox').append(btn);
 			
 			 //비회원 일 때
 			if('${loginInfo}' == ''){		

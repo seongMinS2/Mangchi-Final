@@ -118,28 +118,33 @@ td {
 						//url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
 						type : 'GET',
 						data : {
-							page : page
+							page : page,
+							status : status
 						},
 						success : function(data) {
 							var html = '';
 							
 							html +='<div class="rtab">';
 							html +='<div class="avg">';
-							if (data.avg > 1) {
+							if (1 <= data.avg) {
+								
 								html += '<span id="avg">'
 										+ '${loginInfo.mNick}'+ '님 의 평점 &nbsp;&nbsp;</span>';
-								for (var i = 1; i <= 5; i++) {
-									if (data.avg <= i) {
-										html += '<span style="font-size:25px;"">&#11088;</span>';
+								for (var i = 0; i < 5; i++) {
+									if (data.avg > i) {
+										html += '<span style="font-size:25px;">&#11088;</span>';
 									}
 								}
-
 							} else {
-								html += ' <h5>평점이 없습니다.</h5>';
+								html +='<span id="avg">'
+								+ '${loginInfo.mNick}'+ '님 의 평점 &nbsp;&nbsp;</span>';
+								html += '<span style="font-size:120%">평점이 없습니다.</span>';
 							}
 							
 							html +='</div>';
 							
+							//작성한 리뷰, 작성하지 않은 리뷰
+				
 							html +='<button class="reBtn ';
 							if(status == 1){
 								html +='changeBtn"';
@@ -151,7 +156,6 @@ td {
 							if(status == 0){
 								html +='changeBtn"';
 							}
-							
 							
 							html +='"';
 							html += 'onclick="reviewWrite('+status+')">작성 가능 한 리뷰</button>';
@@ -192,13 +196,12 @@ td {
 										html += '</tr>';
 										j++;
 									}
-									
 								}
 
-							html += '</table>';
+						//	html += '</table>';
+								 var paging ='';
 							 if (data.pageTotalCount > 0) {
 									
-								 var paging ='';
 								 	
 								 if(pageEnd > data.pageTotalCount){
 										pageEnd = data.pageTotalCount;
@@ -217,20 +220,30 @@ td {
 										paging +='</span>';
 									}
 									paging += '<span id="page_number"><button id="page_btn" onclick="next('+page+','+data.pageTotalCount+')">></button></span>';
-								 $('#page').html(paging);
-								 $('#myList').html(html);
+							/* 	 $('#page').html(paging);
+								 $('#myList').html(html); */
 								 
 							}else{
 								
-								html ='<div class="w3-border" id="noBox"">';
+								
+								
+								/* html ='<div class="w3-border" id="noBox"">';
 								html +='<h5 id="noList">작성 할 수 있는 리뷰가 없습니다.</h5>';
-								html +='</div>';
-							
-								$('#page').html('');
-								$('#myList').html(html);
-								$('#myList').css('margin-right','0px');
+								html +='</div>'; */
+								
+								html += '<tr>';
+								html += ' <td  class="tab_td" colspan="5">리뷰가 존재 하지 않습니다.</td>';
+								html += '</tr>';
+								
+								paging+='';
+								
+								/* $('#page').html('');
+								$('#myList').html(html); */
 							}
-							 
+								
+							html += '</table>'; 
+							$('#page').html(paging);
+							$('#myList').html(html);
 
 						}
 					});

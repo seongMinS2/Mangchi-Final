@@ -154,7 +154,7 @@ td {
 
 	<div class="w3-container" id="contain">
 	<div class="w3-content" >
-		<h3 id="receiverInfo">'${receiver}'님과의 거래 후기</h3>
+		<h3 id="receiverInfo">'${receiver}'님과 거래 후기</h3>
 
 
 		<form onsubmit="return false;">

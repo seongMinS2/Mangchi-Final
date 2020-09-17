@@ -81,14 +81,6 @@ select {
 	opacity: 1;
 }
 
-/* 지도로 보기 버튼 id */
-#mapBtn {
-	background: url( "${pageContext.request.contextPath}/resources/img/map.png" ) no-repeat;
-	border: none;
-	width: 40px;
-	height: 40px;
-	cursor: pointer;
-}
 /* 지도 데이터 출력 */
 .wrap {
 	position: absolute;

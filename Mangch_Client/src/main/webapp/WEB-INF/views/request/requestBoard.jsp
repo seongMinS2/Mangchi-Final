@@ -35,6 +35,15 @@ th, td {
 td {
 	padding: 11px 0 10px;
 }
+/* 지도로 보기 버튼 id */
+#mapBtn {
+	background: url( "${pageContext.request.contextPath}/resources/img/map.png" ) no-repeat;
+	border: none;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+
 </style>
 
 </head>
@@ -93,12 +102,12 @@ td {
 
 	<!-- 지도로보기 모달 창 -->
 	<div class="w3-modal" id="mapModal">
-		<div class="w3-modal-content" style="height: 600px;">
+		<div class="w3-modal-content" style="width: 700px; height: 500px;">
 			<header class="w3-container">
 				<span onclick="modalClose()" class="w3-button w3-display-topright">&times;</span>
-				<h2>지도로보기</h2>
+				<h4 style="text-align: center;">지도로 보는 주변 게시물</h4>
 			</header>
-			<div class="w3-content" id="map" style="width: 60%; height: 500px;"></div>
+			<div class="w3-content" id="map" style="width: 60%; height: 400px;"></div>
 
 		</div>
 	</div>
@@ -140,6 +149,7 @@ td {
 		searchType = $('#searchType').val(); 
 			
 	}	else if(${headerCheck} == 2 ){
+		
 		searchText = '${text}'; //검색어
 		searchType = 'both'; //헤더 검색 타입
 	}
@@ -187,7 +197,6 @@ td {
 					mapCon.relayout(); //지도 영역 크기 설정 
 					var html = '';
 					for(var i=0;i<data.length;i++){
-						
 						
 						//주소가 동일 데이터 출력
 					  //주소가 같을 때 마커를 한개 생성하고
@@ -240,6 +249,16 @@ td {
 					    html +='';
 					    kakao.maps.event.addListener(marker, 'mouseover',openListener(mapCon, marker, contents[i]));
 					}//for문
+					
+					
+					if(data.length == 0){
+						marker = new kakao.maps.Marker({
+				      		  map: mapCon, // 마커를 표시할 지도
+					       	  position: new kakao.maps.LatLng(mLttd, mLgtd)
+					    });
+					}
+					
+					
 					mapCon.setCenter(new kakao.maps.LatLng(mLttd, mLgtd));
 					
 					mapCon.relayout(); //지도 영역 크기 설정 
@@ -253,8 +272,8 @@ td {
 	
 	function list() {
 		$.ajax({
-			//		url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
-					url : 'http://localhost:8080/rl/request',
+					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
+			//		url : 'http://localhost:8080/rl/request',
 					type : 'GET',
 					data : {
 						mLat : mLttd,
@@ -358,6 +377,10 @@ td {
 							if(searchText != '' || searchText.length > 0){
 								html ='<div class="w3-border" id="noBox"">';
 								html +='<h5 id="noList">검색결과가 없습니다. 다른 검색어를 입력하세요.</h5>';
+								if('${loginInfo}' != ''){
+									html +='<br><h5 id="noList">다른 요청 글을 보시려면 요청 거리을 재설정 해주세요.</h5>';
+								}
+								
 								html +='</div>';
 							} else{
 								
