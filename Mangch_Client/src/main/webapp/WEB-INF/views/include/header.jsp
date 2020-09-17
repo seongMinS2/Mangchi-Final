@@ -185,7 +185,7 @@ button.headSearchBtn{
 				</div>
 				<div class="w3-row w3-center" style="height: 75px;"> 
 					<fieldset class="main-field-set">
-						<input type="search" onKeypress="javascript:if(event.keyCode==13) {headerSearch('${loginInfo}','${loginInfo.mLttd}','${loginInfo.mLgtd}','${loginInfo.mRadius}')}" id="headerText" name="main-search-input" class="headSearchInput"/>
+						<input type="search" onKeypress="javascript:if(event.keyCode==13) {headerSearch('${loginInfo}','${loginInfo.mLttd}','${loginInfo.mLgtd}','${loginInfo.mRadius}')}" id="headerText" name="main-search-input" class="headSearchInput" style="background-color: white;"/>
 						<button type="submit" onclick="headerSearch('${loginInfo}','${loginInfo.mLttd}','${loginInfo.mLgtd}','${loginInfo.mRadius}')" name="main-search-btn" class="headSearchBtn"><i class="fa fa-search searchMainIcon"></i></button>
 					</fieldset>
 				</div>
