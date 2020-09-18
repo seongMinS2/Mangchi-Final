@@ -5,9 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>우리 동네 대여 서비스 :: M A N G C H !</title>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+
 </head>
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
@@ -15,7 +18,16 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
     <link rel='stylesheet' href='<c:url value="/resources/assets/dist/css/bootstrap.css"/>'>
+     <link rel='stylesheet' href='<c:url value="/resources/page/jquery.fullpage.min.css"/>'>
+    <script src="<c:url value='/resources/page/jquery.fullpage.min.js'/>"></script>
+    
 <style>
+
+.btn-primary{
+background-color: #162d59;
+border-color:#162d59;
+}
+
 h1{
 	font-family: 'Jua', sans-serif;
 	color: black;
@@ -35,8 +47,6 @@ p {
 	font-size: 1em;
 }
     	
-
-.mySlides {display:none}
 .w3-left, .w3-right, .w3-badge {cursor:pointer}
 .w3-badge {height:13px;width:13px;padding:0}
 
@@ -45,25 +55,92 @@ p {
 	width: 180px;
 	height: 120px;
 }
+
 </style>
 
-<div class="w3-content w3-display-container" style="max-width:70%">
+
+<div id="fullpage">
+
+	<div class="section" id="section1">
+
+ <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+      
+        <img src="<c:url value='/resources/img/index/home.png'/>" style="width:100%; height: 40em;">
+        <div class="container">
+          <div class="carousel-caption text-left">
+            <h1>당장 필요한 물건이 있는데 <br>사기엔 돈이 아깝다면?</h1>
+            <p class="nanum">우리 동네 대여 서비스  M A N G C H !</p>
+            <p><a class="btn btn-lg btn-primary" href="<c:url value="/member/memberReg"/>" role="button">JOIN WITH US!</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+       <img src="<c:url value='/resources/img/index/home3.jpg'/>" style="width:100%; height: 40em;">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>집에서 놀고 있는 물건이 있는데 팔기엔 아쉽다면?</h1>
+            <p class="nanum">우리 동네 대여 서비스  M A N G C H !</p>
+            <p><a class="btn btn-lg btn-primary" href="<c:url value="/member/memberReg"/>" role="button">JOIN WITH US!</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+       <img src="<c:url value='/resources/img/index/wooden.png'/>" style="width:100%; height: 40em;">
+        <div class="container">
+          <div class="carousel-caption text-right">
+            <h1>우리 동네에 내가 당장 필요한 물건과<br>내 물건이 갑자기 필요해진 사람이 있다?</h1>
+            <p class="nanum">우리 동네 대여 서비스  M A N G C H !</p>
+            <p><a class="btn btn-lg btn-primary" href="<c:url value="/member/memberReg"/>" role="button">JOIN WITH US!</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<%-- 
+<div class="w3-content w3-display-container" style="max-width:100%; height: 40em;">
   <div class="w3-display-container  mySlides"> 
- 	<img src="<c:url value='/resources/img/index/home.png'/>" style="width:100%">
+ 	<img src="<c:url value='/resources/img/index/home.png'/>" style="width:100%; height: 40em;">
 	<div class="w3-display-left w3-padding-16">
     <h1 style="font-size: 3vw">당장 필요한 물건이 있는데 <br>사기엔 돈이 아깝다면?</h1>
     <span  style="font-size: 1.2vw; color: white; font-weight: bold;">우리 동네 대여 서비스  M A N G C H !</span>
     </div>
   </div>
   <div class="w3-display-container  mySlides"> 
-    <img src="<c:url value='/resources/img/index/home3.jpg'/>" style="width:100%">
+    <img src="<c:url value='/resources/img/index/home3.jpg'/>" style="width:100%; height: 40em;">
 	<div class="w3-display-topright w3-padding-16">
     <h1 style="font-size: 3vw">집에서 놀고 있는 물건이 있는데 팔기엔 아쉽다면?</h1>
     <span style="font-size: 1.2vw; color: white; font-weight: bold;">우리 동네 대여 서비스  M A N G C H !</span>  
 	</div>
   </div>
   <div class="w3-display-container  mySlides"> 
-    <img src="<c:url value='/resources/img/index/wooden.png'/>" style="width:100%">
+    <img src="<c:url value='/resources/img/index/wooden.png'/>" style="width:100%; height: 40em;">
 	<div class="w3-display-middle">
 	<h1 style="font-size: 3vw">우리 동네에 내가 당장 필요한 물건과<br>내 물건이 갑자기 필요해진 사람이 있다?</h1>
 	<span  style="font-size: 1.2vw; color: white; font-weight: bold;">우리 동네 대여 서비스  M A N G C H !</span> 
@@ -78,7 +155,7 @@ p {
     <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
   </div>
   
-</div>
+</div> --%>
 
  <div class="w3-content w3-center w3-container" style="margin-bottom: 3%;">
   <div class="w3-row w3-padding" style="margin-top: 5%;">
@@ -109,12 +186,13 @@ p {
   	</div>
  </div>
  
- 
+ </div>
+
+
+
+<div class="section" id="section2">
 
   <div class="container marketing">
-
-    
-
 
     <!-- START THE FEATURETTES -->
 
@@ -145,7 +223,11 @@ p {
     </div>
 
     <hr class="featurette-divider">
+    </div>
+</div>
 
+
+<div class="section" id="section3">
     <div class="row featurette">
       <div class="col-md-7">
         <h1 class="featurette-heading">나눔 게시판에 나눔글 올리기</h1>
@@ -171,7 +253,9 @@ p {
     </div>
     
 	<hr class="featurette-divider">
+    </div>
     
+    <div class="section" id="section4">
     <div class="row featurette">
       <div class="col-md-7">
         <h1 class="featurette-heading"> 모르는게 있을때는 Q&A </h1>
@@ -198,12 +282,29 @@ p {
 
     <hr class="featurette-divider">
     <!-- /END THE FEATURETTES -->
+    
 
   </div><!-- /.container -->
 
 
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
+
+</div>
+
+<script src="<c:url value='/resources/assets/dist/js/bootstrap.bundle.js'/>"></script>
+
 <script>
+
+$(document).ready(function() {
+	$('#fullpage').fullpage({
+		//options here
+		autoScrolling:true,
+		scrollHorizontally: true
+	});
+
+	//methods
+	$.fn.fullpage.setAllowScrolling(true);
+});
 
 $(function() {
 
@@ -313,7 +414,7 @@ $(function() {
 	}
 	
 }); */
-
+/* 
 var slideIndex = 1;
 showDivs(slideIndex);
 
@@ -355,7 +456,11 @@ function carousel() {
   x[myIndex-1].style.display = "block";  
   setTimeout(carousel, 8000); // Change image every 2 seconds
 }
-</script>
+ */
 
+
+
+
+</script>
 </body>
 </html>
