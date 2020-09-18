@@ -48,10 +48,10 @@ a {
 		<hr class="w3-border-theme w3-topbar">
 		<div style="height: 42px;" class="qna-util-bar ">
 			<c:if test="${loginInfo != null}">
-				<button class="w3-button w3-theme-l1"
+				<button class="w3-button w3-theme2-l1"
 					onclick="location.href='writeBoard'">글쓰기</button>
 			</c:if>
-			<button class="w3-right w3-button w3-theme-l1"
+			<button class="w3-right w3-button w3-theme2-l1"
 				style="height: inherit;" id="SearchButton">검색</button>
 			<input type="text" class="w3-right" style="height: inherit;"
 				id="keyword" name="keyword"> <select class="w3-right"

@@ -25,7 +25,7 @@
 			<label for="qnaTitle" class="w3-margin-left w3-margin-bottom">제목:</label><input type="text" class="w3-margin-left w3-margin-bottom" name="qnaTitle" id="qnaTitle" required>
 			<label for="qnaPw" class="w3-margin-left w3-margin-bottom">글 비밀번호:</label><input type="password" class="w3-margin-left w3-margin-bottom" name="qnaPw" id="qnaPw">
 			<textarea id="summernote" name="editordate" required></textarea>
-			<input type="submit" class="w3-button w3-right w3-theme-l1 w3-margin-top" value="글쓰기" onclick="qnaWriteSubmit(${idx})">
+			<input type="submit" class="w3-button w3-right w3-theme2-l1 w3-margin-top" value="글쓰기" onclick="qnaWriteSubmit(${idx})">
 		</form>
 	</div>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />

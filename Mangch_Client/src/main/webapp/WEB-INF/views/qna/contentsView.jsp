@@ -31,7 +31,7 @@
 
 .contentBox {
 	margin: auto;
-	width: 400px;
+	width: 600px;
 	margin-top: 50px;
 	margin-bottom: 100px;
 }
@@ -50,16 +50,19 @@
 	right: 5px;
 }
 
-.comment_coment_area, .comment_inbox {
-	margin-left: 15px;
+.comment_coment_area{
+	margin-left: 50px;
 }
 
-.comment_inbox, .comment_textView, .comment_text_box {
-	margin-left: 15px;
+.comment_textView, .comment_text_box {
+	margin-left: 25px;
 }
 
 textarea {
 	
+}
+.comment_inbox{
+	padding: 10px 10px;
 }
 </style>
 </head>

@@ -115,7 +115,7 @@ td {
 		function list(status) {
 			$.ajax({
 						url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/review/'+ '${loginInfo.mNick}', 
-						//url : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
+						//url	 : 'http://localhost:8080/rl/review/'+ '${loginInfo.mNick}',
 						type : 'GET',
 						data : {
 							page : page,
