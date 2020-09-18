@@ -22,6 +22,12 @@
     <script src="<c:url value='/resources/page/jquery.fullpage.min.js'/>"></script>
     
 <style>
+.section{
+z-index: -1;}
+
+.fp-tableCell{
+vertical-align: baseline;
+}
 
 .btn-primary{
 background-color: #162d59;
@@ -55,6 +61,14 @@ p {
 	width: 180px;
 	height: 120px;
 }
+
+.featurette, .featurette>*  {
+
+height: 22em;
+}
+
+
+
 
 </style>
 
@@ -101,7 +115,7 @@ p {
           </div>
         </div>
       </div>
-    </div>
+    
     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
@@ -110,7 +124,9 @@ p {
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
-  </div>
+    </div>
+    
+
 
 
 
@@ -187,7 +203,7 @@ p {
  </div>
  
  </div>
-
+  </div>
 
 
 <div class="section" id="section2">
@@ -205,7 +221,7 @@ p {
         <p class="lead" style="color: black; font: bold;">주요 포탈 API를 활용하여 클릭 한번에 회원가입부터 로그인까지 가능하도록 하였습니다.</p>
       </div>
       <div class="col-md-5">
-        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/로그인.PNG'/>" style="width: 500px; height: 500px;" >
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/로그인.PNG'/>" style="width: 500px; height: 22em;" >
       </div>
     </div>
 
@@ -218,7 +234,7 @@ p {
         <p class="lead" style="color: black; font: bold;"> 당장 급한 물건이 있을 때 내 위치와 함께 필요한 물품을 게시하여 내 주위 사람들에게 도움을 청할 수 있습니다. </p>
       </div>
       <div class="col-md-5">
-        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/테스트.jpg'/>" style="width: 500px; height: 500px;">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/테스트.jpg'/>" style="width: 500px; height: 22em;">
       </div>
     </div>
 
@@ -228,6 +244,8 @@ p {
 
 
 <div class="section" id="section3">
+ <div class="container marketing">
+
     <div class="row featurette">
       <div class="col-md-7">
         <h1 class="featurette-heading">나눔 게시판에 나눔글 올리기</h1>
@@ -235,7 +253,7 @@ p {
         <p class="lead" style="color: black; font: bold;">집에 사용하지 않아 처리하기 힘든 물품들을 여러 사람들에게 나누어 줄 수 있습니다.</p>
       </div>
       <div class="col-md-5 order-md-1">
-       <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/나눔게시판.PNG'/>" style="width: 500px; height: 500px;" >
+       <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/나눔게시판.PNG'/>" style="width: 500px; height: 22em;" >
       </div>
     </div>
 
@@ -248,14 +266,17 @@ p {
         <p class="lead" style="color: black; font: bold;">내가 설정한 동네 반경에 따라 동네 사람들과 소통을 할 수 있는 공간입니다.</p>
       </div>
       <div class="col-md-5">
-        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/동네생활.PNG'/>" style="width: 500px; height: 500px;">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/동네생활.PNG'/>" style="width: 500px; height: 22em;">
       </div>
     </div>
     
 	<hr class="featurette-divider">
+	</div>
     </div>
     
     <div class="section" id="section4">
+     <div class="container marketing">
+    
     <div class="row featurette">
       <div class="col-md-7">
         <h1 class="featurette-heading"> 모르는게 있을때는 Q&A </h1>
@@ -263,7 +284,7 @@ p {
         <p class="lead" style="color: black; font: bold;">사이트 이용시 모르는게 생겼을시 도움을 요청할수 있는 게시판입니다 비밀글로 안전보장!.</p>
       </div>
       <div class="col-md-5">
-        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/qna.PNG'/>" style="width: 500px; height: 500px;" >
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/qna.PNG'/>" style="width: 500px; height: 22em;" >
       </div>
     </div>
 
@@ -276,14 +297,14 @@ p {
         <p class="lead" style="color: black; font: bold;"> 빌려주는사람, 요청하는사람 서로 실시간 채팅을하며 협의 해보세요!</p>
       </div>
       <div class="col-md-5">
-        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/채팅수정.jpg'/>" style="width: 500px; height: 500px;">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="<c:url value='/resources/img/채팅수정.jpg'/>" style="width: 500px; height: 22em;">
       </div>
     </div>
 
     <hr class="featurette-divider">
     <!-- /END THE FEATURETTES -->
     
-
+	</div>
   </div><!-- /.container -->
 
 
