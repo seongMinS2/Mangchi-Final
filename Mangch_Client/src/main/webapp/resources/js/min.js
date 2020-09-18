@@ -467,7 +467,7 @@ function qnaWriteSubmit(idx) {
 
 	var replyWriteData = {
 		memberNick: reWriter,
-		title: 're: ' +reTitle,
+		title: '└ re: ' +reTitle,
 		contents: reContent,
 		pw: rePw,
 		pwCheck:qnaReCheck
