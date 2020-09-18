@@ -7,7 +7,7 @@
 		
 	} */
 .table-wrap {
-	width: 600px;
+	width: 800px;
 	margin: auto;
 }
 
@@ -18,12 +18,12 @@
 .qnaArea {
 	height: auto;
 	margin: auto;
-	width: 600px;
+	width: 800px;
 }
 
 .writeContainer{
 	margin: auto;
-	width:600px;
+	width:800px;
 	padding-top: 50px;
 	padding-bottom: 50px;
 }
@@ -32,7 +32,7 @@
 textarea {
 	resize: none;
 	height: 100px;
-	width: 380px;
+	width: 550px;
 }
 
 .commentBox {

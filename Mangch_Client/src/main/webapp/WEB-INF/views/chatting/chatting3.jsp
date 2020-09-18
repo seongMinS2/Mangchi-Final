@@ -103,7 +103,7 @@
 				<!-- 인풋 버튼 모음 -->
 				<div class="w3-row w3-white input-area w3-border w3-border-theme">
 					<div class="w3-col m2 l1">
-						<button class="w3-button w3-theme img-select-btn" >
+						<button class="w3-button w3-theme2 img-select-btn" >
 							<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="top:5px;">
 								<path fill-rule="evenodd" d="M14.002 2h-12a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-12-1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
 								<path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V14h-14v-2l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
@@ -115,7 +115,7 @@
 					<input type="text" name="msgText" placeholder="메세지 입력..." id="msg-text"/>
 					</div>					
 					<div class="w3-col m3 l2" >
-						<button class="w3-button w3-theme send-msg">
+						<button class="w3-button w3-theme-l3 send-msg">
 						<span>전송</span>
 						<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-cursor" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="top:5px;">
 							<path fill-rule="evenodd" d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/>

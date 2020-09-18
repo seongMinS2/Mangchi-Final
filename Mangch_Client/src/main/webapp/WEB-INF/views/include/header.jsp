@@ -157,7 +157,7 @@ button.headSearchBtn{
 }
 </style>
 <!-- 헤드컨테이너 밑에 붙이기 -->
-<div class="w3-row w3-theme w3-hide-small">
+<div class="w3-row w3-theme-l1 w3-hide-small">
 	<div class="w3-content">
 		<div class="w3-col">
 			<c:if test="${empty loginInfo }">

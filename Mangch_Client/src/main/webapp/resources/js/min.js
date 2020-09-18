@@ -126,21 +126,21 @@ function contentsList(idx, loginSession) {
 
 			var html = '';
 			html += '<div class="header">';
-			html += '	<h1 id="qna-header">' + data.title + '</h1>';
+			html += '	<h4 id="qna-header" class="w3-border-bottom w3-border-theme"> 제목 : ' + data.title + '</h4>';
 			html += '</div>';
 			html += '	<div class="articleContainer">';
 			html += '		<div class="mainContainer">';
 			html += '			<p class="text">' + data.contents + '</p>';
 			html += '		</div>';
 			html += '			<div class="commentBox">';
-			html += '			<h3 class="comment_title">';
+			html += '			<h3 class="comment_title w3-topbar w3-border-theme5-d5">';
 			html += '				<b>댓글</b>';
 			html += '			</h3>';
 			//댓글
 			for (var i = 0; i < data.comment.length; i++) {
 				//댓글 부모 컬럼이 0일때(i번째 댓글)
 				if (data.comment[i].parents === 0) {
-					html += '				<div class="comment_area">';
+					html += '				<hr><div class="comment_area">';
 					html += '					<div class="comment_Box">';
 					//자신의 댓글만 수정/삭제 가능
 					if(loginSession!=null && loginSession.mNick === data.comment[i].writer){
@@ -148,47 +148,47 @@ function contentsList(idx, loginSession) {
 							html += '						<div class="layerMore w3-card-2"><button class="modify_button w3-button w3-theme-l4">수정</button><br><button class="w3-button w3-theme-l4" onclick="commentDelete(' + data.comment[i].idx + ')">삭제</button></div>';
 							html += '						</div>';
 					}
-					html += '						<div class="comment_nick_box">' + data.comment[i].writer;
+					html += '						<div class="comment_nick_box" style="font-weight: bold;">' + data.comment[i].writer;
 					html += '						</div>';
 					html += '						<div class="comment_text_box">' + data.comment[i].contents + '</div>';
 					html += '						<div class="comment_info_box">';
-					html += '							<span class="comment_info_date"> ' + moment(data.comment[i].regdate).format('YYYY.MM.DD, HH:mm') + ' </span>';
+					html += '							<span class="comment_info_date" style="color: slategray"> ' + moment(data.comment[i].regdate).format('YYYY.MM.DD, HH:mm') + ' </span>';
 					//비회원 대댓글 toggle button 제한
 					if(loginSession!=null)
-						html += '						 <button class="comment_reply_button w3-button w3-theme-l1">답글쓰기</button>';
+						html += '						 <button class="comment_reply_button w3-button w3-theme5" style="padding:5px">답글쓰기</button>';
 						html += '					</div>';
 						html += '				</div>';
 						html += '			</div>';
 					//비회원 대댓글 쓰기 제한
 					if(loginSession!=null){
 						html += '			<div class="comment_reply">';
-						html += '				<div class="commentWriter">';
+						html += '				<div class="commentWriter w3-border w3-round-xlarge">';
 						html += '					<div class="comment_inbox">';
 						html += '						<div class="comment_inbox_name">';
-						html += '							<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
+						html += '							<span class="commet_comment_nick" style="font-weight: bold;">' + loginSession.mNick + '</span>';
 						html += '						</div>';
 						html += '						<div class="comment_inbox_text">';
 						html += '							<textarea cols="50" class="comment_insert"></textarea>';
 						html += '						</div>';
 						html += '						<div class="comment_submit">';
-						html += '							<button class="w3-button w3-theme-l1" onclick="writeHirachyComment(' + idx +','+ data.comment[i].idx +',this)">등록</button>';
+						html += '							<button class="w3-button w3-theme2-l1" onclick="writeHirachyComment(' + idx +','+ data.comment[i].idx +',this)">등록</button>';
 						html += '						</div>';
 						html += '					</div>';
 						html += '				</div>';
 						html += '			</div>';
 						//수정일시 보여줄 뷰 
 						html += '			<div class="comment_reply_modify">';
-						html += '				<div class="commentWriter">';
+						html += '				<div class="commentWriter w3-border w3-round-xlarge">';
 						html += '					<div class="comment_inbox">';
 						html += '						<div class="comment_inbox_name">';
-						html += '							<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
+						html += '							<span class="commet_comment_nick" style="font-weight: bold;">' + loginSession.mNick + '</span>';
 						html += '						</div>';
 						html += '						<div class="comment_inbox_text">';
 						html += '						<textarea cols="50" class="comment_insert">'+data.comment[i].contents+'</textarea>';
 						html += '						</div>';
 						html += '						<div class="comment_submit">';
 						html += '							<button class="comment_modify_cancel w3-button w3-theme-l4">취소</button>';
-						html += `							<button class="w3-button w3-theme-l1" id="modifySub" onclick="qnaModifyComment(${data.comment[i].idx},this)">등록</button>`;
+						html += `							<button class="w3-button w3-theme2-l1" id="modifySub" onclick="qnaModifyComment(${data.comment[i].idx},this)">등록</button>`;
 						html += '						</div>';
 						html += '					</div>';
 						html += '				</div>';
@@ -198,7 +198,7 @@ function contentsList(idx, loginSession) {
 				//i번째 댓글의 자식 댓글(대댓글)을 찾아 출력
 				for (var j = 0; j < data.comment.length; j++) {
 					if (data.comment[j].parents === data.comment[i].idx) {
-						html += '			<div class="comment_coment_area">';
+						html += '			<hr><div class="comment_coment_area">';
 						html += '				<div class="comment_Box w3-row">';
 						//자신의 댓글만 수정/삭제 가능
 						if(loginSession!=null && loginSession.mNick === data.comment[i].writer){
@@ -206,11 +206,11 @@ function contentsList(idx, loginSession) {
 								html += '					<div class="layerMore w3-card-2"><button class="modify_button w3-button w3-theme-l4">수정</button><br><button class="w3-button w3-theme-l4" onclick="commentDelete(' + data.comment[j].idx + ')">삭제</button></div>';
 								html += '					</div>';
 						}
-						html += '					<div class="comment_nick_box">' + data.comment[i].writer;
+						html += '					<div class="comment_nick_box" style="font-weight: bold;">' + data.comment[j].writer;
 						html += '					</div>';
-						html += '					<div class="comment_textView">대댓글 :' + data.comment[j].contents + '</div>';
+						html += '					<div class="comment_textView">' + data.comment[j].contents + '</div>';
 						html += '					<div class="comment_info_box">';
-						html += '						<span class="comment_info_date"> ' + moment(data.comment[j].regdate).format('YYYY.MM.DD, HH:mm') + '</span>';
+						html += '						<span class="comment_info_date" style="color: slategray"> ' + moment(data.comment[j].regdate).format('YYYY.MM.DD, HH:mm') + '</span>';
 						// //비회원 답대댓글 toggle button 제한
 						// if(loginSession!=null)
 						// 	html += '					<button class="comment_reply_button">답글쓰기</button>';
@@ -221,33 +221,33 @@ function contentsList(idx, loginSession) {
 						if(loginSession != null){
 							html += '		<div class="comment_reply">';
 							html += '			<div class="commentWriter">';
-							html += '				<div class="comment_inbox">';
+							html += '				<div class="comment_inbox w3-border w3-round-xlarge">';
 							html += '					<div class="comment_inbox_name">';
-							html += '						<p class="commet_comment_nick">' + loginSession.mNick + '</p>';
+							html += '						<span class="commet_comment_nick" style="font-weight: bold;">' + loginSession.mNick + '</span>';
 							html += '					</div>';
 							html += '					<div class="comment_inbox_text">';
 							html += '					<textarea class="comment_insert"></textarea>';
 							html += '					</div>';
 							html += '					<div class="comment_submit">';
 							//댓글쓰기 요청
-							html += '						<button class="w3-button w3-theme-l1" onclick="writeHirachyComment(' + idx +','+ data.comment[j].idx +',this)">등록</button>';
+							html += '						<button class="w3-button w3-theme2-l1" onclick="writeHirachyComment(' + idx +','+ data.comment[j].idx +',this)">등록</button>';
 							html += '					</div>';
 							html += '				</div>';
 							html += '			</div>';
 							html += '		</div>';
 							//수정일시 보여줄 뷰 
 							html += '		<div class="comment_reply_modify">';
-							html += '			<div class="commentWriter">';
+							html += '			<div class="commentWriter w3-border w3-round-xlarge">';
 							html += '				<div class="comment_inbox">';
 							html += '					<div class="comment_inbox_name">';
-							html += '						<p class="comment_nick">' + loginSession.mNick + '</p>';
+							html += '						<span class="comment_nick" style="font-weight: bold;">' + loginSession.mNick + '</span>';
 							html += '					</div>';
 							html += '					<div class="comment_inbox_text">';
 							html += '					<textarea cols="50" class="comment_insert">'+data.comment[j].contents+'</textarea>';
 							html += '					</div>';
 							html += '					<div class="comment_submit" id="submit">';
 							html += '						<button class="comment_modify_cancel w3-button w3-theme-l4">취소</button>';
-							html += `						<button class="w3-button w3-theme-l1" id="modifySub" onclick="qnaModifyComment(${data.comment[j].idx},this)">등록</button>`;
+							html += `						<button class="w3-button w3-theme2-l1" id="modifySub" onclick="qnaModifyComment(${data.comment[j].idx},this)">등록</button>`;
 							html += '					</div>';
 							html += '				</div>';
 							html += '			</div>';
@@ -260,16 +260,16 @@ function contentsList(idx, loginSession) {
 			}
 			//비회원 댓글 쓰기 제한
 			if(loginSession != null){
-			html += '						<div class="commentWriter">';
-			html += '							<div class="comment_inbox">';
+			html += '					<hr>	<div class="commentWriter">';
+			html += '							<div class="comment_inbox w3-border w3-round-xlarge">';
 			html += '								<div class="comment_inbox_name">';
-			html += '									<p class="commet_nick">' + loginSession.mNick + '</p>';
+			html += '									<span class="commet_nick" style="font-weight:bold">' + loginSession.mNick + '</span>';
 			html += '								</div>';
 			html += '								<div class="comment_inbox_text">';
 			html += '									<textarea cols="50" class="comment_insert"></textarea>';
 			html += '								</div>';
 			html += '								<div class="comment_submit">';
-			html += '									<button class="w3-button w3-theme-l1" onclick="qnaWritComment(' + idx + ')">등록</button>';
+			html += '									<button class="w3-button w3-theme2-l1" onclick="qnaWritComment(' + idx + ')">등록</button>';
 			html += '								</div>';
 			html += '							</div>';
 			html += '						</div>';
@@ -308,7 +308,7 @@ function contentsList(idx, loginSession) {
 			//답댓글쓰기 토글
 			$('.comment_reply_button').click(function(){
 				var a= $(this).parent().parent().parent();
-				a.next().toggle();
+				a.next().slideToggle('fast');
 			});
 			//수정 취소 버튼 이벤트
 			$('.comment_modify_cancel').click(function(){

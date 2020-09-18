@@ -405,12 +405,15 @@ function insertTopBarImg(nick){
             if(!data.includes('http',0)){
                 data = uploadPath+data;
             }
-            var html='<img src="'+data+'" id="chatuser" class="w3-circle" onerror="this.src=\''+path+'/resources/img/upload/memberDefault.png\'"/>';
+            var html='<img src="'+data+'" id="chatuser" class="w3-circle" onerror="imgError()">';
             $('#chatuserImg').html(html);
         }
     });
 }
 
+function imgError(){
+	$('#chatuser').attr('src','http://localhost:8080/mangh/resources/img/memberDefault.png');
+}
 
 //새로운 메세지 확인
 function chkNewMsg() {
