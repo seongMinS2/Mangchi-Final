@@ -246,6 +246,9 @@ height: 22em;
 <div class="section" id="section3">
  <div class="container marketing">
 
+
+ <hr class="featurette-divider">
+
     <div class="row featurette">
       <div class="col-md-7">
         <h1 class="featurette-heading">나눔 게시판에 나눔글 올리기</h1>
@@ -258,6 +261,7 @@ height: 22em;
     </div>
 
     <hr class="featurette-divider">
+
 
     <div class="row featurette">
       <div class="col-md-7 order-md-2">
@@ -276,6 +280,8 @@ height: 22em;
     
     <div class="section" id="section4">
      <div class="container marketing">
+    
+     <hr class="featurette-divider">
     
     <div class="row featurette">
       <div class="col-md-7">
@@ -308,7 +314,7 @@ height: 22em;
   </div><!-- /.container -->
 
 
-<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"/> 
 
 </div>
 
@@ -320,12 +326,38 @@ $(document).ready(function() {
 	$('#fullpage').fullpage({
 		//options here
 		autoScrolling:true,
-		scrollHorizontally: true
+		scrollHorizontally: true,
+		sectionSelector: '.section'
 	});
 
 	//methods
 	$.fn.fullpage.setAllowScrolling(true);
+	
+	
+	
+	
 });
+setInterval(function () {
+	 if ($("body").hasClass("fp-viewing-0-0") == true) {
+	    	$('.w3-theme-l1').show();
+	    } else {
+	    	$('.w3-theme-l1').hide();
+	    }
+},100);
+   
+/* 
+$('body').on('change',function(){
+	alert('test');
+	if($(this).hasClass('fp-viewing-0-0') == false){
+		$('.w3-theme-l1').hide();
+	}else {
+		$('.w3-theme-l1').show();
+	}
+	
+}); */
+
+
+
 
 $(function() {
 
