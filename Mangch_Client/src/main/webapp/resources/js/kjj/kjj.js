@@ -260,7 +260,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='        <div class="w3-cell w3-left w3-padding w3-light-grey message" id="left-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span>';
-                        html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
+                        html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"/>';
                         html+='            </span>';
                         }else{
                         html+='		       <span>';
@@ -288,7 +288,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span class="w3-right">';
-                        html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag">';
+                        html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"/>';
                         html+='            </span>';
                         }else{
                         html+='		       <span class="w3-right">';
@@ -405,7 +405,7 @@ function insertTopBarImg(nick){
             if(!data.includes('http',0)){
                 data = uploadPath+data;
             }
-            var html='<img src="'+data+'" id="chatuser" class="w3-circle"/>';
+            var html='<img src="'+data+'" id="chatuser" class="w3-circle" onerror="this.src=\''+path+'/resources/img/upload/memberDefault.png\'"/>';
             $('#chatuserImg').html(html);
         }
     });
