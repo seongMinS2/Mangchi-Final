@@ -58,31 +58,54 @@ td {
 
 
 	<div class="w3-content" class="searchBox">
-		<div class="w3-left">
+<!-- 		<div class="w3-left"> -->
+		<div >
+		
 			<!-- 검색 타입 -->
 			<select id="searchType">
 				<option value="title">제목</option>
 				<option value="name">이름</option>
 			</select>
 			<!-- 거리순 -->
-			<select id="ListType" onchange="change()">
+			<%-- <select id="ListType" onchange="change()">
 				<c:if test="${loginInfo.mNick !=null}">
 					<option value="distance">거리순</option>
 				</c:if>
 				<option value="date">최신순</option>
-			</select>
+			</select> --%>
 			<!-- 검색어 입력 -->
 			<input type="text" id="search_text" onKeypress="javascript:if(event.keyCode==13) {search()}" placeholder="검색어를 입력하세요">
 			<input type="button" class="allBtn" id="searchbtn" onclick="search()" value="검색">
+			
+			<c:if test="${loginInfo ne null}">
+			<span style="display: inline-grid; width: 95px; margin-left:420px;">
+					<span style="position: relative; top: -12px; right: -2px;" id="distnace">
+						 <input type="radio" id="distance" name="listCheck" value="distance" > 
+						<label >거리순</label>
+					</span>
+								
+					<span style="position: relative;  right: -2px; top: -18px;" id="date">
+					 	<input type="radio" id="date" name="listCheck" value="date">  
+							<label>등록순</label>
+					</span>
+			</span>			
+			
+			
+			<span class="tooltip" style="top: 13px;">
+				<input type="button" id="mapBtn" onclick="map()">
+				 <span class="tooltiptext">지도로 보기</span>
+			</span>
+			</c:if>
+				
+				
 		</div>
 
-		<div class="rightbox">
-
-			<div class="tooltip">
-				<input type="button" id="mapBtn" onclick="map()"> <span
-					class="tooltiptext">지도로 보기</span>
-			</div>
-		</div>
+		<!-- <div class="rightbox">
+				<div class="tooltip">
+					<input type="button" id="mapBtn" onclick="map()">
+					 <span class="tooltiptext">지도로 보기</span>
+				</div>
+			</div> -->
 
 	</div>
 	<!-- 게시글 리스트 -->
@@ -93,8 +116,7 @@ td {
 	<!-- 게시글 등록 -->
 	<div class="w3-content rightbox">
 		<button id="writeBtn" class="allBtn"
-			onclick="location.href='${pageContext.request.contextPath}/request/requestWrite'">요청
-			등록</button>
+			onclick="location.href='${pageContext.request.contextPath}/request/requestWrite'">요청 등록</button>
 	</div>
 
 	<!-- 페이지  -->
@@ -137,11 +159,27 @@ td {
 	}
 	
 	//회원 . 비회원 첫 화면 출력 할 때 type 설정
-	if('${loginInfo}' == ''){
+	 if('${loginInfo}' == ''){
 		type = 'date';
 	}else {
 		type = 'distance';
 	}
+	
+	
+	// 라디오버튼 클릭시 이벤트 발생
+	    $("input:radio[name=listCheck]").click(function(){
+	        if($("input[name=listCheck]:checked").val() == "distance"){
+				type='distnace';
+	            list();
+	 
+	        }else if($("input[name=listCheck]:checked").val() == "date"){
+	        	type='date';
+	            list();
+	        }
+	    });
+
+
+	 
 
 	if(${headerCheck} == 1){
 		 
@@ -285,6 +323,7 @@ td {
 						searchType : searchType
 					},
 					success : function(data) {
+						
 						
 						var html = '';
 						html += '<table style="table-layout: fixed" >';
