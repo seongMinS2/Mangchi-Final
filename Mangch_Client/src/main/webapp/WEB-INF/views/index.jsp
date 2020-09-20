@@ -22,6 +22,13 @@
     <script src="<c:url value='/resources/page/jquery.fullpage.min.js'/>"></script>
     
 <style>
+
+
+.w3-theme-l1{
+	z-index: 2;
+	position: relative;
+}
+
 .section{
 z-index: -1;}
 
