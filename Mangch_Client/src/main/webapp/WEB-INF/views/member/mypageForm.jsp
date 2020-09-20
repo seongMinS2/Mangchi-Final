@@ -71,7 +71,8 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td><div id="map" style="width: 250px; height: 250px; margin-top: 10px; display: none"></div></td>
+									<td><div id="map" style="width: 250px; height: 250px; margin-top: 10px; margin-left: 10%; display: none; z-index: -1;
+    position: relative;"></div></td>
 								</tr>
 								<tr>
 									<td>거리</td>
@@ -211,14 +212,13 @@
 	var verifyCode = null;
 	function sendCode() {
 		$.ajax({
-			url : 'send',
+			url : 'http://localhost:8080/mangh/member/kakao/send',
 			data : {
 				access_Token : '${access_Token}'
 			},
 			success : function(data) {
 				alert('카카오톡으로 인증번호가 발송되었습니다!');
 				verifyCode = data;
-				alert(verifyCode);
 			}
 		});
 	}
