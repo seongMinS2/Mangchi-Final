@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MANGCH - QnA</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />

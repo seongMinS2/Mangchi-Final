@@ -170,6 +170,7 @@ td {
 	    $("input:radio[name=listCheck]").click(function(){
 	        if($("input[name=listCheck]:checked").val() == "distance"){
 				type='distance';
+				
 	            list();
 	 
 	        }else if($("input[name=listCheck]:checked").val() == "date"){
@@ -230,7 +231,6 @@ td {
 			},
 			success : function(data) {		
 			
-				
 					$('#mapModal').css('display','block');	
 					mapCon.relayout(); //지도 영역 크기 설정 
 					var html = '';
@@ -309,6 +309,7 @@ td {
 	
 	
 	function list() {
+		
 		$.ajax({
 					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
 			//		url : 'http://localhost:8080/rl/request',
@@ -323,7 +324,6 @@ td {
 						searchType : searchType
 					},
 					success : function(data) {
-						
 						
 						var html = '';
 						html += '<table style="table-layout: fixed" >';
