@@ -31,7 +31,7 @@
 
 .contentBox {
 	margin: auto;
-	width: 600px;
+	width: 700px;
 	margin-top: 50px;
 	margin-bottom: 100px;
 }
