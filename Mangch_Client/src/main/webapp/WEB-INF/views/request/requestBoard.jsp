@@ -169,7 +169,7 @@ td {
 	// 라디오버튼 클릭시 이벤트 발생
 	    $("input:radio[name=listCheck]").click(function(){
 	        if($("input[name=listCheck]:checked").val() == "distance"){
-				type='distnace';
+				type='distance';
 	            list();
 	 
 	        }else if($("input[name=listCheck]:checked").val() == "date"){
