@@ -95,7 +95,8 @@ function prev(data){
 function next(data,totalCnt){
 	page = data + 1;
 	if(page > totalCnt){
-		alert('마지막 페이지 입니다.');			
+		alert('마지막 페이지 입니다.');	
+		page = data;
 	}else{
 		if(page > pageEnd){
 			pageStart = page;
