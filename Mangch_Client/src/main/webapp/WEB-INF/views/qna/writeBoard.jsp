@@ -6,7 +6,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>MANGCH - QnA</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/min.css'/>">
 </head>
 
