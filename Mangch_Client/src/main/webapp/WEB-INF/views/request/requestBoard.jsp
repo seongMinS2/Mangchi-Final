@@ -310,8 +310,6 @@ td {
 	
 	function list() {
 		
-		alert(1);
-		
 		$.ajax({
 					url : 'http://ec2-52-79-249-25.ap-northeast-2.compute.amazonaws.com:8080/rl/request',
 			//		url : 'http://localhost:8080/rl/request',
