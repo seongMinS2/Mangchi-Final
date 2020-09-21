@@ -231,7 +231,7 @@
 		}
 		$.ajax({
 			// url : 'http://localhost:8080/mangh/member/kakao/unlink',
-			url : 'http://http://ec2-54-180-115-119.ap-northeast-2.compute.amazonaws.com:8080/mangh/member/kakao/unlink',
+			url : 'http://ec2-54-180-115-119.ap-northeast-2.compute.amazonaws.com:8080/mangh/member/kakao/unlink',
 			type : 'post',
 			data : {
 				access_Token : '${access_Token}',

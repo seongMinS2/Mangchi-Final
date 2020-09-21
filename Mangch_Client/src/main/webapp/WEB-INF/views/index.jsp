@@ -399,7 +399,7 @@ $(function() {
 
 	    }
 
-	    id1 = setInterval(count1Fn, 8.13171226);
+	    id1 = setInterval(count1Fn, 5.13171226);
 
 	    function count1Fn() {
 	      count1++;
