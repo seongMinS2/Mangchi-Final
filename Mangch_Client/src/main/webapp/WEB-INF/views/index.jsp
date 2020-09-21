@@ -11,6 +11,7 @@
 
 
 
+
 </head>
 <jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">

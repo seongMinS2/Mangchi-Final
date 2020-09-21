@@ -248,7 +248,7 @@ function insertMsgList(roomIdx,delUser){
                     if(loginUser!=msgList[i].sender){
                         html+='<div class="w3-row w3-padding msg-box" i="'+msgList[i].idx+'">';
                         if(i===msgList.length-1){
-                        html+='    <div class="w3-cell-row">';
+                        html+='    <div class="w3-cell-row" >';
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
                         html+='    </div>';
                         }else if((i<msgList.length-1&&msgList[i].sender!=msgList[i+1].sender)||(i<msgList.length-1&&moment(msgList[i].date).subtract(9,'hours').format('YYYYMMDD')!=moment(msgList[i+1].date).subtract(9,'hours').format('YYYYMMDD'))){
@@ -256,8 +256,8 @@ function insertMsgList(roomIdx,delUser){
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
                         html+='    </div>';
                         }
-                        html+='    <div class="w3-cell-row">';
-                        html+='        <div class="w3-cell w3-left w3-padding w3-light-grey message" id="left-msg">';
+                        html+='    <div class="w3-cell-row" style="display:flex; height: auto; position: relative;">';
+                        html+='        <div class="w3-cell w3-left w3-padding w3-light-grey message" id="left-msg" style="max-width:80%">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span>';
                         html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"/>';
@@ -268,7 +268,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='            </span>';
                         }
                         html+='        </div>';
-                        html+='        <div class="w3-left w3-left-align msg-date">';
+                        html+='        <div class="w3-left w3-left-align msg-date" style="bottom: 0;display: flex;position: static; height: auto;margin-top: auto;">';
                         html+=          moment(msgList[i].date).subtract(9,'hours').format('a HH:mm');
                         html+='        </div>';
                         html+='    </div>';
@@ -284,7 +284,10 @@ function insertMsgList(roomIdx,delUser){
                         html+='        <b class="msg-sender">'+msgList[i].sender+'</b>';
                         html+='    </div>';
                         }
-                        html+='    <div class="w3-cell-row">';
+                        html+='    <div class="w3-cell-row" style="display:flex; justify-content:flex-end; height: auto; position: relative;">';
+                        html+='        <div class="w3-right w3-right-align msg-date" style="bottom: 0;display: flex;position: static; height: auto;margin-top: auto;">';
+                        html+=          moment(msgList[i].date).subtract(9,'hours').format('a HH:mm');
+                        html+='        </div>';
                         html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
                         html+='		       <span class="w3-right">';
@@ -295,9 +298,6 @@ function insertMsgList(roomIdx,delUser){
                         html+=                  msgList[i].text;
                         html+='            </span>';
                         }
-                        html+='        </div>';
-                        html+='        <div class="w3-right w3-right-align msg-date">';
-                        html+=          moment(msgList[i].date).subtract(9,'hours').format('a HH:mm');
                         html+='        </div>';
                         html+='    </div>';
                         html+='</div>';
