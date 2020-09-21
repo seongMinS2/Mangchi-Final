@@ -140,13 +140,13 @@ public class KakaoMemberService {
 		JsonObject template_object = new JsonObject();
 		JsonObject jsonlink = new JsonObject();
 
-		jsonlink.addProperty("web_url", "https://developers.kakao.com");
-		jsonlink.addProperty("mobile_web_url", "https://developers.kakao.com");
+		jsonlink.addProperty("web_url", "http://localhost:8080/mangh");
+		jsonlink.addProperty("mobile_web_url", "http://localhost:8080/mangh");
 
 		template_object.addProperty("object_type", "text");
 		template_object.addProperty("text", "회원탈퇴 인증번호 >> "+code);
 		template_object.add("link", jsonlink);
-		template_object.addProperty("button_title", "button");
+		template_object.addProperty("button_title", "우리동네 대여사이트 Mangch 바로가기");
 		 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("template_object", template_object.toString());
