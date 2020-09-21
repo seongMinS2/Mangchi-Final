@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MANGCH - QnA</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/min.css'/>">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/gh/xpressengine/xeicon@2.3.1/xeicon.min.css">

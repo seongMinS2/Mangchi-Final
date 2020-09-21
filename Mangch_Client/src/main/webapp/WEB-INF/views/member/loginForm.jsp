@@ -39,18 +39,18 @@
 				<tr>
 					<td></td>
 					<td>
-<!-- 						<a id="custom-login-btn"
+ 						<a id="custom-login-btn"
 						href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a01763f7f7d5db1bd274b95045628499&redirect_uri=http://ec2-54-180-115-119.ap-northeast-2.compute.amazonaws.com:8080/mangh/member/kakao/kakaoREST">
 							<img
 							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
 							width="325" />
-						</a> -->
- 						<a id="custom-login-btn"
+						</a> 
+<!--  						<a id="custom-login-btn"
 						href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a01763f7f7d5db1bd274b95045628499&redirect_uri=http://localhost:8080/mangh/member/kakao/kakaoREST">
 							<img
 							src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg"
 							width="325" />
-						</a> 
+						</a>  -->
 					</td>
 				</tr>
 				<tr>

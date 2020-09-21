@@ -1,10 +1,8 @@
 package com.aia.mangh.mm.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,8 +16,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -140,13 +136,13 @@ public class KakaoMemberService {
 		JsonObject template_object = new JsonObject();
 		JsonObject jsonlink = new JsonObject();
 
-		jsonlink.addProperty("web_url", "https://developers.kakao.com");
-		jsonlink.addProperty("mobile_web_url", "https://developers.kakao.com");
+		jsonlink.addProperty("web_url", "http://localhost:8080/mangh");
+		jsonlink.addProperty("mobile_web_url", "http://localhost:8080/mangh");
 
 		template_object.addProperty("object_type", "text");
-		template_object.addProperty("text", "회원탈퇴 인증번호 >> "+code);
+		template_object.addProperty("text", "회원탈퇴 인증번호 ["+code+"]");
 		template_object.add("link", jsonlink);
-		template_object.addProperty("button_title", "button");
+		template_object.addProperty("button_title", "M A N G C H 바로가기");
 		 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("template_object", template_object.toString());

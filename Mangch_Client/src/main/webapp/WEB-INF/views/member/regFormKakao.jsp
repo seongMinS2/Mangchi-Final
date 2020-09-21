@@ -14,11 +14,11 @@
 <body>
 	<jsp:include page="/WEB-INF/views/include/header.jsp" />
 	<div class="w3-container container">
-		<div class="con">
-			<h1>카카오 추가 회원가입</h1>
+		<div class="w3-center">
+			<p id="addInfo">추가 정보입력</p>
 			<%-- ${kakaoInfo} --%>
 			<br>
-			<div class="imgbox">
+			<div class="imgbox w3-center">
 				<c:set var="mImg" value="${kakaoInfo.mImg}" />
 				<c:if test="${mImg ne 'defalult.png'}">
 					<img src="${kakaoInfo.mImg}" width=150px height=150px
@@ -30,35 +30,40 @@
 				</c:if>
 				<input type="hidden" name="kImg" id="kImg" value="${kakaoInfo.mImg}">
 			</div>
+			<div class="w3-content">
 			<form action="regkakao" id="kakaoForm" method="post"
 				enctype="multipart/form-data">
 				<input type="hidden" name="kId" id="kId" value="${kakaoInfo.kId}">
 				<input type="hidden" name="mId" id="mId" value="${kakaoInfo.mId}">
 				<table>
 					<tr>
-						<td>닉네임</td>
-						<td><input type="text" name="mNick" id="mNick"
-							value="${kakaoInfo.mNick}" required></td>
+						<td width="100px" nowrap><p class="tdname">닉네임</p></td>
+						<td><input type="text" name="mNick" id="mNick" value="${kakaoInfo.mNick}" required></td>
 					</tr>
 					<tr>
-						<td>주소</td>
-						<td><input type="text" name="mAddr" id="mAddr"><input
-							type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" required></td>
-						<td><input type="hidden" name="mLttd" id="mLttd" required></td>
-						<!-- 위도 -->
-						<td><input type="hidden" name="mLgtd" id="mLgtd" required></td>
-						<!-- 경도 -->
+						<td><p class="tdname">주소</p></td>
+						<td><input type="text" name="mAddr" id="mAddr">
+						<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" id="addrBtn" required></td>
+					</tr>
+<!-- 					<tr>
+						<td></td>
+						<td><input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" id="addrBtn" required></td>
+					</tr> -->
+					<tr>
+						<td></td>
+						<td><div id="map" style="width: 230px; height: 230px; margin: auto; display: none"></div></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><div id="map" style="width: 300px; height: 300px; margin-top: 10px; display: none"></div></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" id="button_joinus" value="회원가입" onclick="regkakaoSubmit();"></td>
+						<td><input type="submit" id="submitBtn" value="회원가입" onclick="regkakaoSubmit();"></td>
 					</tr>
 				</table>
+				<input type="hidden" name="mLttd" id="mLttd" required>
+				<!-- 위도 -->
+				<input type="hidden" name="mLgtd" id="mLgtd" required>
+				<!-- 경도 -->
 			</form>
+			</div>
 		</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
@@ -109,6 +114,7 @@
 
 		function sample5_execDaumPostcode() {
 			new daum.Postcode({
+				
 				oncomplete : function(data) {
 					var addr = data.address; // 최종 주소 변수
 
