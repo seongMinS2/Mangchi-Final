@@ -79,8 +79,11 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='        <b class="msg-sender">'+msg.sender+'</b>';
 				html+='    </div>';
 				}
-				html+='    <div class="w3-cell-row">';
-				html+='        <div class="w3-cell w3-padding w3-right w3-theme4-l3" id="right-msg">';
+				html+='    <div class="w3-cell-row" style="display:flex; justify-content:flex-end; height: auto; position: relative;">';
+				html+='        <div class="w3-right w3-right-align"  style="bottom: 0;display: flex;position: static; height: auto;margin-top: auto;">';
+				html+=          moment(msg.date).format('a HH:mm');
+				html+='        </div>';
+				html+='        <div class="w3-cell w3-padding w3-right w3-theme4-l3" id="right-msg" style="max-width:80%">';
 				if(msg.img!=null&&msg.img.length>0){
 				html+='		       <span class="w3-right">';
 				html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
@@ -90,9 +93,6 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+=                  msg.text;
 				html+='            </span>';
 				}
-				html+='        </div>';
-				html+='        <div class="w3-right w3-right-align">';
-				html+=          moment(msg.date).format('a HH:mm');
 				html+='        </div>';
 				html+='    </div>';
 				html+='</div>';
@@ -101,12 +101,12 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 			}else{
 				html+='<div class="w3-row w3-padding">';
 				if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')||$('.msg-sender').last().text()!=msg.sender){
-				html+='    <div class="w3-cell-row">';
+				html+='    <div class="w3-cell-row"  style="display:flex; justify-content:flex-end; height: auto; position: relative;">';
 				html+='        <b class="msg-sender">'+msg.sender+'</b>';
 				html+='    </div>';
 				}
-				html+='    <div class="w3-cell-row">';
-				html+='        <div class="w3-cell  w3-left w3-padding w3-light-grey" id="left-msg">';
+				html+='    <div class="w3-cell-row" style="display:flex; height: auto; position: relative;"">';
+				html+='        <div class="w3-cell  w3-left w3-padding w3-light-grey" id="left-msg" style="max-width:80%">';
 				if(msg.img!=null&&msg.img.length>0){
 				html+='		       <span>';
 				html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msg.roomIdx+'/'+msg.img+'" id="msgimgtag" class="msgimgtag">';
@@ -117,7 +117,7 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 				html+='            </span>';
 				}
 				html+='        </div>';
-				html+='        <div class="w3-left w3-left-align">';
+				html+='        <div class="w3-left w3-left-align"  style="bottom: 0;display: flex;position: static; height: auto;margin-top: auto;">';
 				html+=          moment(msg.date).format('a HH:mm');
 				html+='        </div>';
 				html+='    </div>';
