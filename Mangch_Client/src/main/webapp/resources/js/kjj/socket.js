@@ -101,8 +101,8 @@ function onMessage(evt) { //변수 안에 function자체를 넣음.
 			}else{
 				html+='<div class="w3-row w3-padding">';
 				if(!$lastDate.length||$lastDate.text()!=moment(msg.date).format('MM월 DD일')||$('.msg-sender').last().text()!=msg.sender){
-				html+='    <div class="w3-cell-row"  style="display:flex; justify-content:flex-end; height: auto; position: relative;">';
 				html+='        <b class="msg-sender">'+msg.sender+'</b>';
+				html+='    <div class="w3-cell-row"  style="display:flex; justify-content:flex-end; height: auto; position: relative;">';
 				html+='    </div>';
 				}
 				html+='    <div class="w3-cell-row" style="display:flex; height: auto; position: relative;"">';

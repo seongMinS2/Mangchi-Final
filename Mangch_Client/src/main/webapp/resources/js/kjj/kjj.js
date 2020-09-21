@@ -290,7 +290,7 @@ function insertMsgList(roomIdx,delUser){
                         html+='        </div>';
                         html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
-                        html+='		       <span class="w3-right">';
+                        html+='		       <span class="w3-right" style="max-width:80%">';
                         html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"/>';
                         html+='            </span>';
                         }else{
