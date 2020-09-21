@@ -37,13 +37,12 @@
 				<input type="hidden" name="mId" id="mId" value="${kakaoInfo.mId}">
 				<table>
 					<tr>
-						<td><p id="tdname">닉네임</p></td>
-						<td><input type="text" name="mNick" id="mNick" class="tdinput"
-							value="${kakaoInfo.mNick}" required></td>
+						<td width="100px" nowrap><p class="tdname">닉네임</p></td>
+						<td><input type="text" name="mNick" id="mNick" value="${kakaoInfo.mNick}" required></td>
 					</tr>
 					<tr>
-						<td><p id="tdname">주소</p></td>
-						<td><input type="text" name="mAddr" id="mAddr" class="tdinput">
+						<td><p class="tdname">주소</p></td>
+						<td><input type="text" name="mAddr" id="mAddr">
 						<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" id="addrBtn" required></td>
 					</tr>
 <!-- 					<tr>
@@ -52,7 +51,7 @@
 					</tr> -->
 					<tr>
 						<td></td>
-						<td><div id="map" style="width: 230px; height: 230px; margin-left: 17%; display: none"></div></td>
+						<td><div id="map" style="width: 230px; height: 230px; margin: auto; display: none"></div></td>
 					</tr>
 					<tr>
 						<td></td>

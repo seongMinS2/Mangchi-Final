@@ -30,7 +30,7 @@ table {
 .tdname {
 	font-family: 'Nanum Gothic', sans-serif;
 	font-weight: 400;
-	font-size: 20px;
+	font-size: 18px;
 	color: #6E6E6E;
 }
 
@@ -40,17 +40,15 @@ input{
 }
 
 #mNick {
+	border: 1px solid #162D59;
 	font-family: 'Nanum Gothic', sans-serif;
-	font-weight: 400;
-	font-size: 20px;
-	color: #6E6E6E;
+	font-size: 14px;
 }
 
 #mAddr {
+	border: none;
 	font-family: 'Nanum Gothic', sans-serif;
-	font-weight: 400;
-	font-size: 20px;
-	color: #6E6E6E;
+	font-size: 14px;
 }
 
 .tdinput{

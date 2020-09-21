@@ -5,6 +5,5 @@ session.removeAttribute("kakaoInfo");
 session.removeAttribute("loginInfo");
 %>
 <script>
-alert('hi');
-	location.href = "/";
+location.href = "/mangh";
 </script>

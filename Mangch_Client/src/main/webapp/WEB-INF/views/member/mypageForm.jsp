@@ -62,8 +62,7 @@
 								</tr>
 								<tr>
 									<td>주소</td>
-									<td><input type="text" name="mAddr" id="mAddr" value="${loginInfo.mAddr}" required> 
-									<!-- <input type="button" id="button" onclick="sample5_execDaumPostcode()" value="주소 검색"> --></td>
+									<td><input type="text" name="mAddr" id="mAddr" value="${loginInfo.mAddr}" required></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -71,8 +70,8 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td><div id="map" style="width: 250px; height: 250px; margin-top: 10px; margin-left: 10%; display: none; z-index: -1;
-    position: relative;"></div></td>
+									<td><div id="map" style="width: 250px; height: 250px; margin-top: 10px; 
+									margin-left: 10%; display: none; z-index: -1; position: relative;"></div></td>
 								</tr>
 								<tr>
 									<td>거리</td>
@@ -212,7 +211,8 @@
 	var verifyCode = null;
 	function sendCode() {
 		$.ajax({
-			url : 'http://localhost:8080/mangh/member/kakao/send',
+			// url : 'http://localhost:8080/mangh/member/kakao/send',
+			url : 'http://ec2-54-180-115-119.ap-northeast-2.compute.amazonaws.com:8080/mangh/member/kakao/send',
 			data : {
 				access_Token : '${access_Token}'
 			},
@@ -230,7 +230,8 @@
 			return false;
 		}
 		$.ajax({
-			url : 'unlink',
+			// url : 'http://localhost:8080/mangh/member/kakao/unlink',
+			url : 'http://http://ec2-54-180-115-119.ap-northeast-2.compute.amazonaws.com:8080/mangh/member/kakao/unlink',
 			type : 'post',
 			data : {
 				access_Token : '${access_Token}',
