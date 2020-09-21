@@ -288,9 +288,9 @@ function insertMsgList(roomIdx,delUser){
                         html+='        <div class="w3-right w3-right-align msg-date" style="bottom: 0;display: flex;position: static; height: auto;margin-top: auto;">';
                         html+=          moment(msgList[i].date).subtract(9,'hours').format('a HH:mm');
                         html+='        </div>';
-                        html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg">';
+                        html+='        <div class="w3-cell w3-right w3-padding w3-theme4-l3 message" id="right-msg" style="max-width:80%">';
                         if(msgList[i].img!=null&&msgList[i].img.length>0){
-                        html+='		       <span class="w3-right" style="max-width:80%">';
+                        html+='		       <span class="w3-right">';
                         html+='                 <img src="'+path+'/mc-chat/resources/image/room'+msgList[i].roomIdx+'/'+msgList[i].img+'" id="msgimgtag" class="msgimgtag"/>';
                         html+='            </span>';
                         }else{
