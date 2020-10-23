@@ -233,7 +233,7 @@ var limit=10;
 // 로그인한 세션값이 글쓴 리스트
 function writerList(bb) {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/loginnick',
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/loginnick',
 		type : 'GET',
 		dataType:'json',
 		data:{bb,limit},
@@ -256,7 +256,7 @@ function writerList(bb) {
 			    }
 			    html+='</div>'
 			    html+='</header>';
-			    html+='<div class="photo_body"><img src="http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data[i].guest_photo+'"></div>';
+			    html+='<div class="photo_body"><img src="http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data[i].guest_photo+'"></div>';
 			    //html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
@@ -359,7 +359,7 @@ function cmtWrite(guest_idx,text) {
 	
 $.ajax({
 		
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/cmt',
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/cmt',
 		type : 'Post',
 		dataType:'json', 
 		data : {
@@ -389,7 +389,7 @@ function deleteForm(a,b) {
 	if(confirm('정말 삭제하시겠습니까?')){
 		$.ajax({
 			
-			url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/deletec',
+			url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/deletec',
 			type : 'DELETE',
 			dataType:'json',
 			data :JSON.stringify(obj),
@@ -447,7 +447,7 @@ function guestPost() {
 	postFormData.append('photo',$('#guest_photo')[0].files[0]); // 파일첨부 코드	
 	}
 	$.ajax({
-		url : 'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/post',
+		url : 'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/post',
 		type : 'post',
 
 		processData : false, // File 전송시 필수 
@@ -503,7 +503,7 @@ fileTarget.on('change',function(){
 		editFormData.append('photo',$('#photo')[0].files[0]); // 파일첨부 코드	
 	}
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/edi' ,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/edi' ,
 		type:'POST',
 		processData : false, // File 전송시 필수 
 		contentType : false, // multipart/form-data 쓰는 코드
@@ -530,7 +530,7 @@ fileTarget.on('change',function(){
 ////////////////////// 에디트팝업
 function editPopup(guest_idx) {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/'+guest_idx ,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		data : {nick:bb},
 		success : function (data) {
@@ -599,7 +599,7 @@ function editPopup(guest_idx) {
 function cmtedit(comment_idx,guest_idx) {
 	
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/cmt/'+comment_idx ,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/cmt/'+comment_idx ,
 		type:'GET',
 		success : function (data) {
 			var html='';
@@ -646,7 +646,7 @@ function editCmtText() {
 	let obj={"cmtedittext":cmtedittext,"cmteditidx":cmteditidx}
 	
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/cmtedit',
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/cmtedit',
 		type:'PUT',
 		dataType:'json',
 		data : JSON.stringify(obj),
@@ -673,7 +673,7 @@ function deleteCmt(comment_idx,guest_idx) {
 	console.log(guest_idx);
 	if(confirm('정말 삭제하시겠습니까?')){
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/delcmt/'+comment_idx,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/delcmt/'+comment_idx,
 		type:'DELETE',
 		success : function (data) {
 			
@@ -707,7 +707,7 @@ function deleteCmt(comment_idx,guest_idx) {
 function goPopup(guest_idx) {
 	
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/'+guest_idx ,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/'+guest_idx ,
 		type:'GET',
 		data: {nick : bb},
 		success : function (data) {
@@ -715,7 +715,7 @@ function goPopup(guest_idx) {
 			if(data.guest_photo !=null){
 				html+='<article class="in_wrap">'
 					html+='<div class="flex">'
-						html+='<div class="in_photo"><img src="http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data.guest_photo+'"></div>'
+						html+='<div class="in_photo"><img src="http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data.guest_photo+'"></div>'
 						html+='<div class="in_body">'
 							html+='<header>'
 								html+='<div class="hd_img"><img src="'+data.member_img+'"></div>';  
@@ -876,7 +876,7 @@ function goPopup(guest_idx) {
 function gbList() {
 	    	
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book' ,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book' ,
 		dataType:'json',
 		type:'get',
 		traditional : true,
@@ -908,7 +908,7 @@ function gbList() {
 			    }
 			    html+='</div>'
 			    html+='</header>';
-			    html+='<div class="photo_body"><img src="http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data[i].guest_photo+'"></div>';
+			    html+='<div class="photo_body"><img src="http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/upload/'+data[i].guest_photo+'"></div>';
 			    //html+='<div class="photo_body"><img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F2369374A56F366BB34731F"></div>';
 			    html+='<div class="text_body">';
 			    html+='<section>';
@@ -1136,7 +1136,7 @@ function gbList() {
 
 async function total() {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/test',
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/test',
 		type:'GET',
 		contentType: 'application/json; charset=utf-8',
 		data : {
@@ -1163,7 +1163,7 @@ async function total() {
 ///////////////////// 좋아요 증감 함수 에디트버전 
 function likeup2(guest_idx) {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/plus/'+guest_idx,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/plus/'+guest_idx,
 		type:'POST',
 		data :  
 			 bb ,
@@ -1179,7 +1179,7 @@ function likeup2(guest_idx) {
 ///////////////////// 좋아요 감소 함수 에디트버전
 function likedown2(guest_idx) {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/mi/'+guest_idx,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/mi/'+guest_idx,
 		type:'DELETE',
 		data:bb,
 		contentType: 'application/json; charset=utf-8',
@@ -1196,7 +1196,7 @@ function likedown2(guest_idx) {
 ///////////////////// 좋아요 증감 함수
   function likeup(guest_idx) {
 		$.ajax({
-			url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/plus/'+guest_idx,
+			url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/plus/'+guest_idx,
 			type:'POST',
 			data :  
 				 bb ,
@@ -1213,7 +1213,7 @@ function likedown2(guest_idx) {
 ///////////////////// 좋아요 감소 함수
 	function likedown(guest_idx) {
 		$.ajax({
-			url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/mi/'+guest_idx,
+			url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/mi/'+guest_idx,
 			type:'DELETE',
 			data:bb,
 			contentType: 'application/json; charset=utf-8',
@@ -1230,7 +1230,7 @@ function likedown2(guest_idx) {
 //////////////////// 좋아요 숫자 증가 함수
 function likeupcount(guest_idx) {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/pluscount/'+guest_idx,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/pluscount/'+guest_idx,
 		type:'PUT',
 		contentType: 'application/json; charset=utf-8',
 		success : function (data) {
@@ -1243,7 +1243,7 @@ function likeupcount(guest_idx) {
 ////////////////////좋아요 숫자 감소 함수
 function likedowncount(guest_idx) {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/micount/'+guest_idx,
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/micount/'+guest_idx,
 		type:'PUT',
 		contentType: 'application/json; charset=utf-8',
 		success : function (data) {
@@ -1265,7 +1265,7 @@ function hitsup(guest_idx) {
 		$.cookie('cookie',newcookies, { expires: 30 / 1440, path: '/' });
 		
 		 $.ajax({
-				url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/hitsup/'+guest_idx,
+				url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/hitsup/'+guest_idx,
 				type:'PUT',
 				contentType: 'application/json; charset=utf-8',
 				success : function (data) {
@@ -1287,7 +1287,7 @@ function hitsup(guest_idx) {
 //////////////////////타이틀
 function counttest() {
 	$.ajax({
-		url:'http://ec2-52-79-64-26.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/mycount/',
+		url:'http://ec2-3-35-168-195.ap-northeast-2.compute.amazonaws.com:8080/guest/guest_book/mycount/',
 		type:'GET',
 		contentType: 'application/json; charset=utf-8',
 		data:{bb},
