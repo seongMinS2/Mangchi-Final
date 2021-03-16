@@ -8,8 +8,9 @@
 
 
 
-## 참여자
+## ▶참여자
 
 ------
 
-[고은아](https://github.com/EunaGo) [권재준](https://github.com/alikwon) [김보겸](https://github.com/BogyeumKim)
+[고은아](https://github.com/EunaGo) [권재준](https://github.com/alikwon) [김보겸](https://github.com/BogyeumKim) [박성민](https://github.com/seongMinS2/Mangchi-Final) [박진명](https://github.com/qkrwlsaud)  [홍세영](https://github.com/maiorem)
+
